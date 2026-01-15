@@ -407,6 +407,14 @@ class AltinnFormProcessor:
         Raises:
             ValueError: If 'existing' is not pd.DataFrame
         """
+        cols_with_missing = [
+        col for col in keys if data[col].isna().any()
+    ]
+
+        if cols_with_missing:
+            raise ValueError(
+                f"Missing values found in columns: {', '.join(cols_with_missing)}"
+            )
         try:
             existing = self.conn.query(f"SELECT * FROM {table_name}")
             data = data.merge(existing[keys], on=keys, how="left", indicator=True)
