@@ -337,7 +337,7 @@ class AltinnFormProcessor:
         for form in glob.glob(f"{self.form_folder}/**/*.parquet", recursive=True):
             self.process_altinn_form(f"{form}")
 
-    def process_enheter_suv(self) -> None:
+    def process_enheter_suv(self) -> None: # TODO fix
         """This method will create a table containing information about the survey sample and which form each participant should answer.
 
         Uses dapla-suv-tools to get information about the sample and which form(s) they are sent and inserts information into the eimerdb instance.
@@ -378,7 +378,7 @@ class AltinnFormProcessor:
             )
             self.insert_or_save_data(data, [*self.periods, "ident"], "enheter")
 
-    def connect_to_database(self) -> None:
+    def connect_to_database(self) -> None: # TODO remove from base class
         """Method for establishing a connection to an eimerdb instance.
 
         Can be overwritten if another database type is used.
@@ -389,7 +389,7 @@ class AltinnFormProcessor:
             )
         self.conn = db.EimerDBInstance(self.storage_location, self.database_name)
 
-    def insert_or_save_data(
+    def insert_or_save_data( # TODO make abstract
         self, data: pd.DataFrame, keys: list[str], table_name: str
     ) -> None:
         """Inserts dataframe contents into eimerdb instance.
