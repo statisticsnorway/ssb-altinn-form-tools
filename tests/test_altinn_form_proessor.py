@@ -18,9 +18,6 @@ def test_processor_inheritance() -> None:
             delreg_nr: str | None = None,
             suv_period_mapping: dict[str, str] | None = None,
             suv_ident_field: str | None = None,
-            database_name: str | None = None,
-            storage_location: str | None = None,
-            process_all_forms: bool = False,
         ) -> None:
             super().__init__(
                 ra_number,
@@ -30,13 +27,10 @@ def test_processor_inheritance() -> None:
                 delreg_nr,
                 suv_period_mapping,
                 suv_ident_field,
-                database_name,
-                storage_location,
-                process_all_forms,
             )
 
         def insert_or_save_data(
-            self, data: pd.DataFrame, keys: list[str], table_name: str
+            self, data: pd.DataFrame, primary_keys: list[str], table_name: str
         ) -> None:
             expected = pd.read_feather(f"tests/data/{table_name}.feather")
             assert (
@@ -44,9 +38,6 @@ def test_processor_inheritance() -> None:
             ), "Shape of expected different from actual."
             for col in expected:
                 assert data[col][0] == expected[col][0], f"Something wrong with {col}"
-
-        def connect_to_database(self) -> None:
-            pass
 
     TestFormProcessor(
         ra_number="RA-0689",

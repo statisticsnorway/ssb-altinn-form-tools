@@ -2,10 +2,12 @@
 
 If a more diverse set of alternative data storage technologies become available, might be an idea to make AltinnFormProcessor into an abstract base class and make some more tailored variants.
 """
-from abc import ABC
-from abc import abstractmethod
+
 import glob
 import logging
+import xml.etree.ElementTree as ET
+from abc import ABC
+from abc import abstractmethod
 from typing import Any
 
 import eimerdb as db
@@ -78,8 +80,10 @@ def xml_to_parquet(
     logger.info(f"Writing file as: {isee_name}")
     data.to_parquet(f"{destination_folder}{isee_name.replace('.csv', '.parquet')}")
 
+
 class AltinnFormProcessor(ABC):
     """Base class to use for creating backend-specific implementations."""
+
     def __init__(
         self,
         ra_number: str,
@@ -123,7 +127,6 @@ class AltinnFormProcessor(ABC):
 
         self.data: pd.DataFrame | None = None
         self._is_valid()
-
 
     def _is_valid(self) -> None:
         """Validates that the provided arguments are correct.
@@ -316,7 +319,7 @@ class AltinnFormProcessor(ABC):
         for form in glob.glob(f"{self.form_folder}/**/*.parquet", recursive=True):
             self.process_altinn_form(f"{form}")
 
-    def process_enheter_suv(self) -> None: # TODO fix
+    def process_enheter_suv(self) -> None:  # TODO fix
         """This method will create a table containing information about the survey sample and which form each participant should answer.
 
         Uses dapla-suv-tools to get information about the sample and which form(s) they are sent and inserts information into the eimerdb instance.
@@ -360,7 +363,6 @@ class AltinnFormProcessor(ABC):
     @abstractmethod
     def insert_or_save_data(self, data, primary_keys, table_name):
         pass
-
 
 
 class AltinnFormProcessorEimerdb(AltinnFormProcessor):
@@ -418,16 +420,15 @@ class AltinnFormProcessorEimerdb(AltinnFormProcessor):
             path_to_form_folder=path_to_form_folder,
             parquet_ident_field=parquet_ident_field,
             parquet_period_mapping=parquet_period_mapping,
-            delreg_nr = delreg_nr,
-            suv_period_mapping = suv_period_mapping,
-            suv_ident_field = suv_ident_field,
+            delreg_nr=delreg_nr,
+            suv_period_mapping=suv_period_mapping,
+            suv_ident_field=suv_ident_field,
         )
         self.database_name = database_name
         self.storage_location = storage_location
         self.connect_to_database()
 
-
-    def connect_to_database(self) -> None: # TODO remove from base class
+    def connect_to_database(self) -> None:  # TODO remove from base class
         """Method for establishing a connection to an eimerdb instance.
 
         Can be overwritten if another database type is used.
@@ -456,9 +457,7 @@ class AltinnFormProcessorEimerdb(AltinnFormProcessor):
         Raises:
             ValueError: If 'existing' is not pd.DataFrame
         """
-        cols_with_missing = [
-            col for col in primary_keys if data[col].isna().any()
-        ]
+        cols_with_missing = [col for col in primary_keys if data[col].isna().any()]
 
         if cols_with_missing:
             raise ValueError(
@@ -466,7 +465,9 @@ class AltinnFormProcessorEimerdb(AltinnFormProcessor):
             )
         try:
             existing = self.conn.query(f"SELECT * FROM {table_name}")
-            data = data.merge(existing[primary_keys], on=primary_keys, how="left", indicator=True)
+            data = data.merge(
+                existing[primary_keys], on=primary_keys, how="left", indicator=True
+            )
             logger.debug(data)
             new_data = data[data["_merge"] == "left_only"]
             if not isinstance(existing, pd.DataFrame):
@@ -488,9 +489,9 @@ class AltinnFormProcessorEimerdb(AltinnFormProcessor):
             logger.info(f"Already exists in '{table_name}', skipping record.")
 
 
-
-
 """Copy pasted code from ssb-altinn-python just in case."""
+
+
 def _read_json_meta(file_path: str) -> Any | None:
     """Reads a JSON file into a Dict.
 
@@ -527,6 +528,7 @@ def _read_json_meta(file_path: str) -> Any | None:
                 return json.load(file)
         else:
             return None
+
 
 def xml_transform(file_path: str) -> pd.DataFrame:
     """Transforms a XML to a pd.Dataframe using xmltodict.
@@ -571,6 +573,26 @@ def xml_transform(file_path: str) -> pd.DataFrame:
     else:
         error_message = f"File is not a valid XML-file: {file_path}"
         raise ValueError(error_message)
+
+
+def _extract_angiver_id(file_path: str) -> str | None:
+    """Collects angiver_id from the filepath.
+
+    Args:
+        file_path: The path to the XML file
+
+    Returns:
+        String with extracted_text (angiver_id)
+    """
+    FORM_STRING = "/form_"
+    start_index = file_path.find(FORM_STRING) + len(FORM_STRING)
+    end_index = file_path.find(".xml", start_index)
+    if start_index > len(FORM_STRING) - 1 and end_index != -1:
+        extracted_text = file_path[start_index:end_index]
+        return extracted_text
+    else:
+        return None
+
 
 def create_isee_filename(file_path: str) -> str | None:
     """Creates a filename based on the contents of an XML file and the provided file path.
