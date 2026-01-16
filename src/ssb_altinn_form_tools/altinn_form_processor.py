@@ -2,7 +2,8 @@
 
 If a more diverse set of alternative data storage technologies become available, might be an idea to make AltinnFormProcessor into an abstract base class and make some more tailored variants.
 """
-
+from abc import ABC
+from abc import abstractmethod
 import glob
 import logging
 from typing import Any
@@ -77,17 +78,8 @@ def xml_to_parquet(
     logger.info(f"Writing file as: {isee_name}")
     data.to_parquet(f"{destination_folder}{isee_name.replace('.csv', '.parquet')}")
 
-
-class AltinnFormProcessor:
-    """Tool for transferring Altinn3 data to an editing ready eimerdb instance.
-
-    Has methods for processing a single form, all forms in a folder and a method for inserting data into an eimerdb table without creating duplicates.
-
-    Notes:
-        Notice that you can use inheritance to reuse parts of this class while adapting it to suit your specific needs. An example of this would be if you don't use eimerdb, you can overwrite the 'insert_or_save_data()' method to save the data in a way that suits your needs, while reusing the rest of the code.
-        If you want to process the skjemadata part of the xml using this class you can write your own implementation as a method called 'process_skjemadata()' and it will be run during the 'process_altinn_form()'
-    """
-
+class AltinnFormProcessor(ABC):
+    """Base class to use for creating backend-specific implementations."""
     def __init__(
         self,
         ra_number: str,
@@ -97,9 +89,6 @@ class AltinnFormProcessor:
         delreg_nr: str | None = None,
         suv_period_mapping: dict[str, str] | None = None,
         suv_ident_field: str | None = None,
-        database_name: str | None = None,
-        storage_location: str | None = None,
-        process_all_forms: bool = False,
     ) -> None:
         """Instantiate the processor and connect it to the data.
 
@@ -113,12 +102,6 @@ class AltinnFormProcessor:
             delreg_nr: The delregisternummer for the Altinn form. Required for using Suv Tools method of populating the 'enheter' table.
             suv_period_mapping: A mapping dict with the key being the period name you want in your data and the value being the period name in the data from Dapla Suv Tools.
             suv_ident_field: The name of the ident variable in the data from Dapla Suv Tools.
-            database_name: name of the eimerdb to insert into. Can be None if not using eimerdb.
-            storage_location: Path to the eimerdb bucket. Can be None if not using eimerdb.
-            process_all_forms: If True, immediately starts processing all forms contained in the supplied form_folder.
-
-        Notes:
-            If you are not using eimerdb you do not need to supply database_name or storage_location as these are only used to connect to the eimerdb instance.
 
         Example:
             AltinnFormProcessor(
@@ -132,8 +115,6 @@ class AltinnFormProcessor:
         self.ra_number = ra_number
         self.delreg_nr = delreg_nr
         self.suv_ident_field = suv_ident_field
-        self.database_name = database_name
-        self.storage_location = storage_location
         self.parquet_period_mapping = parquet_period_mapping
         self.suv_period_mapping = suv_period_mapping
         self.period_parquet_fields = [x for x in parquet_period_mapping.values()]
@@ -141,10 +122,8 @@ class AltinnFormProcessor:
         self.form_folder = path_to_form_folder
 
         self.data: pd.DataFrame | None = None
-        self.connect_to_database()
         self._is_valid()
-        if process_all_forms:
-            self.process_all_forms()
+
 
     def _is_valid(self) -> None:
         """Validates that the provided arguments are correct.
@@ -244,7 +223,7 @@ class AltinnFormProcessor:
         skjemamottak_record_dataframe = pd.DataFrame([skjemamottak_record])
         self.insert_or_save_data(
             data=skjemamottak_record_dataframe,
-            keys=[*self.periods, "skjema", "refnr"],
+            primary_keys=[*self.periods, "skjema", "refnr"],
             table_name="skjemamottak",
         )
 
@@ -284,7 +263,7 @@ class AltinnFormProcessor:
         kontaktinfo_record_dataframe = pd.DataFrame([kontaktinfo_record])
         self.insert_or_save_data(
             data=kontaktinfo_record_dataframe,
-            keys=[*self.periods, "skjema", "refnr"],
+            primary_keys=[*self.periods, "skjema", "refnr"],
             table_name="kontaktinfo",
         )
 
@@ -302,7 +281,7 @@ class AltinnFormProcessor:
             enheter_record_dataframe = pd.DataFrame([enheter_record])
             self.insert_or_save_data(
                 data=enheter_record_dataframe,
-                keys=[*self.periods, "ident", "skjema"],
+                primary_keys=[*self.periods, "ident", "skjema"],
                 table_name="enheter",
             )
 
@@ -378,6 +357,76 @@ class AltinnFormProcessor:
             )
             self.insert_or_save_data(data, [*self.periods, "ident"], "enheter")
 
+    @abstractmethod
+    def insert_or_save_data(self, data, primary_keys, table_name):
+        pass
+
+
+
+class AltinnFormProcessorEimerdb(AltinnFormProcessor):
+    """Tool for transferring Altinn3 data to an editing ready eimerdb instance.
+
+    Has methods for processing a single form, all forms in a folder and a method for inserting data into an eimerdb table without creating duplicates.
+
+    Notes:
+        Notice that you can use inheritance to reuse parts of this class while adapting it to suit your specific needs. An example of this would be if you don't use eimerdb, you can overwrite the 'insert_or_save_data()' method to save the data in a way that suits your needs, while reusing the rest of the code.
+        If you want to process the skjemadata part of the xml using this class you can write your own implementation as a method called 'process_skjemadata()' and it will be run during the 'process_altinn_form()'
+    """
+
+    def __init__(
+        self,
+        ra_number: str,
+        path_to_form_folder: str,
+        parquet_ident_field: str,
+        parquet_period_mapping: dict[str, str],
+        delreg_nr: str | None = None,
+        suv_period_mapping: dict[str, str] | None = None,
+        suv_ident_field: str | None = None,
+        database_name: str | None = None,
+        storage_location: str | None = None,
+        process_all_forms: bool = False,
+    ) -> None:
+        """Instantiate the processor and connect it to the data.
+
+        This processor assumes you have processed your xml files using the 'xml_to_parquet' function and will most likely not work if used on another source.
+
+        Args:
+            ra_number: The RA-number for the Altinn form.
+            path_to_form_folder: Path to folder containing forms as parquet files.
+            parquet_ident_field: The name of the ident field in the parquet file. Example: 'InternInfo_reporteeOrgNr'.
+            parquet_period_mapping: A mapping dict with the key being the period name you want in your data and the value being the period variable name in the parquet file. Example: {"aar": "InternInfo_periodeAAr", "mnd": "InternInfo_periodeNummer"}.
+            delreg_nr: The delregisternummer for the Altinn form. Required for using Suv Tools method of populating the 'enheter' table.
+            suv_period_mapping: A mapping dict with the key being the period name you want in your data and the value being the period name in the data from Dapla Suv Tools.
+            suv_ident_field: The name of the ident variable in the data from Dapla Suv Tools.
+            database_name: name of the eimerdb to insert into. Can be None if not using eimerdb.
+            storage_location: Path to the eimerdb bucket. Can be None if not using eimerdb.
+            process_all_forms: If True, immediately starts processing all forms contained in the supplied form_folder.
+
+        Notes:
+            If you are not using eimerdb you do not need to supply database_name or storage_location as these are only used to connect to the eimerdb instance.
+
+        Example:
+            AltinnFormProcessor(
+                ra_number="RA-0689",
+                path_to_form_folder="tests/data",
+                parquet_ident_field="InternInfo_reporteeOrgNr",
+                parquet_period_mapping={"aar": "InternInfo_periodeAAr", "mnd": "InternInfo_periodeNummer"},
+            )
+        """
+        super().__init__(
+            ra_number=ra_number,
+            path_to_form_folder=path_to_form_folder,
+            parquet_ident_field=parquet_ident_field,
+            parquet_period_mapping=parquet_period_mapping,
+            delreg_nr = delreg_nr,
+            suv_period_mapping = suv_period_mapping,
+            suv_ident_field = suv_ident_field,
+        )
+        self.database_name = database_name
+        self.storage_location = storage_location
+        self.connect_to_database()
+
+
     def connect_to_database(self) -> None: # TODO remove from base class
         """Method for establishing a connection to an eimerdb instance.
 
@@ -389,8 +438,8 @@ class AltinnFormProcessor:
             )
         self.conn = db.EimerDBInstance(self.storage_location, self.database_name)
 
-    def insert_or_save_data( # TODO make abstract
-        self, data: pd.DataFrame, keys: list[str], table_name: str
+    def insert_or_save_data(
+        self, data: pd.DataFrame, primary_keys: list[str], table_name: str
     ) -> None:
         """Inserts dataframe contents into eimerdb instance.
 
@@ -408,8 +457,8 @@ class AltinnFormProcessor:
             ValueError: If 'existing' is not pd.DataFrame
         """
         cols_with_missing = [
-        col for col in keys if data[col].isna().any()
-    ]
+            col for col in primary_keys if data[col].isna().any()
+        ]
 
         if cols_with_missing:
             raise ValueError(
@@ -417,7 +466,7 @@ class AltinnFormProcessor:
             )
         try:
             existing = self.conn.query(f"SELECT * FROM {table_name}")
-            data = data.merge(existing[keys], on=keys, how="left", indicator=True)
+            data = data.merge(existing[primary_keys], on=primary_keys, how="left", indicator=True)
             logger.debug(data)
             new_data = data[data["_merge"] == "left_only"]
             if not isinstance(existing, pd.DataFrame):
