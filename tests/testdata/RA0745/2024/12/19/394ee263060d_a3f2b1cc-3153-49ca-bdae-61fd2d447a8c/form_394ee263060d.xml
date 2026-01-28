@@ -1,0 +1,1133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<A3_RA0745_M xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" dataFormatProvider="ALTINNSTUDIO" dataFormatId="A30745" dataFormatVersion="1">
+    <InternInfo>
+        <raNummer>RA-0745</raNummer>
+        <skjemaVersjon>1.8.15</skjemaVersjon>
+        <undersoekelsesNr>216</undersoekelsesNr>
+        <undersoekelsesInfoUrl>https://www.ssb.no/innrapportering/landbruksundersokelsen</undersoekelsesInfoUrl>
+        <visOppgaveByrde>2</visOppgaveByrde>
+        <visBrukeropplevelse>2</visBrukeropplevelse>
+        <delregNr>63024</delregNr>
+        <periodeFritekst>2024</periodeFritekst>
+        <periodeFomDato>2024-01-01</periodeFomDato>
+        <periodeTomDato>2024-12-31</periodeTomDato>
+        <periodeType>AAR</periodeType>
+        <periodeNummer></periodeNummer>
+        <periodeAAr>2024</periodeAAr>
+        <periodeDato></periodeDato>
+        <enhetsIdent>ATF2134660</enhetsIdent>
+        <enhetsType>FRTK</enhetsType>
+        <enhetsOrgNr>910346601</enhetsOrgNr>
+        <enhetsNavn>KVITSØY OG RØST REVISJON </enhetsNavn>
+        <enhetsGateadresse>Kisevegen 337</enhetsGateadresse>
+        <enhetsPostnr>2350</enhetsPostnr>
+        <enhetsPoststed>NES PÅ HEDMARKEN</enhetsPoststed>
+        <enhetsAvdeling></enhetsAvdeling>
+        <reporteeOrgNr>910346601</reporteeOrgNr>
+    </InternInfo>
+    <Tidsbruk />
+    <Brukeropplevelse />
+    <Kontakt>
+        <kontaktPersonNavn>DOLLY DUCK</kontaktPersonNavn>
+        <kontaktPersonEpost />
+        <kontaktPersonTelefon>12345678</kontaktPersonTelefon>
+        <kontaktInfoBekreftet>1</kontaktInfoBekreftet>
+    </Kontakt>
+    <Hjelpefelter>
+        <forrigeAar>2023</forrigeAar>
+        <nyEngUtstyrAlleFelterUtfylt>1</nyEngUtstyrAlleFelterUtfylt>
+        <nyEngNedmoldAlleFelterUtfylt>1</nyEngNedmoldAlleFelterUtfylt>
+        <etaEngUtstyrAlleFelterUtfylt>1</etaEngUtstyrAlleFelterUtfylt>
+        <lagerGroupAlleFelterUtfylt>1</lagerGroupAlleFelterUtfylt>
+        <egenBrukGjodselGroupAlleFelterUtfylt>1</egenBrukGjodselGroupAlleFelterUtfylt>
+        <mottattBrukGjodselGroupAlleFelterUtfylt>0</mottattBrukGjodselGroupAlleFelterUtfylt>
+        <prefillVekstNavnLowerCase>fulldyrka eng</prefillVekstNavnLowerCase>
+    </Hjelpefelter>
+    <KlassInfo />
+    <MetaData>
+        <AppMetaData>
+            <id>Host</id>
+            <verdi>ssb.apps.tt02.altinn.no</verdi>
+            <kilde>HttpContext</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>User-Agent</id>
+            <verdi>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36</verdi>
+            <kilde>HttpContext</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AppId</id>
+            <verdi>ssb/ra0745-01</verdi>
+            <kilde>Instance</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PresentationText-periodeFritekst</id>
+            <verdi>2024</verdi>
+            <kilde>Instance</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AltinnNugetVersion</id>
+            <verdi>8.3.7.151</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AutoDeleteOnProcessEnd</id>
+            <verdi>False</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>CopyInstanceSettings</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>Logo</id>
+            <verdi>org</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>OnEntry</id>
+            <verdi>select-instance</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AutoCreateEnabled-1</id>
+            <verdi />
+            <kilde>ref-data-as-pdf</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AutoCreateEnabled-2</id>
+            <verdi>False</verdi>
+            <kilde>A3_RA-0745_M</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-Person</id>
+            <verdi>False</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-BankruptcyEstate</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-Organisation</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-SubUnit</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>Title-nb</id>
+            <verdi>Landbruksundersøkelsen 2024 (RA-0745)</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>Title-nn</id>
+            <verdi>Landbruksundersøkinga 2024 (RA-0745)</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>ValidFrom</id>
+            <verdi />
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>ValidTo</id>
+            <verdi />
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>VersionId</id>
+            <verdi />
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>DisallowUserInstantiation</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AppVersion</id>
+            <verdi>1.8.15</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>EnableEFormidling</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>ExpressionValidation</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>FooterFileName</id>
+            <verdi>footer.json</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>RegisterEventsWithEventsComponent</id>
+            <verdi>True</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>RemoveHiddenData</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>RequiredValidation</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+    </MetaData>
+    <SkjemaData>
+        <prefillAreal>67</prefillAreal>
+        <prefillVekstNavn>Fulldyrka eng</prefillVekstNavn>
+        <prefillVekstNummer>2</prefillVekstNummer>
+        <FullEngGjodsArealTotal>89</FullEngGjodsArealTotal>
+        <FullEngGjodsMineralJaNei>0</FullEngGjodsMineralJaNei>
+        <FullEngGjodsMineralBladJaNei>1</FullEngGjodsMineralBladJaNei>
+        <FullEngGjodsAnnenJaNei>0</FullEngGjodsAnnenJaNei>
+        <FullEngGjodsAnnenAreal>1</FullEngGjodsAnnenAreal>
+        <FullEngGjodsHusdyrJaNei>1</FullEngGjodsHusdyrJaNei>
+        <FullEngGjodsHusdyrAreal>50</FullEngGjodsHusdyrAreal>
+        <NyEngArbJaNei>1</NyEngArbJaNei>
+        <NyEngArbAreal>50</NyEngArbAreal>
+        <NyEngArbHusdyrGjodsJaNei>1</NyEngArbHusdyrGjodsJaNei>
+        <NyEngArbHusdyrGjodsAreal>50</NyEngArbHusdyrGjodsAreal>
+        <NyEngBlandaMedVannJaNei>1</NyEngBlandaMedVannJaNei>
+        <NyEngVannInnholdSpredning>0</NyEngVannInnholdSpredning>
+        <NyEngSpredUts>09,03</NyEngSpredUts>
+        <NyEngSpredUtsGroup>
+            <NyEngSpredUtsID>00</NyEngSpredUtsID>
+            <NyEngSpredUtsNavn>Bredspreder (bladspreder, fanespreder) for bløtgjødsel med tankvogn</NyEngSpredUtsNavn>
+        </NyEngSpredUtsGroup>
+        <NyEngSpredUtsGroup>
+            <NyEngSpredUtsID>01</NyEngSpredUtsID>
+            <NyEngSpredUtsNavn>Bredspreder (bladspreder, fanespreder) for bløtgjødsel med slepeslange</NyEngSpredUtsNavn>
+        </NyEngSpredUtsGroup>
+        <NyEngSpredUtsGroup>
+            <NyEngSpredUtsID>02</NyEngSpredUtsID>
+            <NyEngSpredUtsNavn>Stripespreder med tankvogn og utlegging på bakken</NyEngSpredUtsNavn>
+        </NyEngSpredUtsGroup>
+        <NyEngSpredUtsGroup>
+            <NyEngSpredUtsID>03</NyEngSpredUtsID>
+            <NyEngSpredUtsNavn>Stripespreder med tankvogn og slepesko</NyEngSpredUtsNavn>
+            <NyEngSpredUtsGjodsMengde>32</NyEngSpredUtsGjodsMengde>
+        </NyEngSpredUtsGroup>
+        <NyEngSpredUtsGroup>
+            <NyEngSpredUtsID>04</NyEngSpredUtsID>
+            <NyEngSpredUtsNavn>Stripespreder med slepeslange og utlegging på bakken</NyEngSpredUtsNavn>
+        </NyEngSpredUtsGroup>
+        <NyEngSpredUtsGroup>
+            <NyEngSpredUtsID>05</NyEngSpredUtsID>
+            <NyEngSpredUtsNavn>Stripespreder med slepeslange og slepesko</NyEngSpredUtsNavn>
+            <NyEngSpredUtsGjodsMengde>89</NyEngSpredUtsGjodsMengde>
+        </NyEngSpredUtsGroup>
+        <NyEngSpredUtsGroup>
+            <NyEngSpredUtsID>06</NyEngSpredUtsID>
+            <NyEngSpredUtsNavn>Nedfelling med tankvogn og grunn nedfelling</NyEngSpredUtsNavn>
+        </NyEngSpredUtsGroup>
+        <NyEngSpredUtsGroup>
+            <NyEngSpredUtsID>07</NyEngSpredUtsID>
+            <NyEngSpredUtsNavn>Nedfelling med tankvogn og dyp nedfelling</NyEngSpredUtsNavn>
+        </NyEngSpredUtsGroup>
+        <NyEngSpredUtsGroup>
+            <NyEngSpredUtsID>08</NyEngSpredUtsID>
+            <NyEngSpredUtsNavn>Tank-/vanningsvogn med kanon (kan spre langt og sidelengs)</NyEngSpredUtsNavn>
+        </NyEngSpredUtsGroup>
+        <NyEngSpredUtsGroup>
+            <NyEngSpredUtsID>09</NyEngSpredUtsID>
+            <NyEngSpredUtsNavn>Gjødselvogn med spredevalser for fastgjødsel</NyEngSpredUtsNavn>
+            <NyEngSpredUtsGjodsMengde>100</NyEngSpredUtsGjodsMengde>
+        </NyEngSpredUtsGroup>
+        <NyEngSpredUtsGroup>
+            <NyEngSpredUtsID>10</NyEngSpredUtsID>
+            <NyEngSpredUtsNavn>Annet spredeutstyr, spredning med lesseapparat, manuell spredning mm.</NyEngSpredUtsNavn>
+        </NyEngSpredUtsGroup>
+        <NyEngSpredUtsGroup>
+            <NyEngSpredUtsID>TOTAL_ROW</NyEngSpredUtsID>
+            <NyEngSpredUtsNavn>Husdyrgjødsel spredd totalt</NyEngSpredUtsNavn>
+            <NyEngSpredUtsGjodsMengde>132</NyEngSpredUtsGjodsMengde>
+        </NyEngSpredUtsGroup>
+        <NyEngNedmold>4,2</NyEngNedmold>
+        <NyEngNedmoldGroup>
+            <NyEngNedmoldID>0</NyEngNedmoldID>
+            <NyEngNedmoldNavn>Gjødsel ble nedmolda innen 1 time etter spredning.</NyEngNedmoldNavn>
+            <NyEngNedmoldGjodsMengde>69</NyEngNedmoldGjodsMengde>
+        </NyEngNedmoldGroup>
+        <NyEngNedmoldGroup>
+            <NyEngNedmoldID>1</NyEngNedmoldID>
+            <NyEngNedmoldNavn>Gjødsel ble nedmolda 1-4 timer etter spredning.</NyEngNedmoldNavn>
+        </NyEngNedmoldGroup>
+        <NyEngNedmoldGroup>
+            <NyEngNedmoldID>2</NyEngNedmoldID>
+            <NyEngNedmoldNavn>Gjødsel ble nedmolda 4-12 timer etter spredning.</NyEngNedmoldNavn>
+            <NyEngNedmoldGjodsMengde>32</NyEngNedmoldGjodsMengde>
+        </NyEngNedmoldGroup>
+        <NyEngNedmoldGroup>
+            <NyEngNedmoldID>3</NyEngNedmoldID>
+            <NyEngNedmoldNavn>Gjødsel ble nedmolda senere enn 12 timer etter spredning.</NyEngNedmoldNavn>
+        </NyEngNedmoldGroup>
+        <NyEngNedmoldGroup>
+            <NyEngNedmoldID>4</NyEngNedmoldID>
+            <NyEngNedmoldNavn>Gjødsel ble ikke nedmolda (spredd i voksende grøde/direkte nedfelt).</NyEngNedmoldNavn>
+            <NyEngNedmoldGjodsMengde>100</NyEngNedmoldGjodsMengde>
+        </NyEngNedmoldGroup>
+        <NyEngNedmoldGroup>
+            <NyEngNedmoldID>TOTAL_ROW</NyEngNedmoldID>
+            <NyEngNedmoldNavn>Husdyrgjødsel nedmolda totalt.</NyEngNedmoldNavn>
+            <NyEngNedmoldGjodsMengde>132</NyEngNedmoldGjodsMengde>
+        </NyEngNedmoldGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>010</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>Fullgjødsel 8-5-19 mikro</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>020</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>Fullgjødsel 12-4-18 mikro</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>030</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>Fullgjødsel 17-5-13</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>040</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>Fullgjødsel 18-3-15</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>050</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>Fullgjødsel 20-4-11</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>060</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>Fullgjødsel 22-2-12</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>070</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>Fullgjødsel 22-3-10</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>080</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>Fullgjødsel 25-2-6</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>090</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>Fullgjødsel 27-2-4</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>100</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>OPTI-NK 22-0-12</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>110</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>SULFAN 24-0-0</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>120</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>OPTI-START 12-23-0</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>130</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>OPTI-START 14-18-0</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>140</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>OPTI-PK 0-11-21</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>150</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>OPTI-P 0-20-0</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>160</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>OPTI-NS 27-0-0/CAN N27/Kalkamonsalpeter</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>170</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>Patentkali Kalimagnesia 24/25</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>180</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>Kalimagnesia 49 PCT 60ER</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>190</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>Kaliumsulfat 41 PCT</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>200</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>Kalksalpeter/NITRABOR</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngMineralGjodsGroup>
+            <NyEngMineralGjodsID>210</NyEngMineralGjodsID>
+            <NyEngMineralGjodsNavn>Urea 46-0-0</NyEngMineralGjodsNavn>
+            <NyEngMineralAntallGjods>0</NyEngMineralAntallGjods>
+        </NyEngMineralGjodsGroup>
+        <NyEngAnnetGjodsGroup>
+            <NyEngAnnetGjodsID>010</NyEngAnnetGjodsID>
+            <NyEngAnnetGjodsNavn>Avløpsslam</NyEngAnnetGjodsNavn>
+            <NyEngAnnetAntallGjods>0</NyEngAnnetAntallGjods>
+        </NyEngAnnetGjodsGroup>
+        <NyEngAnnetGjodsGroup>
+            <NyEngAnnetGjodsID>020</NyEngAnnetGjodsID>
+            <NyEngAnnetGjodsNavn>Biorest</NyEngAnnetGjodsNavn>
+            <NyEngAnnetAntallGjods>0</NyEngAnnetAntallGjods>
+        </NyEngAnnetGjodsGroup>
+        <NyEngAnnetGjodsGroup>
+            <NyEngAnnetGjodsID>030</NyEngAnnetGjodsID>
+            <NyEngAnnetGjodsNavn>Silopressaft</NyEngAnnetGjodsNavn>
+            <NyEngAnnetAntallGjods>0</NyEngAnnetAntallGjods>
+        </NyEngAnnetGjodsGroup>
+        <NyEngAnnetGjodsGroup>
+            <NyEngAnnetGjodsID>040</NyEngAnnetGjodsID>
+            <NyEngAnnetGjodsNavn>Grønngjødsling</NyEngAnnetGjodsNavn>
+            <NyEngAnnetAntallGjods>0</NyEngAnnetAntallGjods>
+        </NyEngAnnetGjodsGroup>
+        <NyEngAnnetGjodsGroup>
+            <NyEngAnnetGjodsID>050</NyEngAnnetGjodsID>
+            <NyEngAnnetGjodsNavn>Kjøttbeinmel</NyEngAnnetGjodsNavn>
+            <NyEngAnnetAntallGjods>0</NyEngAnnetAntallGjods>
+        </NyEngAnnetGjodsGroup>
+        <NyEngAnnetGjodsGroup>
+            <NyEngAnnetGjodsID>060</NyEngAnnetGjodsID>
+            <NyEngAnnetGjodsNavn>Marihøne 4-1-2</NyEngAnnetGjodsNavn>
+            <NyEngAnnetAntallGjods>0</NyEngAnnetAntallGjods>
+        </NyEngAnnetGjodsGroup>
+        <NyEngAnnetGjodsGroup>
+            <NyEngAnnetGjodsID>070</NyEngAnnetGjodsID>
+            <NyEngAnnetGjodsNavn>Marihøne Pluss 8-4-5</NyEngAnnetGjodsNavn>
+            <NyEngAnnetAntallGjods>0</NyEngAnnetAntallGjods>
+        </NyEngAnnetGjodsGroup>
+        <NyEngAnnetGjodsGroup>
+            <NyEngAnnetGjodsID>080</NyEngAnnetGjodsID>
+            <NyEngAnnetGjodsNavn>Grønn 11 (11-3-2)</NyEngAnnetGjodsNavn>
+            <NyEngAnnetAntallGjods>0</NyEngAnnetAntallGjods>
+        </NyEngAnnetGjodsGroup>
+        <NyEngAnnetGjodsGroup>
+            <NyEngAnnetGjodsID>090</NyEngAnnetGjodsID>
+            <NyEngAnnetGjodsNavn>Grønn 14 (14-2-1)</NyEngAnnetGjodsNavn>
+            <NyEngAnnetAntallGjods>0</NyEngAnnetAntallGjods>
+        </NyEngAnnetGjodsGroup>
+        <NyEngAnnetGjodsGroup>
+            <NyEngAnnetGjodsID>100</NyEngAnnetGjodsID>
+            <NyEngAnnetGjodsNavn>Grønn 8K (8-3-5)</NyEngAnnetGjodsNavn>
+            <NyEngAnnetAntallGjods>0</NyEngAnnetAntallGjods>
+        </NyEngAnnetGjodsGroup>
+        <NyEngAnnetGjodsGroup>
+            <NyEngAnnetGjodsID>110</NyEngAnnetGjodsID>
+            <NyEngAnnetGjodsNavn>Helgjødsel 18-1-10</NyEngAnnetGjodsNavn>
+            <NyEngAnnetAntallGjods>0</NyEngAnnetAntallGjods>
+        </NyEngAnnetGjodsGroup>
+        <NyEngAnnetGjodsGroup>
+            <NyEngAnnetGjodsID>120</NyEngAnnetGjodsID>
+            <NyEngAnnetGjodsNavn>Helgjødsel 18-1-2</NyEngAnnetGjodsNavn>
+            <NyEngAnnetAntallGjods>0</NyEngAnnetAntallGjods>
+        </NyEngAnnetGjodsGroup>
+        <NyEngAnnetGjodsGroup>
+            <NyEngAnnetGjodsID>130</NyEngAnnetGjodsID>
+            <NyEngAnnetGjodsNavn>Helgjødsel 30-1-1</NyEngAnnetGjodsNavn>
+            <NyEngAnnetAntallGjods>0</NyEngAnnetAntallGjods>
+        </NyEngAnnetGjodsGroup>
+        <NyEngMinBladGjodsGroup>
+            <NyEngMinBladGjodsID>010</NyEngMinBladGjodsID>
+            <NyEngMinBladGjodsNavn>BRASSITREL PRO/COPTRAC/GRAMITREL/MAGTRAC/MANTRAC PRO</NyEngMinBladGjodsNavn>
+            <NyEngMinBladAntallGjods>0</NyEngMinBladAntallGjods>
+        </NyEngMinBladGjodsGroup>
+        <NyEngMinBladGjodsGroup>
+            <NyEngMinBladGjodsID>020</NyEngMinBladGjodsID>
+            <NyEngMinBladGjodsNavn>SOLATREL</NyEngMinBladGjodsNavn>
+            <NyEngMinBladAntallGjods>0</NyEngMinBladAntallGjods>
+        </NyEngMinBladGjodsGroup>
+        <NyEngMinBladGjodsGroup>
+            <NyEngMinBladGjodsID>030</NyEngMinBladGjodsID>
+            <NyEngMinBladGjodsNavn>SENIPHOS</NyEngMinBladGjodsNavn>
+            <NyEngMinBladAntallGjods>0</NyEngMinBladAntallGjods>
+        </NyEngMinBladGjodsGroup>
+        <NyEngMinBladGjodsGroup>
+            <NyEngMinBladGjodsID>040</NyEngMinBladGjodsID>
+            <NyEngMinBladGjodsNavn>THIOTRAC</NyEngMinBladGjodsNavn>
+            <NyEngMinBladAntallGjods>0</NyEngMinBladAntallGjods>
+        </NyEngMinBladGjodsGroup>
+        <NyEngHusdyrGjods>070,080</NyEngHusdyrGjods>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>010</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Storfe, bløtgjødsel</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>020</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Storfe, gylle</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>030</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Storfe, fastgjødsel</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>040</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Storfe, talle</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>050</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Storfe, land</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>060</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Gris, bløtgjødsel</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>070</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Gris, fastgjødsel</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>2</NyEngHusdyrAntallGjods>
+            <NyEngHusdyrGjodslinger>
+                <NyEngHGjodslingAarstid>0</NyEngHGjodslingAarstid>
+                <NyEngHGjodslingAreal>33</NyEngHGjodslingAreal>
+                <NyEngHGjodslingMengde>3333</NyEngHGjodslingMengde>
+            </NyEngHusdyrGjodslinger>
+            <NyEngHusdyrGjodslinger>
+                <NyEngHGjodslingAarstid>0</NyEngHGjodslingAarstid>
+                <NyEngHGjodslingAreal>32</NyEngHGjodslingAreal>
+                <NyEngHGjodslingMengde>32</NyEngHGjodslingMengde>
+            </NyEngHusdyrGjodslinger>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>080</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Gris, talle</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>1</NyEngHusdyrAntallGjods>
+            <NyEngHusdyrGjodslinger>
+                <NyEngHGjodslingAarstid>1</NyEngHGjodslingAarstid>
+                <NyEngHGjodslingAreal>32</NyEngHGjodslingAreal>
+                <NyEngHGjodslingMengde>32</NyEngHGjodslingMengde>
+            </NyEngHusdyrGjodslinger>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>090</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Gris, land</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>100</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Sau, bløtgjødsel</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>110</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Sau, fastgjødsel</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>120</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Sau, talle</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>130</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Geit, bløtgjødsel</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>140</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Geit, fastgjødsel</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>150</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Geit, talle</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>160</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Verpehøns, bløtgjødsel</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>170</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Verpehøns, fastgjødsel</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>180</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Fjørfe for slakt, bløtgjødsel</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>190</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Fjørfe for slakt, fastgjødsel</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngHusdyrGjodsGroup>
+            <NyEngHusdyrGjodsID>200</NyEngHusdyrGjodsID>
+            <NyEngHusdyrGjodsNavn>Hestegjødsel</NyEngHusdyrGjodsNavn>
+            <NyEngHusdyrAntallGjods>0</NyEngHusdyrAntallGjods>
+        </NyEngHusdyrGjodsGroup>
+        <NyEngOkologiskJaNei>1</NyEngOkologiskJaNei>
+        <EtaEngGjodsAnnenJaNei>1</EtaEngGjodsAnnenJaNei>
+        <EtaEngHusdyrGjodsJaNei>1</EtaEngHusdyrGjodsJaNei>
+        <EtaEngHusdyrGjodsAreal>22</EtaEngHusdyrGjodsAreal>
+        <EtaEngBlandaMedVannJaNei>1</EtaEngBlandaMedVannJaNei>
+        <EtaEngVannInnholdSpredning>1</EtaEngVannInnholdSpredning>
+        <EtaEngSpredUts>05,04</EtaEngSpredUts>
+        <EtaEngSpredUtsGroup>
+            <EtaEngSpredUtsID>00</EtaEngSpredUtsID>
+            <EtaEngSpredUtsNavn>Bredspreder (bladspreder, fanespreder) for bløtgjødsel med tankvogn</EtaEngSpredUtsNavn>
+        </EtaEngSpredUtsGroup>
+        <EtaEngSpredUtsGroup>
+            <EtaEngSpredUtsID>01</EtaEngSpredUtsID>
+            <EtaEngSpredUtsNavn>Bredspreder (bladspreder, fanespreder) for bløtgjødsel med slepeslange</EtaEngSpredUtsNavn>
+        </EtaEngSpredUtsGroup>
+        <EtaEngSpredUtsGroup>
+            <EtaEngSpredUtsID>02</EtaEngSpredUtsID>
+            <EtaEngSpredUtsNavn>Stripespreder med tankvogn og utlegging på bakken</EtaEngSpredUtsNavn>
+        </EtaEngSpredUtsGroup>
+        <EtaEngSpredUtsGroup>
+            <EtaEngSpredUtsID>03</EtaEngSpredUtsID>
+            <EtaEngSpredUtsNavn>Stripespreder med tankvogn og slepesko</EtaEngSpredUtsNavn>
+        </EtaEngSpredUtsGroup>
+        <EtaEngSpredUtsGroup>
+            <EtaEngSpredUtsID>04</EtaEngSpredUtsID>
+            <EtaEngSpredUtsNavn>Stripespreder med slepeslange og utlegging på bakken</EtaEngSpredUtsNavn>
+            <EtaEngSpredUtsGjodsMengde>40</EtaEngSpredUtsGjodsMengde>
+        </EtaEngSpredUtsGroup>
+        <EtaEngSpredUtsGroup>
+            <EtaEngSpredUtsID>05</EtaEngSpredUtsID>
+            <EtaEngSpredUtsNavn>Stripespreder med slepeslange og slepesko</EtaEngSpredUtsNavn>
+            <EtaEngSpredUtsGjodsMengde>60</EtaEngSpredUtsGjodsMengde>
+        </EtaEngSpredUtsGroup>
+        <EtaEngSpredUtsGroup>
+            <EtaEngSpredUtsID>06</EtaEngSpredUtsID>
+            <EtaEngSpredUtsNavn>Nedfelling med tankvogn og grunn nedfelling</EtaEngSpredUtsNavn>
+        </EtaEngSpredUtsGroup>
+        <EtaEngSpredUtsGroup>
+            <EtaEngSpredUtsID>07</EtaEngSpredUtsID>
+            <EtaEngSpredUtsNavn>Nedfelling med tankvogn og dyp nedfelling</EtaEngSpredUtsNavn>
+        </EtaEngSpredUtsGroup>
+        <EtaEngSpredUtsGroup>
+            <EtaEngSpredUtsID>08</EtaEngSpredUtsID>
+            <EtaEngSpredUtsNavn>Tank-/vanningsvogn med kanon (kan spre langt og sidelengs)</EtaEngSpredUtsNavn>
+        </EtaEngSpredUtsGroup>
+        <EtaEngSpredUtsGroup>
+            <EtaEngSpredUtsID>09</EtaEngSpredUtsID>
+            <EtaEngSpredUtsNavn>Gjødselvogn med spredevalser for fastgjødsel</EtaEngSpredUtsNavn>
+        </EtaEngSpredUtsGroup>
+        <EtaEngSpredUtsGroup>
+            <EtaEngSpredUtsID>10</EtaEngSpredUtsID>
+            <EtaEngSpredUtsNavn>Annet spredeutstyr, spredning med lesseapparat, manuell spredning mm.</EtaEngSpredUtsNavn>
+        </EtaEngSpredUtsGroup>
+        <EtaEngSpredUtsGroup>
+            <EtaEngSpredUtsID>TOTAL_ROW</EtaEngSpredUtsID>
+            <EtaEngSpredUtsNavn>Husdyrgjødsel spredd totalt</EtaEngSpredUtsNavn>
+            <EtaEngSpredUtsGjodsMengde>100</EtaEngSpredUtsGjodsMengde>
+        </EtaEngSpredUtsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>010</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>Fullgjødsel 8-5-19 mikro</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>020</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>Fullgjødsel 12-4-18 mikro</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>030</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>Fullgjødsel 17-5-13</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>040</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>Fullgjødsel 18-3-15</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>050</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>Fullgjødsel 20-4-11</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>060</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>Fullgjødsel 22-2-12</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>070</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>Fullgjødsel 22-3-10</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>080</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>Fullgjødsel 25-2-6</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>090</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>Fullgjødsel 27-2-4</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>100</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>OPTI-NK 22-0-12</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>110</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>SULFAN 24-0-0</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>120</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>OPTI-START 12-23-0</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>130</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>OPTI-START 14-18-0</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>140</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>OPTI-PK 0-11-21</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>150</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>OPTI-P 0-20-0</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>160</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>OPTI-NS 27-0-0/CAN N27/Kalkamonsalpeter</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>170</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>Patentkali Kalimagnesia 24/25</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>180</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>Kalimagnesia 49 PCT 60ER</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>190</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>Kaliumsulfat 41 PCT</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>200</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>Kalksalpeter/NITRABOR</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngMineralGjodsGroup>
+            <EtaEngMineralGjodsID>210</EtaEngMineralGjodsID>
+            <EtaEngMineralGjodsNavn>Urea 46-0-0</EtaEngMineralGjodsNavn>
+            <EtaEngMineralAntallGjods>0</EtaEngMineralAntallGjods>
+        </EtaEngMineralGjodsGroup>
+        <EtaEngAnnetGjodsGroup>
+            <EtaEngAnnetGjodsID>010</EtaEngAnnetGjodsID>
+            <EtaEngAnnetGjodsNavn>Avløpsslam</EtaEngAnnetGjodsNavn>
+            <EtaEngAnnetAntallGjods>0</EtaEngAnnetAntallGjods>
+        </EtaEngAnnetGjodsGroup>
+        <EtaEngAnnetGjodsGroup>
+            <EtaEngAnnetGjodsID>020</EtaEngAnnetGjodsID>
+            <EtaEngAnnetGjodsNavn>Biorest</EtaEngAnnetGjodsNavn>
+            <EtaEngAnnetAntallGjods>0</EtaEngAnnetAntallGjods>
+        </EtaEngAnnetGjodsGroup>
+        <EtaEngAnnetGjodsGroup>
+            <EtaEngAnnetGjodsID>030</EtaEngAnnetGjodsID>
+            <EtaEngAnnetGjodsNavn>Silopressaft</EtaEngAnnetGjodsNavn>
+            <EtaEngAnnetAntallGjods>0</EtaEngAnnetAntallGjods>
+        </EtaEngAnnetGjodsGroup>
+        <EtaEngAnnetGjodsGroup>
+            <EtaEngAnnetGjodsID>040</EtaEngAnnetGjodsID>
+            <EtaEngAnnetGjodsNavn>Grønngjødsling</EtaEngAnnetGjodsNavn>
+            <EtaEngAnnetAntallGjods>0</EtaEngAnnetAntallGjods>
+        </EtaEngAnnetGjodsGroup>
+        <EtaEngAnnetGjodsGroup>
+            <EtaEngAnnetGjodsID>050</EtaEngAnnetGjodsID>
+            <EtaEngAnnetGjodsNavn>Kjøttbeinmel</EtaEngAnnetGjodsNavn>
+            <EtaEngAnnetAntallGjods>0</EtaEngAnnetAntallGjods>
+        </EtaEngAnnetGjodsGroup>
+        <EtaEngAnnetGjodsGroup>
+            <EtaEngAnnetGjodsID>060</EtaEngAnnetGjodsID>
+            <EtaEngAnnetGjodsNavn>Marihøne 4-1-2</EtaEngAnnetGjodsNavn>
+            <EtaEngAnnetAntallGjods>0</EtaEngAnnetAntallGjods>
+        </EtaEngAnnetGjodsGroup>
+        <EtaEngAnnetGjodsGroup>
+            <EtaEngAnnetGjodsID>070</EtaEngAnnetGjodsID>
+            <EtaEngAnnetGjodsNavn>Marihøne Pluss 8-4-5</EtaEngAnnetGjodsNavn>
+            <EtaEngAnnetAntallGjods>0</EtaEngAnnetAntallGjods>
+        </EtaEngAnnetGjodsGroup>
+        <EtaEngAnnetGjodsGroup>
+            <EtaEngAnnetGjodsID>080</EtaEngAnnetGjodsID>
+            <EtaEngAnnetGjodsNavn>Grønn 11 (11-3-2)</EtaEngAnnetGjodsNavn>
+            <EtaEngAnnetAntallGjods>0</EtaEngAnnetAntallGjods>
+        </EtaEngAnnetGjodsGroup>
+        <EtaEngAnnetGjodsGroup>
+            <EtaEngAnnetGjodsID>090</EtaEngAnnetGjodsID>
+            <EtaEngAnnetGjodsNavn>Grønn 14 (14-2-1)</EtaEngAnnetGjodsNavn>
+            <EtaEngAnnetAntallGjods>0</EtaEngAnnetAntallGjods>
+        </EtaEngAnnetGjodsGroup>
+        <EtaEngAnnetGjodsGroup>
+            <EtaEngAnnetGjodsID>100</EtaEngAnnetGjodsID>
+            <EtaEngAnnetGjodsNavn>Grønn 8K (8-3-5)</EtaEngAnnetGjodsNavn>
+            <EtaEngAnnetAntallGjods>0</EtaEngAnnetAntallGjods>
+        </EtaEngAnnetGjodsGroup>
+        <EtaEngAnnetGjodsGroup>
+            <EtaEngAnnetGjodsID>110</EtaEngAnnetGjodsID>
+            <EtaEngAnnetGjodsNavn>Helgjødsel 18-1-10</EtaEngAnnetGjodsNavn>
+            <EtaEngAnnetAntallGjods>0</EtaEngAnnetAntallGjods>
+        </EtaEngAnnetGjodsGroup>
+        <EtaEngAnnetGjodsGroup>
+            <EtaEngAnnetGjodsID>120</EtaEngAnnetGjodsID>
+            <EtaEngAnnetGjodsNavn>Helgjødsel 18-1-2</EtaEngAnnetGjodsNavn>
+            <EtaEngAnnetAntallGjods>0</EtaEngAnnetAntallGjods>
+        </EtaEngAnnetGjodsGroup>
+        <EtaEngAnnetGjodsGroup>
+            <EtaEngAnnetGjodsID>130</EtaEngAnnetGjodsID>
+            <EtaEngAnnetGjodsNavn>Helgjødsel 30-1-1</EtaEngAnnetGjodsNavn>
+            <EtaEngAnnetAntallGjods>0</EtaEngAnnetAntallGjods>
+        </EtaEngAnnetGjodsGroup>
+        <EtaEngMinBladGjodsGroup>
+            <EtaEngMinBladGjodsID>010</EtaEngMinBladGjodsID>
+            <EtaEngMinBladGjodsNavn>BRASSITREL PRO/COPTRAC/GRAMITREL/MAGTRAC/MANTRAC PRO</EtaEngMinBladGjodsNavn>
+            <EtaEngMinBladAntallGjods>0</EtaEngMinBladAntallGjods>
+        </EtaEngMinBladGjodsGroup>
+        <EtaEngMinBladGjodsGroup>
+            <EtaEngMinBladGjodsID>020</EtaEngMinBladGjodsID>
+            <EtaEngMinBladGjodsNavn>SOLATREL</EtaEngMinBladGjodsNavn>
+            <EtaEngMinBladAntallGjods>0</EtaEngMinBladAntallGjods>
+        </EtaEngMinBladGjodsGroup>
+        <EtaEngMinBladGjodsGroup>
+            <EtaEngMinBladGjodsID>030</EtaEngMinBladGjodsID>
+            <EtaEngMinBladGjodsNavn>SENIPHOS</EtaEngMinBladGjodsNavn>
+            <EtaEngMinBladAntallGjods>0</EtaEngMinBladAntallGjods>
+        </EtaEngMinBladGjodsGroup>
+        <EtaEngMinBladGjodsGroup>
+            <EtaEngMinBladGjodsID>040</EtaEngMinBladGjodsID>
+            <EtaEngMinBladGjodsNavn>THIOTRAC</EtaEngMinBladGjodsNavn>
+            <EtaEngMinBladAntallGjods>0</EtaEngMinBladAntallGjods>
+        </EtaEngMinBladGjodsGroup>
+        <EtaEngHusdyrGjods>010,020,070</EtaEngHusdyrGjods>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>010</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Storfe, bløtgjødsel</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>2</EtaEngHusdyrAntallGjods>
+            <EtaEngHusdyrGjodslinger>
+                <EtaEngHGjodslingAarstid>2</EtaEngHGjodslingAarstid>
+                <EtaEngHGjodslingAreal>3</EtaEngHGjodslingAreal>
+                <EtaEngHGjodslingMengde>3</EtaEngHGjodslingMengde>
+            </EtaEngHusdyrGjodslinger>
+            <EtaEngHusdyrGjodslinger>
+                <EtaEngHGjodslingAarstid>2</EtaEngHGjodslingAarstid>
+                <EtaEngHGjodslingAreal>3</EtaEngHGjodslingAreal>
+                <EtaEngHGjodslingMengde>3</EtaEngHGjodslingMengde>
+            </EtaEngHusdyrGjodslinger>
+            <EtaEngHusdyrGjodsNitrogen>1</EtaEngHusdyrGjodsNitrogen>
+            <EtaEngHusdyrGjodsFosfor>2</EtaEngHusdyrGjodsFosfor>
+            <EtaEngHusdyrGjodsKalium>3</EtaEngHusdyrGjodsKalium>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>020</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Storfe, gylle</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>1</EtaEngHusdyrAntallGjods>
+            <EtaEngHusdyrGjodslinger>
+                <EtaEngHGjodslingAarstid>2</EtaEngHGjodslingAarstid>
+                <EtaEngHGjodslingAreal>3</EtaEngHGjodslingAreal>
+                <EtaEngHGjodslingMengde>3</EtaEngHGjodslingMengde>
+            </EtaEngHusdyrGjodslinger>
+            <EtaEngHusdyrGjodsNitrogen>4</EtaEngHusdyrGjodsNitrogen>
+            <EtaEngHusdyrGjodsFosfor>5</EtaEngHusdyrGjodsFosfor>
+            <EtaEngHusdyrGjodsKalium>6</EtaEngHusdyrGjodsKalium>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>030</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Storfe, fastgjødsel</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>040</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Storfe, talle</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>050</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Storfe, land</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>060</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Gris, bløtgjødsel</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>070</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Gris, fastgjødsel</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>1</EtaEngHusdyrAntallGjods>
+            <EtaEngHusdyrGjodslinger>
+                <EtaEngHGjodslingAreal>44</EtaEngHGjodslingAreal>
+                <EtaEngHGjodslingMengde>8888</EtaEngHGjodslingMengde>
+            </EtaEngHusdyrGjodslinger>
+            <EtaEngHusdyrGjodsNitrogen>55</EtaEngHusdyrGjodsNitrogen>
+            <EtaEngHusdyrGjodsFosfor>66</EtaEngHusdyrGjodsFosfor>
+            <EtaEngHusdyrGjodsKalium>77</EtaEngHusdyrGjodsKalium>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>080</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Gris, talle</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>090</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Gris, land</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>100</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Sau, bløtgjødsel</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>110</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Sau, fastgjødsel</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>120</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Sau, talle</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>130</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Geit, bløtgjødsel</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>140</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Geit, fastgjødsel</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>150</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Geit, talle</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>160</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Verpehøns, bløtgjødsel</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>170</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Verpehøns, fastgjødsel</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>180</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Fjørfe for slakt, bløtgjødsel</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>190</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Fjørfe for slakt, fastgjødsel</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngHusdyrGjodsGroup>
+            <EtaEngHusdyrGjodsID>200</EtaEngHusdyrGjodsID>
+            <EtaEngHusdyrGjodsNavn>Hestegjødsel</EtaEngHusdyrGjodsNavn>
+            <EtaEngHusdyrAntallGjods>0</EtaEngHusdyrAntallGjods>
+        </EtaEngHusdyrGjodsGroup>
+        <EtaEngKjentNaeringJaNei>1</EtaEngKjentNaeringJaNei>
+        <EtaEngOkologiskJaNei>0</EtaEngOkologiskJaNei>
+        <EngKommentar>nei</EngKommentar>
+        <MottattHusdyrGjodselJaNei>0</MottattHusdyrGjodselJaNei>
+        <MottattBrukGjodselGroup>
+            <MottattBrukGjodselID>0</MottattBrukGjodselID>
+            <MottattBrukGjodselNavn>Spredd på jordbruksareal som jordbruksbedriften disponerer</MottattBrukGjodselNavn>
+        </MottattBrukGjodselGroup>
+        <MottattBrukGjodselGroup>
+            <MottattBrukGjodselID>1</MottattBrukGjodselID>
+            <MottattBrukGjodselNavn>Annen bruk på jordbruksbedriften, f.eks. til kompostering, produksjon av biogass o.l.</MottattBrukGjodselNavn>
+        </MottattBrukGjodselGroup>
+        <MottattBrukGjodselGroup>
+            <MottattBrukGjodselID>TOTAL_ROW</MottattBrukGjodselID>
+            <MottattBrukGjodselNavn>Husdyrgjødsel mottatt fra andre i alt i {0}</MottattBrukGjodselNavn>
+            <MottattBrukGjodselMengde>0</MottattBrukGjodselMengde>
+        </MottattBrukGjodselGroup>
+        <VerpeHoensJaNei>0</VerpeHoensJaNei>
+        <FjaerfeSlaktJaNei>1</FjaerfeSlaktJaNei>
+        <FjaerfeSlaktLagringsMaate>0,5</FjaerfeSlaktLagringsMaate>
+        <FjaerfeSlaktStroeType>2</FjaerfeSlaktStroeType>
+        <SGSGHDyrJaNei>1</SGSGHDyrJaNei>
+        <HaddeHusdyrPaaBeiteJaNei>1</HaddeHusdyrPaaBeiteJaNei>
+        <InnMarkOgUtmark>0</InnMarkOgUtmark>
+        <ArealTyper>0</ArealTyper>
+        <ArealTyperGroup>
+            <ArealTyperID>0</ArealTyperID>
+            <ArealTyperNavn>Fulldyrka eng</ArealTyperNavn>
+            <ArealTyperDekarBeita>9</ArealTyperDekarBeita>
+        </ArealTyperGroup>
+        <ArealTyperGroup>
+            <ArealTyperID>1</ArealTyperID>
+            <ArealTyperNavn>Overflatedyrka eng</ArealTyperNavn>
+            <ArealTyperDekarBeita>14</ArealTyperDekarBeita>
+        </ArealTyperGroup>
+        <ArealTyperGroup>
+            <ArealTyperID>2</ArealTyperID>
+            <ArealTyperNavn>Innmarksbeite</ArealTyperNavn>
+        </ArealTyperGroup>
+        <ArealTyperGroup>
+            <ArealTyperID>3</ArealTyperID>
+            <ArealTyperNavn>Andre grovfôrvekster (raigras, fôrraps o.l.)</ArealTyperNavn>
+        </ArealTyperGroup>
+        <LufteGaardJaNei>1</LufteGaardJaNei>
+        <HusdyrSlagValg>0</HusdyrSlagValg>
+        <HusdyrSlagGroup>
+            <HusdyrID>0</HusdyrID>
+            <HusdyrNavn>Melkekyr</HusdyrNavn>
+            <AntallDyrInnmark>8</AntallDyrInnmark>
+            <AntallUkerInnmark>7</AntallUkerInnmark>
+            <AntallDyrLufteGaard>6</AntallDyrLufteGaard>
+            <AntallUkerLufteGaard>5</AntallUkerLufteGaard>
+        </HusdyrSlagGroup>
+        <HusdyrSlagGroup>
+            <HusdyrID>1</HusdyrID>
+            <HusdyrNavn>Ammekyr</HusdyrNavn>
+        </HusdyrSlagGroup>
+        <HusdyrSlagGroup>
+            <HusdyrID>2</HusdyrID>
+            <HusdyrNavn>Andre storfe</HusdyrNavn>
+        </HusdyrSlagGroup>
+        <HusdyrSlagGroup>
+            <HusdyrID>3</HusdyrID>
+            <HusdyrNavn>Sauer over 1 år</HusdyrNavn>
+        </HusdyrSlagGroup>
+        <HusdyrSlagGroup>
+            <HusdyrID>4</HusdyrID>
+            <HusdyrNavn>Geiter over 1 år</HusdyrNavn>
+        </HusdyrSlagGroup>
+        <HusdyrSlagGroup>
+            <HusdyrID>5</HusdyrID>
+            <HusdyrNavn>Hester</HusdyrNavn>
+            <AntallDyrInnmark>1</AntallDyrInnmark>
+            <AntallUkerInnmark>2</AntallUkerInnmark>
+            <AntallDyrLufteGaard>0</AntallDyrLufteGaard>
+            <AntallUkerLufteGaard>0</AntallUkerLufteGaard>
+        </HusdyrSlagGroup>
+        <SGSGHLager>7</SGSGHLager>
+        <SGSGHLagerGroup>
+            <SGSGHLagerID>0</SGSGHLagerID>
+            <SGSGHLagerNavn>Gjødselkjeller for bløtgjødsel</SGSGHLagerNavn>
+        </SGSGHLagerGroup>
+        <SGSGHLagerGroup>
+            <SGSGHLagerID>1</SGSGHLagerID>
+            <SGSGHLagerNavn>Gjødselkum, silo o.l. for bløtgjødsel</SGSGHLagerNavn>
+        </SGSGHLagerGroup>
+        <SGSGHLagerGroup>
+            <SGSGHLagerID>2</SGSGHLagerID>
+            <SGSGHLagerNavn>Gjødselkjeller for fastgjødsel</SGSGHLagerNavn>
+        </SGSGHLagerGroup>
+        <SGSGHLagerGroup>
+            <SGSGHLagerID>3</SGSGHLagerID>
+            <SGSGHLagerNavn>Fastgjødsel utendørs direkte på bakken</SGSGHLagerNavn>
+        </SGSGHLagerGroup>
+        <SGSGHLagerGroup>
+            <SGSGHLagerID>4</SGSGHLagerID>
+            <SGSGHLagerNavn>Fastgjødsel utendørs på tett bunnplate</SGSGHLagerNavn>
+        </SGSGHLagerGroup>
+        <SGSGHLagerGroup>
+            <SGSGHLagerID>5</SGSGHLagerID>
+            <SGSGHLagerNavn>Landkum/landtank</SGSGHLagerNavn>
+        </SGSGHLagerGroup>
+        <SGSGHLagerGroup>
+            <SGSGHLagerID>6</SGSGHLagerID>
+            <SGSGHLagerNavn>Innendørs talle/dypstrø</SGSGHLagerNavn>
+        </SGSGHLagerGroup>
+        <SGSGHLagerGroup>
+            <SGSGHLagerID>7</SGSGHLagerID>
+            <SGSGHLagerNavn>Utendørs talle/utegård</SGSGHLagerNavn>
+            <SGSGHLagerHusdyr>3</SGSGHLagerHusdyr>
+            <SGSGHLagerGjodselMengde>100</SGSGHLagerGjodselMengde>
+        </SGSGHLagerGroup>
+        <SGSGHLagerGroup>
+            <SGSGHLagerID>TOTAL_ROW</SGSGHLagerID>
+            <SGSGHLagerNavn>Totalt av lagring</SGSGHLagerNavn>
+            <SGSGHLagerGjodselMengde>100</SGSGHLagerGjodselMengde>
+        </SGSGHLagerGroup>
+        <DekkeGroup>
+            <DekkeID>0</DekkeID>
+            <DekkeNavn>Tett dekke (tak, presenning eller lignende)</DekkeNavn>
+        </DekkeGroup>
+        <DekkeGroup>
+            <DekkeID>1</DekkeID>
+            <DekkeNavn>Porøst dekke (halm, gjødselskorpe, Lecakuler eller lignende)</DekkeNavn>
+        </DekkeGroup>
+        <DekkeGroup>
+            <DekkeID>2</DekkeID>
+            <DekkeNavn>Uten dekke</DekkeNavn>
+        </DekkeGroup>
+        <EgenBrukGjodselGroup>
+            <EgenBrukGjodselID>0</EgenBrukGjodselID>
+            <EgenBrukGjodselNavn>Spredd på jordbruksareal som jordbruksbedriften disponerer</EgenBrukGjodselNavn>
+            <EgenBrukGjodselMengde>0</EgenBrukGjodselMengde>
+        </EgenBrukGjodselGroup>
+        <EgenBrukGjodselGroup>
+            <EgenBrukGjodselID>1</EgenBrukGjodselID>
+            <EgenBrukGjodselNavn>Tatt ut av lager for annen bruk på jordbruksbedriften, f.eks. for kompostering, produksjon av biogass o.l.</EgenBrukGjodselNavn>
+            <EgenBrukGjodselMengde>0</EgenBrukGjodselMengde>
+        </EgenBrukGjodselGroup>
+        <EgenBrukGjodselGroup>
+            <EgenBrukGjodselID>2</EgenBrukGjodselID>
+            <EgenBrukGjodselNavn>Levert til spredning på jordbruksareal som disponeres av andre jordbruksbedrifter</EgenBrukGjodselNavn>
+            <EgenBrukGjodselMengde>0</EgenBrukGjodselMengde>
+        </EgenBrukGjodselGroup>
+        <EgenBrukGjodselGroup>
+            <EgenBrukGjodselID>3</EgenBrukGjodselID>
+            <EgenBrukGjodselNavn>Levert til annen bruk, f.eks. kompostering, hagegjødsel, produksjon av biogass</EgenBrukGjodselNavn>
+            <EgenBrukGjodselMengde>0</EgenBrukGjodselMengde>
+        </EgenBrukGjodselGroup>
+        <EgenBrukGjodselGroup>
+            <EgenBrukGjodselID>4</EgenBrukGjodselID>
+            <EgenBrukGjodselNavn>Rest i eget gjødsellager ved utgangen av {0}</EgenBrukGjodselNavn>
+            <EgenBrukGjodselMengde>100</EgenBrukGjodselMengde>
+        </EgenBrukGjodselGroup>
+        <EgenBrukGjodselGroup>
+            <EgenBrukGjodselID>TOTAL_ROW</EgenBrukGjodselID>
+            <EgenBrukGjodselNavn>Egen husdyrgjødsel disponert totalt i {0}</EgenBrukGjodselNavn>
+            <EgenBrukGjodselMengde>100</EgenBrukGjodselMengde>
+        </EgenBrukGjodselGroup>
+        <UtstyrBruktTilBehandling>2</UtstyrBruktTilBehandling>
+    </SkjemaData>
+</A3_RA0745_M>
