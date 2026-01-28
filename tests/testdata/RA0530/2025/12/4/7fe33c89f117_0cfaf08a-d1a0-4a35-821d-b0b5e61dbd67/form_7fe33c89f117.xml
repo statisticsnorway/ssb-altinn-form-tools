@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<A3_RA0530_M xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" dataFormatProvider="ALTINNSTUDIO" dataFormatId="A30530" dataFormatVersion="1">
+    <InternInfo>
+        <raNummer>RA-0530</raNummer>
+        <skjemaVersjon>1.8.9</skjemaVersjon>
+        <undersoekelsesNr>18</undersoekelsesNr>
+        <undersoekelsesInfoUrl>https://www.ssb.no/innrapportering/byggevarer-til-bolig</undersoekelsesInfoUrl>
+        <visOppgaveByrde>2</visOppgaveByrde>
+        <visBrukeropplevelse>2</visBrukeropplevelse>
+        <delregNr>1080525</delregNr>
+        <periodeFritekst>mai 2025</periodeFritekst>
+        <periodeFomDato>2025-05-01</periodeFomDato>
+        <periodeTomDato>2025-05-31</periodeTomDato>
+        <periodeType>MND</periodeType>
+        <periodeNummer>05</periodeNummer>
+        <periodeAAr>2025</periodeAAr>
+        <periodeDato></periodeDato>
+        <enhetsIdent>ATB1143355</enhetsIdent>
+        <enhetsType>BEDR</enhetsType>
+        <enhetsOrgNr>910433555</enhetsOrgNr>
+        <enhetsNavn>ROSENDAL OG ØVRE VATS REGNSKAP  </enhetsNavn>
+        <enhetsGateadresse>Haakon VII's gate 15</enhetsGateadresse>
+        <enhetsPostnr>7041</enhetsPostnr>
+        <enhetsPoststed>TRONDHEIM</enhetsPoststed>
+        <enhetsAvdeling>AVD TRONDHEIM</enhetsAvdeling>
+        <reporteeOrgNr>910452541</reporteeOrgNr>
+    </InternInfo>
+    <Tidsbruk />
+    <Brukeropplevelse />
+    <Kontakt>
+        <kontaktPersonNavn>Anders</kontaktPersonNavn>
+        <kontaktPersonEpost>anders.and@andebybygg.no</kontaktPersonEpost>
+        <kontaktPersonTelefon>12345678</kontaktPersonTelefon>
+        <kontaktInfoBekreftet>1</kontaktInfoBekreftet>
+        <kontaktInfoKommentar>Møkkaskjema</kontaktInfoKommentar>
+    </Kontakt>
+    <Hjelpefelter>
+        <hjelpefelt1>4. kvartal 2025</hjelpefelt1>
+        <datoDenneMnd>mai 2025</datoDenneMnd>
+        <datoForrigeMnd>april 2025</datoForrigeMnd>
+    </Hjelpefelter>
+    <KlassInfo>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications//codesAt.json?#Enheter_selectCodes=13.03*,15.04*, 09.03*, 03.01*, 15.06*, 02.02*, 13.04#Enheter_orderBy=selectCodes#Enheter_id=303#Enheter_variant=#Enheter_date=12/04/2025#Enheter_language=nn#Enheter_level=#Enheter_parentCode=#AnnetSentinel_selectCodes=0530.ZZ2.1*#AnnetSentinel_id=707#AnnetSentinel_variant=#AnnetSentinel_date=12/04/2025#AnnetSentinel_language=nn#AnnetSentinel_level=#AnnetSentinel_parentCode=</klassID>
+            <klassDatamodellNode>EnheterTilDropdown</klassDatamodellNode>
+        </KlassApiKall>
+    </KlassInfo>
+    <SkjemaData>
+        <driftStatus>1</driftStatus>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>391.48</ubruktKodeBasPrisPrefill>
+            <ubruktKodeVaregrPrefill>01</ubruktKodeVaregrPrefill>
+            <ubruktKodeVaGrTLangPrefill>Trelast</ubruktKodeVaGrTLangPrefill>
+            <ubruktVareNrSsbPrefill>35504</ubruktVareNrSsbPrefill>
+            <vareNrLoepende>1</vareNrLoepende>
+            <ssbVareTypePrefillNB>Justert bygningsmateriale 48x198 mm</ssbVareTypePrefillNB>
+            <ssbVareTypePrefillNN />
+            <bedriftBeskrivelsePrefill>GRAN K-VIRKEpris eks mva per stk </bedriftBeskrivelsePrefill>
+            <produktPrisPrefill />
+            <mengdeEnhetPrefill>stk.</mengdeEnhetPrefill>
+            <haddeVarenJaNei>1</haddeVarenJaNei>
+            <komplEndringJaNei>0</komplEndringJaNei>
+            <komplPrisDennePerioden>150</komplPrisDennePerioden>
+            <komplTilbudSalgJaNei>0</komplTilbudSalgJaNei>
+        </RepGruppe>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>211.93</ubruktKodeBasPrisPrefill>
+            <ubruktKodeVaregrPrefill>04</ubruktKodeVaregrPrefill>
+            <ubruktKodeVaGrTLangPrefill>Listverk</ubruktKodeVaGrTLangPrefill>
+            <ubruktVareNrSsbPrefill>35508</ubruktVareNrSsbPrefill>
+            <vareNrLoepende>2</vareNrLoepende>
+            <ssbVareTypePrefillNB>Fotlist</ssbVareTypePrefillNB>
+            <ssbVareTypePrefillNN />
+            <bedriftBeskrivelsePrefill>FURU GULV pris eks mva per stk </bedriftBeskrivelsePrefill>
+            <produktPrisPrefill />
+            <mengdeEnhetPrefill>stk</mengdeEnhetPrefill>
+            <haddeVarenJaNei>0</haddeVarenJaNei>
+            <komplNeiAnnenVareJaNei>1</komplNeiAnnenVareJaNei>
+            <komplNeiBeskrivAnnenVare>kvinnelist</komplNeiBeskrivAnnenVare>
+            <listeMengdeEnhet>09.03</listeMengdeEnhet>
+            <listeMengdeEnhetLabel>meter</listeMengdeEnhetLabel>
+            <prisDennePeriNyVaInnrull>400</prisDennePeriNyVaInnrull>
+            <tilbudSalgJaNei>1</tilbudSalgJaNei>
+            <komplNeiSolgtForrPerJaNei>0</komplNeiSolgtForrPerJaNei>
+        </RepGruppe>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>293.7</ubruktKodeBasPrisPrefill>
+            <ubruktKodeVaregrPrefill>01</ubruktKodeVaregrPrefill>
+            <ubruktKodeVaGrTLangPrefill>Trelast</ubruktKodeVaGrTLangPrefill>
+            <ubruktVareNrSsbPrefill>35509</ubruktVareNrSsbPrefill>
+            <vareNrLoepende>3</vareNrLoepende>
+            <ssbVareTypePrefillNB>Justert bygningsmateriale 48x148 mm</ssbVareTypePrefillNB>
+            <ssbVareTypePrefillNN />
+            <bedriftBeskrivelsePrefill>GRAN2 K-VIRKE pris eks mva per stk </bedriftBeskrivelsePrefill>
+            <produktPrisPrefill />
+            <mengdeEnhetPrefill>stk.</mengdeEnhetPrefill>
+            <haddeVarenJaNei>1</haddeVarenJaNei>
+            <komplEndringJaNei>1</komplEndringJaNei>
+            <komplBeskrivEndret>høvlet</komplBeskrivEndret>
+            <komplPrisDennePerioden>149</komplPrisDennePerioden>
+            <komplTilbudSalgJaNei>0</komplTilbudSalgJaNei>
+        </RepGruppe>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>12.36</ubruktKodeBasPrisPrefill>
+            <ubruktKodeVaregrPrefill>01</ubruktKodeVaregrPrefill>
+            <ubruktKodeVaGrTLangPrefill>Trelast</ubruktKodeVaGrTLangPrefill>
+            <ubruktVareNrSsbPrefill>35510</ubruktVareNrSsbPrefill>
+            <vareNrLoepende>4</vareNrLoepende>
+            <ssbVareTypePrefillNB>Justert lekter 30x48 mm</ssbVareTypePrefillNB>
+            <ssbVareTypePrefillNN />
+            <bedriftBeskrivelsePrefill>LEKT pris eks mva per stk </bedriftBeskrivelsePrefill>
+            <produktPrisPrefill />
+            <mengdeEnhetPrefill>m</mengdeEnhetPrefill>
+            <haddeVarenJaNei>0</haddeVarenJaNei>
+            <komplNeiAnnenVareJaNei>0</komplNeiAnnenVareJaNei>
+        </RepGruppe>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>23.29</ubruktKodeBasPrisPrefill>
+            <ubruktKodeVaregrPrefill>01</ubruktKodeVaregrPrefill>
+            <ubruktKodeVaGrTLangPrefill>Trelast</ubruktKodeVaGrTLangPrefill>
+            <ubruktVareNrSsbPrefill>35511</ubruktVareNrSsbPrefill>
+            <vareNrLoepende>5</vareNrLoepende>
+            <ssbVareTypePrefillNB>Justert bygningsmateriale, utv. kledn. stående 22x</ssbVareTypePrefillNB>
+            <ssbVareTypePrefillNN />
+            <bedriftBeskrivelsePrefill>FURU KLED pris eks mva per LM</bedriftBeskrivelsePrefill>
+            <produktPrisPrefill />
+            <mengdeEnhetPrefill>stk.</mengdeEnhetPrefill>
+            <haddeVarenJaNei>1</haddeVarenJaNei>
+            <komplEndringJaNei>0</komplEndringJaNei>
+            <komplPrisDennePerioden>50</komplPrisDennePerioden>
+            <komplTilbudSalgJaNei>0</komplTilbudSalgJaNei>
+        </RepGruppe>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>899.55</ubruktKodeBasPrisPrefill>
+            <ubruktKodeVaregrPrefill>04</ubruktKodeVaregrPrefill>
+            <ubruktKodeVaGrTLangPrefill>Listverk</ubruktKodeVaGrTLangPrefill>
+            <ubruktVareNrSsbPrefill>35513</ubruktVareNrSsbPrefill>
+            <vareNrLoepende>6</vareNrLoepende>
+            <ssbVareTypePrefillNB>Listverk for dører og vinduer</ssbVareTypePrefillNB>
+            <ssbVareTypePrefillNN />
+            <bedriftBeskrivelsePrefill>FURU KARMLIST pris eks mva per stk </bedriftBeskrivelsePrefill>
+            <produktPrisPrefill />
+            <mengdeEnhetPrefill>m</mengdeEnhetPrefill>
+            <haddeVarenJaNei>1</haddeVarenJaNei>
+            <komplEndringJaNei>0</komplEndringJaNei>
+            <komplPrisDennePerioden>20</komplPrisDennePerioden>
+            <komplTilbudSalgJaNei>1</komplTilbudSalgJaNei>
+        </RepGruppe>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>186.35</ubruktKodeBasPrisPrefill>
+            <ubruktKodeVaregrPrefill>01</ubruktKodeVaregrPrefill>
+            <ubruktKodeVaGrTLangPrefill>Trelast</ubruktKodeVaGrTLangPrefill>
+            <ubruktVareNrSsbPrefill>35514</ubruktVareNrSsbPrefill>
+            <vareNrLoepende>7</vareNrLoepende>
+            <ssbVareTypePrefillNB>Justert bygningsmateriale 48x98 mm</ssbVareTypePrefillNB>
+            <ssbVareTypePrefillNN />
+            <bedriftBeskrivelsePrefill>GRAN Pris per STK</bedriftBeskrivelsePrefill>
+            <produktPrisPrefill />
+            <mengdeEnhetPrefill>stk.</mengdeEnhetPrefill>
+            <haddeVarenJaNei>0</haddeVarenJaNei>
+            <komplNeiAnnenVareJaNei>1</komplNeiAnnenVareJaNei>
+            <komplNeiBeskrivAnnenVare>Rundtømmer</komplNeiBeskrivAnnenVare>
+            <listeMengdeEnhet>15.06</listeMengdeEnhet>
+            <listeMengdeEnhetLabel>kubikkmeter</listeMengdeEnhetLabel>
+            <prisDennePeriNyVaInnrull>1300</prisDennePeriNyVaInnrull>
+            <tilbudSalgJaNei>0</tilbudSalgJaNei>
+            <komplNeiSolgtForrPerJaNei>1</komplNeiSolgtForrPerJaNei>
+            <komplNeiprisForrPeriode>1200</komplNeiprisForrPeriode>
+            <prisDiffProsentAnnenVare>108.33333333333333333333333333</prisDiffProsentAnnenVare>
+        </RepGruppe>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>319.93</ubruktKodeBasPrisPrefill>
+            <ubruktKodeVaregrPrefill>05</ubruktKodeVaregrPrefill>
+            <ubruktKodeVaGrTLangPrefill>Bygnings plater</ubruktKodeVaGrTLangPrefill>
+            <ubruktVareNrSsbPrefill>36001</ubruktVareNrSsbPrefill>
+            <vareNrLoepende>8</vareNrLoepende>
+            <ssbVareTypePrefillNB>Sponplate, golv</ssbVareTypePrefillNB>
+            <ssbVareTypePrefillNN />
+            <bedriftBeskrivelsePrefill>ARBOR SPONPLATE GULV Pris per STK</bedriftBeskrivelsePrefill>
+            <produktPrisPrefill />
+            <mengdeEnhetPrefill>m²</mengdeEnhetPrefill>
+            <haddeVarenJaNei>1</haddeVarenJaNei>
+            <komplEndringJaNei>0</komplEndringJaNei>
+            <komplPrisDennePerioden>10</komplPrisDennePerioden>
+            <komplTilbudSalgJaNei>1</komplTilbudSalgJaNei>
+        </RepGruppe>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>89.21</ubruktKodeBasPrisPrefill>
+            <ubruktKodeVaregrPrefill>05</ubruktKodeVaregrPrefill>
+            <ubruktKodeVaGrTLangPrefill>Bygnings plater</ubruktKodeVaGrTLangPrefill>
+            <ubruktVareNrSsbPrefill>36002</ubruktVareNrSsbPrefill>
+            <vareNrLoepende>9</vareNrLoepende>
+            <ssbVareTypePrefillNB>Himlinger</ssbVareTypePrefillNB>
+            <ssbVareTypePrefillNN />
+            <bedriftBeskrivelsePrefill>FORESTIA SPONPLATE TAK Pris per plate</bedriftBeskrivelsePrefill>
+            <produktPrisPrefill />
+            <mengdeEnhetPrefill>plate</mengdeEnhetPrefill>
+            <haddeVarenJaNei>0</haddeVarenJaNei>
+            <komplNeiAnnenVareJaNei>1</komplNeiAnnenVareJaNei>
+            <komplNeiBeskrivAnnenVare>gulv</komplNeiBeskrivAnnenVare>
+            <listeMengdeEnhet>03.01</listeMengdeEnhet>
+            <listeMengdeEnhetLabel>kvadratmeter</listeMengdeEnhetLabel>
+            <prisDennePeriNyVaInnrull>100</prisDennePeriNyVaInnrull>
+            <tilbudSalgJaNei>0</tilbudSalgJaNei>
+            <komplNeiSolgtForrPerJaNei>0</komplNeiSolgtForrPerJaNei>
+        </RepGruppe>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>1073.47</ubruktKodeBasPrisPrefill>
+            <ubruktKodeVaregrPrefill>07</ubruktKodeVaregrPrefill>
+            <ubruktKodeVaGrTLangPrefill>Dører og vinduer</ubruktKodeVaGrTLangPrefill>
+            <ubruktVareNrSsbPrefill>37011</ubruktVareNrSsbPrefill>
+            <vareNrLoepende>10</vareNrLoepende>
+            <ssbVareTypePrefillNB>Innvendig dør 90x210 cm</ssbVareTypePrefillNB>
+            <ssbVareTypePrefillNN />
+            <bedriftBeskrivelsePrefill>DØRBLAD</bedriftBeskrivelsePrefill>
+            <produktPrisPrefill />
+            <mengdeEnhetPrefill>stk.</mengdeEnhetPrefill>
+            <haddeVarenJaNei>0</haddeVarenJaNei>
+            <komplNeiAnnenVareJaNei>0</komplNeiAnnenVareJaNei>
+        </RepGruppe>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>1519.26</ubruktKodeBasPrisPrefill>
+            <ubruktKodeVaregrPrefill>08</ubruktKodeVaregrPrefill>
+            <ubruktKodeVaGrTLangPrefill>Kjøkken innredning</ubruktKodeVaGrTLangPrefill>
+            <ubruktVareNrSsbPrefill>37017</ubruktVareNrSsbPrefill>
+            <vareNrLoepende>11</vareNrLoepende>
+            <ssbVareTypePrefillNB>Benkeplate (arbeidsbenk)</ssbVareTypePrefillNB>
+            <ssbVareTypePrefillNN />
+            <bedriftBeskrivelsePrefill>BENKEPLATE pris per STK </bedriftBeskrivelsePrefill>
+            <produktPrisPrefill />
+            <mengdeEnhetPrefill>stk.</mengdeEnhetPrefill>
+            <haddeVarenJaNei>1</haddeVarenJaNei>
+            <komplEndringJaNei>1</komplEndringJaNei>
+            <komplBeskrivEndret>tynnere</komplBeskrivEndret>
+            <komplPrisDennePerioden>50000</komplPrisDennePerioden>
+            <komplTilbudSalgJaNei>0</komplTilbudSalgJaNei>
+        </RepGruppe>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>625.99</ubruktKodeBasPrisPrefill>
+            <ubruktKodeVaregrPrefill>03</ubruktKodeVaregrPrefill>
+            <ubruktKodeVaGrTLangPrefill>Panel</ubruktKodeVaGrTLangPrefill>
+            <ubruktVareNrSsbPrefill>37020</ubruktVareNrSsbPrefill>
+            <vareNrLoepende>12</vareNrLoepende>
+            <ssbVareTypePrefillNB>Parkett, 1. sortering 15 mm</ssbVareTypePrefillNB>
+            <ssbVareTypePrefillNN />
+            <bedriftBeskrivelsePrefill>PARKETT EIK pris per pak </bedriftBeskrivelsePrefill>
+            <produktPrisPrefill />
+            <mengdeEnhetPrefill>stk.</mengdeEnhetPrefill>
+            <haddeVarenJaNei>1</haddeVarenJaNei>
+            <komplEndringJaNei>0</komplEndringJaNei>
+            <komplPrisDennePerioden>500</komplPrisDennePerioden>
+            <komplTilbudSalgJaNei>1</komplTilbudSalgJaNei>
+        </RepGruppe>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>836.69</ubruktKodeBasPrisPrefill>
+            <ubruktKodeVaregrPrefill>05</ubruktKodeVaregrPrefill>
+            <ubruktKodeVaGrTLangPrefill>Bygnings plater</ubruktKodeVaGrTLangPrefill>
+            <ubruktVareNrSsbPrefill>37022</ubruktVareNrSsbPrefill>
+            <vareNrLoepende>13</vareNrLoepende>
+            <ssbVareTypePrefillNB>Finerplate til forskaling, 15 mm</ssbVareTypePrefillNB>
+            <ssbVareTypePrefillNN />
+            <bedriftBeskrivelsePrefill>KRYSSFINERPLATE pris per plate</bedriftBeskrivelsePrefill>
+            <produktPrisPrefill />
+            <mengdeEnhetPrefill>stk.</mengdeEnhetPrefill>
+            <haddeVarenJaNei>0</haddeVarenJaNei>
+            <komplNeiAnnenVareJaNei>0</komplNeiAnnenVareJaNei>
+        </RepGruppe>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>103.85</ubruktKodeBasPrisPrefill>
+            <ubruktKodeVaregrPrefill>05</ubruktKodeVaregrPrefill>
+            <ubruktKodeVaGrTLangPrefill>Bygnings plater</ubruktKodeVaGrTLangPrefill>
+            <ubruktVareNrSsbPrefill>50501</ubruktVareNrSsbPrefill>
+            <vareNrLoepende>14</vareNrLoepende>
+            <ssbVareTypePrefillNB>Gipsplater, vegg 1. sortering 13 mm</ssbVareTypePrefillNB>
+            <ssbVareTypePrefillNN />
+            <bedriftBeskrivelsePrefill>GIPSPLATE pris per plate</bedriftBeskrivelsePrefill>
+            <produktPrisPrefill />
+            <mengdeEnhetPrefill>plate</mengdeEnhetPrefill>
+            <haddeVarenJaNei>1</haddeVarenJaNei>
+            <komplEndringJaNei>0</komplEndringJaNei>
+            <komplPrisDennePerioden>400</komplPrisDennePerioden>
+            <komplTilbudSalgJaNei>0</komplTilbudSalgJaNei>
+        </RepGruppe>
+    </SkjemaData>
+</A3_RA0530_M>
