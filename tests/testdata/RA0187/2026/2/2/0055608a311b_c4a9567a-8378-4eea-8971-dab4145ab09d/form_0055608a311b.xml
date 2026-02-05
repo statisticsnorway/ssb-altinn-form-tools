@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<A3_RA0187_M xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" dataFormatProvider="ALTINNSTUDIO" dataFormatId="A30187" dataFormatVersion="1">
+    <InternInfo>
+        <raNummer>RA-0187</raNummer>
+        <skjemaVersjon>1.8.2</skjemaVersjon>
+        <undersoekelsesNr>239</undersoekelsesNr>
+        <undersoekelsesInfoUrl>https://www.ssb.no/innrapportering/manedlig-omsetning-varehandel</undersoekelsesInfoUrl>
+        <visOppgaveByrde>2</visOppgaveByrde>
+        <visBrukeropplevelse>2</visBrukeropplevelse>
+        <delregNr>1140126</delregNr>
+        <periodeFritekst>januar 2026</periodeFritekst>
+        <periodeFomDato>2026-01-01</periodeFomDato>
+        <periodeTomDato>2026-01-31</periodeTomDato>
+        <periodeType>MND</periodeType>
+        <periodeNummer>01</periodeNummer>
+        <periodeAAr>2026</periodeAAr>
+        <periodeDato></periodeDato>
+        <enhetsIdent>12111111</enhetsIdent>
+        <enhetsType>BEDR</enhetsType>
+        <enhetsOrgNr>111222111</enhetsOrgNr>
+        <enhetsNavn>PER MORTEN HOLDINGS AS</enhetsNavn>
+        <enhetsGateadresse>Slottsplassen 4</enhetsGateadresse>
+        <enhetsPostnr>0511</enhetsPostnr>
+        <enhetsPoststed>KONGSVINGER</enhetsPoststed>
+        <enhetsAvdeling>AVD SKATTEFNUSK</enhetsAvdeling>
+        <reporteeOrgNr>111222111</reporteeOrgNr>
+    </InternInfo>
+    <Tidsbruk />
+    <Brukeropplevelse />
+    <Kontakt>
+        <kontaktPersonNavn>NNAMREIB DRANOEL O</kontaktPersonNavn>
+        <kontaktPersonEpost>dranoel.nnamreib@ssb.no</kontaktPersonEpost>
+        <kontaktPersonTelefon>99889988</kontaktPersonTelefon>
+        <kontaktInfoBekreftet>1</kontaktInfoBekreftet>
+    </Kontakt>
+    <Hjelpefelter>
+        <hjelpefelt1>112.1122</hjelpefelt1>
+    </Hjelpefelter>
+    <KlassInfo>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/689/codesAt.json?&amp;language=nb&amp;date=2026-02-02&amp;selectCodes=0*,99</klassID>
+            <klassDatamodellNode>nullOmsPerAarsak</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/689/codesAt.json?&amp;language=nb&amp;date=2026-02-02&amp;selectCodes=2*,3*,99</klassID>
+            <klassDatamodellNode>storOkningOmsAarsak</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/689/codesAt.json?&amp;language=nb&amp;date=2026-02-02&amp;selectCodes=2*,4*,99</klassID>
+            <klassDatamodellNode>storNedgangOmsAarsak</klassDatamodellNode>
+        </KlassApiKall>
+    </KlassInfo>
+    <SkjemaData>
+        <omsForrigePerPrefill>4545</omsForrigePerPrefill>
+        <omsVirksomhetPerioden>6661</omsVirksomhetPerioden>
+    </SkjemaData>
+</A3_RA0187_M>
