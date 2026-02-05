@@ -1,0 +1,2 @@
+from ssb_altinn_form_tools import AltinnFormProcessor
+

@@ -4,19 +4,16 @@ If a more diverse set of alternative data storage technologies become available,
 """
 
 import glob
+import re
 import logging
 import xml.etree.ElementTree as ET
 from abc import ABC
 from abc import abstractmethod
 from typing import Any
-
+from collections.abc import MutableMapping
 import eimerdb as db
 import pandas as pd
 from dapla_suv_tools.suv_client import SuvClient
-
-from .flatten import _read_json_meta
-from .flatten import create_isee_filename
-from .flatten import xml_transform
 
 logger = logging.getLogger(__name__)
 
@@ -78,6 +75,7 @@ def xml_to_parquet(
             f"Invalid file name. Expected string, received: {type(isee_name)}"
         )
     logger.info(f"Writing file as: {isee_name}")
+    print(destination_folder)
     data.to_parquet(f"{destination_folder}{isee_name.replace('.csv', '.parquet')}")
 
 
@@ -506,7 +504,7 @@ def _read_json_meta(file_path: str) -> Any | None:
     """
     json_file_path = file_path.replace("form_", "meta_").replace(".xml", ".json")
 
-    if utils.is_gcs(json_file_path):
+    if is_gcs(json_file_path):
 
         fs = FileClient.get_gcs_file_system()
 
@@ -529,6 +527,26 @@ def _read_json_meta(file_path: str) -> Any | None:
         else:
             return None
 
+def _read_single_xml_to_dict(file_path: str) -> dict[str, Any]:
+    """Reads XML-file from GCS or local file, and transforms it to a dictionary.
+
+    Args:
+        file_path: The path to the XML file
+
+    Returns:
+        A dictionary with data from a XML
+    """
+    if is_gcs(file_path):
+        fs = gcsfs.GCSFileSystem()
+
+        with fs.open(file_path, mode="r") as xml_file:
+            data_dict = xmltodict.parse(xml_file.read())
+
+    else:
+        with open(file_path) as xml_file:
+            data_dict = xmltodict.parse(xml_file.read())
+
+    return data_dict
 
 def xml_transform(file_path: str) -> pd.DataFrame:
     """Transforms a XML to a pd.Dataframe using xmltodict.
@@ -548,7 +566,7 @@ def xml_transform(file_path: str) -> pd.DataFrame:
     Raises:
         ValueError: If invalid gcs-file or xml-file.
     """
-    if utils.is_valid_xml(file_path):
+    if is_valid_xml(file_path):
 
         xml_dict = _read_single_xml_to_dict(file_path)
         root_element = next(iter(xml_dict.keys()))
@@ -592,7 +610,50 @@ def _extract_angiver_id(file_path: str) -> str | None:
         return extracted_text
     else:
         return None
+import gcsfs
+from defusedxml.ElementTree import ParseError
+from defusedxml.minidom import parseString
+import os
+import json
+import xmltodict
+def is_gcs(file_path: str) -> bool:
+    """Check whether the given file path is a Google Cloud Storage path.
 
+    Args:
+        file_path (str): The file path to check.
+
+    Returns:
+        bool: True if the file path is a Google Cloud Storage path, False otherwise.
+    """
+    return file_path.startswith("gs://")
+
+def is_valid_xml(file_path: str) -> bool:
+    """Check whether the file is valid XML.
+
+    Args:
+        file_path (str): The path to the XML file.
+
+    Returns:
+        bool: True if the XML is valid, False otherwise.
+    """
+    if is_gcs(file_path):
+        fs = gcsfs.GCSFileSystem()
+        try:
+            # Read and parse the file from Google Cloud Storage
+            parseString(fs.cat_file(file_path))
+            return True
+        except ParseError:
+            return False
+    else:
+        try:
+            # Expand the path to support '~' for home directory
+            expanded_path = os.path.expanduser(file_path)
+            with open(expanded_path) as file:
+                # Read and parse the local file
+                parseString(file.read())
+                return True
+        except (ParseError, OSError):
+            return False
 
 def create_isee_filename(file_path: str) -> str | None:
     """Creates a filename based on the contents of an XML file and the provided file path.
@@ -604,8 +665,8 @@ def create_isee_filename(file_path: str) -> str | None:
         The generated filename if successful, otherwise None.
     """
     # Read XML-file
-    if utils.is_gcs(file_path):
-        fs = FileClient.get_gcs_file_system()
+    if is_gcs(file_path):
+        fs = gcsfs.GCSFileSystem()
         with fs.open(file_path, mode="r") as f:
             xml_content = f.read()
 
@@ -617,14 +678,79 @@ def create_isee_filename(file_path: str) -> str | None:
     root = ET.fromstring(xml_content)
 
     # Find the value of raNummer
-    ra_nummer_element = root.find(".//InternInfo/raNummer")
-    if ra_nummer_element is not None:
-        ra_nummer_value = ra_nummer_element.text
+    ra_nummer_element: Element | None = root.find(".//InternInfo/raNummer")
+
+    if ra_nummer_element is None or ra_nummer_element.text is None:
+        return None
+
+    ra_nummer_value: str = ra_nummer_element.text
+    ra_nummer_stripped: str = ra_nummer_value[2:]  # Safe now
 
     # find angiver_id
     angiver_id = _extract_angiver_id(file_path)
 
     # Create the filename
-    filename = f"{ra_nummer_value}A3_{angiver_id}.csv"
-
+    filename = f"RA{ra_nummer_stripped}A3_{angiver_id}.csv"
     return filename
+
+def _flatten_dict(d: Any, parent_key: str = "", sep: str = "_") -> Any:
+    """Flatten a nested dictionary with an optional separator for keys.
+
+    Args:
+        d: The input dictionary.
+        parent_key: The prefix to be added to each flattened key. Defaults to ''.
+        sep: The separator to be used between keys. Defaults to '_'.
+
+    Returns:
+        The flattened dictionary.
+    """
+    items: list[tuple[Any, list[Any]]] = []
+
+    counter = 0
+
+    for k, v in d.items():
+        new_key = parent_key + sep + k if parent_key else k
+
+        if isinstance(v, MutableMapping):
+            counter += 1
+            items.extend(
+                _flatten_dict(v, "£" + str(counter) + "$" + new_key, sep=sep).items()
+            )
+
+        elif isinstance(v, list):
+            for element in v:
+                counter += 1
+                if isinstance(element, MutableMapping):
+                    items.extend(
+                        _flatten_dict(
+                            element, "£" + str(counter) + "$" + new_key, sep=sep
+                        ).items()
+                    )
+
+                else:
+                    items.append((new_key, v))
+
+            counter = 0
+
+        else:
+            items.append((new_key, v))
+
+        counter = 0
+
+    return dict(items)
+
+def _extract_counter(value: str) -> list[str]:
+    """Extracts counter values from a string.
+
+    Args:
+        value: The input string containing counter values.
+
+    Returns:
+        A list of counter values extracted from the input string.
+
+    Example:
+        >>> _extract_counter('£3$ £2$ £1$')
+        ['3', '2', '1']
+    """
+    matches = re.findall(r"£(.*?)\$", value)
+    return matches

@@ -9,6 +9,9 @@ requires-python = ">=3.10,<4.0"
 dynamic = ["classifiers"]
 dependencies = [
     "click>=8.0.1",
+    "ssb-eimerdb (>=0.2.6,<0.3.0)",
+    "dapla-suv-tools (>=0.1.87,<0.2.0)",
+    "xmltodict (>=1.0.2,<2.0.0)",
 ]
 
 [project.urls]
