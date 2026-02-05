@@ -295,7 +295,7 @@ class AltinnFormProcessor(ABC):
         """Processes a specific form.
 
         Args:
-            form: Path to the xml file for the form.
+            form: Path to the parquet file for the form.
         """
         logger.debug(f"Processing: {form}")
         if self.data is not None:
