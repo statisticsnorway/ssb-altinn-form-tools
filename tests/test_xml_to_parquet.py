@@ -16,3 +16,14 @@ def test_xml_to_parquet(mocker):
         xml_to_parquet(str(form), destination_folder="tests/testdata/parquet/")
 
     assert mock_to_parquet.call_count == len(xml_files)
+
+    calls = mock_to_parquet.call_args_list
+
+    dfs = [call.args[0] for call in calls]
+    paths = [call.kwargs.get("path") for call in calls]
+    expected = [pd.read_parquet(path) for path in paths]
+
+    for test_number in range(len(calls)):
+        actual_dataframe = dfs[test_number]
+        expected_dataframe = expected[test_number]
+        assert expected_dataframe.compare(actual_dataframe)

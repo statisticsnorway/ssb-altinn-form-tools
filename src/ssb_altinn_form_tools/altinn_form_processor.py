@@ -76,7 +76,7 @@ def xml_to_parquet(
         )
     logger.info(f"Writing file as: {isee_name}")
     print(destination_folder)
-    data.to_parquet(f"{destination_folder}{isee_name.replace('.csv', '.parquet')}")
+    data.to_parquet(path=f"{destination_folder}{isee_name.replace('.csv', '.parquet')}")
 
 
 class AltinnFormProcessor(ABC):
