@@ -1,0 +1,23 @@
+{
+    "aar": {
+        "0": "2026"
+    },
+    "maaned": {
+        "0": "01"
+    },
+    "tabell": {
+        "0": "skjemadata_hoved"
+    },
+    "beskrivelse": {
+        "0": "Omsetning"
+    },
+    "radnr": {
+        "0": 0
+    },
+    "variabel": {
+        "0": "omsVirksomhetPerioden"
+    },
+    "datatype": {
+        "0": "int"
+    }
+}
