@@ -19,11 +19,15 @@ def test_xml_to_parquet(mocker):
 
     calls = mock_to_parquet.call_args_list
 
-    dfs = [call.args[0] for call in calls]
-    paths = [call.kwargs.get("path") for call in calls]
-    expected = [pd.read_parquet(path) for path in paths]
+    dfs = [call.args[0] for call in calls]      # DataFrame instances
+    paths = [call.kwargs.get("path") for call in calls]    # parquet paths
 
-    for test_number in range(len(calls)):
-        actual_dataframe = dfs[test_number]
-        expected_dataframe = expected[test_number]
-        assert expected_dataframe.compare(actual_dataframe)
+    for actual_df, path in zip(dfs, paths):
+        expected_df = pd.read_parquet(path)
+        
+        # Ensure missing values are the same type
+        actual_df = actual_df.fillna(pd.NA)
+        expected_df = expected_df.fillna(pd.NA)
+
+        # Proper comparison
+        pd.testing.assert_frame_equal(actual_df, expected_df)
