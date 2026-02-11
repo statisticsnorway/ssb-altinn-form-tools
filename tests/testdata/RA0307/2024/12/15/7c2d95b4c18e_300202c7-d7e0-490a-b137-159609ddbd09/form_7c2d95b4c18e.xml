@@ -1,0 +1,469 @@
+<?xml version="1.0" ?>
+<A3_RA0307_M dataFormatProvider="ALTINNSTUDIO" dataFormatId="A30307" dataFormatVersion="1">
+  <InternInfo>
+    <raNummer>RA-0307</raNummer>
+    <skjemaVersjon>1.8.34</skjemaVersjon>
+    <undersoekelsesNr>78</undersoekelsesNr>
+    <undersoekelsesInfoUrl>https://www.ssb.no/innrapportering/overnattinger</undersoekelsesInfoUrl>
+    <visOppgaveByrde>1</visOppgaveByrde>
+    <visBrukeropplevelse>1</visBrukeropplevelse>
+    <delregNr>25241124</delregNr>
+    <periodeFritekst>november 2024</periodeFritekst>
+    <periodeFomDato>2024-11-01</periodeFomDato>
+    <periodeTomDato>2024-11-30</periodeTomDato>
+    <periodeType>MND</periodeType>
+    <periodeNummer>11</periodeNummer>
+    <periodeAAr>2024</periodeAAr>
+    <periodeDato> </periodeDato>
+    <enhetsIdent>ATB1247293</enhetsIdent>
+    <enhetsType>BEDR</enhetsType>
+    <enhetsOrgNr>910472933</enhetsOrgNr>
+    <enhetsNavn>MJOSUNDET OG BERLEVÅG REGNSKAP </enhetsNavn>
+    <enhetsGateadresse>Myklabergstien 5</enhetsGateadresse>
+    <enhetsPostnr>4052</enhetsPostnr>
+    <enhetsPoststed>RØYNEBERG</enhetsPoststed>
+    <enhetsAvdeling> </enhetsAvdeling>
+    <reporteeOrgNr>910472933</reporteeOrgNr>
+  </InternInfo>
+  <Tidsbruk/>
+  <Brukeropplevelse/>
+  <Kontakt>
+    <kontaktPersonNavn>mor te gunnbjørg</kontaktPersonNavn>
+    <kontaktPersonEpost>kaa@ssb.no</kontaktPersonEpost>
+    <kontaktPersonTelefon>95917152</kontaktPersonTelefon>
+    <kontaktInfoBekreftet>1</kontaktInfoBekreftet>
+    <kontaktInfoKommentar>nei</kontaktInfoKommentar>
+  </Kontakt>
+  <Hjelpefelter>
+    <maaned>november</maaned>
+    <forrigeMaanedAAr>november 2023</forrigeMaanedAAr>
+    <dagerIMaaned>30</dagerIMaaned>
+    <edTrettiProsentMer>1300</edTrettiProsentMer>
+    <edTrettiProsentMindre>700</edTrettiProsentMindre>
+    <resterendeEnhetsdogn>0</resterendeEnhetsdogn>
+    <resterendeEnhetsdognMate>0</resterendeEnhetsdognMate>
+    <sumGjestedognMate>5456.3</sumGjestedognMate>
+    <trimmedMonth>11</trimmedMonth>
+    <maanedAAr>november 2024</maanedAAr>
+  </Hjelpefelter>
+  <KlassInfo>
+    <KlassApiKall>
+      <klassID>/api/klass/v1/classifications/642/codesAt.json?date=2023-03-15&amp;language=nb</klassID>
+      <klassDatamodellNode>konfliktNaeringsType</klassDatamodellNode>
+    </KlassApiKall>
+  </KlassInfo>
+  <SkjemaData>
+    <iDriftJaNei>1</iDriftJaNei>
+    <antallDagerAApen>25</antallDagerAApen>
+    <antallDagerAApenForrAAr>20</antallDagerAApenForrAAr>
+    <antallOppstillingsplasser>50</antallOppstillingsplasser>
+    <antallOPForrigeAAr>30</antallOPForrigeAAr>
+    <antallHLR>100</antallHLR>
+    <antallHLRForrigeAAr>20</antallHLRForrigeAAr>
+    <fasteSengeplasser>150</fasteSengeplasser>
+    <antallSPForrigeAAr>30</antallSPForrigeAAr>
+    <utleieOrdning>3</utleieOrdning>
+    <antallGjestedognSK>260</antallGjestedognSK>
+    <antallSesongkontrakter>20</antallSesongkontrakter>
+    <rapporteringsmate>2</rapporteringsmate>
+    <gjestedognForrigeAAr>2000</gjestedognForrigeAAr>
+    <vekstAArsak>4,1</vekstAArsak>
+    <vekstAArsakForklaring>Utruleg utruleg godt ver</vekstAArsakForklaring>
+    <bostedsLand>
+      <bostedsLandID>000</bostedsLandID>
+      <bostedsLandNavn>Noreg</bostedsLandNavn>
+      <landGruppe>Norden</landGruppe>
+      <antallEnhetsdognLand>2000</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>101</bostedsLandID>
+      <bostedsLandNavn>Danmark</bostedsLandNavn>
+      <landGruppe>Norden</landGruppe>
+      <antallEnhetsdognLand>301</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>103</bostedsLandID>
+      <bostedsLandNavn>Finland</bostedsLandNavn>
+      <landGruppe>Norden</landGruppe>
+      <antallEnhetsdognLand>200</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>105</bostedsLandID>
+      <bostedsLandNavn>Island</bostedsLandNavn>
+      <landGruppe>Norden</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>106</bostedsLandID>
+      <bostedsLandNavn>Sverige</bostedsLandNavn>
+      <landGruppe>Norden</landGruppe>
+      <antallEnhetsdognLand>140</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>111</bostedsLandID>
+      <bostedsLandNavn>Albania</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+      <antallEnhetsdognLand>5</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>114</bostedsLandID>
+      <bostedsLandNavn>Andorra</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+      <antallEnhetsdognLand>2</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>153</bostedsLandID>
+      <bostedsLandNavn>Austerrike</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>120</bostedsLandID>
+      <bostedsLandNavn>Belarus</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+      <antallEnhetsdognLand>6</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>112</bostedsLandID>
+      <bostedsLandNavn>Belgia</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>155</bostedsLandID>
+      <bostedsLandNavn>Bosnia-Hercegovina</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>113</bostedsLandID>
+      <bostedsLandNavn>Bulgaria</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>115</bostedsLandID>
+      <bostedsLandNavn>Estland</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>117</bostedsLandID>
+      <bostedsLandNavn>Frankrike</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>119</bostedsLandID>
+      <bostedsLandNavn>Hellas</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>121</bostedsLandID>
+      <bostedsLandNavn>Irland</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>123</bostedsLandID>
+      <bostedsLandNavn>Italia</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>161</bostedsLandID>
+      <bostedsLandNavn>Kosovo</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+      <antallEnhetsdognLand>3</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>122</bostedsLandID>
+      <bostedsLandNavn>Kroatia</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+      <antallEnhetsdognLand>7</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>500</bostedsLandID>
+      <bostedsLandNavn>Kypros</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>124</bostedsLandID>
+      <bostedsLandNavn>Latvia</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>128</bostedsLandID>
+      <bostedsLandNavn>Liechtenstein</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>136</bostedsLandID>
+      <bostedsLandNavn>Litauen</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>129</bostedsLandID>
+      <bostedsLandNavn>Luxembourg</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>126</bostedsLandID>
+      <bostedsLandNavn>Malta</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>138</bostedsLandID>
+      <bostedsLandNavn>Moldova</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>130</bostedsLandID>
+      <bostedsLandNavn>Monaco</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+      <antallEnhetsdognLand>5</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>160</bostedsLandID>
+      <bostedsLandNavn>Montenegro</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>127</bostedsLandID>
+      <bostedsLandNavn>Nederland</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+      <antallEnhetsdognLand>40</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>156</bostedsLandID>
+      <bostedsLandNavn>Nord-Makedonia</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>131</bostedsLandID>
+      <bostedsLandNavn>Polen</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+      <antallEnhetsdognLand>89</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>132</bostedsLandID>
+      <bostedsLandNavn>Portugal</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>133</bostedsLandID>
+      <bostedsLandNavn>Romania</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+      <antallEnhetsdognLand>2</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>140</bostedsLandID>
+      <bostedsLandNavn>Russland</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>134</bostedsLandID>
+      <bostedsLandNavn>San Marino</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+      <antallEnhetsdognLand>2</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>159</bostedsLandID>
+      <bostedsLandNavn>Serbia</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+      <antallEnhetsdognLand>5</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>157</bostedsLandID>
+      <bostedsLandNavn>Slovakia</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>146</bostedsLandID>
+      <bostedsLandNavn>Slovenia</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+      <antallEnhetsdognLand>123</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>137</bostedsLandID>
+      <bostedsLandNavn>Spania</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>139</bostedsLandID>
+      <bostedsLandNavn>Storbritannia</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>141</bostedsLandID>
+      <bostedsLandNavn>Sveits</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>158</bostedsLandID>
+      <bostedsLandNavn>Tsjekkia</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>143</bostedsLandID>
+      <bostedsLandNavn>Tyrkia</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>144</bostedsLandID>
+      <bostedsLandNavn>Tyskland</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>148</bostedsLandID>
+      <bostedsLandNavn>Ukraina</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>152</bostedsLandID>
+      <bostedsLandNavn>Ungarn</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>154</bostedsLandID>
+      <bostedsLandNavn>Vatikanstaten</bostedsLandNavn>
+      <landGruppe>Europa for øvrig</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>359</bostedsLandID>
+      <bostedsLandNavn>Sør-Afrika</bostedsLandNavn>
+      <landGruppe>Afrika</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>0307.ZZ4.4</bostedsLandID>
+      <bostedsLandNavn>Afrika elles</bostedsLandNavn>
+      <landGruppe>Afrika</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>426</bostedsLandID>
+      <bostedsLandNavn>Dei sameinte arabiske emirata</bostedsLandNavn>
+      <landGruppe>Asia</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>444</bostedsLandID>
+      <bostedsLandNavn>India</bostedsLandNavn>
+      <landGruppe>Asia</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>448</bostedsLandID>
+      <bostedsLandNavn>Indonesia</bostedsLandNavn>
+      <landGruppe>Asia</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>460</bostedsLandID>
+      <bostedsLandNavn>Israel</bostedsLandNavn>
+      <landGruppe>Asia</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>464</bostedsLandID>
+      <bostedsLandNavn>Japan</bostedsLandNavn>
+      <landGruppe>Asia</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>484</bostedsLandID>
+      <bostedsLandNavn>Kina</bostedsLandNavn>
+      <landGruppe>Asia</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>512</bostedsLandID>
+      <bostedsLandNavn>Malaysia</bostedsLandNavn>
+      <landGruppe>Asia</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>540</bostedsLandID>
+      <bostedsLandNavn>Qatar</bostedsLandNavn>
+      <landGruppe>Asia</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>548</bostedsLandID>
+      <bostedsLandNavn>Singapore</bostedsLandNavn>
+      <landGruppe>Asia</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>492</bostedsLandID>
+      <bostedsLandNavn>Sør-Korea</bostedsLandNavn>
+      <landGruppe>Asia</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>432</bostedsLandID>
+      <bostedsLandNavn>Taiwan</bostedsLandNavn>
+      <landGruppe>Asia</landGruppe>
+      <antallEnhetsdognLand>40</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>568</bostedsLandID>
+      <bostedsLandNavn>Thailand</bostedsLandNavn>
+      <landGruppe>Asia</landGruppe>
+      <antallEnhetsdognLand>20</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>0307.ZZ4.1</bostedsLandID>
+      <bostedsLandNavn>Asia elles</bostedsLandNavn>
+      <landGruppe>Asia</landGruppe>
+      <antallEnhetsdognLand>10</antallEnhetsdognLand>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>715</bostedsLandID>
+      <bostedsLandNavn>Brasil</bostedsLandNavn>
+      <landGruppe>Amerika</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>612</bostedsLandID>
+      <bostedsLandNavn>Canada</bostedsLandNavn>
+      <landGruppe>Amerika</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>652</bostedsLandID>
+      <bostedsLandNavn>Mexico</bostedsLandNavn>
+      <landGruppe>Amerika</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>684</bostedsLandID>
+      <bostedsLandNavn>USA</bostedsLandNavn>
+      <landGruppe>Amerika</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>0307.ZZ4.2</bostedsLandID>
+      <bostedsLandNavn>Latin Amerika elles</bostedsLandNavn>
+      <landGruppe>Amerika</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>805</bostedsLandID>
+      <bostedsLandNavn>Australia</bostedsLandNavn>
+      <landGruppe>Oseania</landGruppe>
+    </bostedsLand>
+    <bostedsLand>
+      <bostedsLandID>0307.ZZ4.3</bostedsLandID>
+      <bostedsLandNavn>Oseania elles</bostedsLandNavn>
+      <landGruppe>Oseania</landGruppe>
+    </bostedsLand>
+    <antallEnhetsdogn>3000</antallEnhetsdogn>
+    <enhetsdognForrigeAAr>1000</enhetsdognForrigeAAr>
+    <OvernattingsmateED>
+      <mateEnhetsdogn>10</mateEnhetsdogn>
+      <mateNavnED>Telt</mateNavnED>
+      <mateIDED>1</mateIDED>
+      <gjennomsnittGjester>2.2</gjennomsnittGjester>
+      <beregningGjestedogn>22.0</beregningGjestedogn>
+    </OvernattingsmateED>
+    <OvernattingsmateED>
+      <mateEnhetsdogn>30</mateEnhetsdogn>
+      <mateNavnED>Campingvogn</mateNavnED>
+      <mateIDED>2</mateIDED>
+      <gjennomsnittGjester>3.5</gjennomsnittGjester>
+      <beregningGjestedogn>105.0</beregningGjestedogn>
+    </OvernattingsmateED>
+    <OvernattingsmateED>
+      <mateEnhetsdogn>1</mateEnhetsdogn>
+      <mateNavnED>Bubil</mateNavnED>
+      <mateIDED>3</mateIDED>
+      <gjennomsnittGjester>3.1</gjennomsnittGjester>
+      <beregningGjestedogn>3.1</beregningGjestedogn>
+    </OvernattingsmateED>
+    <OvernattingsmateED>
+      <mateEnhetsdogn>2959</mateEnhetsdogn>
+      <mateNavnED>Hytte, leilegheit og/eller rom for utleige</mateNavnED>
+      <mateIDED>4</mateIDED>
+      <gjennomsnittGjester>1.8</gjennomsnittGjester>
+      <beregningGjestedogn>5326.2</beregningGjestedogn>
+    </OvernattingsmateED>
+    <antallInnsjekkinger>250</antallInnsjekkinger>
+    <kanRappGjestedognJaNei>1</kanRappGjestedognJaNei>
+  </SkjemaData>
+</A3_RA0307_M>
