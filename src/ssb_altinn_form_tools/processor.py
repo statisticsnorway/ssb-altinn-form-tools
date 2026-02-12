@@ -1,13 +1,15 @@
-from ssb_altinn_form_tools.schema import kontaktinfo, skjemadata
+
 from typing import Literal
 from pydantic import BaseModel, Field
+from sqlalchemy import Engine, create_engine, insert
+from sqlalchemy.orm import Session, session, sessionmaker
 import xmltodict
 import glob
 import json
 import datetime
 from pathlib import Path
 
-from .schema import skjemadata, enheter, enhetsinfo, kontaktinfo, skjemamottak
+from schema import skjemadata, enheter, enhetsinfo, kontaktinfo, skjemamottak, Base
 
 
 class Node(BaseModel):
@@ -103,11 +105,14 @@ def parse_entries(data: dict | list, parent: None | str = None) -> list[Node]:
 
 
 class AltinnFormProcessor:
-    def __init__(self, form: str, alias_mapping: dict | None = None) -> None:
+    def __init__(self, form: str, engine: Engine, alias_mapping: dict | None = None) -> None:
         form_data_key = f"A3_{form}_M"
         forms = glob.glob(
             f"/home/onyxia/work/ssb-altinn-form-tools/tests/testdata/{form}/**/**/**/**/*.xml"
         )
+
+        conn = engine.connect()
+        
         for form in forms:
             file_path = Path(form)
 
@@ -116,25 +121,28 @@ class AltinnFormProcessor:
             json_data = json.loads(json_path.read_text())
             dictionary: dict = xmltodict.parse(file_path.read_text())[form_data_key]
 
-            base_form_info = self._parse_skjemamottak(dictionary, json_data)
+            session = Session(bind=engine)
+            
+            (base_form_info, base_form_info_model) = self._parse_skjemamottak(
+                dictionary, json_data
+            )
+            session.add(base_form_info_model)
 
             unit = self._parse_enheter(
                 year=base_form_info.aar,
                 form=base_form_info.skjema,
                 ident=base_form_info.ident,
             )
+            session.add(unit)
 
             form_data = self._parse_skjemadata(
                 dictionary,
-            )
-
-            form_data_models = self._convert_to_formdata(
-                form_data,
                 year=base_form_info.aar,
                 form=base_form_info.skjema,
                 ident=base_form_info.ident,
                 refnr=base_form_info.refnr,
             )
+            session.add_all(form_data)
 
             contact_info = self._parse_kontaktinfo(
                 dictionary,
@@ -143,25 +151,55 @@ class AltinnFormProcessor:
                 ident=base_form_info.ident,
                 refnr=base_form_info.refnr,
             )
+            session.add(contact_info)
 
-            conact_info_model = self._convert_to_sql_contact_data(
-                contact_info,
-                year=base_form_info.aar,
-                form=base_form_info.skjema,
-                ident=base_form_info.ident,
-                refnr=base_form_info.refnr,
-            )
-            
             unit_info = self._parse_enhetsinfo(
                 dictionary,
                 year=base_form_info.aar,
                 ident=base_form_info.ident,
             )
-            print(contact_info)
+            session.add_all(unit_info)
 
-    def _convert_to_sql_contact_data(
-        self, contact_info: KontaktInfo, year: int, form: str, ident: str, refnr: str
+            session.commit()
+
+    def _parse_skjemadata(
+        self, dictionary: dict, year: int, form: str, ident: str, refnr: str
+    ) -> list[skjemadata]:
+        form_data = dictionary["SkjemaData"]
+        parsed_form_data = parse_entries(form_data)
+
+        results = []
+        for node in parsed_form_data:
+            node_data = skjemadata(
+                aar=year,
+                skjema=form,
+                ident=ident,
+                refnr=refnr,
+                feltsti=node.sti,
+                feltnavn=node.navn,
+                verdi=node.verdi,
+                is_attribute=node.er_attributt,
+                dybde=node.dybde,
+                ordinal=node.ordinal,
+                parent_sti=node.parent_path,
+            )
+            results.append(node_data)
+        return results
+
+    def _parse_kontaktinfo(
+        self, dictionary: dict, year: int, form: str, ident: str, refnr: str
     ) -> kontaktinfo:
+        form_data: dict = dictionary["Kontakt"]
+
+        contact_info = KontaktInfo(
+            aar=year,
+            skjema=form,
+            ident=ident,
+            refnr=refnr,
+            bekreftet_kontaktinfo=form_data.get("kontaktInfoBekreftet") == "1",
+            **form_data,
+        )
+
         return kontaktinfo(
             aar=year,
             skjema=form,
@@ -175,73 +213,52 @@ class AltinnFormProcessor:
             kommentar_krevende=contact_info.kommentar_krevende,
         )
 
-    def _convert_to_formdata(
-        self, form_data: list[Node], year: int, form: str, ident: str, refnr: str
-    ) -> list[skjemadata]:
-        result: list[skjemadata] = []
-        for item in form_data:
-            model = skjemadata(
-                aar=year,
-                skjema=form,
-                ident=ident,
-                refnr=refnr,
-                feltsti=item.sti,
-                feltnavn=item.navn,
-                verdi=item.verdi,
-                is_attribute=item.er_attributt,
-                dybde=item.dybde,
-                ordinal=item.ordinal,
-                parent_sti=item.parent_path,
-            )
-            result.append(model)
-        return result
-
-    def _parse_skjemadata(self, dictionary: dict) -> list[Node]:
-        form_data = dictionary["SkjemaData"]
-        parsed_form_data = parse_entries(form_data)
-        return parsed_form_data
-
-    def _parse_kontaktinfo(
-        self, dictionary: dict, year: int, form: str, ident: str, refnr: str
-    ):
-        form_data: dict = dictionary["Kontakt"]
-
-        contact_info = KontaktInfo(
-            aar=year,
-            skjema=form,
-            ident=ident,
-            refnr=refnr,
-            bekreftet_kontaktinfo=form_data.get("kontaktInfoBekreftet") == "1",
-            **form_data,
-        )
-        return contact_info
-
-    def _parse_skjemamottak(self, dictionary: dict, json_data: dict) -> SkjemaMottak:
+    def _parse_skjemamottak(
+        self, dictionary: dict, json_data: dict
+    ) -> tuple[SkjemaMottak, skjemamottak]:
         form_data: dict = dictionary["InternInfo"]
 
-        return SkjemaMottak(
+        data = SkjemaMottak(
             editert="ikke editert", kommentar="", aktiv=True, **form_data, **json_data
         )
 
-    def _parse_enheter(self, year: int, form: str, ident: str) -> Enheter:
-        return Enheter(aar=year, ident=ident, skjema=form)
+        return data, skjemamottak(
+            aar=data.aar,
+            skjema=data.skjema,
+            ident=data.ident,
+            refnr=data.refnr,
+            kommentar=data.kommentar,
+            dato_mottatt=data.dato_mottatt,
+            editert=data.editert,
+            aktiv=data.aktiv,
+        )
+
+    def _parse_enheter(self, year: int, form: str, ident: str) -> enheter:
+        unit = Enheter(aar=year, ident=ident, skjema=form)
+        return enheter(aar=unit.aar, ident=unit.ident, skjema=unit.skjema)
 
     def _parse_enhetsinfo(
         self, dictionary: dict, year: int, ident: str
-    ) -> list[EnhetsInfo]:
+    ) -> list[enhetsinfo]:
         form_data: dict[str, str] = dictionary["InternInfo"]
-        info: list[EnhetsInfo] = []
+        info: list[enhetsinfo] = []
         for key, value in form_data.items():
             if key.startswith("enhets"):
                 data = EnhetsInfo(aar=year, ident=ident, variabel=key, verdi=value)
-                info.append(data)
+                model = enhetsinfo(
+                    aar=year, ident=ident, variabel=data.variabel, verdi=data.verdi
+                )
+                info.append(model)
         return info
 
+engine = create_engine("sqlite:///./db.db", echo=True)
+# Create tables
+Base.metadata.create_all(engine)
 
-AltinnFormProcessor("RA0187")
-AltinnFormProcessor("RA0297")
-AltinnFormProcessor("RA0307")
-AltinnFormProcessor("RA0366")
-AltinnFormProcessor("RA0530")
-AltinnFormProcessor("RA0689")
-AltinnFormProcessor("RA0745")
+AltinnFormProcessor("RA0187", engine = engine)
+AltinnFormProcessor("RA0297", engine = engine)
+AltinnFormProcessor("RA0307", engine = engine)
+AltinnFormProcessor("RA0366", engine = engine)
+AltinnFormProcessor("RA0530", engine = engine)
+AltinnFormProcessor("RA0689", engine = engine)
+AltinnFormProcessor("RA0745", engine = engine)

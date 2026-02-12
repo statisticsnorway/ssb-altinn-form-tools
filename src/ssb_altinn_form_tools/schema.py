@@ -4,12 +4,13 @@ from sqlalchemy import TIMESTAMP, BOOLEAN
 from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base, relationship
 
-engine = create_engine("sqlite:///:memory:", echo=True)
+
 Base = declarative_base()
 
 class kontaktinfo(Base):
     __tablename__ = "kontaktinfo"
-    aar = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    aar = Column(Integer)
     skjema = Column(String)
     ident = Column(String)
     refnr = Column(String)
@@ -24,14 +25,16 @@ class kontaktinfo(Base):
 
 class enheter(Base):
     __tablename__ = "enheter"
-    aar: Column[int] = Column(Integer, primary_key=True)
-    enheter = Column(String)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    aar: Column[int] = Column(Integer)
+    ident = Column(String)
     skjema = Column(String)
 
 
 class skjemamottak(Base):
     __tablename__ = "skjemamottak"
-    aar = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    aar = Column(Integer)
     skjema = Column(String)
     ident = Column(String)
     refnr = Column(String)
@@ -44,7 +47,8 @@ class skjemamottak(Base):
 
 class enhetsinfo(Base):
     __tablename__ = "enhetsinfo"
-    aar = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    aar = Column(Integer)
     ident = Column(String)
     variabel = Column(String)
     verdi = Column(String)
@@ -52,7 +56,8 @@ class enhetsinfo(Base):
 
 class kontroller(Base):
     __tablename__ = "kontroller"
-    aar = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    aar = Column(Integer)
     skjema = Column(String)
     kontrollid = Column(String)
     kontrolltype = Column(String)
@@ -63,19 +68,20 @@ class kontroller(Base):
 
 class kontrollutslag(Base):
     __tablename__ = "kontrollutslag"
-    aar = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    aar = Column(Integer)
     skjema = Column(String)
     kontrollid = Column(String)
     ident = Column(String)
     refnr = Column(String)
     utslag = Column(BOOLEAN)
-
     verdi = Column(Integer)
 
 
 class skjemadata(Base):
     __tablename__ = "skjemadata"
-    aar = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    aar = Column(Integer)
     skjema = Column(String)
     ident = Column(String)
     refnr = Column(String)
@@ -84,11 +90,11 @@ class skjemadata(Base):
     verdi = Column(String)
     is_attribute = Column(BOOLEAN)
     dybde =  Column(Integer)
-    ordinal =  Column(Integer, primary_key=True)
+    ordinal =  Column(Integer)
     parent_sti =  Column(String)
 
 
-
+engine = create_engine("sqlite:///:memory:", echo=True)
 # Create tables
 Base.metadata.create_all(engine)
 
