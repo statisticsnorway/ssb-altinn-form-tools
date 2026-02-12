@@ -16,10 +16,8 @@ class Node(BaseModel):
     sti: str
     navn: str
     verdi: str | None
-    er_attributt: bool
     dybde: int | None
-    ordinal: int | None
-    parent_path: str | None
+    indeks: int | None
     alias: str | None = None
 
 
@@ -94,10 +92,8 @@ def parse_entries(data: dict | list, parent: None | str = None) -> list[Node]:
                     sti=sti,
                     navn=str(key),
                     verdi=value,
-                    er_attributt=True,
                     dybde=dybde,
-                    ordinal=ordinal,
-                    parent_path=parent,
+                    indeks=ordinal,
                 )
             )
 
@@ -110,8 +106,6 @@ class AltinnFormProcessor:
         forms = glob.glob(
             f"/home/onyxia/work/ssb-altinn-form-tools/tests/testdata/{form}/**/**/**/**/*.xml"
         )
-
-        conn = engine.connect()
         
         for form in forms:
             file_path = Path(form)
@@ -178,10 +172,8 @@ class AltinnFormProcessor:
                 feltsti=node.sti,
                 feltnavn=node.navn,
                 verdi=node.verdi,
-                is_attribute=node.er_attributt,
                 dybde=node.dybde,
-                ordinal=node.ordinal,
-                parent_sti=node.parent_path,
+                indeks=node.indeks,
             )
             results.append(node_data)
         return results
@@ -251,7 +243,7 @@ class AltinnFormProcessor:
                 info.append(model)
         return info
 
-engine = create_engine("sqlite:///./db.db", echo=True)
+engine = create_engine("sqlite:///./db.db", echo=False)
 # Create tables
 Base.metadata.create_all(engine)
 

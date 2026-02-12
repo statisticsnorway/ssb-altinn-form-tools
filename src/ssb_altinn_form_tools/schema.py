@@ -88,10 +88,8 @@ class skjemadata(Base):
     feltsti = Column(String)
     feltnavn = Column(String)
     verdi = Column(String)
-    is_attribute = Column(BOOLEAN)
     dybde =  Column(Integer)
-    ordinal =  Column(Integer)
-    parent_sti =  Column(String)
+    indeks =  Column(Integer)
 
 
 engine = create_engine("sqlite:///:memory:", echo=True)
