@@ -2,7 +2,7 @@ from sqlalchemy.sql.schema import Column
 from sqlalchemy import TIMESTAMP, BOOLEAN
 
 from sqlalchemy import Column, Integer, String, create_engine
-from sqlalchemy.orm import declarative_base, Session
+from sqlalchemy.orm import declarative_base, relationship
 
 engine = create_engine("sqlite:///:memory:", echo=True)
 Base = declarative_base()
@@ -75,8 +75,11 @@ class kontrollutslag(Base):
 
 class skjemadata(Base):
     __tablename__ = "skjemadata"
-    id = Column(Integer, primary_key=True)
-    feltsti = Column(String, primary_key=True)
+    aar = Column(Integer, primary_key=True)
+    skjema = Column(String)
+    ident = Column(String)
+    refnr = Column(String)
+    feltsti = Column(String)
     feltnavn = Column(String)
     verdi = Column(String)
     is_attribute = Column(BOOLEAN)
