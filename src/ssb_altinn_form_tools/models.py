@@ -1,3 +1,4 @@
+import json
 from typing import Literal, Self
 import datetime
 
@@ -12,6 +13,13 @@ class FormNode(BaseModel):
     indeks: int | None
     alias: str | None = None
 
+    def __str__(self):
+        return (
+            f"{self.__class__.__name__}(\n"
+            + json.dumps(self.model_dump(), indent=2)
+            + "\n)"
+        )
+
 
 class FormData(FormNode):
     aar: int
@@ -23,6 +31,13 @@ class FormData(FormNode):
     def from_form_data(node: FormNode, year: int, form: str, ident: str, refnr: str):
         return FormData(
             aar=year, skjema=form, ident=ident, refnr=refnr, **node.model_dump()
+        )
+
+    def __str__(self):
+        return (
+            f"{self.__class__.__name__}(\n"
+            + json.dumps(self.model_dump(), indent=2)
+            + "\n)"
         )
 
 
@@ -42,11 +57,25 @@ class ContactInfo(BaseModel):
         default=None, validation_alias="kontaktKrevende"
     )
 
+    def __str__(self):
+        return (
+            f"{self.__class__.__name__}(\n"
+            + json.dumps(self.model_dump(), indent=2)
+            + "\n)"
+        )
+
 
 class Unit(BaseModel):
     aar: int
     ident: str
     skjema: str
+
+    def __str__(self):
+        return (
+            f"{self.__class__.__name__}(\n"
+            + json.dumps(self.model_dump(), indent=2)
+            + "\n)"
+        )
 
 
 class UnitInfo(BaseModel):
@@ -54,6 +83,13 @@ class UnitInfo(BaseModel):
     ident: str
     variabel: str
     verdi: str | None
+
+    def __str__(self):
+        return (
+            f"{self.__class__.__name__}(\n"
+            + json.dumps(self.model_dump(), indent=2)
+            + "\n)"
+        )
 
 
 class FormReception(BaseModel):
@@ -66,7 +102,21 @@ class FormReception(BaseModel):
     kommentar: str
     aktiv: bool
 
+    def __str__(self):
+        return (
+            f"{self.__class__.__name__}(\n"
+            + json.dumps(self.model_dump(), indent=2)
+            + "\n)"
+        )
+
 
 class FormJsonData(BaseModel):
     altinn_reference: str = Field(validation_alias="altinnReferanse")
     date_deliveres: datetime.datetime = Field(validation_alias="altinnTidspunktLevert")
+
+    def __str__(self):
+        return (
+            f"{self.__class__.__name__}(\n"
+            + json.dumps(self.model_dump(), indent=2)
+            + "\n)"
+        )
