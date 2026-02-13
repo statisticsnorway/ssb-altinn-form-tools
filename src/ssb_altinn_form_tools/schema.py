@@ -92,7 +92,4 @@ class skjemadata(Base):
     indeks =  Column(Integer)
 
 
-engine = create_engine("sqlite:///:memory:", echo=True)
-# Create tables
-Base.metadata.create_all(engine)
 

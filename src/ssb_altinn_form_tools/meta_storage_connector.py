@@ -9,6 +9,17 @@ class MetaStorageConnector(ABC):
         super().__init__(*args, **kwargs)
 
     @abstractmethod
+    def begin_transaction(self) -> None:
+        ...
+    
+    @abstractmethod
+    def commit(self) -> None:
+        ...
+
+    @abstractmethod
+    def rollback(self, ref_number: str) -> None:
+        ...
+    @abstractmethod
     def insert_contact_info(self, contact_info: ContactInfo) -> None:
         ...
 
@@ -28,5 +39,9 @@ class MetaStorageConnector(ABC):
     def insert_unit_info(self, unit: list[UnitInfo]) -> None:
         ...
 
-    def validate_new_form(self, form_reference: str) -> bool:
+    @abstractmethod
+    def create_tables_if_not_exists(self) -> None:
+        ...
+
+    def validate_form_is_new(self, form_reference: str) -> bool:
         raise NotImplementedError(f"validate_new_form is not implemented for {self}")

@@ -65,3 +65,8 @@ class FormReception(BaseModel):
     editert: Literal["ferdig editert", "under editering", "ikke editert"]
     kommentar: str
     aktiv: bool
+
+
+class FormJsonData(BaseModel):
+    altinn_reference: str = Field(validation_alias="altinnReferanse")
+    date_deliveres: datetime.datetime = Field(validation_alias="altinnTidspunktLevert")

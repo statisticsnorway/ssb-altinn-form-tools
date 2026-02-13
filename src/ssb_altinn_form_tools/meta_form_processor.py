@@ -11,6 +11,10 @@ class MetaFormProcessor(ABC):
         super().__init__()
 
     @abstractmethod
+    def _find_forms(self):
+        ...
+
+    @abstractmethod
     def _process_form(self):
         ...
 
