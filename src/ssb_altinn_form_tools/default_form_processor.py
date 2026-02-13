@@ -49,10 +49,12 @@ class DefaultFormProcessor(MetaFormProcessor):
                 self._connector.rollback(json_data.altinn_reference)
                 logger.error(e)
                 logger.error("Due to the previous error the insert was rolled back")
-            finally:
+            else:
                 self._connector.commit()
                 logger.info(f"Form {json_data.altinn_reference} was inserted into the database")
-                
+        else:
+            logger.info(f"Skipped inserting form with refernce {json_data.altinn_reference} since it already exists") 
+             
     def _process_forms(self, forms: list[str]):
         for form in forms:
             file_path = Path(form)
@@ -63,6 +65,7 @@ class DefaultFormProcessor(MetaFormProcessor):
             self._process_form(file_path, json_data)
 
     def process_new_forms(self):
+        logger.debug(f"Begin processing {self._form_data_key} forms")
         forms = self._find_forms()
         self._connector.create_tables_if_not_exists()
         self._process_forms(forms)
