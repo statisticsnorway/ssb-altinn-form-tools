@@ -52,13 +52,6 @@ class MetaFormExtractor(ABC):
         self, form_dict_data: InputFormType, json_data: FormJsonData
     ) -> ExtractedForm:
         form_info = self.extract_form_reception(form_dict_data, json_data)
-        test_case = self.extract_contact_info(
-            form_dict_data,
-            year=form_info.aar,
-            form=form_info.skjema,
-            ident=form_info.ident,
-            refnr=form_info.refnr,
-        )
 
         return ExtractedForm(
             reception=form_info,
