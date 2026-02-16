@@ -1,5 +1,16 @@
+import logging
 from .meta_form_extractor import MetaFormExtractor, InputFormType
-from .models import ContactInfo, FormNode, FormData, FormReception, UnitInfo
+from .models import (
+    ContactInfo,
+    FormJsonData,
+    FormNode,
+    FormData,
+    FormReception,
+    UnitInfo,
+)
+
+logger = logging.getLogger(__name__)
+
 
 def calc_depth(parent: str | None) -> int | None:
     if parent:
@@ -7,7 +18,8 @@ def calc_depth(parent: str | None) -> int | None:
     else:
         return None
 
-def parse_index(path: str | None) -> int | None: 
+
+def parse_index(path: str | None) -> int | None:
     try:
         if path:
             return int(path.split("/")[-2])
@@ -15,6 +27,7 @@ def parse_index(path: str | None) -> int | None:
             return None
     except ValueError:
         return None
+
 
 def parse_entries(data: dict | list, parent: None | str = None) -> list[FormNode]:
     fields = []
@@ -88,25 +101,32 @@ class DefaultFormExtractor(MetaFormExtractor):
 
         results: list[FormData] = []
         for node in parsed_form_data:
-            node_data = FormData(
-                aar=year,
-                skjema=form,
+            node_data = FormData.from_form_data(
+                node=node,
+                year=year,
+                form=form,
                 ident=ident,
                 refnr=refnr,
-                **node.model_dump(),
             )
             results.append(node_data)
         return results
 
     def extract_form_reception(
-        self, form_dict_data: InputFormType, json_data: dict
+        self, form_dict_data: InputFormType, json_data: FormJsonData
     ) -> FormReception:
         form_data = form_dict_data["InternInfo"]
 
         assert isinstance(form_data, dict)
+        
+        logger.debug(json_data)
 
         return FormReception(
-            editert="ikke editert", kommentar="", aktiv=True, **form_data, **json_data
+            editert="ikke editert",
+            kommentar="",
+            aktiv=True,
+            refnr=json_data.altinn_reference,
+            dato_mottatt=json_data.date_deliveres,
+            **form_data,
         )
 
     def extract_unit_info(

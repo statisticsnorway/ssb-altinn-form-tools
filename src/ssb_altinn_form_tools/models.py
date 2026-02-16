@@ -2,7 +2,7 @@ import json
 from typing import Literal, Self
 import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class FormNode(BaseModel):
@@ -16,7 +16,7 @@ class FormNode(BaseModel):
     def __str__(self):
         return (
             f"{self.__class__.__name__}(\n"
-            + json.dumps(self.model_dump(), indent=2)
+            + self.model_dump_json(indent=2)
             + "\n)"
         )
 
@@ -36,7 +36,7 @@ class FormData(FormNode):
     def __str__(self):
         return (
             f"{self.__class__.__name__}(\n"
-            + json.dumps(self.model_dump(), indent=2)
+            + self.model_dump_json(indent=2)
             + "\n)"
         )
 
@@ -60,7 +60,7 @@ class ContactInfo(BaseModel):
     def __str__(self):
         return (
             f"{self.__class__.__name__}(\n"
-            + json.dumps(self.model_dump(), indent=2)
+            + self.model_dump_json(indent=2)
             + "\n)"
         )
 
@@ -73,7 +73,7 @@ class Unit(BaseModel):
     def __str__(self):
         return (
             f"{self.__class__.__name__}(\n"
-            + json.dumps(self.model_dump(), indent=2)
+            + self.model_dump_json(indent=2)
             + "\n)"
         )
 
@@ -87,7 +87,7 @@ class UnitInfo(BaseModel):
     def __str__(self):
         return (
             f"{self.__class__.__name__}(\n"
-            + json.dumps(self.model_dump(), indent=2)
+            + self.model_dump_json(indent=2)
             + "\n)"
         )
 
@@ -102,10 +102,12 @@ class FormReception(BaseModel):
     kommentar: str
     aktiv: bool
 
+    model_config = ConfigDict(validate_by_alias=True, validate_by_name=True)
+
     def __str__(self):
         return (
             f"{self.__class__.__name__}(\n"
-            + json.dumps(self.model_dump(), indent=2)
+            + self.model_dump_json(indent=2)
             + "\n)"
         )
 
@@ -117,6 +119,20 @@ class FormJsonData(BaseModel):
     def __str__(self):
         return (
             f"{self.__class__.__name__}(\n"
-            + json.dumps(self.model_dump(), indent=2)
+            + self.model_dump_json(indent=2)
+            + "\n)"
+        )
+
+class ExtractedForm(BaseModel):
+    reception: FormReception
+    contact_info: ContactInfo
+    unit: Unit
+    unit_info: list[UnitInfo]
+    form_data: list[FormData]
+
+    def __str__(self):
+        return (
+            f"{self.__class__.__name__}(\n"
+            + self.model_dump_json(indent=2)
             + "\n)"
         )
