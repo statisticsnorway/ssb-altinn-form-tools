@@ -30,8 +30,8 @@
     <Brukeropplevelse />
     <Kontakt>
         <kontaktPersonNavn>NIKLAS UTHUS</kontaktPersonNavn>
-        <kontaktPersonEpost>oystein.julseth.hoff@km.kongsberg.com</kontaktPersonEpost>
-        <kontaktPersonTelefon>95262856</kontaktPersonTelefon>
+        <kontaktPersonEpost>tull@ssb.no</kontaktPersonEpost>
+        <kontaktPersonTelefon>98764321</kontaktPersonTelefon>
         <kontaktInfoBekreftet>1</kontaktInfoBekreftet>
         <kontaktInfoKommentar>ryh test</kontaktInfoKommentar>
     </Kontakt>
@@ -73,138 +73,6 @@
         <fm_s04_avvik_aarsverk>K1</fm_s04_avvik_aarsverk>
     </Hjelpefelter>
     <KlassInfo />
-    <MetaData>
-        <AppMetaData>
-            <id>Host</id>
-            <verdi>ssb.apps.tt02.altinn.no</verdi>
-            <kilde>HttpContext</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>User-Agent</id>
-            <verdi>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0</verdi>
-            <kilde>HttpContext</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>AppId</id>
-            <verdi>ssb/ra0479-01</verdi>
-            <kilde>Instance</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>PresentationText-periodeFritekst</id>
-            <verdi>2024</verdi>
-            <kilde>Instance</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>AltinnNugetVersion</id>
-            <verdi>8.5.6.180</verdi>
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>AutoDeleteOnProcessEnd</id>
-            <verdi>False</verdi>
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>CopyInstanceSettings</id>
-            <verdi />
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>Logo</id>
-            <verdi />
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>OnEntry</id>
-            <verdi />
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>AutoCreateEnabled-ref-data-as-pdf</id>
-            <verdi />
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>AutoCreateEnabled-A3_RA-0479_M</id>
-            <verdi>False</verdi>
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>PartyTypesAllowed-Person</id>
-            <verdi>False</verdi>
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>PartyTypesAllowed-BankruptcyEstate</id>
-            <verdi>True</verdi>
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>PartyTypesAllowed-Organisation</id>
-            <verdi>True</verdi>
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>PartyTypesAllowed-SubUnit</id>
-            <verdi>True</verdi>
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>Title-nb</id>
-            <verdi>RA-0479 Forsknings og utviklingsarbeid</verdi>
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>ValidFrom</id>
-            <verdi />
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>ValidTo</id>
-            <verdi />
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>VersionId</id>
-            <verdi />
-            <kilde>AppMetadata</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>AppVersion</id>
-            <verdi>1.8.44</verdi>
-            <kilde>AppSettings</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>EnableEFormidling</id>
-            <verdi>False</verdi>
-            <kilde>AppSettings</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>ExpressionValidation</id>
-            <verdi>False</verdi>
-            <kilde>AppSettings</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>FooterFileName</id>
-            <verdi>footer.json</verdi>
-            <kilde>AppSettings</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>RegisterEventsWithEventsComponent</id>
-            <verdi>True</verdi>
-            <kilde>AppSettings</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>RemoveHiddenData</id>
-            <verdi>False</verdi>
-            <kilde>AppSettings</kilde>
-        </AppMetaData>
-        <AppMetaData>
-            <id>RequiredValidation</id>
-            <verdi>False</verdi>
-            <kilde>AppSettings</kilde>
-        </AppMetaData>
-    </MetaData>
     <SkjemaData>
         <Prefill>
             <fouPersonalePrefill>490</fouPersonalePrefill>
@@ -434,56 +302,56 @@
             <LeveranseFouEksterntTab_verdi>97</LeveranseFouEksterntTab_verdi>
         </LeveranseFouEksternt>
         <VirksomhetsTab>
-            <virkOrgNr>917433305</virkOrgNr>
-            <virkNavn>AVD LYSAKER TORG</virkNavn>
+            <virkOrgNr>913437385</virkOrgNr>
+            <virkNavn>AVD LYSAKER</virkNavn>
         </VirksomhetsTab>
         <VirksomhetsTab>
-            <virkOrgNr>919793880</virkOrgNr>
+            <virkOrgNr>919894840</virkOrgNr>
             <virkNavn>AVD SANDEFJORD</virkNavn>
         </VirksomhetsTab>
         <VirksomhetsTab>
-            <virkOrgNr>929939018</virkOrgNr>
+            <virkOrgNr>929639758</virkOrgNr>
             <virkNavn>AVD STAVANGER</virkNavn>
         </VirksomhetsTab>
         <VirksomhetsTab>
-            <virkOrgNr>932192691</virkOrgNr>
-            <virkNavn>AVD STRANDPROMENADEN</virkNavn>
+            <virkOrgNr>932246641</virkOrgNr>
+            <virkNavn>AVD STRAND</virkNavn>
         </VirksomhetsTab>
         <VirksomhetsTab>
-            <virkOrgNr>971710276</virkOrgNr>
-            <virkNavn>AVD BRATTV¿</virkNavn>
+            <virkOrgNr>971540371</virkOrgNr>
+            <virkNavn>AVD BRATT¿</virkNavn>
         </VirksomhetsTab>
         <VirksomhetsTab>
-            <virkOrgNr>971815841</virkOrgNr>
+            <virkOrgNr>971346861</virkOrgNr>
             <virkNavn>AVD ¿ESUND</virkNavn>
         </VirksomhetsTab>
         <VirksomhetsTab>
-            <virkOrgNr>972037907</virkOrgNr>
-            <virkNavn>AVD BEKKAJORDET HORTEN</virkNavn>
+            <virkOrgNr>972335639</virkOrgNr>
+            <virkNavn>AVD BEKKAJORDET</virkNavn>
         </VirksomhetsTab>
         <VirksomhetsTab>
-            <virkOrgNr>973172115</virkOrgNr>
-            <virkNavn>AVD ULSTEINVIK</virkNavn>
+            <virkOrgNr>973110165</virkOrgNr>
+            <virkNavn>AVD STEINVIK</virkNavn>
         </VirksomhetsTab>
         <VirksomhetsTab>
-            <virkOrgNr>973172751</virkOrgNr>
+            <virkOrgNr>973678354</virkOrgNr>
             <virkNavn>AVD LONGVA</virkNavn>
         </VirksomhetsTab>
         <VirksomhetsTab>
-            <virkOrgNr>973174339</virkOrgNr>
+            <virkOrgNr>973349312</virkOrgNr>
             <virkNavn>AVD SKONNERTVEGEN</virkNavn>
         </VirksomhetsTab>
         <VirksomhetsTab>
-            <virkOrgNr>974135647</virkOrgNr>
-            <virkNavn>AVD CARPUS KONGSBERG</virkNavn>
+            <virkOrgNr>978238492</virkOrgNr>
+            <virkNavn>AVD  KONGSBERG</virkNavn>
         </VirksomhetsTab>
         <VirksomhetsTab>
-            <virkOrgNr>977366011</virkOrgNr>
+            <virkOrgNr>927458195</virkOrgNr>
             <virkNavn>AVD HJ¿UNGAV¿</virkNavn>
         </VirksomhetsTab>
         <VirksomhetsTab>
-            <virkOrgNr>983793614</virkOrgNr>
-            <virkNavn>AVD GODVIK</virkNavn>
+            <virkOrgNr>992948268</virkOrgNr>
+            <virkNavn>AVD VIK</virkNavn>
         </VirksomhetsTab>
         <harikkeTematiskValgt>16</harikkeTematiskValgt>
         <virksomhetBelop_IF>1</virksomhetBelop_IF>
