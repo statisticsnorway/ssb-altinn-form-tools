@@ -1,1 +1,509 @@
-<?xml version="1.0" encoding="utf-8"?><A3_RA0536_M xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" dataFormatProvider="ALTINNSTUDIO" dataFormatId="A30536" dataFormatVersion="1"><InternInfo><raNummer>RA-0536</raNummer><skjemaVersjon>1.8.6</skjemaVersjon><undersoekelsesNr>14</undersoekelsesNr><undersoekelsesInfoUrl>https://www.ssb.no/innrapportering/digitalisering-og-ikt-i-offentlig-sekto</undersoekelsesInfoUrl><visOppgaveByrde>1</visOppgaveByrde><visBrukeropplevelse>1</visBrukeropplevelse><delregNr>59025</delregNr><periodeFritekst>2025</periodeFritekst><periodeFomDato>2025-01-01</periodeFomDato><periodeTomDato>2025-12-31</periodeTomDato><periodeType>AAR</periodeType><periodeNummer> </periodeNummer><periodeAAr>2025</periodeAAr><periodeDato> </periodeDato><enhetsIdent>ATF2134660</enhetsIdent><enhetsType>FRTK</enhetsType><enhetsOrgNr>910346601</enhetsOrgNr><enhetsNavn>KVITSØY OG RØST REVISJON </enhetsNavn><enhetsGateadresse>Tinghaugveien 18</enhetsGateadresse><enhetsPostnr>3140</enhetsPostnr><enhetsPoststed>NØTTERØY</enhetsPoststed><enhetsAvdeling> </enhetsAvdeling><reporteeOrgNr>910346601</reporteeOrgNr></InternInfo><Tidsbruk><samletInfo>0</samletInfo><utfyllingMin>10</utfyllingMin></Tidsbruk><Brukeropplevelse /><Kontakt><kontaktPersonNavn>HASSAN LEIVESTAD</kontaktPersonNavn><kontaktPersonEpost /><kontaktPersonTelefon>12345678</kontaktPersonTelefon><kontaktInfoBekreftet>1</kontaktInfoBekreftet></Kontakt><Hjelpefelter><hjelpefelt1>2023</hjelpefelt1><hjelpefelt2>2024</hjelpefelt2><hjelpefelt3>virksomheten</hjelpefelt3><hjelpefelt4 /><hjelpefelt5>verksemda</hjelpefelt5><hjelpefelt6 /><hjelpefelt7>false</hjelpefelt7></Hjelpefelter><KlassInfo><KlassApiKall><klassID>https://data.ssb.no/api/klass/v1/classifications/464/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID><klassDatamodellNode>paVegneAvAndre</klassDatamodellNode><klassDatamodellNode>deltarIIKTSamarbeid</klassDatamodellNode><klassDatamodellNode>harStartetDigiTiltak</klassDatamodellNode><klassDatamodellNode>skalStarteDigiTiltak</klassDatamodellNode><klassDatamodellNode>harRekruttert</klassDatamodellNode><klassDatamodellNode>vanskeligAaRekruttere</klassDatamodellNode></KlassApiKall><KlassApiKall><klassID>https://data.ssb.no/api/klass/v1/classifications/538/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID><klassDatamodellNode>virksomhetsType</klassDatamodellNode></KlassApiKall><KlassApiKall><klassID>https://data.ssb.no/api/klass/v1/classifications/535/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID><klassDatamodellNode>digiTiltakForventninger</klassDatamodellNode><klassDatamodellNode>digiTjenesterKompTiltak</klassDatamodellNode></KlassApiKall><KlassApiKall><klassID>https://data.ssb.no/api/klass/v1/classifications/536/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID><klassDatamodellNode>politiskeFoeringer</klassDatamodellNode><klassDatamodellNode>digiTiltakEffekt</klassDatamodellNode><klassDatamodellNode>gradPaHindretUtvikling</klassDatamodellNode><klassDatamodellNode>gradPaDataGjenbruk</klassDatamodellNode><klassDatamodellNode>gradPaaPrivatDataBruk</klassDatamodellNode></KlassApiKall><KlassApiKall><klassID>https://data.ssb.no/api/klass/v1/classifications/534/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID><klassDatamodellNode>harSikkerhetspolicy</klassDatamodellNode><klassDatamodellNode>harFagligInfosekAnsvarlig</klassDatamodellNode><klassDatamodellNode>handtererRisiko</klassDatamodellNode><klassDatamodellNode>harOvelser</klassDatamodellNode><klassDatamodellNode>harOpplaringForAnsatte</klassDatamodellNode><klassDatamodellNode>infosekTiltak</klassDatamodellNode></KlassApiKall><KlassApiKall><klassID>https://data.ssb.no/api/klass/v1/classifications/771/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID><klassDatamodellNode>iKTFunksjonerHandtering</klassDatamodellNode></KlassApiKall><KlassApiKall><klassID>https://data.ssb.no/api/klass/v1/classifications/772/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID><klassDatamodellNode>infosekFolgerAnbefalinger</klassDatamodellNode></KlassApiKall><KlassApiKall><klassID>https://data.ssb.no/api/klass/v1/classifications/537/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID><klassDatamodellNode>gjorRisikovurderinger</klassDatamodellNode><klassDatamodellNode>harOpplaringForLedere</klassDatamodellNode></KlassApiKall><KlassApiKall><klassID>https://data.ssb.no/api/klass/v1/classifications/756/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID><klassDatamodellNode>delerData</klassDatamodellNode></KlassApiKall><KlassApiKall><klassID>https://data.ssb.no/api/klass/v1/classifications/758/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID><klassDatamodellNode>erDeltDataRegistrertIDAN</klassDatamodellNode></KlassApiKall></KlassInfo><MetaData><AppMetaData><id>Host</id><verdi>ssb.apps.tt02.altinn.no</verdi><kilde>HttpContext</kilde></AppMetaData><AppMetaData><id>User-Agent</id><verdi>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36</verdi><kilde>HttpContext</kilde></AppMetaData><AppMetaData><id>AppId</id><verdi>ssb/ra0536-01</verdi><kilde>Instance</kilde></AppMetaData><AppMetaData><id>PresentationText-periodeFritekst</id><verdi>2025</verdi><kilde>Instance</kilde></AppMetaData><AppMetaData><id>AltinnNugetVersion</id><verdi>8.3.8.155</verdi><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>AutoDeleteOnProcessEnd</id><verdi>False</verdi><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>CopyInstanceSettings</id><verdi>False</verdi><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>Logo</id><verdi>org</verdi><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>OnEntry</id><verdi>select-instance</verdi><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>AutoCreateEnabled-1</id><verdi /><kilde>ref-data-as-pdf</kilde></AppMetaData><AppMetaData><id>AutoCreateEnabled-2</id><verdi>False</verdi><kilde>A3_RA-0536_M</kilde></AppMetaData><AppMetaData><id>PartyTypesAllowed-Person</id><verdi>False</verdi><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>PartyTypesAllowed-BankruptcyEstate</id><verdi>True</verdi><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>PartyTypesAllowed-Organisation</id><verdi>True</verdi><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>PartyTypesAllowed-SubUnit</id><verdi>True</verdi><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>Title-nb</id><verdi>Digitalisering og IKT i offentlig sektor (RA-0536)</verdi><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>Title-nn</id><verdi>Digitalisering og IKT i offentleg sektor (RA-0536)</verdi><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>ValidFrom</id><verdi /><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>ValidTo</id><verdi /><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>VersionId</id><verdi /><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>DisallowUserInstantiation</id><verdi>True</verdi><kilde>AppMetadata</kilde></AppMetaData><AppMetaData><id>AppVersion</id><verdi>1.8.7</verdi><kilde>AppSettings</kilde></AppMetaData><AppMetaData><id>EnableEFormidling</id><verdi>False</verdi><kilde>AppSettings</kilde></AppMetaData><AppMetaData><id>ExpressionValidation</id><verdi>False</verdi><kilde>AppSettings</kilde></AppMetaData><AppMetaData><id>FooterFileName</id><verdi>footer.json</verdi><kilde>AppSettings</kilde></AppMetaData><AppMetaData><id>RegisterEventsWithEventsComponent</id><verdi>True</verdi><kilde>AppSettings</kilde></AppMetaData><AppMetaData><id>RemoveHiddenData</id><verdi>True</verdi><kilde>AppSettings</kilde></AppMetaData><AppMetaData><id>RequiredValidation</id><verdi>False</verdi><kilde>AppSettings</kilde></AppMetaData></MetaData><SkjemaData><virksomhetsType>1</virksomhetsType><paVegneAvAndre>0</paVegneAvAndre><politiskeFoeringer><politiskeFoeringerId>LikertQuestion-PolitiskeFoeringer.1</politiskeFoeringerId><politiskeFoeringerSvar>6</politiskeFoeringerSvar><politiskeFoeringerHelp /></politiskeFoeringer><politiskeFoeringer><politiskeFoeringerId>LikertQuestion-PolitiskeFoeringer.2</politiskeFoeringerId><politiskeFoeringerSvar>6</politiskeFoeringerSvar><politiskeFoeringerHelp /></politiskeFoeringer><politiskeFoeringer><politiskeFoeringerId>LikertQuestion-PolitiskeFoeringer.3</politiskeFoeringerId><politiskeFoeringerSvar>6</politiskeFoeringerSvar><politiskeFoeringerHelp /></politiskeFoeringer><politiskeFoeringer><politiskeFoeringerId>LikertQuestion-PolitiskeFoeringer.6</politiskeFoeringerId><politiskeFoeringerSvar>6</politiskeFoeringerSvar><politiskeFoeringerHelp /></politiskeFoeringer><harStartetDigiTiltak>0</harStartetDigiTiltak><skalStarteDigiTiltak>0</skalStarteDigiTiltak><digiTiltakEffekt><digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.1</digiTiltakEffektId><digiTiltakEffektSvar>6</digiTiltakEffektSvar><digiTiltakEffektHelp /></digiTiltakEffekt><digiTiltakEffekt><digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.2</digiTiltakEffektId><digiTiltakEffektSvar>6</digiTiltakEffektSvar><digiTiltakEffektHelp /></digiTiltakEffekt><digiTiltakEffekt><digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.3</digiTiltakEffektId><digiTiltakEffektSvar>6</digiTiltakEffektSvar><digiTiltakEffektHelp /></digiTiltakEffekt><digiTiltakEffekt><digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.4</digiTiltakEffektId><digiTiltakEffektSvar>6</digiTiltakEffektSvar></digiTiltakEffekt><digiTiltakEffekt><digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.5</digiTiltakEffektId><digiTiltakEffektSvar>6</digiTiltakEffektSvar><digiTiltakEffektHelp /></digiTiltakEffekt><digiTiltakEffekt><digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.6</digiTiltakEffektId><digiTiltakEffektSvar>6</digiTiltakEffektSvar></digiTiltakEffekt><digiTiltakEffekt><digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.7</digiTiltakEffektId><digiTiltakEffektSvar>6</digiTiltakEffektSvar><digiTiltakEffektHelp /></digiTiltakEffekt><digiTiltakEffekt><digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.8</digiTiltakEffektId><digiTiltakEffektSvar>6</digiTiltakEffektSvar><digiTiltakEffektHelp /></digiTiltakEffekt><digiTiltakEffekt><digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.9</digiTiltakEffektId><digiTiltakEffektSvar>6</digiTiltakEffektSvar><digiTiltakEffektHelp /></digiTiltakEffekt><digiTiltakEffekt><digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.10</digiTiltakEffektId><digiTiltakEffektSvar>6</digiTiltakEffektSvar><digiTiltakEffektHelp /></digiTiltakEffekt><digiTjenesterKompTiltak><digiTjeneKompTiltakId>LikertQuestion-DigiTjenesterKompTiltak.1</digiTjeneKompTiltakId><digiTjeneKompTiltakSvar>3</digiTjeneKompTiltakSvar></digiTjenesterKompTiltak><digiTjenesterKompTiltak><digiTjeneKompTiltakId>LikertQuestion-DigiTjenesterKompTiltak.2</digiTjeneKompTiltakId><digiTjeneKompTiltakSvar>3</digiTjeneKompTiltakSvar></digiTjenesterKompTiltak><digiTjenesterKompTiltak><digiTjeneKompTiltakId>LikertQuestion-DigiTjenesterKompTiltak.3</digiTjeneKompTiltakId><digiTjeneKompTiltakSvar>3</digiTjeneKompTiltakSvar></digiTjenesterKompTiltak><digiTjenesterKompTiltak><digiTjeneKompTiltakId>LikertQuestion-DigiTjenesterKompTiltak.4</digiTjeneKompTiltakId><digiTjeneKompTiltakSvar>3</digiTjeneKompTiltakSvar></digiTjenesterKompTiltak><digiTjenesterKompTiltak><digiTjeneKompTiltakId>LikertQuestion-DigiTjenesterKompTiltak.5</digiTjeneKompTiltakId><digiTjeneKompTiltakSvar>3</digiTjeneKompTiltakSvar></digiTjenesterKompTiltak><digiTjenesterKompTiltak><digiTjeneKompTiltakId>LikertQuestion-DigiTjenesterKompTiltak.6</digiTjeneKompTiltakId><digiTjeneKompTiltakSvar>3</digiTjeneKompTiltakSvar></digiTjenesterKompTiltak><gradPaHindretUtvikling><gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.1</gradPaHindretUtvikId><gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar><gradPaHindretUtvikHelp /></gradPaHindretUtvikling><gradPaHindretUtvikling><gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.2</gradPaHindretUtvikId><gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar><gradPaHindretUtvikHelp /></gradPaHindretUtvikling><gradPaHindretUtvikling><gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.3</gradPaHindretUtvikId><gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar><gradPaHindretUtvikHelp /></gradPaHindretUtvikling><gradPaHindretUtvikling><gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.4</gradPaHindretUtvikId><gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar><gradPaHindretUtvikHelp /></gradPaHindretUtvikling><gradPaHindretUtvikling><gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.5</gradPaHindretUtvikId><gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar><gradPaHindretUtvikHelp /></gradPaHindretUtvikling><gradPaHindretUtvikling><gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.6</gradPaHindretUtvikId><gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar><gradPaHindretUtvikHelp /></gradPaHindretUtvikling><gradPaHindretUtvikling><gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.7</gradPaHindretUtvikId><gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar><gradPaHindretUtvikHelp /></gradPaHindretUtvikling><gradPaHindretUtvikling><gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.8</gradPaHindretUtvikId><gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar><gradPaHindretUtvikHelp /></gradPaHindretUtvikling><gradPaHindretUtvikling><gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.9</gradPaHindretUtvikId><gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar><gradPaHindretUtvikHelp /></gradPaHindretUtvikling><gradPaHindretUtvikling><gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.10</gradPaHindretUtvikId><gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar><gradPaHindretUtvikHelp /></gradPaHindretUtvikling><gradPaHindretUtvikling><gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.11</gradPaHindretUtvikId><gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar><gradPaHindretUtvikHelp /></gradPaHindretUtvikling><gradPaHindretUtvikling><gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.12</gradPaHindretUtvikId><gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar><gradPaHindretUtvikHelp /></gradPaHindretUtvikling><infosekFolgerAnbefalinger>2</infosekFolgerAnbefalinger><harSikkerhetspolicy>2</harSikkerhetspolicy><harFagligInfosekAnsvarlig>2</harFagligInfosekAnsvarlig><gjorRisikovurderinger>2</gjorRisikovurderinger><handtererRisiko>2</handtererRisiko><harOvelser>2</harOvelser><harOpplaringForLedere>2</harOpplaringForLedere><harOpplaringForAnsatte>2</harOpplaringForAnsatte><infosekTiltak><infosekTiltakId>LikertQuestion-InfosekTiltak.1</infosekTiltakId><infosekTiltakSvar>3</infosekTiltakSvar><infosekTiltakHelp>LikertQuestion-InfosekTiltak.1.HelpText</infosekTiltakHelp></infosekTiltak><infosekTiltak><infosekTiltakId>LikertQuestion-InfosekTiltak.2</infosekTiltakId><infosekTiltakSvar>3</infosekTiltakSvar><infosekTiltakHelp /></infosekTiltak><infosekTiltak><infosekTiltakId>LikertQuestion-InfosekTiltak.3</infosekTiltakId><infosekTiltakSvar>3</infosekTiltakSvar><infosekTiltakHelp /></infosekTiltak><infosekTiltak><infosekTiltakId>LikertQuestion-InfosekTiltak.4</infosekTiltakId><infosekTiltakSvar>3</infosekTiltakSvar><infosekTiltakHelp /></infosekTiltak><infosekTiltak><infosekTiltakId>LikertQuestion-InfosekTiltak.5</infosekTiltakId><infosekTiltakSvar>3</infosekTiltakSvar><infosekTiltakHelp /></infosekTiltak><infosekTiltak><infosekTiltakId>LikertQuestion-InfosekTiltak.6</infosekTiltakId><infosekTiltakSvar>3</infosekTiltakSvar><infosekTiltakHelp /></infosekTiltak><delerData>3</delerData><gradPaDataGjenbruk>6</gradPaDataGjenbruk><gradPaaPrivatDataBruk>6</gradPaaPrivatDataBruk><iKTFunksjonerHandtering><iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.1</iKTFunksjonHandteringId><iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar><iKTFunksjonHandteringHelp /></iKTFunksjonerHandtering><iKTFunksjonerHandtering><iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.2</iKTFunksjonHandteringId><iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar><iKTFunksjonHandteringHelp /></iKTFunksjonerHandtering><iKTFunksjonerHandtering><iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.3</iKTFunksjonHandteringId><iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar><iKTFunksjonHandteringHelp /></iKTFunksjonerHandtering><iKTFunksjonerHandtering><iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.4</iKTFunksjonHandteringId><iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar><iKTFunksjonHandteringHelp /></iKTFunksjonerHandtering><iKTFunksjonerHandtering><iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.5</iKTFunksjonHandteringId><iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar><iKTFunksjonHandteringHelp /></iKTFunksjonerHandtering><iKTFunksjonerHandtering><iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.6</iKTFunksjonHandteringId><iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar><iKTFunksjonHandteringHelp /></iKTFunksjonerHandtering><iKTFunksjonerHandtering><iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.7</iKTFunksjonHandteringId><iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar><iKTFunksjonHandteringHelp /></iKTFunksjonerHandtering><iKTFunksjonerHandtering><iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.8</iKTFunksjonHandteringId><iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar><iKTFunksjonHandteringHelp /></iKTFunksjonerHandtering><iKTFunksjonerHandtering><iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.9</iKTFunksjonHandteringId><iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar><iKTFunksjonHandteringHelp /></iKTFunksjonerHandtering><iKTFunksjonerHandtering><iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.10</iKTFunksjonHandteringId><iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar><iKTFunksjonHandteringHelp /></iKTFunksjonerHandtering><iKTFunksjonerHandtering><iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.11</iKTFunksjonHandteringId><iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar><iKTFunksjonHandteringHelp /></iKTFunksjonerHandtering><iKTFunksjonerHandtering><iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.12</iKTFunksjonHandteringId><iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar><iKTFunksjonHandteringHelp /></iKTFunksjonerHandtering><harRekruttert>0</harRekruttert></SkjemaData></A3_RA0536_M>
+<?xml version="1.0" encoding="utf-8"?>
+<A3_RA0536_M xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" dataFormatProvider="ALTINNSTUDIO" dataFormatId="A30536" dataFormatVersion="1">
+    <InternInfo>
+        <raNummer>RA-0536</raNummer>
+        <skjemaVersjon>1.8.6</skjemaVersjon>
+        <undersoekelsesNr>14</undersoekelsesNr>
+        <undersoekelsesInfoUrl>https://www.ssb.no/innrapportering/digitalisering-og-ikt-i-offentlig-sekto</undersoekelsesInfoUrl>
+        <visOppgaveByrde>1</visOppgaveByrde>
+        <visBrukeropplevelse>1</visBrukeropplevelse>
+        <delregNr>59025</delregNr>
+        <periodeFritekst>2025</periodeFritekst>
+        <periodeFomDato>2025-01-01</periodeFomDato>
+        <periodeTomDato>2025-12-31</periodeTomDato>
+        <periodeType>AAR</periodeType>
+        <periodeNummer></periodeNummer>
+        <periodeAAr>2025</periodeAAr>
+        <periodeDato></periodeDato>
+        <enhetsIdent>ATF2134660</enhetsIdent>
+        <enhetsType>FRTK</enhetsType>
+        <enhetsOrgNr>910346601</enhetsOrgNr>
+        <enhetsNavn>KVITSØY OG RØST REVISJON </enhetsNavn>
+        <enhetsGateadresse>Tinghaugveien 18</enhetsGateadresse>
+        <enhetsPostnr>3140</enhetsPostnr>
+        <enhetsPoststed>NØTTERØY</enhetsPoststed>
+        <enhetsAvdeling></enhetsAvdeling>
+        <reporteeOrgNr>910346601</reporteeOrgNr>
+    </InternInfo>
+    <Tidsbruk>
+        <samletInfo>0</samletInfo>
+        <utfyllingMin>10</utfyllingMin>
+    </Tidsbruk>
+    <Brukeropplevelse />
+    <Kontakt>
+        <kontaktPersonNavn>HASSAN LEIVESTAD</kontaktPersonNavn>
+        <kontaktPersonEpost />
+        <kontaktPersonTelefon>12345678</kontaktPersonTelefon>
+        <kontaktInfoBekreftet>1</kontaktInfoBekreftet>
+    </Kontakt>
+    <Hjelpefelter>
+        <hjelpefelt1>2023</hjelpefelt1>
+        <hjelpefelt2>2024</hjelpefelt2>
+        <hjelpefelt3>virksomheten</hjelpefelt3>
+        <hjelpefelt4 />
+        <hjelpefelt5>verksemda</hjelpefelt5>
+        <hjelpefelt6 />
+        <hjelpefelt7>false</hjelpefelt7>
+    </Hjelpefelter>
+    <KlassInfo>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/464/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID>
+            <klassDatamodellNode>paVegneAvAndre</klassDatamodellNode>
+            <klassDatamodellNode>deltarIIKTSamarbeid</klassDatamodellNode>
+            <klassDatamodellNode>harStartetDigiTiltak</klassDatamodellNode>
+            <klassDatamodellNode>skalStarteDigiTiltak</klassDatamodellNode>
+            <klassDatamodellNode>harRekruttert</klassDatamodellNode>
+            <klassDatamodellNode>vanskeligAaRekruttere</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/538/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID>
+            <klassDatamodellNode>virksomhetsType</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/535/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID>
+            <klassDatamodellNode>digiTiltakForventninger</klassDatamodellNode>
+            <klassDatamodellNode>digiTjenesterKompTiltak</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/536/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID>
+            <klassDatamodellNode>politiskeFoeringer</klassDatamodellNode>
+            <klassDatamodellNode>digiTiltakEffekt</klassDatamodellNode>
+            <klassDatamodellNode>gradPaHindretUtvikling</klassDatamodellNode>
+            <klassDatamodellNode>gradPaDataGjenbruk</klassDatamodellNode>
+            <klassDatamodellNode>gradPaaPrivatDataBruk</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/534/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID>
+            <klassDatamodellNode>harSikkerhetspolicy</klassDatamodellNode>
+            <klassDatamodellNode>harFagligInfosekAnsvarlig</klassDatamodellNode>
+            <klassDatamodellNode>handtererRisiko</klassDatamodellNode>
+            <klassDatamodellNode>harOvelser</klassDatamodellNode>
+            <klassDatamodellNode>harOpplaringForAnsatte</klassDatamodellNode>
+            <klassDatamodellNode>infosekTiltak</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/771/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID>
+            <klassDatamodellNode>iKTFunksjonerHandtering</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/772/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID>
+            <klassDatamodellNode>infosekFolgerAnbefalinger</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/537/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID>
+            <klassDatamodellNode>gjorRisikovurderinger</klassDatamodellNode>
+            <klassDatamodellNode>harOpplaringForLedere</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/756/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID>
+            <klassDatamodellNode>delerData</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/758/codesAt.json?&amp;language=nb&amp;date=2025-03-06</klassID>
+            <klassDatamodellNode>erDeltDataRegistrertIDAN</klassDatamodellNode>
+        </KlassApiKall>
+    </KlassInfo>
+    <MetaData>
+        <AppMetaData>
+            <id>Host</id>
+            <verdi>ssb.apps.tt02.altinn.no</verdi>
+            <kilde>HttpContext</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>User-Agent</id>
+            <verdi>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36</verdi>
+            <kilde>HttpContext</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AppId</id>
+            <verdi>ssb/ra0536-01</verdi>
+            <kilde>Instance</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PresentationText-periodeFritekst</id>
+            <verdi>2025</verdi>
+            <kilde>Instance</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AltinnNugetVersion</id>
+            <verdi>8.3.8.155</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AutoDeleteOnProcessEnd</id>
+            <verdi>False</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>CopyInstanceSettings</id>
+            <verdi>False</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>Logo</id>
+            <verdi>org</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>OnEntry</id>
+            <verdi>select-instance</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AutoCreateEnabled-1</id>
+            <verdi />
+            <kilde>ref-data-as-pdf</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AutoCreateEnabled-2</id>
+            <verdi>False</verdi>
+            <kilde>A3_RA-0536_M</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-Person</id>
+            <verdi>False</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-BankruptcyEstate</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-Organisation</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-SubUnit</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>Title-nb</id>
+            <verdi>Digitalisering og IKT i offentlig sektor (RA-0536)</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>Title-nn</id>
+            <verdi>Digitalisering og IKT i offentleg sektor (RA-0536)</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>ValidFrom</id>
+            <verdi />
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>ValidTo</id>
+            <verdi />
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>VersionId</id>
+            <verdi />
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>DisallowUserInstantiation</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AppVersion</id>
+            <verdi>1.8.7</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>EnableEFormidling</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>ExpressionValidation</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>FooterFileName</id>
+            <verdi>footer.json</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>RegisterEventsWithEventsComponent</id>
+            <verdi>True</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>RemoveHiddenData</id>
+            <verdi>True</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>RequiredValidation</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+    </MetaData>
+    <SkjemaData>
+        <virksomhetsType>1</virksomhetsType>
+        <paVegneAvAndre>0</paVegneAvAndre>
+        <politiskeFoeringer>
+            <politiskeFoeringerId>LikertQuestion-PolitiskeFoeringer.1</politiskeFoeringerId>
+            <politiskeFoeringerSvar>6</politiskeFoeringerSvar>
+            <politiskeFoeringerHelp />
+        </politiskeFoeringer>
+        <politiskeFoeringer>
+            <politiskeFoeringerId>LikertQuestion-PolitiskeFoeringer.2</politiskeFoeringerId>
+            <politiskeFoeringerSvar>6</politiskeFoeringerSvar>
+            <politiskeFoeringerHelp />
+        </politiskeFoeringer>
+        <politiskeFoeringer>
+            <politiskeFoeringerId>LikertQuestion-PolitiskeFoeringer.3</politiskeFoeringerId>
+            <politiskeFoeringerSvar>6</politiskeFoeringerSvar>
+            <politiskeFoeringerHelp />
+        </politiskeFoeringer>
+        <politiskeFoeringer>
+            <politiskeFoeringerId>LikertQuestion-PolitiskeFoeringer.6</politiskeFoeringerId>
+            <politiskeFoeringerSvar>6</politiskeFoeringerSvar>
+            <politiskeFoeringerHelp />
+        </politiskeFoeringer>
+        <harStartetDigiTiltak>0</harStartetDigiTiltak>
+        <skalStarteDigiTiltak>0</skalStarteDigiTiltak>
+        <digiTiltakEffekt>
+            <digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.1</digiTiltakEffektId>
+            <digiTiltakEffektSvar>6</digiTiltakEffektSvar>
+            <digiTiltakEffektHelp />
+        </digiTiltakEffekt>
+        <digiTiltakEffekt>
+            <digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.2</digiTiltakEffektId>
+            <digiTiltakEffektSvar>6</digiTiltakEffektSvar>
+            <digiTiltakEffektHelp />
+        </digiTiltakEffekt>
+        <digiTiltakEffekt>
+            <digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.3</digiTiltakEffektId>
+            <digiTiltakEffektSvar>6</digiTiltakEffektSvar>
+            <digiTiltakEffektHelp />
+        </digiTiltakEffekt>
+        <digiTiltakEffekt>
+            <digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.4</digiTiltakEffektId>
+            <digiTiltakEffektSvar>6</digiTiltakEffektSvar>
+        </digiTiltakEffekt>
+        <digiTiltakEffekt>
+            <digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.5</digiTiltakEffektId>
+            <digiTiltakEffektSvar>6</digiTiltakEffektSvar>
+            <digiTiltakEffektHelp />
+        </digiTiltakEffekt>
+        <digiTiltakEffekt>
+            <digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.6</digiTiltakEffektId>
+            <digiTiltakEffektSvar>6</digiTiltakEffektSvar>
+        </digiTiltakEffekt>
+        <digiTiltakEffekt>
+            <digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.7</digiTiltakEffektId>
+            <digiTiltakEffektSvar>6</digiTiltakEffektSvar>
+            <digiTiltakEffektHelp />
+        </digiTiltakEffekt>
+        <digiTiltakEffekt>
+            <digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.8</digiTiltakEffektId>
+            <digiTiltakEffektSvar>6</digiTiltakEffektSvar>
+            <digiTiltakEffektHelp />
+        </digiTiltakEffekt>
+        <digiTiltakEffekt>
+            <digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.9</digiTiltakEffektId>
+            <digiTiltakEffektSvar>6</digiTiltakEffektSvar>
+            <digiTiltakEffektHelp />
+        </digiTiltakEffekt>
+        <digiTiltakEffekt>
+            <digiTiltakEffektId>LikertQuestion-DigiTiltakEffekt.10</digiTiltakEffektId>
+            <digiTiltakEffektSvar>6</digiTiltakEffektSvar>
+            <digiTiltakEffektHelp />
+        </digiTiltakEffekt>
+        <digiTjenesterKompTiltak>
+            <digiTjeneKompTiltakId>LikertQuestion-DigiTjenesterKompTiltak.1</digiTjeneKompTiltakId>
+            <digiTjeneKompTiltakSvar>3</digiTjeneKompTiltakSvar>
+        </digiTjenesterKompTiltak>
+        <digiTjenesterKompTiltak>
+            <digiTjeneKompTiltakId>LikertQuestion-DigiTjenesterKompTiltak.2</digiTjeneKompTiltakId>
+            <digiTjeneKompTiltakSvar>3</digiTjeneKompTiltakSvar>
+        </digiTjenesterKompTiltak>
+        <digiTjenesterKompTiltak>
+            <digiTjeneKompTiltakId>LikertQuestion-DigiTjenesterKompTiltak.3</digiTjeneKompTiltakId>
+            <digiTjeneKompTiltakSvar>3</digiTjeneKompTiltakSvar>
+        </digiTjenesterKompTiltak>
+        <digiTjenesterKompTiltak>
+            <digiTjeneKompTiltakId>LikertQuestion-DigiTjenesterKompTiltak.4</digiTjeneKompTiltakId>
+            <digiTjeneKompTiltakSvar>3</digiTjeneKompTiltakSvar>
+        </digiTjenesterKompTiltak>
+        <digiTjenesterKompTiltak>
+            <digiTjeneKompTiltakId>LikertQuestion-DigiTjenesterKompTiltak.5</digiTjeneKompTiltakId>
+            <digiTjeneKompTiltakSvar>3</digiTjeneKompTiltakSvar>
+        </digiTjenesterKompTiltak>
+        <digiTjenesterKompTiltak>
+            <digiTjeneKompTiltakId>LikertQuestion-DigiTjenesterKompTiltak.6</digiTjeneKompTiltakId>
+            <digiTjeneKompTiltakSvar>3</digiTjeneKompTiltakSvar>
+        </digiTjenesterKompTiltak>
+        <gradPaHindretUtvikling>
+            <gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.1</gradPaHindretUtvikId>
+            <gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar>
+            <gradPaHindretUtvikHelp />
+        </gradPaHindretUtvikling>
+        <gradPaHindretUtvikling>
+            <gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.2</gradPaHindretUtvikId>
+            <gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar>
+            <gradPaHindretUtvikHelp />
+        </gradPaHindretUtvikling>
+        <gradPaHindretUtvikling>
+            <gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.3</gradPaHindretUtvikId>
+            <gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar>
+            <gradPaHindretUtvikHelp />
+        </gradPaHindretUtvikling>
+        <gradPaHindretUtvikling>
+            <gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.4</gradPaHindretUtvikId>
+            <gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar>
+            <gradPaHindretUtvikHelp />
+        </gradPaHindretUtvikling>
+        <gradPaHindretUtvikling>
+            <gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.5</gradPaHindretUtvikId>
+            <gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar>
+            <gradPaHindretUtvikHelp />
+        </gradPaHindretUtvikling>
+        <gradPaHindretUtvikling>
+            <gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.6</gradPaHindretUtvikId>
+            <gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar>
+            <gradPaHindretUtvikHelp />
+        </gradPaHindretUtvikling>
+        <gradPaHindretUtvikling>
+            <gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.7</gradPaHindretUtvikId>
+            <gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar>
+            <gradPaHindretUtvikHelp />
+        </gradPaHindretUtvikling>
+        <gradPaHindretUtvikling>
+            <gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.8</gradPaHindretUtvikId>
+            <gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar>
+            <gradPaHindretUtvikHelp />
+        </gradPaHindretUtvikling>
+        <gradPaHindretUtvikling>
+            <gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.9</gradPaHindretUtvikId>
+            <gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar>
+            <gradPaHindretUtvikHelp />
+        </gradPaHindretUtvikling>
+        <gradPaHindretUtvikling>
+            <gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.10</gradPaHindretUtvikId>
+            <gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar>
+            <gradPaHindretUtvikHelp />
+        </gradPaHindretUtvikling>
+        <gradPaHindretUtvikling>
+            <gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.11</gradPaHindretUtvikId>
+            <gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar>
+            <gradPaHindretUtvikHelp />
+        </gradPaHindretUtvikling>
+        <gradPaHindretUtvikling>
+            <gradPaHindretUtvikId>LikertQuestion-GradPaHindretUtvikling.12</gradPaHindretUtvikId>
+            <gradPaHindretUtvikSvar>6</gradPaHindretUtvikSvar>
+            <gradPaHindretUtvikHelp />
+        </gradPaHindretUtvikling>
+        <infosekFolgerAnbefalinger>2</infosekFolgerAnbefalinger>
+        <harSikkerhetspolicy>2</harSikkerhetspolicy>
+        <harFagligInfosekAnsvarlig>2</harFagligInfosekAnsvarlig>
+        <gjorRisikovurderinger>2</gjorRisikovurderinger>
+        <handtererRisiko>2</handtererRisiko>
+        <harOvelser>2</harOvelser>
+        <harOpplaringForLedere>2</harOpplaringForLedere>
+        <harOpplaringForAnsatte>2</harOpplaringForAnsatte>
+        <infosekTiltak>
+            <infosekTiltakId>LikertQuestion-InfosekTiltak.1</infosekTiltakId>
+            <infosekTiltakSvar>3</infosekTiltakSvar>
+            <infosekTiltakHelp>LikertQuestion-InfosekTiltak.1.HelpText</infosekTiltakHelp>
+        </infosekTiltak>
+        <infosekTiltak>
+            <infosekTiltakId>LikertQuestion-InfosekTiltak.2</infosekTiltakId>
+            <infosekTiltakSvar>3</infosekTiltakSvar>
+            <infosekTiltakHelp />
+        </infosekTiltak>
+        <infosekTiltak>
+            <infosekTiltakId>LikertQuestion-InfosekTiltak.3</infosekTiltakId>
+            <infosekTiltakSvar>3</infosekTiltakSvar>
+            <infosekTiltakHelp />
+        </infosekTiltak>
+        <infosekTiltak>
+            <infosekTiltakId>LikertQuestion-InfosekTiltak.4</infosekTiltakId>
+            <infosekTiltakSvar>3</infosekTiltakSvar>
+            <infosekTiltakHelp />
+        </infosekTiltak>
+        <infosekTiltak>
+            <infosekTiltakId>LikertQuestion-InfosekTiltak.5</infosekTiltakId>
+            <infosekTiltakSvar>3</infosekTiltakSvar>
+            <infosekTiltakHelp />
+        </infosekTiltak>
+        <infosekTiltak>
+            <infosekTiltakId>LikertQuestion-InfosekTiltak.6</infosekTiltakId>
+            <infosekTiltakSvar>3</infosekTiltakSvar>
+            <infosekTiltakHelp />
+        </infosekTiltak>
+        <delerData>3</delerData>
+        <gradPaDataGjenbruk>6</gradPaDataGjenbruk>
+        <gradPaaPrivatDataBruk>6</gradPaaPrivatDataBruk>
+        <iKTFunksjonerHandtering>
+            <iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.1</iKTFunksjonHandteringId>
+            <iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar>
+            <iKTFunksjonHandteringHelp />
+        </iKTFunksjonerHandtering>
+        <iKTFunksjonerHandtering>
+            <iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.2</iKTFunksjonHandteringId>
+            <iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar>
+            <iKTFunksjonHandteringHelp />
+        </iKTFunksjonerHandtering>
+        <iKTFunksjonerHandtering>
+            <iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.3</iKTFunksjonHandteringId>
+            <iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar>
+            <iKTFunksjonHandteringHelp />
+        </iKTFunksjonerHandtering>
+        <iKTFunksjonerHandtering>
+            <iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.4</iKTFunksjonHandteringId>
+            <iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar>
+            <iKTFunksjonHandteringHelp />
+        </iKTFunksjonerHandtering>
+        <iKTFunksjonerHandtering>
+            <iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.5</iKTFunksjonHandteringId>
+            <iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar>
+            <iKTFunksjonHandteringHelp />
+        </iKTFunksjonerHandtering>
+        <iKTFunksjonerHandtering>
+            <iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.6</iKTFunksjonHandteringId>
+            <iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar>
+            <iKTFunksjonHandteringHelp />
+        </iKTFunksjonerHandtering>
+        <iKTFunksjonerHandtering>
+            <iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.7</iKTFunksjonHandteringId>
+            <iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar>
+            <iKTFunksjonHandteringHelp />
+        </iKTFunksjonerHandtering>
+        <iKTFunksjonerHandtering>
+            <iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.8</iKTFunksjonHandteringId>
+            <iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar>
+            <iKTFunksjonHandteringHelp />
+        </iKTFunksjonerHandtering>
+        <iKTFunksjonerHandtering>
+            <iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.9</iKTFunksjonHandteringId>
+            <iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar>
+            <iKTFunksjonHandteringHelp />
+        </iKTFunksjonerHandtering>
+        <iKTFunksjonerHandtering>
+            <iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.10</iKTFunksjonHandteringId>
+            <iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar>
+            <iKTFunksjonHandteringHelp />
+        </iKTFunksjonerHandtering>
+        <iKTFunksjonerHandtering>
+            <iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.11</iKTFunksjonHandteringId>
+            <iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar>
+            <iKTFunksjonHandteringHelp />
+        </iKTFunksjonerHandtering>
+        <iKTFunksjonerHandtering>
+            <iKTFunksjonHandteringId>LikertQuestion-IKTFunksjonerHandtering.12</iKTFunksjonHandteringId>
+            <iKTFunksjonHandteringSvar>6</iKTFunksjonHandteringSvar>
+            <iKTFunksjonHandteringHelp />
+        </iKTFunksjonerHandtering>
+        <harRekruttert>0</harRekruttert>
+    </SkjemaData>
+</A3_RA0536_M>
