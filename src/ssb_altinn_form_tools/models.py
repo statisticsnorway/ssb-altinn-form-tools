@@ -1,4 +1,4 @@
-from typing import Literal, Self
+from typing import Literal
 import datetime
 
 from pydantic import BaseModel, ConfigDict, Field

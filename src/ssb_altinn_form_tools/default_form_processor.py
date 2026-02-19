@@ -1,6 +1,5 @@
 import glob
 import logging
-
 from pathlib import Path
 
 import xmltodict
@@ -40,7 +39,9 @@ class DefaultFormProcessor(MetaFormProcessor):
                 if alias:
                     extracted_form.form_data[idx].alias = alias
 
-    def _process_form(self, xml_path: Path, json_data: FormJsonData):
+    def _process_form(
+        self, xml_path: Path, json_data: FormJsonData
+    ) -> ExtractedForm | None:
         is_new = self._connector.validate_form_is_new(json_data.altinn_reference)
 
         if is_new:
@@ -73,7 +74,7 @@ class DefaultFormProcessor(MetaFormProcessor):
                 f"Skipped inserting form with refernce {json_data.altinn_reference} since it already exists"
             )
 
-    def _process_forms(self, forms: list[str]):
+    def _process_forms(self, forms: list[str]) -> None:
         for form in forms:
             file_path = Path(form)
 
@@ -82,7 +83,7 @@ class DefaultFormProcessor(MetaFormProcessor):
             json_data = FormJsonData.model_validate_json(json_path.read_text())
             self._process_form(file_path, json_data)
 
-    def process_new_forms(self):
+    def process_new_forms(self) -> None:
         logger.debug(f"Begin processing {self._form_data_key} forms")
         forms = self._find_forms()
         if not forms:

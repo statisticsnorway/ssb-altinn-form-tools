@@ -4,8 +4,9 @@ from sqlalchemy import TIMESTAMP, BOOLEAN
 from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base, relationship
 
-
+s   
 Base = declarative_base()
+
 
 class kontaktinfo(Base):
     __tablename__ = "kontaktinfo"
@@ -20,7 +21,6 @@ class kontaktinfo(Base):
     bekreftet_kontaktinfo = Column(String)
     kommentar_kontaktinfo = Column(String)
     kommentar_krevende = Column(String)
-
 
 
 class enheter(Base):
@@ -42,7 +42,6 @@ class skjemamottak(Base):
     dato_mottatt = Column(TIMESTAMP)
     editert = Column(String)
     aktiv = Column(BOOLEAN)
-
 
 
 class enhetsinfo(Base):
@@ -88,8 +87,6 @@ class skjemadata(Base):
     feltsti = Column(String)
     feltnavn = Column(String)
     verdi = Column(String)
-    dybde =  Column(Integer)
-    indeks =  Column(Integer)
-
-
-
+    alias = Column(String)
+    dybde = Column(Integer)
+    indeks = Column(Integer)

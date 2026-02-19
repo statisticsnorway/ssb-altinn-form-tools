@@ -63,6 +63,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
                 verdi=node.verdi,
                 dybde=node.dybde,
                 indeks=node.indeks,
+                alis=node.alias,
             )
             models.append(node_data)
         self._get_session().add_all(models)
