@@ -85,5 +85,7 @@ class DefaultFormProcessor(MetaFormProcessor):
     def process_new_forms(self):
         logger.debug(f"Begin processing {self._form_data_key} forms")
         forms = self._find_forms()
+        if not forms:
+            logger.warning("No forms found")
         self._connector.create_tables_if_not_exists()
         self._process_forms(forms)
