@@ -7,7 +7,7 @@ import xmltodict
 from .meta_form_processor import MetaFormProcessor
 from .meta_form_extractor import MetaFormExtractor
 from .meta_storage_connector import MetaStorageConnector
-from .models import ExtractedForm, FormJsonData
+from .models import ExtractedForm, FormJsonData, FormData
 
 logger = logging.getLogger(__name__)
 
@@ -21,12 +21,14 @@ class DefaultFormProcessor(MetaFormProcessor):
         extractor: MetaFormExtractor,
         connector: MetaStorageConnector,
         alias_mapping: dict[str, str] | None = None,
+        checkbox_vars: list[str] | None = None
     ) -> None:
         self._extractor = extractor
         self._connector = connector
         self._form_base_path = form_base_path
         self._form_data_key = f"A3_{form_name}_M"
         self._alias_mapping = alias_mapping
+        self._checkbox_vars = checkbox_vars
 
     def _find_forms(self) -> list[str]:
         return glob.glob(f"{self._form_base_path}/**/**/**/**/*.xml")
@@ -38,6 +40,21 @@ class DefaultFormProcessor(MetaFormProcessor):
                 alias = mapping.get(key)
                 if alias:
                     extracted_form.form_data[idx].alias = alias
+
+    def _map_checkboxed(self, mapping: list[str], extracted_form: ExtractedForm):
+        results = []
+        for item in extracted_form.form_data:
+            if (item.feltnavn in mapping) and (item.verdi is not None):
+                values = item.verdi.split(",")
+                for idx, i in enumerate(values):
+                    data = item.model_dump()
+                    data["feltnavn"] = item.feltnavn + f"_{idx}"
+                    data["verdi"] = str(i)
+                    results.append(FormData(**data))
+            else:
+                results.append(item)
+        extracted_form.form_data = results
+        return extracted_form
 
     def _process_form(
         self, xml_path: Path, json_data: FormJsonData
@@ -52,6 +69,9 @@ class DefaultFormProcessor(MetaFormProcessor):
             if self._alias_mapping:
                 self._map_alias(self._alias_mapping, extracted_form)
 
+            if self._checkbox_vars:
+                extracted_form = self._map_checkboxed(self._checkbox_vars, extracted_form)
+                
             self._connector.begin_transaction()
             try:
                 self._connector.insert_contact_info(extracted_form.contact_info)
