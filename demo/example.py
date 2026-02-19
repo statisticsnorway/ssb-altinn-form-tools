@@ -26,3 +26,14 @@ processor = DefaultFormProcessor(
     alias_mapping={"omsVirksomhetPerioden": "omsetning"},
 )
 processor.process_new_forms()
+
+from sqlalchemy import text
+
+with engine.connect() as conn:
+    tables = conn.execute(text("SELECT name FROM sqlite_master WHERE type='table';")).fetchall()
+    print("Tables:", tables)
+
+with engine.connect() as conn:
+    rows = conn.execute(text("SELECT * FROM enheter LIMIT 10;")).mappings().all()
+    for row in rows:
+        print(dict(row))
