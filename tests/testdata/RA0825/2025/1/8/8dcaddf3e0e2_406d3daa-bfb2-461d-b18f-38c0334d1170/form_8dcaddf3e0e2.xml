@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<A3_RA0825_M xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" dataFormatProvider="ALTINNSTUDIO" dataFormatId="A30825" dataFormatVersion="1">
+    <InternInfo>
+        <raNummer>RA-0825</raNummer>
+        <skjemaVersjon>2.8.0</skjemaVersjon>
+        <undersoekelsesNr>545</undersoekelsesNr>
+        <undersoekelsesInfoUrl>http://www.ssb.no/sti</undersoekelsesInfoUrl>
+        <visOppgaveByrde>1</visOppgaveByrde>
+        <visBrukeropplevelse>1</visBrukeropplevelse>
+        <delregNr>769523</delregNr>
+        <periodeFritekst>2024</periodeFritekst>
+        <periodeFomDato>2024-01-01</periodeFomDato>
+        <periodeTomDato>2024-12-31</periodeTomDato>
+        <periodeType>AAR</periodeType>
+        <periodeNummer></periodeNummer>
+        <periodeAAr>2024</periodeAAr>
+        <periodeDato></periodeDato>
+        <enhetsIdent>A3TF0001</enhetsIdent>
+        <enhetsType>FRTK</enhetsType>
+        <enhetsOrgNr>910472879</enhetsOrgNr>
+        <enhetsNavn>TURØY OG MERÅKER REGNSKAP </enhetsNavn>
+        <enhetsGateadresse>Testvegen 1</enhetsGateadresse>
+        <enhetsPostnr>0001</enhetsPostnr>
+        <enhetsPoststed>ENSJØ</enhetsPoststed>
+        <enhetsAvdeling></enhetsAvdeling>
+        <reporteeOrgNr>910472879</reporteeOrgNr>
+    </InternInfo>
+    <Tidsbruk>
+        <samletInfo>0</samletInfo>
+    </Tidsbruk>
+    <Brukeropplevelse />
+    <Kontakt>
+        <kontaktPersonNavn>ANTONIO KVÆRNER</kontaktPersonNavn>
+        <kontaktPersonEpost>kont1@test.ssb</kontaktPersonEpost>
+        <kontaktPersonTelefon>22090100738</kontaktPersonTelefon>
+        <kontaktInfoBekreftet>1</kontaktInfoBekreftet>
+    </Kontakt>
+    <Hjelpefelter>
+        <sumOmsFordeltVirk>0</sumOmsFordeltVirk>
+        <sumDriftFordeltVirk>0</sumDriftFordeltVirk>
+        <antallVirksomheter>1</antallVirksomheter>
+        <hjelpefelt7>  50 000 000</hjelpefelt7>
+        <hjelpefelt8>  30 000 000</hjelpefelt8>
+        <f501_hjelpefelt1>0</f501_hjelpefelt1>
+        <f501_hjelpefelt2>  50 000 000</f501_hjelpefelt2>
+        <f501_hjelpefelt3>  40 000 000</f501_hjelpefelt3>
+        <f501_hjelpefelt4>-  5 000 000</f501_hjelpefelt4>
+        <f501_hjelpefelt5>    3</f501_hjelpefelt5>
+        <f501_hjelpefelt6>  30 000 000</f501_hjelpefelt6>
+        <f501_hjelpefelt7>-1000</f501_hjelpefelt7>
+    </Hjelpefelter>
+    <KlassInfo>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/76/variantAt.json?&amp;language=nn&amp;date=2025-01-08&amp;variantName=Skipstyper1</klassID>
+            <klassDatamodellNode>f501_skipstypeKode</klassDatamodellNode>
+        </KlassApiKall>
+    </KlassInfo>
+    <MetaData>
+        <AppMetaData>
+            <id>Host</id>
+            <verdi>ssb.apps.tt02.altinn.no</verdi>
+            <kilde>HttpContext</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>User-Agent</id>
+            <verdi>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36</verdi>
+            <kilde>HttpContext</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AppId</id>
+            <verdi>ssb/ra0825-02</verdi>
+            <kilde>Instance</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PresentationText-periodeFritekst</id>
+            <verdi>2024</verdi>
+            <kilde>Instance</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AltinnNugetVersion</id>
+            <verdi>8.3.8.155</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AutoDeleteOnProcessEnd</id>
+            <verdi>False</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>CopyInstanceSettings</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>Logo</id>
+            <verdi>org</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>OnEntry</id>
+            <verdi />
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AutoCreateEnabled-1</id>
+            <verdi />
+            <kilde>ref-data-as-pdf</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AutoCreateEnabled-2</id>
+            <verdi>False</verdi>
+            <kilde>A3_RA-0825_M</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AutoCreateEnabled-3</id>
+            <verdi />
+            <kilde>FileUpload-LXJNlk</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-Person</id>
+            <verdi>False</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-BankruptcyEstate</id>
+            <verdi>False</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-Organisation</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-SubUnit</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>Title-nb</id>
+            <verdi>Omsetning, kostnader og investeringer i næringslivet (RA-0825)</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>Title-nn</id>
+            <verdi>Omsetning, kostnader og investeringar i næringslivet (RA-0825)</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>ValidFrom</id>
+            <verdi />
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>ValidTo</id>
+            <verdi />
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>VersionId</id>
+            <verdi />
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>DisallowUserInstantiation</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AppVersion</id>
+            <verdi>2.8.0</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>EnableEFormidling</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>ExpressionValidation</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>FooterFileName</id>
+            <verdi>footer.json</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>RegisterEventsWithEventsComponent</id>
+            <verdi>True</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>RemoveHiddenData</id>
+            <verdi>True</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>RequiredValidation</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+    </MetaData>
+    <Naering>
+        <naeringskode>50.202</naeringskode>
+        <naeringKortBeskr>Innenriks sjøfart med gods</naeringKortBeskr>
+        <naeringLangBeskr>Inkluderer: Omfatter godstransport på fartøyer som er beregnet for lokalfart og kysttrafikk. </naeringLangBeskr>
+        <naeringInfoBekreftet>1</naeringInfoBekreftet>
+    </Naering>
+    <SkjemaData>
+        <Prefill>
+            <filter>501</filter>
+        </Prefill>
+        <VirkTabell>
+            <virkNavn>Virksomhetsnavn 1</virkNavn>
+            <virkNaeringskode>99.001</virkNaeringskode>
+            <virkNaeringsbeskrivelse>Næringskodeteksten til virksomhet 1</virkNaeringsbeskrivelse>
+        </VirkTabell>
+        <IKTInvest>
+            <investIKTBalanseData>0</investIKTBalanseData>
+            <kostIKTResultatData>0</kostIKTResultatData>
+            <totalIKTUtgiftData>0</totalIKTUtgiftData>
+            <investIKTBalanseProgram>0</investIKTBalanseProgram>
+            <kostIKTResultatProgram>0</kostIKTResultatProgram>
+            <totalIKTUtgiftProgram>0</totalIKTUtgiftProgram>
+            <investIKTBalanseEgenProg>0</investIKTBalanseEgenProg>
+            <kostIKTResultatEgenProg>0</kostIKTResultatEgenProg>
+            <totalIKTUtgiftEgenProg>0</totalIKTUtgiftEgenProg>
+            <investIKTBalanseKonsulent>0</investIKTBalanseKonsulent>
+            <kostIKTResultatKonsulent>0</kostIKTResultatKonsulent>
+            <totalIKTUtgiftKonsulent>0</totalIKTUtgiftKonsulent>
+            <sumTotalIKTUtgift>0</sumTotalIKTUtgift>
+        </IKTInvest>
+        <totalOmsSkjema>50000000</totalOmsSkjema>
+        <totalDriftKostSkjema>30000000</totalDriftKostSkjema>
+        <kostnadInnleidArbkraft>0</kostnadInnleidArbkraft>
+        <Handel>
+            <solgteHandelsvarerJaNei01>1</solgteHandelsvarerJaNei01>
+            <salgsinntektHandelsvarer>1000000</salgsinntektHandelsvarer>
+            <kostnadHandelsvarer>800000</kostnadHandelsvarer>
+        </Handel>
+        <f501_OmsTotFordeling>
+            <f501_omsInnenriks>40000000</f501_omsInnenriks>
+            <f501_omsAnnet>9000000</f501_omsAnnet>
+        </f501_OmsTotFordeling>
+        <f501_OmsTjFordeling>
+            <f501_omsInnPass>15000000</f501_omsInnPass>
+            <f501_omsInnPost>15000000</f501_omsInnPost>
+            <f501_omsInnGods>15000000</f501_omsInnGods>
+        </f501_OmsTjFordeling>
+        <f501_Skipstype>
+            <f501_skipstypeKode>1</f501_skipstypeKode>
+            <f501_skipstypeNavn>Tankskip</f501_skipstypeNavn>
+        </f501_Skipstype>
+        <f501_Skipstype>
+            <f501_skipstypeKode>2</f501_skipstypeKode>
+            <f501_skipstypeNavn>Bulkskip</f501_skipstypeNavn>
+            <f501_skipstypeAntall>1</f501_skipstypeAntall>
+        </f501_Skipstype>
+        <f501_Skipstype>
+            <f501_skipstypeKode>3</f501_skipstypeKode>
+            <f501_skipstypeNavn>Stykkgods-/andre tørrlastskip</f501_skipstypeNavn>
+            <f501_skipstypeAntall>1</f501_skipstypeAntall>
+        </f501_Skipstype>
+        <f501_Skipstype>
+            <f501_skipstypeKode>41</f501_skipstypeKode>
+            <f501_skipstypeNavn>Passasjerbåt</f501_skipstypeNavn>
+            <f501_skipstypeAntall>1</f501_skipstypeAntall>
+        </f501_Skipstype>
+        <f501_Skipstype>
+            <f501_skipstypeKode>42</f501_skipstypeKode>
+            <f501_skipstypeNavn>Bilferje</f501_skipstypeNavn>
+        </f501_Skipstype>
+        <f501_Skipstype>
+            <f501_skipstypeKode>43</f501_skipstypeKode>
+            <f501_skipstypeNavn>Passasjer/ro-ro skip</f501_skipstypeNavn>
+        </f501_Skipstype>
+        <f501_Skipstype>
+            <f501_skipstypeKode>44</f501_skipstypeKode>
+            <f501_skipstypeNavn>Cruiseskip</f501_skipstypeNavn>
+        </f501_Skipstype>
+        <f501_Skipstype>
+            <f501_skipstypeKode>49</f501_skipstypeKode>
+            <f501_skipstypeNavn>Andre passasjerfartøy</f501_skipstypeNavn>
+        </f501_Skipstype>
+        <f501_Skipstype>
+            <f501_skipstypeKode>5</f501_skipstypeKode>
+            <f501_skipstypeNavn>Offshoreskip</f501_skipstypeNavn>
+        </f501_Skipstype>
+        <f501_Skipstype>
+            <f501_skipstypeKode>6</f501_skipstypeKode>
+            <f501_skipstypeNavn>Slepefartøy og redningsfartøy</f501_skipstypeNavn>
+        </f501_Skipstype>
+        <f501_Skipstype>
+            <f501_skipstypeKode>7</f501_skipstypeKode>
+            <f501_skipstypeNavn>Fiske- og fangstfartøy</f501_skipstypeNavn>
+        </f501_Skipstype>
+        <f501_Skipstype>
+            <f501_skipstypeKode>8</f501_skipstypeKode>
+            <f501_skipstypeNavn>Spesialfartøy og hjelpefartøy</f501_skipstypeNavn>
+        </f501_Skipstype>
+        <f501_Skipstype>
+            <f501_skipstypeKode>9</f501_skipstypeKode>
+            <f501_skipstypeNavn>Anna</f501_skipstypeNavn>
+        </f501_Skipstype>
+        <f501_KostFordeling>
+            <f501_kostLonnMannskap>25000000</f501_kostLonnMannskap>
+            <f501_kostAdmDriftSkip>1000</f501_kostAdmDriftSkip>
+            <f501_kostBunkers>2000000</f501_kostBunkers>
+            <f501_kostRepSkipBaat>2000000</f501_kostRepSkipBaat>
+            <f501_kostLeieSkipMannskap>0</f501_kostLeieSkipMannskap>
+            <f501_kostDokking>0</f501_kostDokking>
+            <f501_kostAvNedSkrivninger>0</f501_kostAvNedSkrivninger>
+            <f501_kostSmoreolje>1000000</f501_kostSmoreolje>
+            <f501_kostOvrigDrift>0</f501_kostOvrigDrift>
+        </f501_KostFordeling>
+        <f501_Drivstoff>
+            <f501_drivstoffGassolje>10</f501_drivstoffGassolje>
+            <f501_drivstoffSpesDest>10</f501_drivstoffSpesDest>
+            <f501_drivstoffTungolje>10</f501_drivstoffTungolje>
+            <f501_drivstoffLNG>10</f501_drivstoffLNG>
+        </f501_Drivstoff>
+        <f501_sjofartType>1,4,5</f501_sjofartType>
+        <f501_virksomhetType>2</f501_virksomhetType>
+    </SkjemaData>
+</A3_RA0825_M>
