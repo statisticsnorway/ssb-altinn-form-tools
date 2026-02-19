@@ -7,9 +7,9 @@ logging.basicConfig(
 )
 
 from sqlalchemy import create_engine
-from src.ssb_altinn_form_tools.default_form_processor import DefaultFormProcessor
-from src.ssb_altinn_form_tools.default_form_extractor import DefaultFormExtractor
-from src.ssb_altinn_form_tools.sqlalchemy_storage_connector import (
+from ssb_altinn_form_tools.default_form_processor import DefaultFormProcessor
+from ssb_altinn_form_tools.default_form_extractor import DefaultFormExtractor
+from ssb_altinn_form_tools.sqlalchemy_storage_connector import (
     SqlAlchemyStorageConnector,
 )
 

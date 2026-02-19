@@ -10,6 +10,7 @@ dynamic = ["classifiers"]
 dependencies = [
     "click>=8.0.1",
     "sqlalchemy>=2.0.46",
+    "xmltodict (>=1.0.3,<2.0.0)",
 ]
 
 [project.urls]
