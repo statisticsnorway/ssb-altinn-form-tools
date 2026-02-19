@@ -3,8 +3,7 @@ from sqlalchemy import TIMESTAMP, BOOLEAN
 
 from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base, relationship
-
-s   
+  
 Base = declarative_base()
 
 
