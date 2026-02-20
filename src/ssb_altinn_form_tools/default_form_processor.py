@@ -1,5 +1,7 @@
 import glob
 import logging
+import json
+
 from pathlib import Path
 
 import xmltodict
@@ -21,7 +23,7 @@ class DefaultFormProcessor(MetaFormProcessor):
         extractor: MetaFormExtractor,
         connector: MetaStorageConnector,
         alias_mapping: dict[str, str] | None = None,
-        checkbox_vars: list[str] | None = None
+        checkbox_vars: list[str] | None = None,
     ) -> None:
         self._extractor = extractor
         self._connector = connector
@@ -42,18 +44,11 @@ class DefaultFormProcessor(MetaFormProcessor):
                     extracted_form.form_data[idx].alias = alias
 
     def _map_checkboxed(self, mapping: list[str], extracted_form: ExtractedForm):
-        results = []
-        for item in extracted_form.form_data:
+        for idx, item in enumerate(extracted_form.form_data):
             if (item.feltnavn in mapping) and (item.verdi is not None):
                 values = item.verdi.split(",")
-                for idx, i in enumerate(values):
-                    data = item.model_dump()
-                    data["feltnavn"] = item.feltnavn + f"_{idx}"
-                    data["verdi"] = str(i)
-                    results.append(FormData(**data))
-            else:
-                results.append(item)
-        extracted_form.form_data = results
+                extracted_form.form_data[idx].verdi = json.dumps(values)
+
         return extracted_form
 
     def _process_form(
@@ -70,8 +65,10 @@ class DefaultFormProcessor(MetaFormProcessor):
                 self._map_alias(self._alias_mapping, extracted_form)
 
             if self._checkbox_vars:
-                extracted_form = self._map_checkboxed(self._checkbox_vars, extracted_form)
-                
+                extracted_form = self._map_checkboxed(
+                    self._checkbox_vars, extracted_form
+                )
+
             self._connector.begin_transaction()
             try:
                 self._connector.insert_contact_info(extracted_form.contact_info)
