@@ -1,6 +1,7 @@
 import glob
 import logging
 import json
+import requests
 
 from pathlib import Path
 
@@ -13,6 +14,15 @@ from .models import ExtractedForm, FormJsonData, FormData
 
 logger = logging.getLogger(__name__)
 
+def extract_arr_fields(json_data: dict, parent: str | None = None) -> list:
+    array_items = []
+    for key, value in json_data.items():
+        if isinstance(value, dict):
+            array_items.extend(extract_arr_fields(value, key))
+        else:
+            if value == "array":
+                array_items.append(parent)
+    return array_items
 
 class DefaultFormProcessor(MetaFormProcessor):
 
@@ -24,6 +34,7 @@ class DefaultFormProcessor(MetaFormProcessor):
         connector: MetaStorageConnector,
         alias_mapping: dict[str, str] | None = None,
         checkbox_vars: list[str] | None = None,
+        ra_version: None | int = None,
     ) -> None:
         self._extractor = extractor
         self._connector = connector
@@ -31,7 +42,26 @@ class DefaultFormProcessor(MetaFormProcessor):
         self._form_data_key = f"A3_{form_name}_M"
         self._alias_mapping = alias_mapping
         self._checkbox_vars = checkbox_vars
-
+        
+        ra_nummer = f"{form_name[:2]}-{form_name[2:]}A3"   # Eksempel: "RA-1234A3"
+        version = ra_version if ra_version else 1          # Eksempel: 1 (numerisk)
+        
+        
+        ra_base = ra_nummer.split("A3")[0]       # "RA-0848"
+        ra_id = ra_base.replace("-", "").lower() # "ra0848"
+        version_str = f"{version:02d}"           # "01"
+        
+        url = f"https://ssb.apps.altinn.no/ssb/{ra_id}-{version_str}/api/jsonschema/A3_{ra_base}_M"
+        prod_res = requests.get(url)
+        
+        try:
+            self.form_json = prod_res.json()
+            self.array_fields = extract_arr_fields(self.form_json)
+        except Exception as e:
+            logger.warning("Fetching metadata for the form resulted in the following error. Possibly because metadata does not exist. Error: \n{e}")
+            # Some forms does not have metadata in Altinn
+            self.array_fields = None
+            
     def _find_forms(self) -> list[str]:
         return glob.glob(f"{self._form_base_path}/**/**/**/**/*.xml")
 
@@ -58,7 +88,7 @@ class DefaultFormProcessor(MetaFormProcessor):
 
         if is_new:
             xml_string = xml_path.read_text()
-            dictionary: dict = xmltodict.parse(xml_string)[self._form_data_key]
+            dictionary: dict = xmltodict.parse(xml_string, force_list=self.array_fields)[self._form_data_key]
             extracted_form = self._extractor.extract_form(dictionary, json_data)
 
             if self._alias_mapping:
