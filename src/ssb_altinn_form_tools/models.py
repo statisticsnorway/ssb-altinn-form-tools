@@ -135,3 +135,33 @@ class ExtractedForm(BaseModel):
             + self.model_dump_json(indent=2)
             + "\n)"
         )
+
+
+class CheckboxConfig(BaseModel):
+    field_name: str
+    options: list[str]
+    
+    def __str__(self):
+        return (
+            f"{self.__class__.__name__}(\n"
+            + self.model_dump_json(indent=2)
+            + "\n)"
+        )
+
+class Checkboxmodel(BaseModel):
+    aar: int
+    skjema: str
+    ident: str
+    refnr: str
+    
+    field_name: str
+    option: str
+    checked: bool
+    field_path: str
+    
+    def __str__(self):
+        return (
+            f"{self.__class__.__name__}(\n"
+            + self.model_dump_json(indent=2)
+            + "\n)"
+        )

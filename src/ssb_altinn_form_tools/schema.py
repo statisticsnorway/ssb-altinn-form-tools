@@ -75,7 +75,19 @@ class kontrollutslag(Base):
     utslag = Column(BOOLEAN)
     verdi = Column(Integer)
 
-
+class skjemacheckboxes(Base):
+    __tablename__ = "skjemacheckboxes"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    aar = Column(Integer)
+    skjema = Column(String)
+    ident = Column(String)
+    refnr = Column(String)
+    
+    feltsti = Column(String)
+    feltnavn = Column(String)
+    checkbox_option = Column(String)
+    checked = Column(BOOLEAN)
+    
 class skjemadata(Base):
     __tablename__ = "skjemadata"
     id = Column(Integer, primary_key=True, autoincrement=True)
