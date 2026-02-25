@@ -1,7 +1,7 @@
 from abc import ABC
 from abc import abstractmethod
 
-from .models import ContactInfo, FormData, FormReception, Unit, UnitInfo
+from .models import ContactInfo, FormData, FormReception, Unit, UnitInfo, Checkboxmodel
 
 class MetaStorageConnector(ABC):
     """Abstract base class defining the interface for persistent storage operations.
@@ -114,6 +114,10 @@ class MetaStorageConnector(ABC):
                 metadata about the reporting unit.
         """
         ...
+
+    @abstractmethod
+    def insert_checkboxes(self, unit: list[Checkboxmodel]) -> None:
+        raise NotImplementedError(f"{self} does not implement the '_postprocess_checkboxes' method and does not support custom handling of checkboxes")
 
     @abstractmethod
     def create_tables_if_not_exists(self) -> None:

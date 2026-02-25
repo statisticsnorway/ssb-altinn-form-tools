@@ -1,8 +1,8 @@
 from sqlalchemy import Engine, select
 from sqlalchemy.orm import Session
 from .meta_storage_connector import MetaStorageConnector
-from .models import ContactInfo, Unit, UnitInfo, FormData, FormReception
-from .schema import Base, kontaktinfo, enheter, enhetsinfo, skjemadata, skjemamottak
+from .models import ContactInfo, Unit, UnitInfo, FormData, FormReception, Checkboxmodel
+from .schema import Base, kontaktinfo, enheter, enhetsinfo, skjemadata, skjemamottak, skjemacheckboxes
 
 
 class SqlAlchemyStorageConnector(MetaStorageConnector):
@@ -204,3 +204,20 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             )
             unit_info.append(model)
         self._get_session().add_all(unit_info)
+
+    def insert_checkboxes(self, boxes: list[Checkboxmodel]) -> None:
+        items = []
+        for item in boxes:
+            model = skjemacheckboxes(
+                aar = item.aar,
+                skjema = item.skjema,
+                ident = item.ident,
+                refnr = item.refnr,
+                
+                feltsti = item.field_path,
+                feltnavn = item.field_name,
+                checkbox_option = item.option,
+                checked = item.checked
+            )
+            items.append(model)
+        self._get_session().add_all(items)

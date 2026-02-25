@@ -1,6 +1,7 @@
 import glob
 import logging
 import json
+import requests
 
 from pathlib import Path
 
@@ -9,10 +10,19 @@ import xmltodict
 from .meta_form_processor import MetaFormProcessor
 from .meta_form_extractor import MetaFormExtractor
 from .meta_storage_connector import MetaStorageConnector
-from .models import ExtractedForm, FormJsonData, FormData
+from .models import ExtractedForm, FormJsonData, CheckboxConfig, Checkboxmodel
 
 logger = logging.getLogger(__name__)
 
+def extract_arr_fields(json_data: dict, parent: str | None = None) -> list:
+    array_items = []
+    for key, value in json_data.items():
+        if isinstance(value, dict):
+            array_items.extend(extract_arr_fields(value, key))
+        else:
+            if value == "array":
+                array_items.append(parent)
+    return array_items
 
 class DefaultFormProcessor(MetaFormProcessor):
     
@@ -34,7 +44,8 @@ class DefaultFormProcessor(MetaFormProcessor):
         extractor: MetaFormExtractor,
         connector: MetaStorageConnector,
         alias_mapping: dict[str, str] | None = None,
-        checkbox_vars: list[str] | None = None,
+        checkbox_mapping: list[dict] | None = None,
+        ra_version: None | int = None,
     ) -> None:
         
         """Initializes the default form processor.
@@ -59,8 +70,31 @@ class DefaultFormProcessor(MetaFormProcessor):
         self._form_base_path = form_base_path
         self._form_data_key = f"A3_{form_name}_M"
         self._alias_mapping = alias_mapping
-        self._checkbox_vars = checkbox_vars
-
+        
+        if checkbox_mapping:
+            self._checkbox_mapping = [CheckboxConfig.model_validate(x) for x in checkbox_mapping]
+        else:
+            self._checkbox_mapping = checkbox_mapping
+        
+        ra_nummer = f"{form_name[:2]}-{form_name[2:]}A3"   # Eksempel: "RA-1234A3"
+        version = ra_version if ra_version else 1          # Eksempel: 1 (numerisk)
+        
+        
+        ra_base = ra_nummer.split("A3")[0]       # "RA-0848"
+        ra_id = ra_base.replace("-", "").lower() # "ra0848"
+        version_str = f"{version:02d}"           # "01"
+        
+        url = f"https://ssb.apps.altinn.no/ssb/{ra_id}-{version_str}/api/jsonschema/A3_{ra_base}_M"
+        prod_res = requests.get(url)
+        
+        try:
+            self.form_json = prod_res.json()
+            self.array_fields = extract_arr_fields(self.form_json)
+        except Exception as e:
+            logger.warning("Fetching metadata for the form resulted in the following error. Possibly because metadata does not exist. Error: \n{e}")
+            # Some forms does not have metadata in Altinn
+            self.array_fields = None
+            
     def _find_forms(self) -> list[str]:
         """Finds XML forms recursively under the configured base path.
 
@@ -120,6 +154,27 @@ class DefaultFormProcessor(MetaFormProcessor):
 
         return extracted_form
 
+    def _postprocess_checkboxes(self, boxes: ExtractedForm, checkbox_mapping: list[CheckboxConfig]) -> list[Checkboxmodel]:
+        results = []
+        for checkbox in checkbox_mapping:
+            for box in boxes.form_data:
+                if checkbox.field_name == box.feltnavn.replace("/", ""):
+                    checked = box.verdi.split(",")
+                    for option in checkbox.options:
+                        option_str = str(option)
+                        results.append(Checkboxmodel(
+                            field_name=checkbox.field_name,
+                            option=option_str,
+                            checked=option_str in checked,
+                            field_path=box.feltsti,
+                            aar=boxes.reception.aar,
+                            skjema=boxes.reception.skjema,
+                            ident=boxes.reception.ident,
+                            refnr=boxes.reception.refnr,
+                        ))
+                
+        return results
+    
     def _process_form(
         self, xml_path: Path, json_data: FormJsonData
     ) -> ExtractedForm | None:
@@ -157,17 +212,17 @@ class DefaultFormProcessor(MetaFormProcessor):
 
         if is_new:
             xml_string = xml_path.read_text()
-            dictionary: dict = xmltodict.parse(xml_string)[self._form_data_key]
+            dictionary: dict = xmltodict.parse(xml_string, force_list=self.array_fields)[self._form_data_key]
             extracted_form = self._extractor.extract_form(dictionary, json_data)
 
             if self._alias_mapping:
                 self._map_alias(self._alias_mapping, extracted_form)
 
-            if self._checkbox_vars:
-                extracted_form = self._map_checkboxed(
-                    self._checkbox_vars, extracted_form
-                )
-
+            if self._checkbox_mapping:
+                checkboxes = self._postprocess_checkboxes(extracted_form, self._checkbox_mapping)
+            else:
+                checkboxes = []
+                
             self._connector.begin_transaction()
             try:
                 self._connector.insert_contact_info(extracted_form.contact_info)
@@ -175,6 +230,9 @@ class DefaultFormProcessor(MetaFormProcessor):
                 self._connector.insert_form_reception(extracted_form.reception)
                 self._connector.insert_unit(extracted_form.unit)
                 self._connector.insert_unit_info(extracted_form.unit_info)
+                if self._checkbox_mapping:
+                    self._connector.insert_checkboxes(checkboxes)
+                    
             except Exception as e:
                 self._connector.rollback(json_data.altinn_reference)
                 logger.error(e)
