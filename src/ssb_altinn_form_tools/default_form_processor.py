@@ -46,6 +46,7 @@ class DefaultFormProcessor(MetaFormProcessor):
         alias_mapping: dict[str, str] | None = None,
         checkbox_mapping: list[dict] | None = None,
         ra_version: None | int = None,
+        alternative_glob_path: None | str = None,
     ) -> None:
         
         """Initializes the default form processor.
@@ -60,9 +61,15 @@ class DefaultFormProcessor(MetaFormProcessor):
             alias_mapping (dict[str, str] | None): Optional mapping from field
                 names (``feltnavn``) to user-friendly aliases to be set on each
                 corresponding `FormData` entry.
-            checkbox_vars (list[str] | None): Optional list of field names that
+            checkbox_mapping (list[str] | None): Optional list of field names that
                 represent multi-select values encoded as comma-separated strings.
                 These will be normalized to JSON arrays.
+            ra_version (str | None): An optional argument denoting which data-version 
+                of the form to use. This is automatically set to 1 if no argument is 
+                provided.
+            alternative_glob_path (str | None): Globbable path to all forms. Eg. '/**/*.xml'. 
+                We try to automatically discover forms based on the standard directory structure 
+                provided by team suv. If you another directory structure, this argument can be set. 
         """
 
         self._extractor = extractor
@@ -70,6 +77,7 @@ class DefaultFormProcessor(MetaFormProcessor):
         self._form_base_path = form_base_path
         self._form_data_key = f"A3_{form_name}_M"
         self._alias_mapping = alias_mapping
+        self._glob_path = alternative_glob_path if alternative_glob_path else f"{self._form_base_path}/**/**/**/**/*.xml"
         
         if checkbox_mapping:
             self._checkbox_mapping = [CheckboxConfig.model_validate(x) for x in checkbox_mapping]
@@ -102,7 +110,7 @@ class DefaultFormProcessor(MetaFormProcessor):
             list[str]: A list of file paths to XML form files discovered
             within the base directory (searched recursively).
         """
-        return glob.glob(f"{self._form_base_path}/**/**/**/**/*.xml")
+        return glob.glob(self._glob_path)
 
     def _map_alias(self, mapping: dict[str, str], extracted_form: ExtractedForm):
         """Applies alias mapping to `ExtractedForm.form_data` in place.

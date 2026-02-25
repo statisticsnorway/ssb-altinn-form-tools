@@ -43,6 +43,7 @@ pip install ssb-altinn-form-tools
 ```
 ## Example
 See ```docs/documentation``` for further information.
+[Walkthrough](docs/documentation/walkthrough.md) provides a deeper guide through the example and how everything works.
 
 ```python
 import logging
