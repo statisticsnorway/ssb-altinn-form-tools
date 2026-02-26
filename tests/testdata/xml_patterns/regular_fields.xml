@@ -1,0 +1,7 @@
+<!-- Example(s) of flat and regular structure -->
+<Regular>
+    <SkjemaData>
+        <omsForrigePerPrefill>4545</omsForrigePerPrefill>
+        <omsVirksomhetPerioden>6661</omsVirksomhetPerioden>
+    </SkjemaData>
+</Regular>
