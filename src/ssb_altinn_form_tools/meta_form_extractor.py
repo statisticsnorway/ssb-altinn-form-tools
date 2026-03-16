@@ -28,7 +28,7 @@ class MetaFormExtractor(ABC):
     def extract_contact_info(
         self,
         form_dict_data: InputFormType,
-        year: int,
+        year: str,
         form: str,
         ident: str,
         refnr: str,
@@ -51,7 +51,7 @@ class MetaFormExtractor(ABC):
     def extract_form_data(
         self,
         form_dict_data: InputFormType,
-        year: int,
+        year: str,
         form: str,
         ident: str,
         refnr: str,
@@ -85,7 +85,7 @@ class MetaFormExtractor(ABC):
         """
         ...
 
-    def extract_unit(self, year: int, form: str, ident: str) -> Unit:
+    def extract_unit(self, year: str, form: str, ident: str) -> Unit:
         """Constructs a basic ``Unit`` model from form metadata.
 
         This default implementation requires no override unless additional
@@ -104,7 +104,7 @@ class MetaFormExtractor(ABC):
 
     @abstractmethod
     def extract_unit_info(
-        self, form_dict_data: InputFormType, year: int, ident: str
+        self, form_dict_data: InputFormType, year: str, ident: str
     ) -> list[UnitInfo]: 
         """Extracts additional unit-level metadata from the form.
 

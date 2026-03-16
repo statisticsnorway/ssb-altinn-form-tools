@@ -104,7 +104,7 @@ class DefaultFormExtractor(MetaFormExtractor):
     def extract_contact_info(
         self,
         form_dict_data: InputFormType,
-        year: int,
+        year: str,
         form: str,
         ident: str,
         refnr: str,
@@ -138,7 +138,7 @@ class DefaultFormExtractor(MetaFormExtractor):
     def extract_form_data(
         self,
         form_dict_data: InputFormType,
-        year: int,
+        year: str,
         form: str,
         ident: str,
         refnr: str,
@@ -223,7 +223,7 @@ class DefaultFormExtractor(MetaFormExtractor):
         )
 
     def extract_unit_info(
-        self, form_dict_data: InputFormType, year: int, ident: str
+        self, form_dict_data: InputFormType, year: str, ident: str
     ) -> list[UnitInfo]:
         
         """

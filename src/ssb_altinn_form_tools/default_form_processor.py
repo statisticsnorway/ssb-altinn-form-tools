@@ -82,7 +82,7 @@ class DefaultFormProcessor(MetaFormProcessor):
         if checkbox_mapping:
             self._checkbox_mapping = [CheckboxConfig.model_validate(x) for x in checkbox_mapping]
         else:
-            self._checkbox_mapping = checkbox_mapping
+            self._checkbox_mapping = None
         
         ra_nummer = f"{form_name[:2]}-{form_name[2:]}A3"   # Eksempel: "RA-1234A3"
         version = ra_version if ra_version else 1          # Eksempel: 1 (numerisk)
@@ -99,7 +99,7 @@ class DefaultFormProcessor(MetaFormProcessor):
             self.form_json = prod_res.json()
             self.array_fields = extract_arr_fields(self.form_json)
         except Exception as e:
-            logger.warning("Fetching metadata for the form resulted in the following error. Possibly because metadata does not exist. Error: \n{e}")
+            logger.warning(f"Fetching metadata for the form resulted in the following error. Possibly because metadata does not exist. Error: \n{e}")
             # Some forms does not have metadata in Altinn
             self.array_fields = None
             
@@ -167,7 +167,7 @@ class DefaultFormProcessor(MetaFormProcessor):
         for checkbox in checkbox_mapping:
             for box in boxes.form_data:
                 if checkbox.field_name == box.feltnavn.replace("/", ""):
-                    checked = box.verdi.split(",")
+                    checked = box.verdi.split(",") if box.verdi else []
                     for option in checkbox.options:
                         option_str = str(option)
                         results.append(Checkboxmodel(

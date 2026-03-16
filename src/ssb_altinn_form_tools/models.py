@@ -19,20 +19,17 @@ class FormNode(BaseModel):
         indeks (int | None): Index within a repeated/array structure.
         alias (str | None): Optional user-friendly name/alias for the field.
     """
+
     feltsti: str
     feltnavn: str
-    verdi: str | None
-    dybde: int | None
-    indeks: int | None
-    alias: str | None = None
+    verdi: str | None = Field(default=None)
+    dybde: int | None = Field(default=None)
+    indeks: int | None = Field(default=None)
+    alias: str | None = Field(default=None)
 
     def __str__(self):
         """Returns a pretty-printed JSON representation for debugging."""
-        return (
-            f"{self.__class__.__name__}(\n"
-            + self.model_dump_json(indent=2)
-            + "\n)"
-        )
+        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
 
 class FormData(FormNode):
@@ -47,13 +44,14 @@ class FormData(FormNode):
         ident (str): Identifier of the reporting unit.
         refnr (str): Reference number of the submitted form instance.
     """
-    aar: int
+
+    aar: str
     skjema: str
     ident: str
     refnr: str
 
     @staticmethod
-    def from_form_data(node: FormNode, year: int, form: str, ident: str, refnr: str):
+    def from_form_data(node: FormNode, year: str, form: str, ident: str, refnr: str):
         """Constructs a :class:`FormData` from a :class:`FormNode` and context.
 
         Args:
@@ -72,11 +70,7 @@ class FormData(FormNode):
 
     def __str__(self):
         """Returns a pretty-printed JSON representation for debugging."""
-        return (
-            f"{self.__class__.__name__}(\n"
-            + self.model_dump_json(indent=2)
-            + "\n)"
-        )
+        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
 
 class ContactInfo(BaseModel):
@@ -97,14 +91,17 @@ class ContactInfo(BaseModel):
         kommentar_krevende (str | None): Notes about demanding/complex contact cases.
             Alias: ``kontaktKrevende``.
     """
-    aar: int
+
+    aar: str
     skjema: str
     ident: str
     refnr: str
-    kontaktperson: str = Field(validation_alias="kontaktPersonNavn")
+    kontaktperson: str | None = Field(
+        default=None, validation_alias="kontaktPersonNavn"
+    )
     epost: str | None = Field(default=None, validation_alias="kontaktPersonEpost")
-    telefon: str = Field(validation_alias="kontaktPersonTelefon")
-    bekreftet_kontaktinfo: bool
+    telefon: str | None = Field(default=None, validation_alias="kontaktPersonTelefon")
+    bekreftet_kontaktinfo: bool = Field(default=False)
     kommentar_kontaktinfo: str | None = Field(
         default=None, validation_alias="kontaktKommentar"
     )
@@ -114,11 +111,7 @@ class ContactInfo(BaseModel):
 
     def __str__(self):
         """Returns a pretty-printed JSON representation for debugging."""
-        return (
-            f"{self.__class__.__name__}(\n"
-            + self.model_dump_json(indent=2)
-            + "\n)"
-        )
+        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
 
 class Unit(BaseModel):
@@ -129,17 +122,14 @@ class Unit(BaseModel):
         ident (str): Unique identifier of the reporting unit.
         skjema (str): Form name or code (e.g., RA-number).
     """
-    aar: int
+
+    aar: str
     ident: str
     skjema: str
 
     def __str__(self):
         """Returns a pretty-printed JSON representation for debugging."""
-        return (
-            f"{self.__class__.__name__}(\n"
-            + self.model_dump_json(indent=2)
-            + "\n)"
-        )
+        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
 
 class UnitInfo(BaseModel):
@@ -151,18 +141,15 @@ class UnitInfo(BaseModel):
         variabel (str): Name of the metadata variable.
         verdi (str | None): Value of the metadata variable.
     """
-    aar: int
+
+    aar: str
     ident: str
     variabel: str
-    verdi: str | None
+    verdi: str | None = Field(default=None)
 
     def __str__(self):
         """Returns a pretty-printed JSON representation for debugging."""
-        return (
-            f"{self.__class__.__name__}(\n"
-            + self.model_dump_json(indent=2)
-            + "\n)"
-        )
+        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
 
 class FormReception(BaseModel):
@@ -187,7 +174,8 @@ class FormReception(BaseModel):
         ``model_config = ConfigDict(validate_by_alias=True, validate_by_name=True)``
         enables population/validation using both the alias and the field name.
     """
-    aar: int = Field(validation_alias="periodeAAr")
+
+    aar: str = Field(validation_alias="periodeAAr")
     skjema: str = Field(validation_alias="raNummer")
     ident: str = Field(validation_alias="enhetsIdent")
     refnr: str = Field(validation_alias="altinnReferanse")
@@ -200,11 +188,7 @@ class FormReception(BaseModel):
 
     def __str__(self):
         """Returns a pretty-printed JSON representation for debugging."""
-        return (
-            f"{self.__class__.__name__}(\n"
-            + self.model_dump_json(indent=2)
-            + "\n)"
-        )
+        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
 
 class FormJsonData(BaseModel):
@@ -216,16 +200,14 @@ class FormJsonData(BaseModel):
         date_deliveres (datetime.datetime): Submission timestamp.
             Alias: ``altinnTidspunktLevert``.
     """
+
     altinn_reference: str = Field(validation_alias="altinnReferanse")
     date_deliveres: datetime.datetime = Field(validation_alias="altinnTidspunktLevert")
 
     def __str__(self):
         """Returns a pretty-printed JSON representation for debugging."""
-        return (
-            f"{self.__class__.__name__}(\n"
-            + self.model_dump_json(indent=2)
-            + "\n)"
-        )
+        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
+
 
 class ExtractedForm(BaseModel):
     """Aggregates all structured sections extracted for a form instance.
@@ -237,6 +219,7 @@ class ExtractedForm(BaseModel):
         unit_info (list[UnitInfo]): Additional unit attributes.
         form_data (list[FormData]): Field-level data extracted from the form.
     """
+
     reception: FormReception
     contact_info: ContactInfo
     unit: Unit
@@ -245,38 +228,27 @@ class ExtractedForm(BaseModel):
 
     def __str__(self):
         """Returns a pretty-printed JSON representation for debugging."""
-        return (
-            f"{self.__class__.__name__}(\n"
-            + self.model_dump_json(indent=2)
-            + "\n)"
-        )
+        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
 
 class CheckboxConfig(BaseModel):
     field_name: str
     options: list[str]
-    
+
     def __str__(self):
-        return (
-            f"{self.__class__.__name__}(\n"
-            + self.model_dump_json(indent=2)
-            + "\n)"
-        )
+        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
+
 
 class Checkboxmodel(BaseModel):
-    aar: int
+    aar: str
     skjema: str
     ident: str
     refnr: str
-    
+
     field_name: str
     option: str
     checked: bool
     field_path: str
-    
+
     def __str__(self):
-        return (
-            f"{self.__class__.__name__}(\n"
-            + self.model_dump_json(indent=2)
-            + "\n)"
-        )
+        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
