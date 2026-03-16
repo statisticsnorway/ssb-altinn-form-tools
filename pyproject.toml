@@ -1,6 +1,6 @@
 [project]
 name = "ssb-altinn-form-tools"
-version = "0.0.2"
+version = "0.0.3"
 description = "SSB Altinn Form Tools"
 authors = [{ name = "Contact Person", email = "dor@ssb.no" }]
 license = "MIT"
