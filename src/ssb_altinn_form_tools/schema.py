@@ -52,7 +52,7 @@ class enheter(Base):
     """
     __tablename__ = "enheter"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    aar = Column(String)
+    aar: Column[int] = Column(Integer)
     ident = Column(String)
     skjema = Column(String)
 
