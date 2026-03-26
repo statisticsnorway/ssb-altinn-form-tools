@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='utf-8'?>
+<A3_RA0438_M xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" dataFormatProvider="ALTINNSTUDIO" dataFormatId="A30438" dataFormatVersion="1">
+  <InternInfo>
+    <raNummer>RA-0438</raNummer>
+    <skjemaVersjon>1.0</skjemaVersjon>
+    <undersoekelsesNr>121</undersoekelsesNr>
+    <undersoekelsesInfoUrl>https://www.ssb.no/innrapportering/Godstransport-pa-kysten-arlig</undersoekelsesInfoUrl>
+    <visOppgaveByrde>2</visOppgaveByrde>
+    <visBrukeropplevelse>2</visBrukeropplevelse>
+    <delregNr>46424</delregNr>
+    <periodeFritekst>2024</periodeFritekst>
+    <periodeFomDato>2024-01-01</periodeFomDato>
+    <periodeTomDato>2024-12-31</periodeTomDato>
+    <periodeType>AAR</periodeType>
+    <periodeNummer> </periodeNummer>
+    <periodeAAr>2024</periodeAAr>
+    <periodeDato> </periodeDato>
+    <enhetsIdent>02139405</enhetsIdent>
+    <enhetsType>BEDR</enhetsType>
+    <enhetsOrgNr>974716887</enhetsOrgNr>
+    <enhetsNavn>STATISTISK SENTRALBYRÅ </enhetsNavn>
+    <enhetsGateadresse>Akersveien 26</enhetsGateadresse>
+    <enhetsPostnr>0177</enhetsPostnr>
+    <enhetsPoststed>OSLO</enhetsPoststed>
+    <enhetsAvdeling>AVD OSLO</enhetsAvdeling>
+    <reporteeOrgNr>974716887</reporteeOrgNr>
+  </InternInfo>
+  <Kontakt>
+    <kontaktPersonNavn>STAVNES EINAR DØVIK</kontaktPersonNavn>
+    <kontaktPersonEpost> </kontaktPersonEpost>
+    <kontaktPersonTelefon> </kontaktPersonTelefon>
+    <kontaktInfoBekreftet>1</kontaktInfoBekreftet>
+  </Kontakt>
+  <SkjemaData>
+    <vatbulkLossingJaNei>0</vatbulkLossingJaNei>
+    <torrbulkLossingJaNei>1</torrbulkLossingJaNei>
+    <vatbulkLastet xsi:nil="true"/>
+    <vatbulkLastetAndelUtl xsi:nil="true"/>
+    <vatbulkLosset xsi:nil="true"/>
+    <vatbulkLossetAndelUtl xsi:nil="true"/>
+    <torrbulkLastet>5</torrbulkLastet>
+    <torrbulkLastetAndelUtl>6</torrbulkLastetAndelUtl>
+    <torrbulkLosset>7</torrbulkLosset>
+    <torrbulkLossetAndelUtl>8</torrbulkLossetAndelUtl>
+    <loloContLLJaNei>1</loloContLLJaNei>
+    <roroContLLJaNei>1</roroContLLJaNei>
+    <loloContLastet>9</loloContLastet>
+    <loloContLastetAndelUtl>10</loloContLastetAndelUtl>
+    <loloContLastetTEU>11</loloContLastetTEU>
+    <loloContLastetTEUutenLast>12</loloContLastetTEUutenLast>
+    <loloContLosset>13</loloContLosset>
+    <loloContLossetAndelUtl>14</loloContLossetAndelUtl>
+    <loloContLossetTEU>15</loloContLossetTEU>
+    <loloContLossetTEUutenLast>16</loloContLossetTEUutenLast>
+    <roroContLastet>17</roroContLastet>
+    <roroContLastetAndelUtl>18</roroContLastetAndelUtl>
+    <roroContLastetTEU>19</roroContLastetTEU>
+    <roroContLastetTEUutenLast>20</roroContLastetTEUutenLast>
+    <roroContLosset>21</roroContLosset>
+    <roroContLossetAndelUtl>22</roroContLossetAndelUtl>
+    <roroContLossetTEU>23</roroContLossetTEU>
+    <roroContLossetTEUutenLast>24</roroContLossetTEUutenLast>
+    <selvgMobilLLJaNei>1</selvgMobilLLJaNei>
+    <IkkeSelvgMobilJaNei>1</IkkeSelvgMobilJaNei>
+    <selvgMobilLastet>25</selvgMobilLastet>
+    <selvgMobilLastetAndelUtl>26</selvgMobilLastetAndelUtl>
+    <selvgMobilLastetTEU>27</selvgMobilLastetTEU>
+    <selvgMobilLosset>28</selvgMobilLosset>
+    <selvgMobilLossetAndelUtl>29</selvgMobilLossetAndelUtl>
+    <selvgMobilLossetTEU>30</selvgMobilLossetTEU>
+    <IkkeSelvgMobilLastet>31</IkkeSelvgMobilLastet>
+    <IkkeSelvgMobilLastetAndelUtl>32</IkkeSelvgMobilLastetAndelUtl>
+    <IkkeSelvgMobilLastetTEU>33</IkkeSelvgMobilLastetTEU>
+    <IkkeSelvgMobilLosset>34</IkkeSelvgMobilLosset>
+    <IkkeSelvgMobilLossetAndelUtl>35</IkkeSelvgMobilLossetAndelUtl>
+    <IkkeSelvgMobilLossetTEU>36</IkkeSelvgMobilLossetTEU>
+    <foredletFiskLLJaNei>1</foredletFiskLLJaNei>
+    <foredlFiskLastet>37</foredlFiskLastet>
+    <foredlFiskLastetAndelUtl>38</foredlFiskLastetAndelUtl>
+    <foredlFiskLosset>39</foredlFiskLosset>
+    <foredlFiskLossetAndelUtl>40</foredlFiskLossetAndelUtl>
+    <uForedlFiskLossetJaNei>1</uForedlFiskLossetJaNei>
+    <uForedlFiskLosset>41</uForedlFiskLosset>
+  </SkjemaData>
+</A3_RA0438_M>
