@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='utf-8'?>
+<A3_RA0438_M xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" dataFormatProvider="ALTINNSTUDIO" dataFormatId="A30438" dataFormatVersion="1">
+  <InternInfo>
+    <raNummer>RA-0438</raNummer>
+    <skjemaVersjon>1.0</skjemaVersjon>
+    <undersoekelsesNr>121</undersoekelsesNr>
+    <undersoekelsesInfoUrl>https://www.ssb.no/innrapportering/Godstransport-pa-kysten-arlig</undersoekelsesInfoUrl>
+    <visOppgaveByrde>1</visOppgaveByrde>
+    <visBrukeropplevelse>1</visBrukeropplevelse>
+    <delregNr>46424</delregNr>
+    <periodeFritekst>2024</periodeFritekst>
+    <periodeFomDato>2024-01-01</periodeFomDato>
+    <periodeTomDato>2024-12-31</periodeTomDato>
+    <periodeType>AAR</periodeType>
+    <periodeNummer> </periodeNummer>
+    <periodeAAr>2024</periodeAAr>
+    <periodeDato> </periodeDato>
+    <enhetsIdent>02139413</enhetsIdent>
+    <enhetsType>BEDR</enhetsType>
+    <enhetsOrgNr>974716895</enhetsOrgNr>
+    <enhetsNavn>STATISTISK SENTRALBYRÅ </enhetsNavn>
+    <enhetsGateadresse>Otervegen 23</enhetsGateadresse>
+    <enhetsPostnr>2211</enhetsPostnr>
+    <enhetsPoststed>KONGSVINGER</enhetsPoststed>
+    <enhetsAvdeling>AVD KONGSVINGER</enhetsAvdeling>
+    <reporteeOrgNr>974716895</reporteeOrgNr>
+  </InternInfo>
+  <Kontakt>
+    <kontaktPersonNavn>STAVNES EINAR DØVIK</kontaktPersonNavn>
+    <kontaktPersonEpost> </kontaktPersonEpost>
+    <kontaktPersonTelefon> </kontaktPersonTelefon>
+    <kontaktInfoBekreftet>1</kontaktInfoBekreftet>
+  </Kontakt>
+  <SkjemaData>
+    <vatbulkLossingJaNei>1</vatbulkLossingJaNei>
+    <torrbulkLossingJaNei>0</torrbulkLossingJaNei>
+    <vatbulkLastet>1</vatbulkLastet>
+    <vatbulkLastetAndelUtl>2</vatbulkLastetAndelUtl>
+    <vatbulkLosset>3</vatbulkLosset>
+    <vatbulkLossetAndelUtl>4</vatbulkLossetAndelUtl>
+    <torrbulkLastet xsi:nil="true"/>
+    <torrbulkLastetAndelUtl xsi:nil="true"/>
+    <torrbulkLosset xsi:nil="true"/>
+    <torrbulkLossetAndelUtl xsi:nil="true"/>
+    <loloContLLJaNei>0</loloContLLJaNei>
+    <roroContLLJaNei>0</roroContLLJaNei>
+    <loloContLastet xsi:nil="true"/>
+    <loloContLastetAndelUtl xsi:nil="true"/>
+    <loloContLastetTEU xsi:nil="true"/>
+    <loloContLastetTEUutenLast xsi:nil="true"/>
+    <loloContLosset xsi:nil="true"/>
+    <loloContLossetAndelUtl xsi:nil="true"/>
+    <loloContLossetTEU xsi:nil="true"/>
+    <loloContLossetTEUutenLast xsi:nil="true"/>
+    <roroContLastet xsi:nil="true"/>
+    <roroContLastetAndelUtl xsi:nil="true"/>
+    <roroContLastetTEU xsi:nil="true"/>
+    <roroContLastetTEUutenLast xsi:nil="true"/>
+    <roroContLosset xsi:nil="true"/>
+    <roroContLossetAndelUtl xsi:nil="true"/>
+    <roroContLossetTEU xsi:nil="true"/>
+    <roroContLossetTEUutenLast xsi:nil="true"/>
+    <selvgMobilLLJaNei>0</selvgMobilLLJaNei>
+    <IkkeSelvgMobilJaNei>0</IkkeSelvgMobilJaNei>
+    <selvgMobilLastet xsi:nil="true"/>
+    <selvgMobilLastetAndelUtl xsi:nil="true"/>
+    <selvgMobilLastetTEU xsi:nil="true"/>
+    <selvgMobilLosset xsi:nil="true"/>
+    <selvgMobilLossetAndelUtl xsi:nil="true"/>
+    <selvgMobilLossetTEU xsi:nil="true"/>
+    <IkkeSelvgMobilLastet xsi:nil="true"/>
+    <IkkeSelvgMobilLastetAndelUtl xsi:nil="true"/>
+    <IkkeSelvgMobilLastetTEU xsi:nil="true"/>
+    <IkkeSelvgMobilLosset xsi:nil="true"/>
+    <IkkeSelvgMobilLossetAndelUtl xsi:nil="true"/>
+    <IkkeSelvgMobilLossetTEU xsi:nil="true"/>
+    <foredletFiskLLJaNei>0</foredletFiskLLJaNei>
+    <foredlFiskLastet xsi:nil="true"/>
+    <foredlFiskLastetAndelUtl xsi:nil="true"/>
+    <foredlFiskLosset xsi:nil="true"/>
+    <foredlFiskLossetAndelUtl xsi:nil="true"/>
+    <uForedlFiskLossetJaNei>0</uForedlFiskLossetJaNei>
+    <uForedlFiskLosset xsi:nil="true"/>
+  </SkjemaData>
+</A3_RA0438_M>
