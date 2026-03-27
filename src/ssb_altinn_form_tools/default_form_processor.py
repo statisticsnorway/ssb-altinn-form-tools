@@ -230,8 +230,8 @@ class DefaultFormProcessor(MetaFormProcessor):
                 checkboxes = self._postprocess_checkboxes(extracted_form, self._checkbox_mapping)
             else:
                 checkboxes = []
-            logger.debug(extracted_form.form_data)    
-            """self._connector.begin_transaction()
+                
+            self._connector.begin_transaction()
             try:
                 self._connector.insert_contact_info(extracted_form.contact_info)
                 self._connector.insert_form_data(extracted_form.form_data)
@@ -250,7 +250,7 @@ class DefaultFormProcessor(MetaFormProcessor):
                 logger.info(
                     f"Form {json_data.altinn_reference} was inserted into the database"
                 )
-                logger.debug(f"Data: {extracted_form}")"""
+                logger.debug(f"Data: {extracted_form}")
         else:
             logger.info(
                 f"Skipped inserting form with refernce {json_data.altinn_reference} since it already exists"
