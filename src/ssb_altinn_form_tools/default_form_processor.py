@@ -220,7 +220,7 @@ class DefaultFormProcessor(MetaFormProcessor):
 
         if is_new:
             xml_string = xml_path.read_text()
-            dictionary: dict = xmltodict.parse(xml_string, force_list=self.array_fields)[self._form_data_key]
+            dictionary: dict = xmltodict.parse(xml_string, force_list=self.array_fields, xml_attribs=False)[self._form_data_key]
             extracted_form = self._extractor.extract_form(dictionary, json_data)
 
             if self._alias_mapping:
@@ -230,8 +230,8 @@ class DefaultFormProcessor(MetaFormProcessor):
                 checkboxes = self._postprocess_checkboxes(extracted_form, self._checkbox_mapping)
             else:
                 checkboxes = []
-                
-            self._connector.begin_transaction()
+            logger.debug(extracted_form.form_data)    
+            """self._connector.begin_transaction()
             try:
                 self._connector.insert_contact_info(extracted_form.contact_info)
                 self._connector.insert_form_data(extracted_form.form_data)
@@ -250,7 +250,7 @@ class DefaultFormProcessor(MetaFormProcessor):
                 logger.info(
                     f"Form {json_data.altinn_reference} was inserted into the database"
                 )
-                logger.debug(f"Data: {extracted_form}")
+                logger.debug(f"Data: {extracted_form}")"""
         else:
             logger.info(
                 f"Skipped inserting form with refernce {json_data.altinn_reference} since it already exists"
