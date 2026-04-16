@@ -220,7 +220,7 @@ class DefaultFormProcessor(MetaFormProcessor):
 
         if is_new:
             xml_string = xml_path.read_text()
-            dictionary: dict = xmltodict.parse(xml_string, force_list=self.array_fields)[self._form_data_key]
+            dictionary: dict = xmltodict.parse(xml_string, force_list=self.array_fields, xml_attribs=False)[self._form_data_key]
             extracted_form = self._extractor.extract_form(dictionary, json_data)
 
             if self._alias_mapping:
