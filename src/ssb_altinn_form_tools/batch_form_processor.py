@@ -3,16 +3,17 @@ import json
 import logging
 from pathlib import Path
 
+import pendulum
 import requests
 import xmltodict
 
-from .meta_form_extractor import MetaFormExtractor
-from .meta_form_processor import MetaFormProcessor
-from .meta_storage_connector import MetaStorageConnector
-from .models import CheckboxConfig
-from .models import Checkboxmodel
-from .models import ExtractedForm
-from .models import FormJsonData
+from ssb_altinn_form_tools.meta_form_extractor import MetaFormExtractor
+from ssb_altinn_form_tools.meta_form_processor import MetaFormProcessor
+from ssb_altinn_form_tools.meta_storage_connector import MetaStorageConnector
+from ssb_altinn_form_tools.models import CheckboxConfig
+from ssb_altinn_form_tools.models import Checkboxmodel
+from ssb_altinn_form_tools.models import ExtractedForm
+from ssb_altinn_form_tools.models import FormJsonData
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +33,7 @@ def extract_arr_fields(json_data: dict, parent: str | None = None) -> list:
     return array_items
 
 
-class DefaultFormProcessor(MetaFormProcessor):
+class BatchFormProcessor(MetaFormProcessor):
     """Default processor for scanning, extracting, and persisting forms.
 
     This processor locates XML form files on disk, parses them into dictionaries,
@@ -189,13 +190,14 @@ class DefaultFormProcessor(MetaFormProcessor):
                                 skjema=boxes.reception.skjema,
                                 ident=boxes.reception.ident,
                                 refnr=boxes.reception.refnr,
-                                delreg=boxes.reception.delreg,
                             )
                         )
 
         return results
 
-    def _process_form(self, xml_path: Path, json_data: FormJsonData):
+    def _process_form(
+        self, xml_path: Path, json_data: FormJsonData
+    ) -> tuple[ExtractedForm | None, list[Checkboxmodel] | None]:
         """Parses, extracts, transforms, and persists a single form if it is new.
 
         The method checks if a form (by `altinn_reference`) is new via the
@@ -229,7 +231,7 @@ class DefaultFormProcessor(MetaFormProcessor):
         if is_new:
             xml_string = xml_path.read_text()
             dictionary: dict = xmltodict.parse(
-                xml_string, force_list=self.array_fields, xml_attribs=False
+                xml_string, force_list=self.array_fields
             )[self._form_data_key]
             extracted_form = self._extractor.extract_form(dictionary, json_data)
 
@@ -243,33 +245,19 @@ class DefaultFormProcessor(MetaFormProcessor):
             else:
                 checkboxes = []
 
-            self._connector.begin_transaction()
-            try:
-                self._connector.insert_contact_info([extracted_form.contact_info])
-                self._connector.insert_form_data(extracted_form.form_data)
-                self._connector.insert_form_reception([extracted_form.reception])
-                self._connector.insert_unit([extracted_form.unit])
-                self._connector.insert_unit_info(extracted_form.unit_info)
-                if self._checkbox_mapping:
-                    self._connector.insert_checkboxes(checkboxes)
-
-            except Exception as e:
-                self._connector.rollback()
-                logger.error(e)
-                logger.error("Due to the previous error the insert was rolled back")
-            else:
-                self._connector.commit()
-                logger.info(
-                    f"Form {json_data.altinn_reference} was inserted into the database"
-                )
-                logger.debug(f"Data: {extracted_form}")
+            return extracted_form, checkboxes
         else:
             logger.info(
                 f"Skipped inserting form with refernce {json_data.altinn_reference} since it already exists"
             )
-        return None, None
+            return None, None
 
-    def _process_forms(self, forms: list[str]) -> None:
+    def _process_forms(
+        self,
+        forms: list[str],
+        start_dt: pendulum.DateTime | None = None,
+        end_dt: pendulum.DateTime | None = None,
+    ) -> None:
         """Processes a collection of form file paths.
 
         For each XML path, this method derives the corresponding JSON metadata
@@ -278,20 +266,80 @@ class DefaultFormProcessor(MetaFormProcessor):
 
         Args:
             forms (list[str]): List of XML file paths to process.
+            start_dt (pendulum.DateTime | None): Start for processing.
+            end_dt (pendulum.DateTime | None): End for processing.
 
         Raises:
             FileNotFoundError: If the derived JSON metadata file does not exist.
             pydantic.ValidationError: If `FormJsonData` validation fails.
         """
+        forms_list: list[ExtractedForm] = []
+        checkboxes_list = []
         for form in forms:
             file_path = Path(form)
 
             json_name = file_path.name.replace("xml", "json").replace("form", "meta")
             json_path = file_path.with_name(json_name)
             json_data = FormJsonData.model_validate_json(json_path.read_text())
-            self._process_form(file_path, json_data)
+            if start_dt and end_dt:
+                delivered_date = pendulum.instance(json_data.date_deliveres)
+                if start_dt < delivered_date < end_dt:
+                    extracted_form, checkboxes = self._process_form(
+                        file_path, json_data
+                    )
+                    if extracted_form:
+                        forms_list.append(extracted_form)
+                    if checkboxes:
+                        checkboxes_list.append(checkboxes)
 
-    def process_new_forms(self) -> None:
+            else:
+                extracted_form, checkboxes = self._process_form(file_path, json_data)
+                if extracted_form:
+                    forms_list.append(extracted_form)
+                if checkboxes:
+                    checkboxes_list.append(checkboxes)
+
+        self._connector.begin_transaction()
+        try:
+            contact_info = [form.contact_info for form in forms_list]
+            self._connector.insert_contact_info(contact_info)
+
+            form_data = []
+            for form in forms_list:
+                form_data.extend(form.form_data)
+
+            self._connector.insert_form_data(form_data)
+
+            reception = [form.reception for form in forms_list]
+            self._connector.insert_form_reception(reception)
+
+            # internal_info = []
+            # for form in forms_list:
+            #    internal_info.extend(form.internal_info)
+
+            # self._connector.insert_internal_info(internal_info)
+
+            unit = [form.unit for form in forms_list]
+            self._connector.insert_unit(unit)
+
+            unit_info = []
+            for form in forms_list:
+                unit_info.extend(form.unit_info)
+            self._connector.insert_unit_info(unit_info)
+
+            self._connector.insert_checkboxes(checkboxes_list)
+        except Exception as e:
+            self._connector.rollback()
+            logger.error(e)
+            logger.error("Due to the previous error the insert was rolled back")
+
+        self._connector.commit()
+
+    def process_new_forms(
+        self,
+        start_dt: pendulum.DateTime | None = None,
+        end_dt: pendulum.DateTime | None = None,
+    ) -> None:
         """Finds and processes all new forms discovered under the base path.
 
         Workflow:
@@ -312,5 +360,12 @@ class DefaultFormProcessor(MetaFormProcessor):
         forms = self._find_forms()
         if not forms:
             logger.warning("No forms found")
-        self._connector.create_tables_if_not_exists()
-        self._process_forms(forms)
+        self._connector.begin_transaction()
+        try:
+            self._connector.create_tables_if_not_exists()
+        except Exception as e:
+            self._connector.rollback()
+            logger.error("Create table was rolled back due to an error")
+            raise e
+        self._connector.commit()
+        self._process_forms(forms, start_dt, end_dt)

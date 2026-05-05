@@ -5,7 +5,7 @@ description = "SSB Altinn Form Tools"
 authors = [{ name = "Contact Person", email = "dor@ssb.no" }]
 license = "MIT"
 readme = "README.md"
-requires-python = ">=3.10,<4.0"
+requires-python = ">=3.12,<4.0"
 dynamic = ["classifiers"]
 dependencies = [
     "click>=8.0.1",
@@ -13,6 +13,13 @@ dependencies = [
     "xmltodict (>=1.0.3,<2.0.0)",
     "pydantic (>=2.12.5,<3.0.0)",
     "requests>=2.32.5",
+    "pendulum>=3.2.0",
+    "ssb-parquedit>=0.0.7",
+]
+[project.optional-dependencies]
+sqlalchemy = []
+parquedit = [
+    "ssb-parquedit>=0.0.7",
 ]
 
 [project.urls]

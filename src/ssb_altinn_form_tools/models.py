@@ -185,6 +185,7 @@ class FormReception(BaseModel):
     skjema: str = Field(validation_alias="raNummer")
     ident: str = Field(validation_alias="enhetsIdent")
     refnr: str = Field(validation_alias="altinnReferanse")
+    delreg: str = Field(validation_alias="delregNr")
     dato_mottatt: datetime.datetime = Field(validation_alias="altinnTidspunktLevert")
     editert: Literal["ferdig editert", "under editering", "ikke editert"]
     kommentar: str

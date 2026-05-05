@@ -45,7 +45,7 @@ class MetaStorageConnector(ABC):
         ...
 
     @abstractmethod
-    def rollback(self, ref_number: str) -> None:
+    def rollback(self) -> None:
         """Rolls back the current transaction.
 
         Args:
@@ -59,7 +59,7 @@ class MetaStorageConnector(ABC):
         ...
 
     @abstractmethod
-    def insert_contact_info(self, contact_info: ContactInfo) -> None:
+    def insert_contact_info(self, contact_info: list[ContactInfo]) -> None:
         """Inserts contact information into storage.
 
         Args:
@@ -79,7 +79,7 @@ class MetaStorageConnector(ABC):
         ...
 
     @abstractmethod
-    def insert_form_reception(self, form_reciept: FormReception) -> None:
+    def insert_form_reception(self, form_reciept: list[FormReception]) -> None:
         """Inserts metadata about the form reception.
 
         Args:
@@ -89,7 +89,7 @@ class MetaStorageConnector(ABC):
         ...
 
     @abstractmethod
-    def insert_unit(self, unit: Unit) -> None:
+    def insert_unit(self, unit: list[Unit]) -> None:
         """Inserts unit-level metadata.
 
         Args:

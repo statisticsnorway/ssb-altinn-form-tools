@@ -67,7 +67,7 @@ class MetaFormProcessor(ABC):
         self,
         xml_path: Path,
         json_data: FormJsonData,
-    ) -> None:
+    ) -> tuple[ExtractedForm | None, list[Checkboxmodel] | None]:
         """Processes a single form given its XML path and parsed JSON metadata.
 
         Implementations typically:

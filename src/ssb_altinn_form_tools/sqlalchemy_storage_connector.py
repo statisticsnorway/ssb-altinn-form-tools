@@ -69,7 +69,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             raise RuntimeError("Session is not started")
         return self._session
 
-    def rollback(self, ref_number: str) -> None:
+    def rollback(self) -> None:
         """Rolls back the current transaction.
 
         Args:
@@ -117,7 +117,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         result = conn.execute(stmt).first()
         return result is None
 
-    def insert_contact_info(self, contact_info: ContactInfo) -> None:
+    def insert_contact_info(self, contact_info: list[ContactInfo]) -> None:
         """Inserts contact information for a form.
 
         Args:
@@ -126,19 +126,22 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         Side Effects:
             Adds a new ``kontaktinfo`` ORM instance to the current session.
         """
-        model = kontaktinfo(
-            aar=contact_info.aar,
-            skjema=contact_info.skjema,
-            ident=contact_info.ident,
-            refnr=contact_info.refnr,
-            kontaktperson=contact_info.kontaktperson,
-            epost=contact_info.epost,
-            telefon=contact_info.telefon,
-            bekreftet_kontaktinfo=contact_info.bekreftet_kontaktinfo,
-            kommentar_kontaktinfo=contact_info.kommentar_kontaktinfo,
-            kommentar_krevende=contact_info.kommentar_krevende,
-        )
-        self._get_session().add(model)
+        forms = []
+        for form in forms:
+            model = kontaktinfo(
+                aar=form.aar,
+                skjema=form.skjema,
+                ident=form.ident,
+                refnr=form.refnr,
+                kontaktperson=form.kontaktperson,
+                epost=form.epost,
+                telefon=form.telefon,
+                bekreftet_kontaktinfo=form.bekreftet_kontaktinfo,
+                kommentar_kontaktinfo=form.kommentar_kontaktinfo,
+                kommentar_krevende=form.kommentar_krevende,
+            )
+            forms.append(model)
+        self._get_session().add_all(forms)
 
     def insert_form_data(self, form_data: list[FormData]) -> None:
         """Inserts all field-level form data entries.
@@ -166,7 +169,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             models.append(node_data)
         self._get_session().add_all(models)
 
-    def insert_form_reception(self, form_reciept: FormReception) -> None:
+    def insert_form_reception(self, form_reciept: list[FormReception]) -> None:
         """Inserts metadata describing the reception of a form.
 
         Args:
@@ -176,19 +179,22 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         Side Effects:
             Adds a new ``skjemamottak`` ORM instance to the current session.
         """
-        model = skjemamottak(
-            aar=form_reciept.aar,
-            skjema=form_reciept.skjema,
-            ident=form_reciept.ident,
-            refnr=form_reciept.refnr,
-            kommentar=form_reciept.kommentar,
-            dato_mottatt=form_reciept.dato_mottatt,
-            editert=form_reciept.editert,
-            aktiv=form_reciept.aktiv,
-        )
-        self._get_session().add(model)
+        forms = []
+        for form in form_reciept:
+            model = skjemamottak(
+                aar=form.aar,
+                skjema=form.skjema,
+                ident=form.ident,
+                refnr=form.refnr,
+                kommentar=form.kommentar,
+                dato_mottatt=form.dato_mottatt,
+                editert=form.editert,
+                aktiv=form.aktiv,
+            )
+            forms.append(model)
+        self._get_session().add_all(forms)
 
-    def insert_unit(self, unit: Unit) -> None:
+    def insert_unit(self, unit: list[Unit]) -> None:
         """Inserts unit-level metadata.
 
         Args:
@@ -197,8 +203,11 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         Side Effects:
             Adds a new ``enheter`` ORM instance to the current session.
         """
-        model = enheter(aar=unit.aar, ident=unit.ident, skjema=unit.skjema)
-        self._get_session().add(model)
+        forms = []
+        for form in unit:
+            model = enheter(aar=form.aar, ident=form.ident, skjema=form.skjema)
+            forms.append(model)
+        self._get_session().add_all(forms)
 
     def insert_unit_info(self, units: list[UnitInfo]) -> None:
         """Inserts additional key-value attributes for a unit.
@@ -218,6 +227,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         self._get_session().add_all(unit_info)
 
     def insert_checkboxes(self, boxes: list[Checkboxmodel]) -> None:
+        """Inserts checkbox data."""
         items = []
         for item in boxes:
             model = skjemacheckboxes(

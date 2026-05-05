@@ -1,8 +1,22 @@
-from sqlalchemy import Engine, select
-from sqlalchemy.orm import Session
+try:
+    from _duckdb import CatalogException
+    from duckdb import DuckDBPyConnection
+    from ssb_parquedit import ParquEdit
+except ImportError as e:
+    print("This connector cannot be used if duckdb or parquedit is not installed")
+    raise e
+
+import duckdb
+
 from .meta_storage_connector import MetaStorageConnector
-from .models import ContactInfo, Unit, UnitInfo, FormData, FormReception
-from .schema import Base, kontaktinfo, enheter, enhetsinfo, skjemadata, skjemamottak
+from .models import Checkboxmodel
+from .models import ContactInfo
+from .models import FormData
+from .models import FormReception
+from .models import Unit
+from .models import UnitInfo
+
+# from .schema import skjemamottak
 
 
 class ParqueditStorageConnector(MetaStorageConnector):
@@ -14,11 +28,9 @@ class ParqueditStorageConnector(MetaStorageConnector):
     schemas (e.g., Parquet with a schema registry). For now, certain operations
     still reference a SQLAlchemy `Engine` and issue simple selects, acting as
     placeholders until a full Parquet-backed implementation is completed.
-
-    Attributes:
-
     """
-    def __init__(self, engine: Engine) -> None:
+
+    def __init__(self, engine: ParquEdit) -> None:
         """Initializes the connector with a SQLAlchemy engine (placeholder).
 
         Args:
@@ -29,11 +41,10 @@ class ParqueditStorageConnector(MetaStorageConnector):
         Raises:
             NotImplementedError: Always raised to indicate the connector is not
                 ready for use.
-        
+
         """
-        self._engine = engine
+        self._engine = engine._get_connection().raw
         self._session = None
-        raise NotImplementedError("WIP: Class is not usable")
 
     def begin_transaction(self) -> None:
         """Starts a new transactional session (placeholder).
@@ -48,10 +59,9 @@ class ParqueditStorageConnector(MetaStorageConnector):
             Exception: Propagates any SQLAlchemy errors during session creation
                 or transaction start.
         """
-        self._session = Session(bind=self._engine)
-        self._get_session().begin()
+        self._session = self._engine.begin()
 
-    def _get_session(self) -> Session:
+    def _get_session(self) -> DuckDBPyConnection:
         """Returns the active session or raises if not started.
 
         Returns:
@@ -64,7 +74,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
             raise RuntimeError("Session is not started")
         return self._session
 
-    def rollback(self, ref_number: str) -> None:
+    def rollback(self) -> None:
         """Rolls back the current transaction (placeholder).
 
         Args:
@@ -92,6 +102,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
             schema/metadata files (or register schemas with a catalog). This WIP
             method currently only defines in-memory schema descriptors.
         """
+        self.begin_transaction()
         self._create_contact_info_table()
         self._create_control_result_table()
         self._create_controls_table()
@@ -99,6 +110,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
         self._create_form_reciept_table()
         self._create_unit_info_table()
         self._create_unit_table()
+        self.commit()
+
+    def _get_ingested_forms(self) -> list[str]:
+        sess = self._engine
+        try:
+            data = sess.execute("SELECT refnr FROM skjemadata").fetchall()
+            return list(set([item[0] for item in data]))
+        except CatalogException:
+            return []
 
     def validate_form_is_new(self, form_reference: str) -> bool:
         """Checks if a form reference is not already present.
@@ -115,10 +135,12 @@ class ParqueditStorageConnector(MetaStorageConnector):
             ``skjemamottak``. In a Parquet/Delta backend, this would scan an
             index, metadata log, or keyed manifest to ensure idempotency.
         """
-        stmt = select(skjemamottak).filter(skjemamottak.refnr == form_reference)
-        conn = self._engine.connect()
-        result = conn.execute(stmt).first()
-        return result is None
+        try:
+            self.__getattribute__("forms")
+        except AttributeError:
+            self.forms = self._get_ingested_forms()
+
+        return form_reference not in self.forms
 
     def _create_contact_info_table(self):
         """Defines the schema for the `kontaktinfo` table (contact info).
@@ -128,22 +150,23 @@ class ParqueditStorageConnector(MetaStorageConnector):
             Currently unused beyond in-code documentation.
         """
         table_name = "kontaktinfo"
-        schema = {
-            "properties": {
-                "id": {"type": "integer"},
-                "aar": {"type": "integer"},
-                "skjema": {"type": "string"},
-                "ident": {"type": "string"},
-                "refnr": {"type": "string"},
-                "kontaktperson": {"type": "string"},
-                "epost": {"type": "string"},
-                "telefon": {"type": "string"},
-                "bekreftet_kontaktinfo": {"type": "string"},
-                "kommentar_kontaktinfo": {"type": "string"},
-                "kommentar_krevende": {"type": "string"},
-            },
-            "required": ["id", "aar", "skjema", "ident", "refnr"],
-        }
+        create_stmt = f"""
+        CREATE TABLE IF NOT EXISTS {table_name}(
+                    aar   VARCHAR NOT NULL,
+                    delreg VARCHAR NOT NULL,
+                    ident  VARCHAR NOT NULL,
+                    skjema  VARCHAR NOT NULL,
+                    refnr  VARCHAR NOT NULL,
+                    kontaktperson  VARCHAR,
+                    epost  VARCHAR,
+                    telefon  VARCHAR,
+                    bekreftet_kontaktinfo  VARCHAR,
+                    kommentar_kontaktinfo  VARCHAR,
+                    kommentar_krevende  VARCHAR
+        );
+        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        """
+        self._get_session().execute(create_stmt)
 
     def _create_form_data_table(self):
         """Defines the schema for the `skjemadata` table (field-level data).
@@ -153,32 +176,24 @@ class ParqueditStorageConnector(MetaStorageConnector):
             to be a typo. In a future implementation, ensure the table name
             matches ``skjemadata``.
         """
-        table_name = "kontaktinfo"
-        schema = {
-            "properties": {
-                "id": {"type": "integer"},
-                "aar": {"type": "integer"},
-                "skjema": {"type": "string"},
-                "ident": {"type": "string"},
-                "refnr": {"type": "string"},
-                "feltsti": {"type": "string"},
-                "feltnavn": {"type": "string"},
-                "verdi": {"type": "string"},
-                "alias": {"type": "string"},
-                "dybde": {"type": "integer"},
-                "indeks": {"type": "integer"},
-            },
-            "required": [
-                "id",
-                "aar",
-                "skjema",
-                "ident",
-                "refnr",
-                "feltsti",
-                "feltnavn",
-                "verdi",
-            ],
-        }
+        table_name = "skjemadata"
+        create_stmt = f"""
+        CREATE TABLE IF NOT EXISTS {table_name}(
+                aar   VARCHAR NOT NULL,
+                delreg VARCHAR NOT NULL,
+                skjema  VARCHAR NOT NULL,
+                ident  VARCHAR NOT NULL,
+                refnr  VARCHAR NOT NULL,
+                feltsti  VARCHAR,
+                feltnavn  VARCHAR,
+                verdi  VARCHAR,
+                alias  VARCHAR,
+                dybde  INTEGER,
+                indeks  INTEGER
+        );
+        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        """
+        self._get_session().execute(create_stmt)
 
     def _create_form_reciept_table(self):
         """Defines the schema for the `skjemamottak` table (form reception).
@@ -189,61 +204,49 @@ class ParqueditStorageConnector(MetaStorageConnector):
             logical type.
         """
         table_name = "skjemamottak"
-        schema = {
-            "properties": {
-                "id": {"type": "integer"},
-                "aar": {"type": "integer"},
-                "skjema": {"type": "string"},
-                "ident": {"type": "string"},
-                "refnr": {"type": "string"},
-                "kommentar": {"type": "string"},
-                "dato_mottatt": {"type": "string", "fmt": "date-time"},
-                "editert": {"type": "string"},
-                "aktiv": {"type": "boolean"},
-            },
-            "required": [
-                "id",
-                "aar",
-                "skjema",
-                "ident",
-                "refnr",
-                "dato_mottatt",
-                "editert",
-                "aktiv",
-            ],
-        }
+        create_stmt = f"""
+        CREATE TABLE IF NOT EXISTS {table_name}(
+                    aar   VARCHAR NOT NULL,
+                    delreg VARCHAR NOT NULL,
+                    ident  VARCHAR NOT NULL,
+                    skjema  VARCHAR NOT NULL,
+                    refnr  VARCHAR,
+                    editert VARCHAR,
+                    aktiv BOOLEAN,
+                    dato_mottatt TIMESTAMP
+        );
+        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        """
+        self._get_session().execute(create_stmt)
 
     def _create_unit_table(self):
         """Defines the schema for the `enheter` table (units)."""
         table_name = "enheter"
-        schema = {
-            "properties": {
-                "id": {"type": "integer"},
-                "aar": {"type": "integer"},
-                "skjema": {"type": "string"},
-                "ident": {"type": "string"},
-            },
-            "required": [
-                "id",
-                "aar",
-                "skjema",
-                "ident",
-            ],
-        }
+        create_stmt = f"""
+        CREATE TABLE IF NOT EXISTS {table_name}(
+                    aar   VARCHAR NOT NULL,
+                    delreg VARCHAR NOT NULL,
+                    skjema  VARCHAR NOT NULL,
+                    ident  VARCHAR NOT NULL
+        );
+        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        """
+        self._get_session().execute(create_stmt)
 
     def _create_unit_info_table(self):
         """Defines the schema for the `enhetsinfo` table (unit attributes)."""
         table_name = "enhetsinfo"
-        schema = {
-            "properties": {
-                "id": {"type": "integer"},
-                "aar": {"type": "integer"},
-                "ident": {"type": "string"},
-                "variabel": {"type": "string"},
-                "verdi": {"type": "string"},
-            },
-            "required": ["id", "aar", "ident", "variabel", "verdi"],
-        }
+        create_stmt = f"""
+        CREATE TABLE IF NOT EXISTS {table_name}(
+                    aar   VARCHAR NOT NULL,
+                    delreg VARCHAR NOT NULL,
+                    ident  VARCHAR NOT NULL,
+                    variabel  VARCHAR,
+                    verdi  VARCHAR
+        );
+        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        """
+        self._get_session().execute(create_stmt)
 
     def _create_controls_table(self):
         """Defines the schema for the `kontroller` table (control definitions)."""
@@ -294,7 +297,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
             ],
         }
 
-    def insert_contact_info(self, contact_info: ContactInfo) -> None:
+    def insert_contact_info(self, contact_info: list[ContactInfo]) -> None:
         """Stages a contact info record for insertion (WIP).
 
         Args:
@@ -305,7 +308,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
             potentially via a staging area and atomic commit.
         """
         table_name = "kontaktinfo"
-        model = [contact_info.model_dump()]
+        model = [model.model_dump() for model in contact_info]
+
+        # df = pd.DataFrame(model)
+        sess = self._get_session()
+        sess.execute(
+            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
+            {"tbl": model},
+        )
+        # sess.execute(f"INSERT INTO {table_name} BY NAME SELECT * FROM df")
 
     def insert_form_data(self, form_data: list[FormData]) -> None:
         """Stages a batch of form data records for insertion (WIP).
@@ -323,24 +334,24 @@ class ParqueditStorageConnector(MetaStorageConnector):
             node_data = node.model_dump()
             models.append(node_data)
 
-    def insert_form_reception(self, form_reciept: FormReception) -> None:
+    def insert_form_reception(self, form_reciept: list[FormReception]) -> None:
         """Stages a form reception record for insertion (WIP).
 
         Args:
             form_reciept (FormReception): Reception metadata to persist.
         """
         table_name = "skjemamottak"
-        model = [form_reciept.model_dump()]
+        model = [model.model_dump() for model in form_reciept]
 
-    def insert_unit(self, unit: Unit) -> None:
+    def insert_unit(self, unit: list[Unit]) -> None:
         """Stages a unit record for insertion (WIP).
 
         Args:
             unit (Unit): Unit metadata to persist.
-        
+
         """
         table_name = "enheter"
-        model = [unit.model_dump()]
+        model = [model.model_dump() for model in unit]
 
     def insert_unit_info(self, units: list[UnitInfo]) -> None:
         """Stages unit attribute records for insertion (WIP).
@@ -353,3 +364,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         for item in units:
             model = item.model_dump()
             unit_info.append(model)
+
+    def insert_checkboxes(self, boxes: list[Checkboxmodel]) -> None:
+        pass
+        # return super().insert_checkboxes(boxes)
