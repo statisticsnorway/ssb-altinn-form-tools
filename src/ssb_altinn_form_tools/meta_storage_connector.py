@@ -1,7 +1,13 @@
 from abc import ABC
 from abc import abstractmethod
 
-from .models import ContactInfo, FormData, FormReception, Unit, UnitInfo, Checkboxmodel
+from .models import Checkboxmodel
+from .models import ContactInfo
+from .models import FormData
+from .models import FormReception
+from .models import Unit
+from .models import UnitInfo
+
 
 class MetaStorageConnector(ABC):
     """Abstract base class defining the interface for persistent storage operations.
@@ -17,20 +23,6 @@ class MetaStorageConnector(ABC):
     """
 
     @abstractmethod
-    def __init__(self, *args, **kwargs) -> None:
-        """Initializes the storage connector.
-
-        Args:
-            *args: Positional arguments passed to the concrete implementation.
-            **kwargs: Keyword arguments passed to the concrete implementation.
-
-        Notes:
-            Subclasses may use the constructor to establish connections,
-            configure engines or clients, or load connection metadata.
-        """
-        super().__init__(*args, **kwargs)
-
-    @abstractmethod
     def begin_transaction(self) -> None:
         """Begins a new transaction boundary.
 
@@ -40,7 +32,7 @@ class MetaStorageConnector(ABC):
             allowed or disallowed, depending on the backend.
         """
         ...
-    
+
     @abstractmethod
     def commit(self) -> None:
         """Commits the current transaction.
@@ -65,7 +57,7 @@ class MetaStorageConnector(ABC):
             should ensure that no partial writes remain after rollback.
         """
         ...
-        
+
     @abstractmethod
     def insert_contact_info(self, contact_info: ContactInfo) -> None:
         """Inserts contact information into storage.
@@ -117,7 +109,10 @@ class MetaStorageConnector(ABC):
 
     @abstractmethod
     def insert_checkboxes(self, unit: list[Checkboxmodel]) -> None:
-        raise NotImplementedError(f"{self} does not implement the '_postprocess_checkboxes' method and does not support custom handling of checkboxes")
+        """Insert checkboxes into storage."""
+        raise NotImplementedError(
+            f"{self} does not implement the '_postprocess_checkboxes' method and does not support custom handling of checkboxes"
+        )
 
     @abstractmethod
     def create_tables_if_not_exists(self) -> None:
