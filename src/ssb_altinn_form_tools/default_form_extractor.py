@@ -1,13 +1,13 @@
 import logging
-from .meta_form_extractor import MetaFormExtractor, InputFormType
-from .models import (
-    ContactInfo,
-    FormJsonData,
-    FormNode,
-    FormData,
-    FormReception,
-    UnitInfo,
-)
+
+from .meta_form_extractor import InputFormType
+from .meta_form_extractor import MetaFormExtractor
+from .models import ContactInfo
+from .models import FormData
+from .models import FormJsonData
+from .models import FormNode
+from .models import FormReception
+from .models import UnitInfo
 
 logger = logging.getLogger(__name__)
 
@@ -66,7 +66,6 @@ def parse_entries(data: dict | list, parent: None | str = None) -> list[FormNode
         iterator = data.items()
 
     for key, value in iterator:
-
         sti = f"{parent if parent else ''}/{key}"
         if isinstance(value, list) or isinstance(value, dict):
             fields.extend(parse_entries(value, parent=sti))
@@ -89,16 +88,15 @@ def parse_entries(data: dict | list, parent: None | str = None) -> list[FormNode
 
 
 class DefaultFormExtractor(MetaFormExtractor):
-    """A default extractor from XML-forms. The class is responsible for extracting data to
+    """A default extractor from XML-forms.
+
+    The class is responsible for extracting data to
     the standard table schema. See `MetaFormExtractor` for implemenation details.
 
-    Args:
-
-    Attributes:
-
-
     """
+
     def __init__(self) -> None:
+        """Initalizer for a default form extractor."""
         super().__init__()
 
     def extract_contact_info(
@@ -143,9 +141,7 @@ class DefaultFormExtractor(MetaFormExtractor):
         ident: str,
         refnr: str,
     ) -> list[FormData]:
-        
-        """
-        Extract structured form data from raw XML-derived input.
+        """Extract structured form data from raw XML-derived input.
 
         This function processes the ``SkjemaData`` section of a form represented as
         a dictionary or list (typically parsed from XML). Each entry is normalized
@@ -165,7 +161,6 @@ class DefaultFormExtractor(MetaFormExtractor):
             list(FormData): A list of ``FormData`` objects, each representing a parsed and validated
             node from the form data.
         """
-
         form_data = form_dict_data["SkjemaData"]
 
         assert isinstance(form_data, dict) or isinstance(form_data, list)
@@ -186,9 +181,7 @@ class DefaultFormExtractor(MetaFormExtractor):
     def extract_form_reception(
         self, form_dict_data: InputFormType, json_data: FormJsonData
     ) -> FormReception:
-        
-        """
-        Extracts reception metadata for a form from internal XML data and JSON input.
+        """Extracts reception metadata for a form from internal XML data and JSON input.
 
         This function reads the ``InternInfo`` section of the XML-derived form
         structure and combines it with metadata delivered via the ``json_data``
@@ -206,11 +199,10 @@ class DefaultFormExtractor(MetaFormExtractor):
             FormReception: A fully constructed ``FormReception`` model combining
             XML-derived and JSON-derived metadata.
         """
-
         form_data = form_dict_data["InternInfo"]
 
         assert isinstance(form_data, dict)
-        
+
         logger.debug(json_data)
 
         return FormReception(
@@ -225,9 +217,7 @@ class DefaultFormExtractor(MetaFormExtractor):
     def extract_unit_info(
         self, form_dict_data: InputFormType, year: str, ident: str
     ) -> list[UnitInfo]:
-        
-        """
-        Extracts unit-related metadata from internal form information.
+        """Extracts unit-related metadata from internal form information.
 
         This function iterates over the ``InternInfo`` section of the form structure
         (parsed from XML into a dictionary) and collects key-value pairs whose keys
@@ -244,7 +234,6 @@ class DefaultFormExtractor(MetaFormExtractor):
             list[UnitInfo]: A list of ``UnitInfo`` objects built from keys in
             ``InternInfo`` that start with ``"enhets"``.
         """
-
         form_data = form_dict_data["InternInfo"]
 
         assert isinstance(form_data, dict)
