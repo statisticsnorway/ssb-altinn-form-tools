@@ -1,20 +1,27 @@
 import glob
-import logging
 import json
-import requests
-
+import logging
 from pathlib import Path
 
+import requests
 import xmltodict
 
-from .meta_form_processor import MetaFormProcessor
 from .meta_form_extractor import MetaFormExtractor
+from .meta_form_processor import MetaFormProcessor
 from .meta_storage_connector import MetaStorageConnector
-from .models import ExtractedForm, FormJsonData, CheckboxConfig, Checkboxmodel
+from .models import CheckboxConfig
+from .models import Checkboxmodel
+from .models import ExtractedForm
+from .models import FormJsonData
 
 logger = logging.getLogger(__name__)
 
+
 def extract_arr_fields(json_data: dict, parent: str | None = None) -> list:
+    """Extract names of fields that are arrays.
+
+    A function that traverses a dictionary recursivly to extract the name of fields that are arrays.
+    """
     array_items = []
     for key, value in json_data.items():
         if isinstance(value, dict):
@@ -24,17 +31,14 @@ def extract_arr_fields(json_data: dict, parent: str | None = None) -> list:
                 array_items.append(parent)
     return array_items
 
+
 class DefaultFormProcessor(MetaFormProcessor):
-    
     """Default processor for scanning, extracting, and persisting forms.
 
     This processor locates XML form files on disk, parses them into dictionaries,
     extracts structured models via a `MetaFormExtractor`, optionally applies
     alias and checkbox mapping, and persists the results through a
     `MetaStorageConnector` using transactional semantics.
-
-    Attributes:
-
     """
 
     def __init__(
@@ -48,7 +52,6 @@ class DefaultFormProcessor(MetaFormProcessor):
         ra_version: None | int = None,
         alternative_glob_path: None | str = None,
     ) -> None:
-        
         """Initializes the default form processor.
 
         Args:
@@ -64,45 +67,51 @@ class DefaultFormProcessor(MetaFormProcessor):
             checkbox_mapping (list[str] | None): Optional list of field names that
                 represent multi-select values encoded as comma-separated strings.
                 These will be normalized to JSON arrays.
-            ra_version (str | None): An optional argument denoting which data-version 
-                of the form to use. This is automatically set to 1 if no argument is 
+            ra_version (str | None): An optional argument denoting which data-version
+                of the form to use. This is automatically set to 1 if no argument is
                 provided.
-            alternative_glob_path (str | None): Globbable path to all forms. Eg. '/**/*.xml'. 
-                We try to automatically discover forms based on the standard directory structure 
-                provided by team suv. If you another directory structure, this argument can be set. 
+            alternative_glob_path (str | None): Globbable path to all forms. Eg. '/**/*.xml'.
+                We try to automatically discover forms based on the standard directory structure
+                provided by team suv. If you another directory structure, this argument can be set.
         """
-
         self._extractor = extractor
         self._connector = connector
         self._form_base_path = form_base_path
         self._form_data_key = f"A3_{form_name}_M"
         self._alias_mapping = alias_mapping
-        self._glob_path = alternative_glob_path if alternative_glob_path else f"{self._form_base_path}/**/**/**/**/*.xml"
-        
+        self._glob_path = (
+            alternative_glob_path
+            if alternative_glob_path
+            else f"{self._form_base_path}/**/**/**/**/*.xml"
+        )
+
         if checkbox_mapping:
-            self._checkbox_mapping = [CheckboxConfig.model_validate(x) for x in checkbox_mapping]
+            self._checkbox_mapping = [
+                CheckboxConfig.model_validate(x) for x in checkbox_mapping
+            ]
         else:
             self._checkbox_mapping = None
-        
-        ra_nummer = f"{form_name[:2]}-{form_name[2:]}A3"   # Eksempel: "RA-1234A3"
-        version = ra_version if ra_version else 1          # Eksempel: 1 (numerisk)
-        
-        
-        ra_base = ra_nummer.split("A3")[0]       # "RA-0848"
-        ra_id = ra_base.replace("-", "").lower() # "ra0848"
-        version_str = f"{version:02d}"           # "01"
-        
+
+        ra_nummer = f"{form_name[:2]}-{form_name[2:]}A3"  # Eksempel: "RA-1234A3"
+        version = ra_version if ra_version else 1  # Eksempel: 1 (numerisk)
+
+        ra_base = ra_nummer.split("A3")[0]  # "RA-0848"
+        ra_id = ra_base.replace("-", "").lower()  # "ra0848"
+        version_str = f"{version:02d}"  # "01"
+
         url = f"https://ssb.apps.altinn.no/ssb/{ra_id}-{version_str}/api/jsonschema/A3_{ra_base}_M"
         prod_res = requests.get(url)
-        
+
         try:
             self.form_json = prod_res.json()
             self.array_fields = extract_arr_fields(self.form_json)
         except Exception as e:
-            logger.warning(f"Fetching metadata for the form resulted in the following error. Possibly because metadata does not exist. Error: \n{e}")
+            logger.warning(
+                f"Fetching metadata for the form resulted in the following error. Possibly because metadata does not exist. Error: \n{e}"
+            )
             # Some forms does not have metadata in Altinn
             self.array_fields = None
-            
+
     def _find_forms(self) -> list[str]:
         """Finds XML forms recursively under the configured base path.
 
@@ -127,7 +136,6 @@ class DefaultFormProcessor(MetaFormProcessor):
             Mutates `extracted_form.form_data` by setting the `alias` field where
             applicable.
         """
-
         for idx, _ in enumerate(extracted_form.form_data):
             if extracted_form.form_data[idx].feltnavn in mapping:
                 key = extracted_form.form_data[idx].feltnavn
@@ -154,7 +162,6 @@ class DefaultFormProcessor(MetaFormProcessor):
             Mutates `extracted_form.form_data[idx].verdi` for matched fields by
             converting comma-separated strings to JSON arrays.
         """
-
         for idx, item in enumerate(extracted_form.form_data):
             if (item.feltnavn in mapping) and (item.verdi is not None):
                 values = item.verdi.split(",")
@@ -162,7 +169,9 @@ class DefaultFormProcessor(MetaFormProcessor):
 
         return extracted_form
 
-    def _postprocess_checkboxes(self, boxes: ExtractedForm, checkbox_mapping: list[CheckboxConfig]) -> list[Checkboxmodel]:
+    def _postprocess_checkboxes(
+        self, boxes: ExtractedForm, checkbox_mapping: list[CheckboxConfig]
+    ) -> list[Checkboxmodel]:
         results = []
         for checkbox in checkbox_mapping:
             for box in boxes.form_data:
@@ -170,23 +179,22 @@ class DefaultFormProcessor(MetaFormProcessor):
                     checked = box.verdi.split(",") if box.verdi else []
                     for option in checkbox.options:
                         option_str = str(option)
-                        results.append(Checkboxmodel(
-                            field_name=checkbox.field_name,
-                            option=option_str,
-                            checked=option_str in checked,
-                            field_path=box.feltsti,
-                            aar=boxes.reception.aar,
-                            skjema=boxes.reception.skjema,
-                            ident=boxes.reception.ident,
-                            refnr=boxes.reception.refnr,
-                        ))
-                
-        return results
-    
-    def _process_form(
-        self, xml_path: Path, json_data: FormJsonData
-    ) -> ExtractedForm | None:
+                        results.append(
+                            Checkboxmodel(
+                                field_name=checkbox.field_name,
+                                option=option_str,
+                                checked=option_str in checked,
+                                field_path=box.feltsti,
+                                aar=boxes.reception.aar,
+                                skjema=boxes.reception.skjema,
+                                ident=boxes.reception.ident,
+                                refnr=boxes.reception.refnr,
+                            )
+                        )
 
+        return results
+
+    def _process_form(self, xml_path: Path, json_data: FormJsonData):
         """Parses, extracts, transforms, and persists a single form if it is new.
 
         The method checks if a form (by `altinn_reference`) is new via the
@@ -215,22 +223,25 @@ class DefaultFormProcessor(MetaFormProcessor):
             - Logs debug details of the extracted data upon successful commit.
             - Logs errors and emits a rollback notice if an exception occurs.
         """
-
         is_new = self._connector.validate_form_is_new(json_data.altinn_reference)
 
         if is_new:
             xml_string = xml_path.read_text()
-            dictionary: dict = xmltodict.parse(xml_string, force_list=self.array_fields, xml_attribs=False)[self._form_data_key]
+            dictionary: dict = xmltodict.parse(
+                xml_string, force_list=self.array_fields, xml_attribs=False
+            )[self._form_data_key]
             extracted_form = self._extractor.extract_form(dictionary, json_data)
 
             if self._alias_mapping:
                 self._map_alias(self._alias_mapping, extracted_form)
 
             if self._checkbox_mapping:
-                checkboxes = self._postprocess_checkboxes(extracted_form, self._checkbox_mapping)
+                checkboxes = self._postprocess_checkboxes(
+                    extracted_form, self._checkbox_mapping
+                )
             else:
                 checkboxes = []
-                
+
             self._connector.begin_transaction()
             try:
                 self._connector.insert_contact_info(extracted_form.contact_info)
@@ -240,7 +251,7 @@ class DefaultFormProcessor(MetaFormProcessor):
                 self._connector.insert_unit_info(extracted_form.unit_info)
                 if self._checkbox_mapping:
                     self._connector.insert_checkboxes(checkboxes)
-                    
+
             except Exception as e:
                 self._connector.rollback(json_data.altinn_reference)
                 logger.error(e)
@@ -270,7 +281,6 @@ class DefaultFormProcessor(MetaFormProcessor):
             FileNotFoundError: If the derived JSON metadata file does not exist.
             pydantic.ValidationError: If `FormJsonData` validation fails.
         """
-
         for form in forms:
             file_path = Path(form)
 
@@ -296,7 +306,6 @@ class DefaultFormProcessor(MetaFormProcessor):
             - Debug: start of processing and possibly downstream details.
             - Warning: if no forms are found.
         """
-
         logger.debug(f"Begin processing {self._form_data_key} forms")
         forms = self._find_forms()
         if not forms:
