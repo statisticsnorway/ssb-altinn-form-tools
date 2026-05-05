@@ -1,7 +1,11 @@
-from typing import Literal
-import datetime
+from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict, Field
+import datetime
+from typing import Literal
+
+from pydantic import BaseModel
+from pydantic import ConfigDict
+from pydantic import Field
 
 
 class FormNode(BaseModel):
@@ -27,7 +31,7 @@ class FormNode(BaseModel):
     indeks: int | None = Field(default=None)
     alias: str | None = Field(default=None)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
@@ -51,7 +55,9 @@ class FormData(FormNode):
     refnr: str
 
     @staticmethod
-    def from_form_data(node: FormNode, year: str, form: str, ident: str, refnr: str):
+    def from_form_data(
+        node: FormNode, year: str, form: str, ident: str, refnr: str
+    ) -> FormData:
         """Constructs a :class:`FormData` from a :class:`FormNode` and context.
 
         Args:
@@ -68,7 +74,7 @@ class FormData(FormNode):
             aar=year, skjema=form, ident=ident, refnr=refnr, **node.model_dump()
         )
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
@@ -109,7 +115,7 @@ class ContactInfo(BaseModel):
         default=None, validation_alias="kontaktKrevende"
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
@@ -127,7 +133,7 @@ class Unit(BaseModel):
     ident: str
     skjema: str
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
@@ -147,7 +153,7 @@ class UnitInfo(BaseModel):
     variabel: str
     verdi: str | None = Field(default=None)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
@@ -186,7 +192,7 @@ class FormReception(BaseModel):
 
     model_config = ConfigDict(validate_by_alias=True, validate_by_name=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
@@ -204,7 +210,7 @@ class FormJsonData(BaseModel):
     altinn_reference: str = Field(validation_alias="altinnReferanse")
     date_deliveres: datetime.datetime = Field(validation_alias="altinnTidspunktLevert")
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
@@ -226,20 +232,25 @@ class ExtractedForm(BaseModel):
     unit_info: list[UnitInfo]
     form_data: list[FormData]
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
 
 class CheckboxConfig(BaseModel):
+    """Model for representing checkbox options."""
+
     field_name: str
     options: list[str]
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
 
 class Checkboxmodel(BaseModel):
+    """Model for representing checkboxes."""
+
     aar: str
     skjema: str
     ident: str
@@ -250,5 +261,6 @@ class Checkboxmodel(BaseModel):
     checked: bool
     field_path: str
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
