@@ -200,8 +200,8 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         model = enheter(aar=unit.aar, ident=unit.ident, skjema=unit.skjema)
         self._get_session().add(model)
 
-    def insert_unit_info(self, unit: list[UnitInfo]) -> None:
-        """Inserts additional key–value attributes for a unit.
+    def insert_unit_info(self, units: list[UnitInfo]) -> None:
+        """Inserts additional key-value attributes for a unit.
 
         Args:
             units (list[UnitInfo]): Collection of unit info entries to persist.
@@ -210,7 +210,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             Adds multiple ``enhetsinfo`` ORM instances to the current session.
         """
         unit_info = []
-        for item in unit:
+        for item in units:
             model = enhetsinfo(
                 aar=item.aar, ident=item.ident, variabel=item.variabel, verdi=item.verdi
             )
