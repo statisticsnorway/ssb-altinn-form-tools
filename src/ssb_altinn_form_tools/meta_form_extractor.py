@@ -1,15 +1,13 @@
 from abc import ABC
 from abc import abstractmethod
 
-from .models import (
-    ContactInfo,
-    FormJsonData,
-    Unit,
-    UnitInfo,
-    FormData,
-    FormReception,
-    ExtractedForm,
-)
+from .models import ContactInfo
+from .models import ExtractedForm
+from .models import FormData
+from .models import FormJsonData
+from .models import FormReception
+from .models import Unit
+from .models import UnitInfo
 
 InputFormType = dict[str, list | dict | str | int | None]
 
@@ -55,7 +53,7 @@ class MetaFormExtractor(ABC):
         form: str,
         ident: str,
         refnr: str,
-    ) -> list[FormData]: 
+    ) -> list[FormData]:
         """Extracts detailed field-level form data.
 
         Args:
@@ -73,7 +71,7 @@ class MetaFormExtractor(ABC):
     @abstractmethod
     def extract_form_reception(
         self, form_dict_data: InputFormType, json_data: FormJsonData
-    ) -> FormReception: 
+    ) -> FormReception:
         """Extracts reception and submission metadata for the form.
 
         Args:
@@ -99,13 +97,12 @@ class MetaFormExtractor(ABC):
         Returns:
             Unit: A ``Unit`` model representing the reporting entity.
         """
-
         return Unit(aar=year, ident=ident, skjema=form)
 
     @abstractmethod
     def extract_unit_info(
         self, form_dict_data: InputFormType, year: str, ident: str
-    ) -> list[UnitInfo]: 
+    ) -> list[UnitInfo]:
         """Extracts additional unit-level metadata from the form.
 
         Args:
@@ -142,7 +139,6 @@ class MetaFormExtractor(ABC):
         Returns:
             ExtractedForm: A fully aggregated model containing all parsed form sections.
         """
-
         form_info = self.extract_form_reception(form_dict_data, json_data)
 
         return ExtractedForm(
