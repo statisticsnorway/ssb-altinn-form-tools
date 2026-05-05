@@ -2,9 +2,12 @@ from abc import ABC
 from abc import abstractmethod
 from pathlib import Path
 
-from .models import ExtractedForm, FormJsonData, CheckboxConfig, Checkboxmodel
 from .meta_form_extractor import MetaFormExtractor
 from .meta_storage_connector import MetaStorageConnector
+from .models import CheckboxConfig
+from .models import Checkboxmodel
+from .models import ExtractedForm
+from .models import FormJsonData
 
 
 class MetaFormProcessor(ABC):
@@ -45,7 +48,7 @@ class MetaFormProcessor(ABC):
         super().__init__()
 
     @abstractmethod
-    def _find_forms(self): 
+    def _find_forms(self) -> list[str]:
         """Discovers input form files to process.
 
         Returns:
@@ -64,7 +67,7 @@ class MetaFormProcessor(ABC):
         self,
         xml_path: Path,
         json_data: FormJsonData,
-    ) -> None: 
+    ) -> None:
         """Processes a single form given its XML path and parsed JSON metadata.
 
         Implementations typically:
@@ -84,7 +87,7 @@ class MetaFormProcessor(ABC):
         ...
 
     @abstractmethod
-    def _process_forms(self, forms: list[str]) -> None: 
+    def _process_forms(self, forms: list[str]) -> None:
         """Processes a batch of discovered forms.
 
         Args:
@@ -100,10 +103,15 @@ class MetaFormProcessor(ABC):
         ...
 
     @abstractmethod
-    def _postprocess_checkboxes(self, boxes: ExtractedForm, checkbox_mapping: list[CheckboxConfig]) -> list[Checkboxmodel]:
-        raise NotImplementedError(f"{self} does not implement the '_postprocess_checkboxes' method and does not support custom handling of checkboxes")
+    def _postprocess_checkboxes(
+        self, boxes: ExtractedForm, checkbox_mapping: list[CheckboxConfig]
+    ) -> list[Checkboxmodel]:
+        raise NotImplementedError(
+            f"{self} does not implement the '_postprocess_checkboxes' method and does not support custom handling of checkboxes"
+        )
 
-    def process_new_forms(self) -> None: 
+    @abstractmethod
+    def process_new_forms(self) -> None:
         """Entry point for end-to-end processing of newly discovered forms.
 
         Typical responsibilities:
@@ -117,4 +125,3 @@ class MetaFormProcessor(ABC):
             informative logs (debug/info/warning) to aid observability.
         """
         ...
-
