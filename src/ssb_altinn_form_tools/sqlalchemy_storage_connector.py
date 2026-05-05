@@ -1,8 +1,21 @@
-from sqlalchemy import Engine, select
+from sqlalchemy import Engine
+from sqlalchemy import select
 from sqlalchemy.orm import Session
+
 from .meta_storage_connector import MetaStorageConnector
-from .models import ContactInfo, Unit, UnitInfo, FormData, FormReception, Checkboxmodel
-from .schema import Base, kontaktinfo, enheter, enhetsinfo, skjemadata, skjemamottak, skjemacheckboxes
+from .models import Checkboxmodel
+from .models import ContactInfo
+from .models import FormData
+from .models import FormReception
+from .models import Unit
+from .models import UnitInfo
+from .schema import Base
+from .schema import enheter
+from .schema import enhetsinfo
+from .schema import kontaktinfo
+from .schema import skjemacheckboxes
+from .schema import skjemadata
+from .schema import skjemamottak
 
 
 class SqlAlchemyStorageConnector(MetaStorageConnector):
@@ -27,7 +40,6 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             The session is created on demand when a transaction is started via
             ``begin_transaction``.
         """
-
         self._engine = engine
         self._session = None
 
@@ -188,7 +200,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         model = enheter(aar=unit.aar, ident=unit.ident, skjema=unit.skjema)
         self._get_session().add(model)
 
-    def insert_unit_info(self, units: list[UnitInfo]) -> None:
+    def insert_unit_info(self, unit: list[UnitInfo]) -> None:
         """Inserts additional key–value attributes for a unit.
 
         Args:
@@ -198,7 +210,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             Adds multiple ``enhetsinfo`` ORM instances to the current session.
         """
         unit_info = []
-        for item in units:
+        for item in unit:
             model = enhetsinfo(
                 aar=item.aar, ident=item.ident, variabel=item.variabel, verdi=item.verdi
             )
@@ -209,15 +221,14 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         items = []
         for item in boxes:
             model = skjemacheckboxes(
-                aar = item.aar,
-                skjema = item.skjema,
-                ident = item.ident,
-                refnr = item.refnr,
-                
-                feltsti = item.field_path,
-                feltnavn = item.field_name,
-                checkbox_option = item.option,
-                checked = item.checked
+                aar=item.aar,
+                skjema=item.skjema,
+                ident=item.ident,
+                refnr=item.refnr,
+                feltsti=item.field_path,
+                feltnavn=item.field_name,
+                checkbox_option=item.option,
+                checked=item.checked,
             )
             items.append(model)
         self._get_session().add_all(items)
