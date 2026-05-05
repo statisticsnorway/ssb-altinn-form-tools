@@ -139,7 +139,7 @@ class Unit(BaseModel):
 
 
 class UnitInfo(BaseModel):
-    """Represents an additional key–value attribute for a unit.
+    """Represents an additional key-value attribute for a unit.
 
     Attributes:
         aar (int): Reporting year.
