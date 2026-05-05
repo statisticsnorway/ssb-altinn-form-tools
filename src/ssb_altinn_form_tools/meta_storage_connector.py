@@ -98,17 +98,17 @@ class MetaStorageConnector(ABC):
         ...
 
     @abstractmethod
-    def insert_unit_info(self, unit: list[UnitInfo]) -> None:
+    def insert_unit_info(self, units: list[UnitInfo]) -> None:
         """Inserts additional unit-level attributes.
 
         Args:
-            unit (list[UnitInfo]): A list of key-value pairs describing extra
+            units (list[UnitInfo]): A list of key-value pairs describing extra
                 metadata about the reporting unit.
         """
         ...
 
     @abstractmethod
-    def insert_checkboxes(self, unit: list[Checkboxmodel]) -> None:
+    def insert_checkboxes(self, boxes: list[Checkboxmodel]) -> None:
         """Insert checkboxes into storage."""
         raise NotImplementedError(
             f"{self} does not implement the '_postprocess_checkboxes' method and does not support custom handling of checkboxes"
