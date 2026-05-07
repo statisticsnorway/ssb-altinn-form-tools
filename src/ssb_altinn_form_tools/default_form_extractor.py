@@ -106,6 +106,7 @@ class DefaultFormExtractor(MetaFormExtractor):
         form: str,
         ident: str,
         refnr: str,
+        delreg: str,
     ) -> ContactInfo:
         """Function for extracting contact info from form data.
 
@@ -115,6 +116,7 @@ class DefaultFormExtractor(MetaFormExtractor):
             form: The name of the form (RA-number).
             ident: The id of the unit.
             refnr: The id number of the form.
+            delreg: Registered delregister
 
         Returns:
             list(ContactInfo): A pydantic model representing the contact info.
@@ -130,6 +132,7 @@ class DefaultFormExtractor(MetaFormExtractor):
             ident=ident,
             refnr=refnr,
             bekreftet_kontaktinfo=form_data.get("kontaktInfoBekreftet") == "1",
+            delreg=delreg,
             **form_data,
         )
 
@@ -140,6 +143,7 @@ class DefaultFormExtractor(MetaFormExtractor):
         form: str,
         ident: str,
         refnr: str,
+        delreg: str,
     ) -> list[FormData]:
         """Extract structured form data from raw XML-derived input.
 
@@ -156,6 +160,7 @@ class DefaultFormExtractor(MetaFormExtractor):
             form: The name or code of the form (e.g., RA-number).
             ident: The identifier for the reporting unit.
             refnr: The reference number for the submitted form instance.
+            delreg: Registered delregister.
 
         Returns:
             list(FormData): A list of ``FormData`` objects, each representing a parsed and validated
@@ -170,6 +175,7 @@ class DefaultFormExtractor(MetaFormExtractor):
         for node in parsed_form_data:
             node_data = FormData.from_form_data(
                 node=node,
+                delreg=delreg,
                 year=year,
                 form=form,
                 ident=ident,
@@ -215,7 +221,7 @@ class DefaultFormExtractor(MetaFormExtractor):
         )
 
     def extract_unit_info(
-        self, form_dict_data: InputFormType, year: str, ident: str
+        self, form_dict_data: InputFormType, year: str, ident: str, delreg: str
     ) -> list[UnitInfo]:
         """Extracts unit-related metadata from internal form information.
 
@@ -229,6 +235,7 @@ class DefaultFormExtractor(MetaFormExtractor):
                 ``InternInfo`` dictionary with internal metadata.
             year: Reporting year associated with the unit info.
             ident: Identifier for the reporting unit.
+            delreg: Registered delregister
 
         Returns:
             list[UnitInfo]: A list of ``UnitInfo`` objects built from keys in
@@ -242,6 +249,8 @@ class DefaultFormExtractor(MetaFormExtractor):
         for key, value in form_data.items():
             key: str
             if key.startswith("enhets"):
-                data = UnitInfo(aar=year, ident=ident, variabel=key, verdi=value)
+                data = UnitInfo(
+                    aar=year, ident=ident, variabel=key, verdi=value, delreg=delreg
+                )
                 info.append(data)
         return info

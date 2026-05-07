@@ -139,6 +139,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
                 bekreftet_kontaktinfo=form.bekreftet_kontaktinfo,
                 kommentar_kontaktinfo=form.kommentar_kontaktinfo,
                 kommentar_krevende=form.kommentar_krevende,
+                delreg=form.delreg,
             )
             forms.append(model)
         self._get_session().add_all(forms)
@@ -156,6 +157,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         for node in form_data:
             node_data = skjemadata(
                 aar=node.aar,
+                delreg=node.delreg,
                 skjema=node.skjema,
                 ident=node.ident,
                 refnr=node.refnr,
@@ -183,6 +185,9 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         for form in form_reciept:
             model = skjemamottak(
                 aar=form.aar,
+                delreg=form.delreg,
+                start_date=form.start_date,
+                end_date=form.end_date,
                 skjema=form.skjema,
                 ident=form.ident,
                 refnr=form.refnr,
@@ -205,7 +210,12 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         """
         forms = []
         for form in unit:
-            model = enheter(aar=form.aar, ident=form.ident, skjema=form.skjema)
+            model = enheter(
+                aar=form.aar,
+                ident=form.ident,
+                skjema=form.skjema,
+                delreg=form.delreg,
+            )
             forms.append(model)
         self._get_session().add_all(forms)
 
@@ -221,7 +231,11 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         unit_info = []
         for item in units:
             model = enhetsinfo(
-                aar=item.aar, ident=item.ident, variabel=item.variabel, verdi=item.verdi
+                aar=item.aar,
+                ident=item.ident,
+                variabel=item.variabel,
+                verdi=item.verdi,
+                delreg=item.delreg,
             )
             unit_info.append(model)
         self._get_session().add_all(unit_info)
@@ -232,6 +246,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         for item in boxes:
             model = skjemacheckboxes(
                 aar=item.aar,
+                delreg=item.delreg,
                 skjema=item.skjema,
                 ident=item.ident,
                 refnr=item.refnr,

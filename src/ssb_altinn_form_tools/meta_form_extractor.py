@@ -30,6 +30,7 @@ class MetaFormExtractor(ABC):
         form: str,
         ident: str,
         refnr: str,
+        delreg: str,
     ) -> ContactInfo:
         """Extracts contact information from parsed form data.
 
@@ -39,6 +40,7 @@ class MetaFormExtractor(ABC):
             form (str): Form code or type identifier.
             ident (str): Identifier of the reporting unit.
             refnr (str): Reference number associated with the form instance.
+            delreg (str): Registered delregister.
 
         Returns:
             ContactInfo: Structured contact metadata extracted from the form.
@@ -53,6 +55,7 @@ class MetaFormExtractor(ABC):
         form: str,
         ident: str,
         refnr: str,
+        delreg: str,
     ) -> list[FormData]:
         """Extracts detailed field-level form data.
 
@@ -62,6 +65,7 @@ class MetaFormExtractor(ABC):
             form (str): Form name or identifier.
             ident (str): Identifier of the reporting unit.
             refnr (str): Reference number for the submitted form.
+            delreg (str): Registered delregister.
 
         Returns:
             list[FormData]: A list of validated form data entries.
@@ -83,7 +87,7 @@ class MetaFormExtractor(ABC):
         """
         ...
 
-    def extract_unit(self, year: str, form: str, ident: str) -> Unit:
+    def extract_unit(self, year: str, form: str, ident: str, delreg: str) -> Unit:
         """Constructs a basic ``Unit`` model from form metadata.
 
         This default implementation requires no override unless additional
@@ -93,15 +97,16 @@ class MetaFormExtractor(ABC):
             year (int): Reporting year of the form.
             form (str): Form name or code.
             ident (str): Identifier of the reporting unit.
+            delreg (str): Reporting delregister
 
         Returns:
             Unit: A ``Unit`` model representing the reporting entity.
         """
-        return Unit(aar=year, ident=ident, skjema=form)
+        return Unit(aar=year, ident=ident, skjema=form, delreg=delreg)
 
     @abstractmethod
     def extract_unit_info(
-        self, form_dict_data: InputFormType, year: str, ident: str
+        self, form_dict_data: InputFormType, year: str, ident: str, delreg: str
     ) -> list[UnitInfo]:
         """Extracts additional unit-level metadata from the form.
 
@@ -109,6 +114,7 @@ class MetaFormExtractor(ABC):
             form_dict_data (InputFormType): Parsed XML content containing internal metadata.
             year (int): Reporting year associated with the unit.
             ident (str): Identifier of the reporting unit.
+            delreg (str): Registered delregister
 
         Returns:
             list[UnitInfo]: Structured metadata entries describing unit attributes.
@@ -149,16 +155,19 @@ class MetaFormExtractor(ABC):
                 form=form_info.skjema,
                 ident=form_info.ident,
                 refnr=form_info.refnr,
+                delreg=form_info.delreg,
             ),
             unit=self.extract_unit(
                 year=form_info.aar,
                 form=form_info.skjema,
                 ident=form_info.ident,
+                delreg=form_info.delreg,
             ),
             unit_info=self.extract_unit_info(
                 form_dict_data,
                 year=form_info.aar,
                 ident=form_info.ident,
+                delreg=form_info.delreg,
             ),
             form_data=self.extract_form_data(
                 form_dict_data,
@@ -166,5 +175,6 @@ class MetaFormExtractor(ABC):
                 form=form_info.skjema,
                 ident=form_info.ident,
                 refnr=form_info.refnr,
+                delreg=form_info.delreg,
             ),
         )

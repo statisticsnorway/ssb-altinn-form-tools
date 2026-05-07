@@ -3,10 +3,9 @@ try:
     from duckdb import DuckDBPyConnection
     from ssb_parquedit import ParquEdit
 except ImportError as e:
-    print("This connector cannot be used if duckdb or parquedit is not installed")
-    raise e
-
-import duckdb
+    raise ImportError(
+        "This connector cannot be used if duckdb or parquedit is not installed"
+    ) from e
 
 from .meta_storage_connector import MetaStorageConnector
 from .models import Checkboxmodel
@@ -15,8 +14,6 @@ from .models import FormData
 from .models import FormReception
 from .models import Unit
 from .models import UnitInfo
-
-# from .schema import skjemamottak
 
 
 class ParqueditStorageConnector(MetaStorageConnector):
@@ -110,6 +107,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         self._create_form_reciept_table()
         self._create_unit_info_table()
         self._create_unit_table()
+        self._create_skjemacheckboxes_table()
         self.commit()
 
     def _get_ingested_forms(self) -> list[str]:
@@ -210,9 +208,12 @@ class ParqueditStorageConnector(MetaStorageConnector):
                     delreg VARCHAR NOT NULL,
                     ident  VARCHAR NOT NULL,
                     skjema  VARCHAR NOT NULL,
+                    start_date TIMESTAMP NOT NULL,
+                    end_date TIMESTAMP NOT NULL,
                     refnr  VARCHAR,
                     editert VARCHAR,
                     aktiv BOOLEAN,
+                    kommentar VARCHAR,
                     dato_mottatt TIMESTAMP
         );
         ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
@@ -251,51 +252,55 @@ class ParqueditStorageConnector(MetaStorageConnector):
     def _create_controls_table(self):
         """Defines the schema for the `kontroller` table (control definitions)."""
         table_name = "kontroller"
-        schema = {
-            "properties": {
-                "id": {"type": "integer"},
-                "aar": {"type": "integer"},
-                "kontrollid": {"type": "string"},
-                "kontrolltype": {"type": "string"},
-                "beskrivelse": {"type": "string"},
-                "sorting_var": {"type": "string"},
-                "sorting_order": {"type": "string"},
-            },
-            "required": [
-                "id",
-                "aar",
-                "kontrollid",
-                "kontrolltype",
-                "beskrivelse",
-                "sorting_var",
-                "sorting_order",
-            ],
-        }
+        create_stmt = f"""
+        CREATE TABLE IF NOT EXISTS {table_name}(
+                    aar   VARCHAR NOT NULL,
+                    delreg VARCHAR NOT NULL,
+                    kontrollid  VARCHAR NOT NULL,
+                    kontrolltype  VARCHAR,
+                    beskrivelse  VARCHAR,
+                    sorting_var VARCHAR,
+                    sorting_order VARCHAR
+        );
+        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        """
+        self._get_session().execute(create_stmt)
 
     def _create_control_result_table(self):
         """Defines the schema for the `kontrollutslag` table (control results)."""
         table_name = "kontrollutslag"
-        schema = {
-            "properties": {
-                "id": {"type": "integer"},
-                "aar": {"type": "integer"},
-                "skjema": {"type": "string"},
-                "kontrollid": {"type": "string"},
-                "ident": {"type": "string"},
-                "refnr": {"type": "string"},
-                "utslag": {"type": "boolean"},
-                "verdi": {"type": "string"},
-            },
-            "required": [
-                "id",
-                "aar",
-                "kontrollid",
-                "skjema",
-                "ident",
-                "refnr",
-                "utslag",
-            ],
-        }
+        create_stmt = f"""
+        CREATE TABLE IF NOT EXISTS {table_name}(
+                    aar   VARCHAR NOT NULL,
+                    skjema VARCHAR NOT NULL,
+                    delreg VARCHAR NOT NULL,
+                    kontrollid  VARCHAR NOT NULL,
+                    ident VARCHAR NOT NULL,
+                    refnr VARCHAR NOT NULL,
+                    utslag BOOLEAN NOT NULL,
+                    verdi VARCHAR NOT NULL
+        );
+        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        """
+        self._get_session().execute(create_stmt)
+
+    def _create_skjemacheckboxes_table(self):
+        table_name = "skjemacheckboxes"
+        create_stmt = f"""
+        CREATE TABLE IF NOT EXISTS {table_name}(
+                    aar   VARCHAR NOT NULL,
+                    skjema VARCHAR NOT NULL,
+                    delreg VARCHAR NOT NULL,
+                    ident VARCHAR NOT NULL,
+                    refnr VARCHAR NOT NULL,
+                    feltsti VARCHAR NOT NULL,
+                    feltnavn VARCHAR NOT NULL,
+                    checkbox_option VARCHAR NOT NULL,
+                    checked BOOLEAN NOT NULL
+        );
+        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        """
+        self._get_session().execute(create_stmt)
 
     def insert_contact_info(self, contact_info: list[ContactInfo]) -> None:
         """Stages a contact info record for insertion (WIP).
@@ -310,13 +315,11 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "kontaktinfo"
         model = [model.model_dump() for model in contact_info]
 
-        # df = pd.DataFrame(model)
         sess = self._get_session()
         sess.execute(
             f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
             {"tbl": model},
         )
-        # sess.execute(f"INSERT INTO {table_name} BY NAME SELECT * FROM df")
 
     def insert_form_data(self, form_data: list[FormData]) -> None:
         """Stages a batch of form data records for insertion (WIP).
@@ -333,6 +336,11 @@ class ParqueditStorageConnector(MetaStorageConnector):
         for node in form_data:
             node_data = node.model_dump()
             models.append(node_data)
+        sess = self._get_session()
+        sess.execute(
+            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
+            {"tbl": models},
+        )
 
     def insert_form_reception(self, form_reciept: list[FormReception]) -> None:
         """Stages a form reception record for insertion (WIP).
@@ -342,6 +350,11 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         table_name = "skjemamottak"
         model = [model.model_dump() for model in form_reciept]
+        sess = self._get_session()
+        sess.execute(
+            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
+            {"tbl": model},
+        )
 
     def insert_unit(self, unit: list[Unit]) -> None:
         """Stages a unit record for insertion (WIP).
@@ -352,19 +365,43 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         table_name = "enheter"
         model = [model.model_dump() for model in unit]
+        sess = self._get_session()
+        sess.execute(
+            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
+            {"tbl": model},
+        )
 
     def insert_unit_info(self, units: list[UnitInfo]) -> None:
         """Stages unit attribute records for insertion (WIP).
 
         Args:
-            units (list[UnitInfo]): Unit key–value attributes to persist.
+            units (list[UnitInfo]): Unit key-value attributes to persist.
         """
         table_name = "enhetsinfo"
         unit_info = []
         for item in units:
             model = item.model_dump()
             unit_info.append(model)
+        sess = self._get_session()
+        sess.execute(
+            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
+            {"tbl": unit_info},
+        )
 
     def insert_checkboxes(self, boxes: list[Checkboxmodel]) -> None:
-        pass
-        # return super().insert_checkboxes(boxes)
+        """Stages schema checkboxes for insertion.
+
+        Args:
+            boxes (list[CheckModel]): List of boxes that exists in a schema.
+        """
+        table_name = "skjemacheckboxes"
+        models = []
+        for box in boxes:
+            model = box.model_dump()
+            models.append(model)
+
+        sess = self._get_session()
+        sess.execute(
+            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
+            {"tbl": models},
+        )

@@ -190,6 +190,7 @@ class BatchFormProcessor(MetaFormProcessor):
                                 skjema=boxes.reception.skjema,
                                 ident=boxes.reception.ident,
                                 refnr=boxes.reception.refnr,
+                                delreg=boxes.reception.delreg,
                             )
                         )
 

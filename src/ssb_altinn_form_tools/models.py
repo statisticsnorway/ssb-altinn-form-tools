@@ -6,6 +6,7 @@ from typing import Literal
 from pydantic import BaseModel
 from pydantic import ConfigDict
 from pydantic import Field
+from pydantic import field_validator
 
 
 class FormNode(BaseModel):
@@ -50,13 +51,14 @@ class FormData(FormNode):
     """
 
     aar: str
+    delreg: str
     skjema: str
     ident: str
     refnr: str
 
     @staticmethod
     def from_form_data(
-        node: FormNode, year: str, form: str, ident: str, refnr: str
+        node: FormNode, year: str, form: str, ident: str, refnr: str, delreg: str
     ) -> FormData:
         """Constructs a :class:`FormData` from a :class:`FormNode` and context.
 
@@ -66,12 +68,18 @@ class FormData(FormNode):
             form (str): Form code/name to attach.
             ident (str): Unit identifier to attach.
             refnr (str): Form instance reference to attach.
+            delreg (str): Registered delregister.
 
         Returns:
             FormData: The composed form data entry with context.
         """
         return FormData(
-            aar=year, skjema=form, ident=ident, refnr=refnr, **node.model_dump()
+            aar=year,
+            skjema=form,
+            ident=ident,
+            refnr=refnr,
+            delreg=delreg,
+            **node.model_dump(),
         )
 
     def __str__(self) -> str:
@@ -99,6 +107,7 @@ class ContactInfo(BaseModel):
     """
 
     aar: str
+    delreg: str
     skjema: str
     ident: str
     refnr: str
@@ -130,6 +139,7 @@ class Unit(BaseModel):
     """
 
     aar: str
+    delreg: str
     ident: str
     skjema: str
 
@@ -149,6 +159,7 @@ class UnitInfo(BaseModel):
     """
 
     aar: str
+    delreg: str
     ident: str
     variabel: str
     verdi: str | None = Field(default=None)
@@ -186,12 +197,31 @@ class FormReception(BaseModel):
     ident: str = Field(validation_alias="enhetsIdent")
     refnr: str = Field(validation_alias="altinnReferanse")
     delreg: str = Field(validation_alias="delregNr")
+    start_date: datetime.datetime = Field(validation_alias="periodeFomDato")
+    end_date: datetime.datetime = Field(validation_alias="periodeTomDato")
     dato_mottatt: datetime.datetime = Field(validation_alias="altinnTidspunktLevert")
     editert: Literal["ferdig editert", "under editering", "ikke editert"]
     kommentar: str
     aktiv: bool
 
     model_config = ConfigDict(validate_by_alias=True, validate_by_name=True)
+
+    @staticmethod
+    def parse_date(value: str) -> datetime.datetime:
+        """Parsing datetime from string."""
+        if isinstance(value, str):
+            return datetime.datetime.strptime(value, "%Y-%m-%d")
+        return value
+
+    @field_validator("start_date", mode="before")
+    def parse_start_date(cls, value: str) -> datetime.datetime:
+        """Parsing start date from string."""
+        return cls.parse_date(value)
+
+    @field_validator("end_date", mode="before")
+    def parse_end_date(cls, value: str) -> datetime.datetime:
+        """Parsing start date from string."""
+        return cls.parse_date(value)
 
     def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
@@ -253,6 +283,7 @@ class Checkboxmodel(BaseModel):
     """Model for representing checkboxes."""
 
     aar: str
+    delreg: str
     skjema: str
     ident: str
     refnr: str

@@ -32,6 +32,7 @@ class kontaktinfo(Base):
     __tablename__ = "kontaktinfo"
     id = Column(Integer, primary_key=True, autoincrement=True)
     aar = Column(String)
+    delreg = Column(String)
     skjema = Column(String)
     ident = Column(String)
     refnr = Column(String)
@@ -56,6 +57,7 @@ class enheter(Base):
     __tablename__ = "enheter"
     id = Column(Integer, primary_key=True, autoincrement=True)
     aar = Column(String)
+    delreg = Column(String)
     ident = Column(String)
     skjema = Column(String)
 
@@ -81,6 +83,9 @@ class skjemamottak(Base):
     __tablename__ = "skjemamottak"
     id = Column(Integer, primary_key=True, autoincrement=True)
     aar = Column(String)
+    delreg = Column(String)
+    start_date = Column(TIMESTAMP)
+    end_date = Column(TIMESTAMP)
     skjema = Column(String)
     ident = Column(String)
     refnr = Column(String)
@@ -106,6 +111,7 @@ class enhetsinfo(Base):
     __tablename__ = "enhetsinfo"
     id = Column(Integer, primary_key=True, autoincrement=True)
     aar = Column(String)
+    delreg = Column(String)
     ident = Column(String)
     variabel = Column(String)
     verdi = Column(String)
@@ -131,6 +137,7 @@ class kontroller(Base):
     __tablename__ = "kontroller"
     id = Column(Integer, primary_key=True, autoincrement=True)
     aar = Column(String)
+    delreg = Column(String)
     skjema = Column(String)
     kontrollid = Column(String)
     kontrolltype = Column(String)
@@ -156,6 +163,7 @@ class kontrollutslag(Base):
     __tablename__ = "kontrollutslag"
     id = Column(Integer, primary_key=True, autoincrement=True)
     aar = Column(String)
+    delreg = Column(String)
     skjema = Column(String)
     kontrollid = Column(String)
     ident = Column(String)
@@ -185,6 +193,7 @@ class skjemacheckboxes(Base):
     __tablename__ = "skjemacheckboxes"
     id = Column(Integer, primary_key=True, autoincrement=True)
     aar = Column(String)
+    delreg = Column(String)
     skjema = Column(String)
     ident = Column(String)
     refnr = Column(String)
@@ -217,6 +226,7 @@ class skjemadata(Base):
     __tablename__ = "skjemadata"
     id = Column(Integer, primary_key=True, autoincrement=True)
     aar = Column(String)
+    delreg = Column(String)
     skjema = Column(String)
     ident = Column(String)
     refnr = Column(String)
