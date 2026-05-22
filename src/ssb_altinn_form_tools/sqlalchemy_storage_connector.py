@@ -156,8 +156,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         models = []
         for node in form_data:
             node_data = skjemadata(
-                aar=node.aar,
-                delreg=node.delreg,
+                iso_period=node.iso_period,
                 skjema=node.skjema,
                 ident=node.ident,
                 refnr=node.refnr,
@@ -184,8 +183,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         forms = []
         for form in form_reciept:
             model = skjemamottak(
-                aar=form.aar,
-                delreg=form.delreg,
+                iso_period=node.iso_period,
                 start_date=form.start_date,
                 end_date=form.end_date,
                 skjema=form.skjema,
@@ -211,10 +209,9 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         forms = []
         for form in unit:
             model = enheter(
-                aar=form.aar,
+                iso_period=node.iso_period,
                 ident=form.ident,
                 skjema=form.skjema,
-                delreg=form.delreg,
             )
             forms.append(model)
         self._get_session().add_all(forms)
@@ -231,11 +228,10 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         unit_info = []
         for item in units:
             model = enhetsinfo(
-                aar=item.aar,
+                iso_period=node.iso_period,
                 ident=item.ident,
                 variabel=item.variabel,
                 verdi=item.verdi,
-                delreg=item.delreg,
             )
             unit_info.append(model)
         self._get_session().add_all(unit_info)
@@ -245,8 +241,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         items = []
         for item in boxes:
             model = skjemacheckboxes(
-                aar=item.aar,
-                delreg=item.delreg,
+                iso_period=node.iso_period,
                 skjema=item.skjema,
                 ident=item.ident,
                 refnr=item.refnr,

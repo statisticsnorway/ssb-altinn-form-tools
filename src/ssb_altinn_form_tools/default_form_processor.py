@@ -32,6 +32,14 @@ def extract_arr_fields(json_data: dict, parent: str | None = None) -> list:
     return array_items
 
 
+def extract_xml_to_dict(xml_path: Path, array_fields: list[str] | None = None):
+    xml_string = xml_path.read_text()
+    dictionary: dict = xmltodict.parse(
+        xml_string, force_list=array_fields, xml_attribs=False
+    )
+    return dictionary
+
+
 class DefaultFormProcessor(MetaFormProcessor):
     """Default processor for scanning, extracting, and persisting forms.
 
@@ -100,6 +108,7 @@ class DefaultFormProcessor(MetaFormProcessor):
         version_str = f"{version:02d}"  # "01"
 
         url = f"https://ssb.apps.altinn.no/ssb/{ra_id}-{version_str}/api/jsonschema/A3_{ra_base}_M"
+        print(url)
         prod_res = requests.get(url)
 
         try:
@@ -111,6 +120,7 @@ class DefaultFormProcessor(MetaFormProcessor):
             )
             # Some forms does not have metadata in Altinn
             self.array_fields = None
+        print(self.array_fields)
 
     def _find_forms(self) -> list[str]:
         """Finds XML forms recursively under the configured base path.
@@ -227,12 +237,13 @@ class DefaultFormProcessor(MetaFormProcessor):
         is_new = self._connector.validate_form_is_new(json_data.altinn_reference)
 
         if is_new:
-            xml_string = xml_path.read_text()
-            dictionary: dict = xmltodict.parse(
-                xml_string, force_list=self.array_fields, xml_attribs=False
+            print(self.array_fields)
+            dictionary: dict = extract_xml_to_dict(
+                xml_path, array_fields=self.array_fields
             )[self._form_data_key]
             extracted_form = self._extractor.extract_form(dictionary, json_data)
-
+            # print(extracted_form.klass_info)
+            # raise ValueError("he")
             if self._alias_mapping:
                 self._map_alias(self._alias_mapping, extracted_form)
 

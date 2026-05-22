@@ -16,7 +16,7 @@ class kontaktinfo(Base):
 
     Attributes:
         id (int): Auto-incrementing primary key.
-        aar (int): Reporting year of the form.
+        iso_period (str): Iso period of the form.
         skjema (str): Code or identifier of the form.
         ident (str): Identifier of the reporting unit.
         refnr (str): Reference number of the submitted form.
@@ -31,8 +31,7 @@ class kontaktinfo(Base):
 
     __tablename__ = "kontaktinfo"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    aar = Column(String)
-    delreg = Column(String)
+    iso_period = Column(String)
     skjema = Column(String)
     ident = Column(String)
     refnr = Column(String)
@@ -49,15 +48,14 @@ class enheter(Base):
 
     Attributes:
         id (int): Auto-incrementing primary key.
-        aar (int): Reporting year.
+        iso_period (str): Iso period of the form.
         ident (str): Unique identifier of the reporting unit.
         skjema (str): Form code or identifier.
     """
 
     __tablename__ = "enheter"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    aar = Column(String)
-    delreg = Column(String)
+    iso_period = Column(String)
     ident = Column(String)
     skjema = Column(String)
 
@@ -70,7 +68,7 @@ class skjemamottak(Base):
 
     Attributes:
         id (int): Auto-incrementing primary key.
-        aar (int): Reporting year.
+        iso_period (str): Iso period of the form.
         skjema (str): Form code or identifier.
         ident (str): Identifier of the reporting unit.
         refnr (str): Unique reference number for the form instance.
@@ -82,8 +80,7 @@ class skjemamottak(Base):
 
     __tablename__ = "skjemamottak"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    aar = Column(String)
-    delreg = Column(String)
+    iso_period = Column(String)
     start_date = Column(TIMESTAMP)
     end_date = Column(TIMESTAMP)
     skjema = Column(String)
@@ -102,7 +99,7 @@ class enhetsinfo(Base):
 
     Attributes:
         id (int): Auto-incrementing primary key.
-        aar (int): Reporting year.
+        iso_period (str): Iso period of the form.
         ident (str): Identifier of the reporting unit.
         variabel (str): Name of the metadata variable.
         verdi (str): Value of the metadata variable.
@@ -110,8 +107,7 @@ class enhetsinfo(Base):
 
     __tablename__ = "enhetsinfo"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    aar = Column(String)
-    delreg = Column(String)
+    iso_period = Column(String)
     ident = Column(String)
     variabel = Column(String)
     verdi = Column(String)
@@ -125,7 +121,7 @@ class kontroller(Base):
 
     Attributes:
         id (int): Auto-incrementing primary key.
-        aar (int): Reporting year.
+        iso_period (str): Iso period of the form.
         skjema (str): Form code or identifier.
         kontrollid (str): Unique identifier for the control rule.
         kontrolltype (str): Type or category of the control.
@@ -136,8 +132,7 @@ class kontroller(Base):
 
     __tablename__ = "kontroller"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    aar = Column(String)
-    delreg = Column(String)
+    iso_period = Column(String)
     skjema = Column(String)
     kontrollid = Column(String)
     kontrolltype = Column(String)
@@ -151,7 +146,7 @@ class kontrollutslag(Base):
 
     Attributes:
         id (int): Auto-incrementing primary key.
-        aar (int): Reporting year.
+        iso_period (str): Iso period of the form.
         skjema (str): Form code or identifier.
         kontrollid (str): Identifier of the applied control rule.
         ident (str): Identifier of the reporting unit.
@@ -162,46 +157,13 @@ class kontrollutslag(Base):
 
     __tablename__ = "kontrollutslag"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    aar = Column(String)
-    delreg = Column(String)
+    iso_period = Column(String)
     skjema = Column(String)
     kontrollid = Column(String)
     ident = Column(String)
     refnr = Column(String)
     utslag = Column(BOOLEAN)
     verdi = Column(Integer)
-
-
-class skjemacheckboxes(Base):
-    """SQLAlchemy model for storing checkbox selections in a schema form.
-
-    Associated with a specific form (`skjema`), year (`aar`), and respondent identifier (`ident`).
-    Each row corresponds to a single checkbox option and whether it was selected.
-
-    Attributes:
-        id (int): Primary key, auto-incremented.
-        aar (str): Year the form submission applies to.
-        skjema (str): Name or code of the form.
-        ident (str): Identifier for the respondent or entity.
-        refnr (str): Reference number linking to an external system or submission.
-        feltsti (str): Path to the field within the form structure.
-        feltnavn (str): Name of the checkbox field.
-        checkbox_option (str): Specific checkbox option label or value.
-        checked (bool): Whether the checkbox option was selected.
-    """
-
-    __tablename__ = "skjemacheckboxes"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    aar = Column(String)
-    delreg = Column(String)
-    skjema = Column(String)
-    ident = Column(String)
-    refnr = Column(String)
-
-    feltsti = Column(String)
-    feltnavn = Column(String)
-    checkbox_option = Column(String)
-    checked = Column(BOOLEAN)
 
 
 class skjemadata(Base):
@@ -211,7 +173,7 @@ class skjemadata(Base):
 
     Attributes:
         id (int): Auto-incrementing primary key.
-        aar (int): Reporting year.
+        iso_period (str): Iso period of the form.
         skjema (str): Form code or identifier.
         ident (str): Identifier of the reporting unit.
         refnr (str): Reference number of the submitted form.
@@ -225,8 +187,7 @@ class skjemadata(Base):
 
     __tablename__ = "skjemadata"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    aar = Column(String)
-    delreg = Column(String)
+    iso_period = Column(String)
     skjema = Column(String)
     ident = Column(String)
     refnr = Column(String)
@@ -236,3 +197,47 @@ class skjemadata(Base):
     alias = Column(String)
     dybde = Column(Integer)
     indeks = Column(Integer)
+
+
+class checkboxnodes(Base):
+    """Represents a single extracted data field from a submitted form.
+
+    Each row corresponds to an XML node in the parsed form.
+
+    Attributes:
+        id (int): Auto-incrementing primary key.
+        iso_period (str): Iso period of the form.
+        skjema (str): Form code or identifier.
+        node_name (str): Name of the node in the form
+        options_id (str): Id for the option list
+    """
+
+    __tablename__ = "checkboxnodes"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    iso_period = Column(String)
+    skjema = Column(String)
+    node_name = Column(String)
+    options_id = Column(String)
+
+
+class checkboxoptions(Base):
+    """Represents a single extracted data field from a submitted form.
+
+    Each row corresponds to an XML node in the parsed form.
+
+    Attributes:
+        id (int): Auto-incrementing primary key.
+        iso_period (str): Iso period of the form.
+        skjema (str): Form code or identifier.
+        options_id (str): Id for the option list
+        label (str): Label in the form
+        value (str): Value in the form
+    """
+
+    __tablename__ = "checkboxoptions"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    iso_period = Column(String)
+    skjema = Column(String)
+    options_id = Column(String)
+    label = Column(String)
+    value = Column(String)

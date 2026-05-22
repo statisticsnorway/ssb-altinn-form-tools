@@ -1,12 +1,17 @@
 from __future__ import annotations
 
 import datetime
+from typing import Any
 from typing import Literal
 
+import pendulum
 from pydantic import BaseModel
 from pydantic import ConfigDict
 from pydantic import Field
+from pydantic import computed_field
 from pydantic import field_validator
+from pydantic import model_validator
+from pydantic_core import PydanticCustomError
 
 
 class FormNode(BaseModel):
@@ -50,35 +55,32 @@ class FormData(FormNode):
         refnr (str): Reference number of the submitted form instance.
     """
 
-    aar: str
-    delreg: str
+    iso_period: str
     skjema: str
     ident: str
     refnr: str
 
     @staticmethod
     def from_form_data(
-        node: FormNode, year: str, form: str, ident: str, refnr: str, delreg: str
+        node: FormNode, form: str, ident: str, refnr: str, iso_period: str
     ) -> FormData:
         """Constructs a :class:`FormData` from a :class:`FormNode` and context.
 
         Args:
             node (FormNode): The base node carrying path/name/value metadata.
-            year (int): Reporting year to attach.
             form (str): Form code/name to attach.
             ident (str): Unit identifier to attach.
             refnr (str): Form instance reference to attach.
-            delreg (str): Registered delregister.
+            iso_period (str): Registered iso_period.
 
         Returns:
             FormData: The composed form data entry with context.
         """
         return FormData(
-            aar=year,
             skjema=form,
             ident=ident,
             refnr=refnr,
-            delreg=delreg,
+            iso_period=iso_period,
             **node.model_dump(),
         )
 
@@ -106,8 +108,7 @@ class ContactInfo(BaseModel):
             Alias: ``kontaktKrevende``.
     """
 
-    aar: str
-    delreg: str
+    iso_period: str
     skjema: str
     ident: str
     refnr: str
@@ -138,8 +139,7 @@ class Unit(BaseModel):
         skjema (str): Form name or code (e.g., RA-number).
     """
 
-    aar: str
-    delreg: str
+    iso_period: str
     ident: str
     skjema: str
 
@@ -158,8 +158,7 @@ class UnitInfo(BaseModel):
         verdi (str | None): Value of the metadata variable.
     """
 
-    aar: str
-    delreg: str
+    iso_period: str
     ident: str
     variabel: str
     verdi: str | None = Field(default=None)
@@ -192,13 +191,12 @@ class FormReception(BaseModel):
         enables population/validation using both the alias and the field name.
     """
 
-    aar: str = Field(validation_alias="periodeAAr")
+    start_date: datetime.datetime = Field()
+    end_date: datetime.datetime = Field()
+    iso_period: str = Field()
     skjema: str = Field(validation_alias="raNummer")
     ident: str = Field(validation_alias="enhetsIdent")
     refnr: str = Field(validation_alias="altinnReferanse")
-    delreg: str = Field(validation_alias="delregNr")
-    start_date: datetime.datetime = Field(validation_alias="periodeFomDato")
-    end_date: datetime.datetime = Field(validation_alias="periodeTomDato")
     dato_mottatt: datetime.datetime = Field(validation_alias="altinnTidspunktLevert")
     editert: Literal["ferdig editert", "under editering", "ikke editert"]
     kommentar: str
@@ -206,22 +204,56 @@ class FormReception(BaseModel):
 
     model_config = ConfigDict(validate_by_alias=True, validate_by_name=True)
 
-    @staticmethod
-    def parse_date(value: str) -> datetime.datetime:
-        """Parsing datetime from string."""
-        if isinstance(value, str):
-            return datetime.datetime.strptime(value, "%Y-%m-%d")
-        return value
+    @model_validator(mode="before")
+    @classmethod
+    def validator(cls, data: Any):
+        try:
+            period_type = data.get("periodeType")
+        except Exception as e:
+            raise PydanticCustomError(
+                "",
+                "periodeType could not be validated. Expected str instead recieved {number}",
+                {"number": e},
+            )
+        try:
+            period_number = int(data.get("periodeNummer"))
+        except Exception as e:
+            raise PydanticCustomError(
+                "",
+                "periodeNummer could not be validated. Expected int instead recieved {number}",
+                {"number": e},
+            )
+        try:
+            period_year = int(data.get("periodeAAr"))
+        except Exception as e:
+            raise PydanticCustomError(
+                "",
+                "periodeAar could not be validated. Expected int instead recieved {number}",
+                {"number": e},
+            )
 
-    @field_validator("start_date", mode="before")
-    def parse_start_date(cls, value: str) -> datetime.datetime:
-        """Parsing start date from string."""
-        return cls.parse_date(value)
+        data["aar"] = period_year
 
-    @field_validator("end_date", mode="before")
-    def parse_end_date(cls, value: str) -> datetime.datetime:
-        """Parsing start date from string."""
-        return cls.parse_date(value)
+        if period_type == "MND":
+            start = pendulum.datetime(period_year, month=period_number, day=1)
+            end = start.end_of("month")
+            iso_format = start.format("YYYY-MM")
+
+        if period_type == "AAR":
+            start = pendulum.datetime(period_year, month=1, day=1)
+            end = start.end_of("year")
+            iso_format = start.format("YYYY")
+
+        if period_type == "UKE":
+            d = datetime.date.fromisocalendar(period_year, period_number, day=1)
+            start = pendulum.datetime(d.year, d.month, d.day)
+            end = start.end_of("week")
+            iso_format = start.format("YYYY-[W]WW")
+
+        data["start_date"] = start
+        data["end_date"] = end
+        data["iso_period"] = iso_format
+        return data
 
     def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
@@ -262,6 +294,7 @@ class ExtractedForm(BaseModel):
     unit: Unit
     unit_info: list[UnitInfo]
     form_data: list[FormData]
+    klass_info: KlassInfo | None = Field(default=None)
 
     def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
@@ -282,8 +315,7 @@ class CheckboxConfig(BaseModel):
 class Checkboxmodel(BaseModel):
     """Model for representing checkboxes."""
 
-    aar: str
-    delreg: str
+    iso_period: str
     skjema: str
     ident: str
     refnr: str
@@ -292,6 +324,30 @@ class Checkboxmodel(BaseModel):
     option: str
     checked: bool
     field_path: str
+
+    def __str__(self) -> str:
+        """Returns a pretty-printed JSON representation for debugging."""
+        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
+
+
+class KlassApiCall(BaseModel):
+    klassID: str = Field(validation_alias="klassID")
+    klassDatamodellNode: list[str] = Field(validation_alias="klassDatamodellNode")
+
+    @field_validator("klassDatamodellNode", mode="before")
+    def ensure_list(cls, v: str | list) -> list:
+        """Ensure model nodes are a list."""
+        if isinstance(v, str):
+            return [v]
+        return v
+
+    def __str__(self) -> str:
+        """Returns a pretty-printed JSON representation for debugging."""
+        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
+
+
+class KlassInfo(BaseModel):
+    KlassApiKall: list[KlassApiCall] = Field(validation_alias="KlassApiKall")
 
     def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""

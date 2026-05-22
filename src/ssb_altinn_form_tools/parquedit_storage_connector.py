@@ -150,8 +150,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "kontaktinfo"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    aar   VARCHAR NOT NULL,
-                    delreg VARCHAR NOT NULL,
+                    iso_period   VARCHAR NOT NULL,
                     ident  VARCHAR NOT NULL,
                     skjema  VARCHAR NOT NULL,
                     refnr  VARCHAR NOT NULL,
@@ -162,7 +161,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                     kommentar_kontaktinfo  VARCHAR,
                     kommentar_krevende  VARCHAR
         );
-        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
         self._get_session().execute(create_stmt)
 
@@ -177,8 +176,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "skjemadata"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                aar   VARCHAR NOT NULL,
-                delreg VARCHAR NOT NULL,
+                iso_period   VARCHAR NOT NULL,
                 skjema  VARCHAR NOT NULL,
                 ident  VARCHAR NOT NULL,
                 refnr  VARCHAR NOT NULL,
@@ -189,7 +187,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 dybde  INTEGER,
                 indeks  INTEGER
         );
-        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
         self._get_session().execute(create_stmt)
 
@@ -204,8 +202,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "skjemamottak"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    aar   VARCHAR NOT NULL,
-                    delreg VARCHAR NOT NULL,
+                    iso_period   VARCHAR NOT NULL,
                     ident  VARCHAR NOT NULL,
                     skjema  VARCHAR NOT NULL,
                     start_date TIMESTAMP NOT NULL,
@@ -216,7 +213,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                     kommentar VARCHAR,
                     dato_mottatt TIMESTAMP
         );
-        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
         self._get_session().execute(create_stmt)
 
@@ -225,12 +222,11 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "enheter"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    aar   VARCHAR NOT NULL,
-                    delreg VARCHAR NOT NULL,
+                    iso_period   VARCHAR NOT NULL,
                     skjema  VARCHAR NOT NULL,
                     ident  VARCHAR NOT NULL
         );
-        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
         self._get_session().execute(create_stmt)
 
@@ -239,13 +235,12 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "enhetsinfo"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    aar   VARCHAR NOT NULL,
-                    delreg VARCHAR NOT NULL,
+                    iso_period   VARCHAR NOT NULL,
                     ident  VARCHAR NOT NULL,
                     variabel  VARCHAR,
                     verdi  VARCHAR
         );
-        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
         self._get_session().execute(create_stmt)
 
@@ -254,15 +249,14 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "kontroller"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    aar   VARCHAR NOT NULL,
-                    delreg VARCHAR NOT NULL,
+                    iso_period   VARCHAR NOT NULL,
                     kontrollid  VARCHAR NOT NULL,
                     kontrolltype  VARCHAR,
                     beskrivelse  VARCHAR,
                     sorting_var VARCHAR,
                     sorting_order VARCHAR
         );
-        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
         self._get_session().execute(create_stmt)
 
@@ -271,16 +265,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "kontrollutslag"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    aar   VARCHAR NOT NULL,
+                    iso_period   VARCHAR NOT NULL,
                     skjema VARCHAR NOT NULL,
-                    delreg VARCHAR NOT NULL,
                     kontrollid  VARCHAR NOT NULL,
                     ident VARCHAR NOT NULL,
                     refnr VARCHAR NOT NULL,
                     utslag BOOLEAN NOT NULL,
                     verdi VARCHAR NOT NULL
         );
-        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
         self._get_session().execute(create_stmt)
 
@@ -288,9 +281,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "skjemacheckboxes"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    aar   VARCHAR NOT NULL,
+                    iso_period   VARCHAR NOT NULL,
                     skjema VARCHAR NOT NULL,
-                    delreg VARCHAR NOT NULL,
                     ident VARCHAR NOT NULL,
                     refnr VARCHAR NOT NULL,
                     feltsti VARCHAR NOT NULL,
@@ -298,7 +290,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                     checkbox_option VARCHAR NOT NULL,
                     checked BOOLEAN NOT NULL
         );
-        ALTER TABLE {table_name} SET PARTITIONED BY (delreg);
+        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
         self._get_session().execute(create_stmt)
 
