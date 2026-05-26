@@ -10,7 +10,6 @@ logging.basicConfig(
     force=True,
 )
 
-
 from ssb_altinn_form_tools.default_form_extractor import DefaultFormExtractor
 from ssb_altinn_form_tools.default_form_processor import DefaultFormProcessor
 from ssb_altinn_form_tools.parquedit_storage_connector import ParqueditStorageConnector
@@ -31,9 +30,16 @@ class LocalParquedit(ParquEdit):  # pyright: ignore
         self._conn = LocalDuckDbConnection({})
 
 
-engine = LocalParquedit()
-connector = ParqueditStorageConnector(engine)
-for form_number in ["RA0438"]:
+parquedit_conn = LocalParquedit()
+
+
+def get_duckdb_connection():
+    raw = parquedit_conn._get_connection().raw
+    return raw
+
+
+connector = ParqueditStorageConnector(parquedit_conn)
+for form_number in ["RA0536"]:
     if form_number == "RA0689":
         mapping = [
             {"field_name": "hjelpefeltLand", "options": [str(i) for i in range(1000)]},
@@ -51,7 +57,7 @@ for form_number in ["RA0438"]:
     )
     processor.process_new_forms()
 
-conn = engine._get_connection().raw
+conn = parquedit_conn._get_connection().raw
 rows = conn.execute("SELECT * FROM enheter LIMIT 10;").fetchall()
 for row in rows:
-    print(dict(row))
+    print(row)
