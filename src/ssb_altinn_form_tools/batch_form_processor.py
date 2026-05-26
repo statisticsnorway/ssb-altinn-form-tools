@@ -7,13 +7,18 @@ import pendulum
 import requests
 import xmltodict
 
+from ssb_altinn_form_tools.default_form_processor import DefaultFormProcessor
 from ssb_altinn_form_tools.meta_form_extractor import MetaFormExtractor
-from ssb_altinn_form_tools.meta_form_processor import MetaFormProcessor
+
+# from ssb_altinn_form_tools.meta_form_processor import MetaFormProcessor
 from ssb_altinn_form_tools.meta_storage_connector import MetaStorageConnector
-from ssb_altinn_form_tools.models import CheckboxConfig
-from ssb_altinn_form_tools.models import Checkboxmodel
+
+# from ssb_altinn_form_tools.models import CheckboxConfig
+# from ssb_altinn_form_tools.models import Checkboxmodel
 from ssb_altinn_form_tools.models import ExtractedForm
 from ssb_altinn_form_tools.models import FormJsonData
+
+# from ssb_altinn_form_tools.utils.form_metadata import FormMetadata
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +38,7 @@ def extract_arr_fields(json_data: dict, parent: str | None = None) -> list:
     return array_items
 
 
-class BatchFormProcessor(MetaFormProcessor):
+class BatchFormProcessor(DefaultFormProcessor):
     """Default processor for scanning, extracting, and persisting forms.
 
     This processor locates XML form files on disk, parses them into dictionaries,
@@ -75,130 +80,20 @@ class BatchFormProcessor(MetaFormProcessor):
                 We try to automatically discover forms based on the standard directory structure
                 provided by team suv. If you another directory structure, this argument can be set.
         """
-        self._extractor = extractor
-        self._connector = connector
-        self._form_base_path = form_base_path
-        self._form_data_key = f"A3_{form_name}_M"
-        self._alias_mapping = alias_mapping
-        self._glob_path = (
-            alternative_glob_path
-            if alternative_glob_path
-            else f"{self._form_base_path}/**/**/**/**/*.xml"
+        super().__init__(
+            form_name=form_name,
+            form_base_path=form_base_path,
+            extractor=extractor,
+            connector=connector,
+            alias_mapping=alias_mapping,
+            checkbox_mapping=checkbox_mapping,
+            ra_version=ra_version,
+            alternative_glob_path=alternative_glob_path,
         )
-
-        if checkbox_mapping:
-            self._checkbox_mapping = [
-                CheckboxConfig.model_validate(x) for x in checkbox_mapping
-            ]
-        else:
-            self._checkbox_mapping = None
-
-        ra_nummer = f"{form_name[:2]}-{form_name[2:]}A3"  # Eksempel: "RA-1234A3"
-        version = ra_version if ra_version else 1  # Eksempel: 1 (numerisk)
-
-        ra_base = ra_nummer.split("A3")[0]  # "RA-0848"
-        ra_id = ra_base.replace("-", "").lower()  # "ra0848"
-        version_str = f"{version:02d}"  # "01"
-
-        url = f"https://ssb.apps.altinn.no/ssb/{ra_id}-{version_str}/api/jsonschema/A3_{ra_base}_M"
-        prod_res = requests.get(url)
-
-        try:
-            self.form_json = prod_res.json()
-            self.array_fields = extract_arr_fields(self.form_json)
-        except Exception as e:
-            logger.warning(
-                f"Fetching metadata for the form resulted in the following error. Possibly because metadata does not exist. Error: \n{e}"
-            )
-            # Some forms does not have metadata in Altinn
-            self.array_fields = None
-
-    def _find_forms(self) -> list[str]:
-        """Finds XML forms recursively under the configured base path.
-
-        Returns:
-            list[str]: A list of file paths to XML form files discovered
-            within the base directory (searched recursively).
-        """
-        return glob.glob(self._glob_path)
-
-    def _map_alias(self, mapping: dict[str, str], extracted_form: ExtractedForm):
-        """Applies alias mapping to `ExtractedForm.form_data` in place.
-
-        Each `FormData` entry whose ``feltnavn`` matches a key in `mapping` will
-        have its `alias` set to the corresponding mapped string.
-
-        Args:
-            mapping (dict[str, str]): Mapping from original field names to aliases.
-            extracted_form (ExtractedForm): The extracted form whose `form_data`
-                list will be updated.
-
-        Side Effects:
-            Mutates `extracted_form.form_data` by setting the `alias` field where
-            applicable.
-        """
-        for idx, _ in enumerate(extracted_form.form_data):
-            if extracted_form.form_data[idx].feltnavn in mapping:
-                key = extracted_form.form_data[idx].feltnavn
-                alias = mapping.get(key)
-                if alias:
-                    extracted_form.form_data[idx].alias = alias
-
-    def _map_checkboxed(self, mapping: list[str], extracted_form: ExtractedForm):
-        """Normalizes checkbox-like fields to JSON arrays.
-
-        For each `FormData` entry where ``feltnavn`` appears in `mapping` and
-        ``verdi`` is non-empty, the comma-separated string is split into a list and
-        serialized to JSON (i.e., `["a", "b", ...]`), which replaces the original
-        `verdi`.
-
-        Args:
-            mapping (list[str]): Field names (``feltnavn``) to treat as multi-select.
-            extracted_form (ExtractedForm): The extracted form to transform.
-
-        Returns:
-            ExtractedForm: The same `extracted_form` instance, returned for chaining.
-
-        Side Effects:
-            Mutates `extracted_form.form_data[idx].verdi` for matched fields by
-            converting comma-separated strings to JSON arrays.
-        """
-        for idx, item in enumerate(extracted_form.form_data):
-            if (item.feltnavn in mapping) and (item.verdi is not None):
-                values = item.verdi.split(",")
-                extracted_form.form_data[idx].verdi = json.dumps(values)
-
-        return extracted_form
-
-    def _postprocess_checkboxes(
-        self, boxes: ExtractedForm, checkbox_mapping: list[CheckboxConfig]
-    ) -> list[Checkboxmodel]:
-        results = []
-        for checkbox in checkbox_mapping:
-            for box in boxes.form_data:
-                if checkbox.field_name == box.feltnavn.replace("/", ""):
-                    checked = box.verdi.split(",") if box.verdi else []
-                    for option in checkbox.options:
-                        option_str = str(option)
-                        results.append(
-                            Checkboxmodel(
-                                field_name=checkbox.field_name,
-                                option=option_str,
-                                checked=option_str in checked,
-                                field_path=box.feltsti,
-                                aar=boxes.reception.aar,
-                                skjema=boxes.reception.skjema,
-                                ident=boxes.reception.ident,
-                                refnr=boxes.reception.refnr,
-                                delreg=boxes.reception.delreg,
-                            )
-                        )
-
-        return results
 
     def _process_form(
         self, xml_path: Path, json_data: FormJsonData
-    ) -> tuple[ExtractedForm | None, list[Checkboxmodel] | None]:
+    ) -> ExtractedForm | None:
         """Parses, extracts, transforms, and persists a single form if it is new.
 
         The method checks if a form (by `altinn_reference`) is new via the
@@ -239,19 +134,12 @@ class BatchFormProcessor(MetaFormProcessor):
             if self._alias_mapping:
                 self._map_alias(self._alias_mapping, extracted_form)
 
-            if self._checkbox_mapping:
-                checkboxes = self._postprocess_checkboxes(
-                    extracted_form, self._checkbox_mapping
-                )
-            else:
-                checkboxes = []
-
-            return extracted_form, checkboxes
+            return extracted_form
         else:
             logger.info(
                 f"Skipped inserting form with refernce {json_data.altinn_reference} since it already exists"
             )
-            return None, None
+            return None
 
     def _process_forms(
         self,
@@ -275,30 +163,28 @@ class BatchFormProcessor(MetaFormProcessor):
             pydantic.ValidationError: If `FormJsonData` validation fails.
         """
         forms_list: list[ExtractedForm] = []
-        checkboxes_list = []
+
         for form in forms:
             file_path = Path(form)
+            # tests/testdata/RA0187/2026/2/2/0055608a311b_c4a9567a-8378-4eea-8971-dab4145ab09d
+            reference = file_path.name.split("_")[0]  # 0055608a311b
+            if self._connector.validate_form_is_new(reference):
+                json_name = file_path.name.replace("xml", "json").replace(
+                    "form", "meta"
+                )
+                json_path = file_path.with_name(json_name)
+                json_data = FormJsonData.model_validate_json(json_path.read_text())
+                if start_dt and end_dt:
+                    delivered_date = pendulum.instance(json_data.date_deliveres)
+                    if start_dt < delivered_date < end_dt:
+                        extracted_form = self._process_form(file_path, json_data)
+                        if extracted_form:
+                            forms_list.append(extracted_form)
 
-            json_name = file_path.name.replace("xml", "json").replace("form", "meta")
-            json_path = file_path.with_name(json_name)
-            json_data = FormJsonData.model_validate_json(json_path.read_text())
-            if start_dt and end_dt:
-                delivered_date = pendulum.instance(json_data.date_deliveres)
-                if start_dt < delivered_date < end_dt:
-                    extracted_form, checkboxes = self._process_form(
-                        file_path, json_data
-                    )
+                else:
+                    extracted_form = self._process_form(file_path, json_data)
                     if extracted_form:
                         forms_list.append(extracted_form)
-                    if checkboxes:
-                        checkboxes_list.append(checkboxes)
-
-            else:
-                extracted_form, checkboxes = self._process_form(file_path, json_data)
-                if extracted_form:
-                    forms_list.append(extracted_form)
-                if checkboxes:
-                    checkboxes_list.append(checkboxes)
 
         self._connector.begin_transaction()
         try:
@@ -314,12 +200,6 @@ class BatchFormProcessor(MetaFormProcessor):
             reception = [form.reception for form in forms_list]
             self._connector.insert_form_reception(reception)
 
-            # internal_info = []
-            # for form in forms_list:
-            #    internal_info.extend(form.internal_info)
-
-            # self._connector.insert_internal_info(internal_info)
-
             unit = [form.unit for form in forms_list]
             self._connector.insert_unit(unit)
 
@@ -328,7 +208,25 @@ class BatchFormProcessor(MetaFormProcessor):
                 unit_info.extend(form.unit_info)
             self._connector.insert_unit_info(unit_info)
 
-            self._connector.insert_checkboxes(checkboxes_list)
+            all_periods = set([form.reception.iso_period for form in forms_list])
+
+            for period in all_periods:
+                options_exists = self._connector.validate_options_exists(
+                    self._form_name, period
+                )
+                if options_exists is False:
+                    logger.error(
+                        f"Options for period {period} does not exists. Inserting now."
+                    )
+                    option_list = self._metadata_helper.extract_options_list(
+                        self._form_name, period
+                    )
+                    option_nodes = self._metadata_helper.extract_options_nodes(
+                        self._form_name, period
+                    )
+                    self._connector.insert_option_list(option_list)
+                    self._connector.insert_option_node(option_nodes)
+
         except Exception as e:
             self._connector.rollback()
             logger.error(e)

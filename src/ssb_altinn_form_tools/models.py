@@ -3,6 +3,7 @@ from __future__ import annotations
 import datetime
 from typing import Any
 from typing import Literal
+from typing import Union
 
 import pendulum
 from pydantic import BaseModel
@@ -214,7 +215,7 @@ class FormReception(BaseModel):
                 "",
                 "periodeType could not be validated. Expected str instead recieved {number}",
                 {"number": e},
-            )
+            ) from e
         try:
             period_number = int(data.get("periodeNummer"))
         except Exception as e:
@@ -222,7 +223,7 @@ class FormReception(BaseModel):
                 "",
                 "periodeNummer could not be validated. Expected int instead recieved {number}",
                 {"number": e},
-            )
+            ) from e
         try:
             period_year = int(data.get("periodeAAr"))
         except Exception as e:
@@ -230,7 +231,7 @@ class FormReception(BaseModel):
                 "",
                 "periodeAar could not be validated. Expected int instead recieved {number}",
                 {"number": e},
-            )
+            ) from e
 
         data["aar"] = period_year
 
@@ -248,7 +249,13 @@ class FormReception(BaseModel):
             d = datetime.date.fromisocalendar(period_year, period_number, day=1)
             start = pendulum.datetime(d.year, d.month, d.day)
             end = start.end_of("week")
-            iso_format = start.format("YYYY-[W]WW")
+            iso_format = start.strftime("%G-W%V")
+        else:
+            raise PydanticCustomError(
+                "",
+                "period_type could not be validated: {period}",
+                {"period": period_type},
+            )
 
         data["start_date"] = start
         data["end_date"] = end
@@ -312,24 +319,6 @@ class CheckboxConfig(BaseModel):
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
 
-class Checkboxmodel(BaseModel):
-    """Model for representing checkboxes."""
-
-    iso_period: str
-    skjema: str
-    ident: str
-    refnr: str
-
-    field_name: str
-    option: str
-    checked: bool
-    field_path: str
-
-    def __str__(self) -> str:
-        """Returns a pretty-printed JSON representation for debugging."""
-        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
-
-
 class KlassApiCall(BaseModel):
     klassID: str = Field(validation_alias="klassID")
     klassDatamodellNode: list[str] = Field(validation_alias="klassDatamodellNode")
@@ -352,3 +341,58 @@ class KlassInfo(BaseModel):
     def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
+
+
+class OptionModel(BaseModel):
+    value: str
+    label: str
+
+    def __hash__(self) -> int:
+        return self.value.__hash__()
+
+
+class OptionMetadataModel(BaseModel):
+    iso_period: str
+    skjema: str
+    options: list[OptionModel] = Field(validation_alias="options")
+    options_id: str = Field(validation_alias="optionsId")
+    options_url: str | None = Field(default=None, validation_alias="optionsUrl")
+    node_name: str = Field(validation_alias="dataModelField")
+
+    @field_validator("node_name", mode="before")
+    @classmethod
+    def create_node_name(cls, val: str):
+        return val.split(".")[-1]
+
+
+class StringFormatModel(BaseModel):
+    min_length: int | None = Field(default=None, validation_alias="minLength")
+    max_length: int | None = Field(default=None, validation_alias="maxLength")
+
+
+class DateFormatModel(BaseModel):
+    min_date: str | None = Field(default=None, validation_alias="minDate")
+    max_date: str | None = Field(default=None, validation_alias="maxDate")
+
+
+class NumberFormatSpecifierModel(BaseModel):
+    allow_negative: bool = Field(validation_alias="allowNegative")
+    decimal_scale: int = Field(validation_alias="decimalScale")
+    decimal_separator: str = Field(validation_alias="decimalSeparator")
+    thousand_separator: str = Field(validation_alias="thousandSeparator")
+
+
+class NumberFormatModel(BaseModel):
+    unit: str
+    number: NumberFormatSpecifierModel
+
+
+class FormattingMetadataModel(BaseModel):
+    formatting: Union[NumberFormatModel, StringFormatModel, DateFormatModel]
+
+
+class OptionNodes(BaseModel):
+    iso_period: str
+    skjema: str
+    option_id: str
+    node_list: set[str]

@@ -3,17 +3,23 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from .meta_storage_connector import MetaStorageConnector
-from .models import Checkboxmodel
+
+# from .models import Checkboxmodel
 from .models import ContactInfo
 from .models import FormData
 from .models import FormReception
+from .models import OptionMetadataModel
+from .models import OptionNodes
 from .models import Unit
 from .models import UnitInfo
 from .schema import Base
 from .schema import enheter
 from .schema import enhetsinfo
 from .schema import kontaktinfo
-from .schema import skjemacheckboxes
+from .schema import optionnodes
+from .schema import optionslists
+
+# from .schema import skjemacheckboxes
 from .schema import skjemadata
 from .schema import skjemamottak
 
@@ -117,6 +123,17 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         result = conn.execute(stmt).first()
         return result is None
 
+    def validate_options_exists(self, skjema: str, iso_period: str | None) -> bool:
+        """Method to check if options have already been inserted for the period."""
+        filter_mapping = [optionnodes.skjema == skjema]
+        if iso_period:
+            filter_mapping.append(optionnodes.iso_period == iso_period)
+
+        stmt = select(optionnodes).filter(*filter_mapping)
+        conn = self._engine.connect()
+        result = conn.execute(stmt).first()
+        return result is not None
+
     def insert_contact_info(self, contact_info: list[ContactInfo]) -> None:
         """Inserts contact information for a form.
 
@@ -183,7 +200,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         forms = []
         for form in form_reciept:
             model = skjemamottak(
-                iso_period=node.iso_period,
+                iso_period=form.iso_period,
                 start_date=form.start_date,
                 end_date=form.end_date,
                 skjema=form.skjema,
@@ -209,7 +226,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         forms = []
         for form in unit:
             model = enheter(
-                iso_period=node.iso_period,
+                iso_period=form.iso_period,
                 ident=form.ident,
                 skjema=form.skjema,
             )
@@ -228,7 +245,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         unit_info = []
         for item in units:
             model = enhetsinfo(
-                iso_period=node.iso_period,
+                iso_period=item.iso_period,
                 ident=item.ident,
                 variabel=item.variabel,
                 verdi=item.verdi,
@@ -236,12 +253,53 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             unit_info.append(model)
         self._get_session().add_all(unit_info)
 
-    def insert_checkboxes(self, boxes: list[Checkboxmodel]) -> None:
+    def insert_option_list(self, models: list[OptionMetadataModel]) -> None:
+        """Method for inserting options lists into the table."""
+        models_to_insert = []
+        for model in models:
+            for option in model.options:
+                orm_model = optionslists(
+                    iso_period=model.iso_period,
+                    skjema=model.skjema,
+                    options_id=model.options_id,
+                    label=option.label,
+                    value=option.value,
+                )
+                models_to_insert.append(orm_model)
+            """id = Column(Integer, primary_key=True, autoincrement=True)
+            iso_period = Column(String)
+            skjema = Column(String)
+            options_id = Column(String)
+            label = Column(String)
+            value = Column(String)"""
+        self._get_session().add_all(models_to_insert)
+
+    def insert_option_node(self, models: list[OptionNodes]) -> None:
+        """Method for inserting options node into the table."""
+        models_to_insert = []
+        for model in models:
+            for node in model.node_list:
+                orm_model = optionnodes(
+                    options_id=model.option_id,
+                    node_name=node,
+                    iso_period=model.iso_period,
+                    skjema=model.skjema,
+                )
+                models_to_insert.append(orm_model)
+            """
+            iso_period = Column(String)
+            skjema = Column(String)
+            node_name = Column(String)
+            options_id = Column(String)
+            """
+        self._get_session().add_all(models_to_insert)
+
+    '''def insert_checkboxes(self, boxes: list[Checkboxmodel]) -> None:
         """Inserts checkbox data."""
         items = []
         for item in boxes:
             model = skjemacheckboxes(
-                iso_period=node.iso_period,
+                iso_period=item.iso_period,
                 skjema=item.skjema,
                 ident=item.ident,
                 refnr=item.refnr,
@@ -251,4 +309,4 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
                 checked=item.checked,
             )
             items.append(model)
-        self._get_session().add_all(items)
+        self._get_session().add_all(items)'''

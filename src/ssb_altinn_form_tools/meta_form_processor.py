@@ -5,7 +5,8 @@ from pathlib import Path
 from .meta_form_extractor import MetaFormExtractor
 from .meta_storage_connector import MetaStorageConnector
 from .models import CheckboxConfig
-from .models import Checkboxmodel
+
+# from .models import Checkboxmodel
 from .models import ExtractedForm
 from .models import FormJsonData
 
@@ -67,7 +68,7 @@ class MetaFormProcessor(ABC):
         self,
         xml_path: Path,
         json_data: FormJsonData,
-    ) -> tuple[ExtractedForm | None, list[Checkboxmodel] | None]:
+    ) -> ExtractedForm | None:
         """Processes a single form given its XML path and parsed JSON metadata.
 
         Implementations typically:
@@ -102,13 +103,14 @@ class MetaFormProcessor(ABC):
         """
         ...
 
-    @abstractmethod
+    """@abstractmethod
     def _postprocess_checkboxes(
         self, boxes: ExtractedForm, checkbox_mapping: list[CheckboxConfig]
     ) -> list[Checkboxmodel]:
         raise NotImplementedError(
             f"{self} does not implement the '_postprocess_checkboxes' method and does not support custom handling of checkboxes"
         )
+"""
 
     @abstractmethod
     def process_new_forms(self) -> None:

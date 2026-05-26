@@ -1,10 +1,12 @@
 from abc import ABC
 from abc import abstractmethod
 
-from .models import Checkboxmodel
+# from .models import Checkboxmodel
 from .models import ContactInfo
 from .models import FormData
 from .models import FormReception
+from .models import OptionMetadataModel
+from .models import OptionNodes
 from .models import Unit
 from .models import UnitInfo
 
@@ -108,13 +110,6 @@ class MetaStorageConnector(ABC):
         ...
 
     @abstractmethod
-    def insert_checkboxes(self, boxes: list[Checkboxmodel]) -> None:
-        """Insert checkboxes into storage."""
-        raise NotImplementedError(
-            f"{self} does not implement the '_postprocess_checkboxes' method and does not support custom handling of checkboxes"
-        )
-
-    @abstractmethod
     def create_tables_if_not_exists(self) -> None:
         """Creates storage tables if they do not already exist.
 
@@ -123,6 +118,34 @@ class MetaStorageConnector(ABC):
             to call multiple times.
         """
         ...
+
+    @abstractmethod
+    def insert_option_list(self, models: list[OptionMetadataModel]) -> None:
+        """Method for inserting options lists into the table."""
+        ...
+
+    @abstractmethod
+    def insert_option_node(self, models: list[OptionNodes]) -> None:
+        """Method for inserting options node into the table."""
+        ...
+
+    def validate_options_exists(self, skjema: str, iso_period: str | None) -> bool:
+        """Checks whether options has already been inserted for a given period.
+
+        Args:
+            skjema (str): The form the options relate to.
+            iso_period (str): The period referenced
+
+        Returns:
+            bool: ``True`` if the options has been inserted before, otherwise ``False``.
+
+        Raises:
+            NotImplementedError: If the subclass does not implement this method.
+
+        Notes:
+            Used primarily by form processors to ensure idempotent ingestion.
+        """
+        raise NotImplementedError(f"validate_new_form is not implemented for {self}")
 
     def validate_form_is_new(self, form_reference: str) -> bool:
         """Checks whether a form has already been inserted.

@@ -1,3 +1,5 @@
+import logging
+
 try:
     from _duckdb import CatalogException
     from duckdb import DuckDBPyConnection
@@ -8,12 +10,17 @@ except ImportError as e:
     ) from e
 
 from .meta_storage_connector import MetaStorageConnector
-from .models import Checkboxmodel
+
+# from .models import Checkboxmodel
 from .models import ContactInfo
 from .models import FormData
 from .models import FormReception
+from .models import OptionMetadataModel
+from .models import OptionNodes
 from .models import Unit
 from .models import UnitInfo
+
+logger = logging.getLogger(__name__)
 
 
 class ParqueditStorageConnector(MetaStorageConnector):
@@ -107,7 +114,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
         self._create_form_reciept_table()
         self._create_unit_info_table()
         self._create_unit_table()
-        self._create_skjemacheckboxes_table()
+        self._create_optionnodes_table()
+        self._create_optionslist_table()
         self.commit()
 
     def _get_ingested_forms(self) -> list[str]:
@@ -139,6 +147,23 @@ class ParqueditStorageConnector(MetaStorageConnector):
             self.forms = self._get_ingested_forms()
 
         return form_reference not in self.forms
+
+    def validate_options_exists(self, skjema: str, iso_period: str | None) -> bool:
+        """Method for validating if options have already been ingested for a period."""
+        sess = self._engine
+        try:
+            if iso_period is not None:
+                stmt = "SELECT * FROM optionsnodes WHERE skjema = ? AND iso_period = ?"
+                params = (skjema, iso_period)
+            else:
+                stmt = "SELECT * FROM optionsnodes WHERE skjema = ?"
+                params = (skjema,)
+
+            data = sess.execute(stmt, params).fetchone()
+            return (data is not None) and (len(data) != 0)
+        except CatalogException:
+            logger.warning("Was not able verify that if options exists or not")
+            return False
 
     def _create_contact_info_table(self):
         """Defines the schema for the `kontaktinfo` table (contact info).
@@ -277,18 +302,28 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         self._get_session().execute(create_stmt)
 
-    def _create_skjemacheckboxes_table(self):
-        table_name = "skjemacheckboxes"
+    def _create_optionnodes_table(self):
+        table_name = "optionnodes"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
                     iso_period   VARCHAR NOT NULL,
                     skjema VARCHAR NOT NULL,
-                    ident VARCHAR NOT NULL,
-                    refnr VARCHAR NOT NULL,
-                    feltsti VARCHAR NOT NULL,
-                    feltnavn VARCHAR NOT NULL,
-                    checkbox_option VARCHAR NOT NULL,
-                    checked BOOLEAN NOT NULL
+                    node_name VARCHAR NOT NULL,
+                    options_id VARCHAR NOT NULL
+        );
+        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
+        """
+        self._get_session().execute(create_stmt)
+
+    def _create_optionslist_table(self):
+        table_name = "optionslist"
+        create_stmt = f"""
+        CREATE TABLE IF NOT EXISTS {table_name}(
+                    iso_period   VARCHAR NOT NULL,
+                    skjema VARCHAR NOT NULL,
+                    options_id VARCHAR NOT NULL,
+                    label VARCHAR NOT NULL,
+                    value VARCHAR NOT NULL
         );
         ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
@@ -380,20 +415,43 @@ class ParqueditStorageConnector(MetaStorageConnector):
             {"tbl": unit_info},
         )
 
-    def insert_checkboxes(self, boxes: list[Checkboxmodel]) -> None:
-        """Stages schema checkboxes for insertion.
-
-        Args:
-            boxes (list[CheckModel]): List of boxes that exists in a schema.
-        """
-        table_name = "skjemacheckboxes"
-        models = []
-        for box in boxes:
-            model = box.model_dump()
-            models.append(model)
+    def insert_option_list(self, models: list[OptionMetadataModel]) -> None:
+        """Method for inserting options lists into the table."""
+        table_name = "optionslists"
+        models_to_insert = []
+        for model in models:
+            for option in model.options:
+                orm_model = dict(
+                    iso_period=model.iso_period,
+                    skjema=model.skjema,
+                    options_id=model.options_id,
+                    label=option.label,
+                    value=option.value,
+                )
+                models_to_insert.append(orm_model)
 
         sess = self._get_session()
         sess.execute(
             f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
-            {"tbl": models},
+            {"tbl": models_to_insert},
+        )
+
+    def insert_option_node(self, models: list[OptionNodes]) -> None:
+        """Method for inserting options node into the table."""
+        table_name = "optionnodes"
+        models_to_insert = []
+        for model in models:
+            for node in model.node_list:
+                orm_model = dict(
+                    options_id=model.option_id,
+                    node_name=node,
+                    iso_period=model.iso_period,
+                    skjema=model.skjema,
+                )
+                models_to_insert.append(orm_model)
+
+        sess = self._get_session()
+        sess.execute(
+            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
+            {"tbl": models_to_insert},
         )

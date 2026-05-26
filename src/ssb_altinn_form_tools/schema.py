@@ -199,7 +199,7 @@ class skjemadata(Base):
     indeks = Column(Integer)
 
 
-class checkboxnodes(Base):
+class optionnodes(Base):
     """Represents a single extracted data field from a submitted form.
 
     Each row corresponds to an XML node in the parsed form.
@@ -212,7 +212,7 @@ class checkboxnodes(Base):
         options_id (str): Id for the option list
     """
 
-    __tablename__ = "checkboxnodes"
+    __tablename__ = "optionnodes"
     id = Column(Integer, primary_key=True, autoincrement=True)
     iso_period = Column(String)
     skjema = Column(String)
@@ -220,7 +220,7 @@ class checkboxnodes(Base):
     options_id = Column(String)
 
 
-class checkboxoptions(Base):
+class optionslists(Base):
     """Represents a single extracted data field from a submitted form.
 
     Each row corresponds to an XML node in the parsed form.
@@ -234,7 +234,7 @@ class checkboxoptions(Base):
         value (str): Value in the form
     """
 
-    __tablename__ = "checkboxoptions"
+    __tablename__ = "optionslists"
     id = Column(Integer, primary_key=True, autoincrement=True)
     iso_period = Column(String)
     skjema = Column(String)
