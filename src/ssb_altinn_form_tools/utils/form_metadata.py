@@ -99,12 +99,27 @@ class FormMetadata:
     def _get_metadata(self) -> list[dict]:
         if hasattr(self, "_filtered_data") is False:
             response = requests.get(self._metadata_url)
-            response.raise_for_status()
-            self._response_json = response.json()
-            self._filtered_data = node_filter(
-                self._response_json, contained_key="options"
-            )
-            return self._filtered_data
+
+            if response.status_code not in [404, 200]:
+                response.raise_for_status()
+                return []
+            elif response.status_code == 404:
+                logger.warning(
+                    f"Metadata for schema {self._form_data_key} could not be found."
+                )
+                return []
+            elif not response.text.strip():
+                # Json response might be empty, checking for that
+                logger.warning(
+                    f"Metadata response for schema {self._form_data_key} was empty."
+                )
+                return []
+            else:
+                _response_json = response.json()
+                self._filtered_data = node_filter(
+                    _response_json, contained_key="options"
+                )
+                return self._filtered_data
         else:
             return self._filtered_data
 
@@ -160,8 +175,24 @@ class FormMetadata:
 
         try:
             prod_res = requests.get(self._jsonschema_url)
-            self.form_json = prod_res.json()
-            self.array_fields = extract_arr_fields(self.form_json)
+            if prod_res.status_code not in [404, 200]:
+                prod_res.raise_for_status()
+            elif prod_res.status_code == 404:
+                logger.warning(
+                    f"Jsonschema for schema {self._form_data_key} could not be found."
+                )
+                self.array_fields = None
+            elif not prod_res.text.strip():
+                # Json response might be empty, checking for that
+                logger.warning(
+                    f"Json response for schema {self._form_data_key} was empty."
+                )
+                self.array_fields = None
+            else:
+                self.form_json = prod_res.json()
+                self.array_fields = extract_arr_fields(self.form_json)
+
+            return self.array_fields
         except Exception as e:
             logger.warning(
                 f"Fetching metadata for the form resulted in the following error. Possibly because metadata does not exist. Error: \n{e}"

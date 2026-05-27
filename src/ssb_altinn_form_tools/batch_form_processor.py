@@ -192,25 +192,22 @@ class BatchFormProcessor(DefaultFormProcessor):
             self._connector.insert_contact_info(contact_info)
 
             form_data = []
+            unit_info = []
+            all_periods = []
             for form in forms_list:
                 form_data.extend(form.form_data)
+                unit_info.extend(form.unit_info)
+                all_periods.append(form.reception.iso_period)
 
             self._connector.insert_form_data(form_data)
-
-            reception = [form.reception for form in forms_list]
-            self._connector.insert_form_reception(reception)
-
-            unit = [form.unit for form in forms_list]
-            self._connector.insert_unit(unit)
-
-            unit_info = []
-            for form in forms_list:
-                unit_info.extend(form.unit_info)
+            self._connector.insert_form_data_unedited(form_data)
+            self._connector.insert_form_reception(
+                [form.reception for form in forms_list]
+            )
+            self._connector.insert_unit([form.unit for form in forms_list])
             self._connector.insert_unit_info(unit_info)
 
-            all_periods = set([form.reception.iso_period for form in forms_list])
-
-            for period in all_periods:
+            for period in set(all_periods):
                 options_exists = self._connector.validate_options_exists(
                     self._form_name, period
                 )

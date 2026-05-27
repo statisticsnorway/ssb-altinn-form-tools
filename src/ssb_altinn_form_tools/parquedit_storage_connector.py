@@ -106,17 +106,16 @@ class ParqueditStorageConnector(MetaStorageConnector):
             schema/metadata files (or register schemas with a catalog). This WIP
             method currently only defines in-memory schema descriptors.
         """
-        self.begin_transaction()
         self._create_contact_info_table()
         self._create_control_result_table()
         self._create_controls_table()
-        self._create_form_data_table()
+        self._create_form_data_table(table_name="skjemadata")
+        self._create_form_data_table(table_name="skjemadata_unedited")
         self._create_form_reciept_table()
         self._create_unit_info_table()
         self._create_unit_table()
         self._create_optionnodes_table()
         self._create_optionslist_table()
-        self.commit()
 
     def _get_ingested_forms(self) -> list[str]:
         sess = self._engine
@@ -190,7 +189,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         self._get_session().execute(create_stmt)
 
-    def _create_form_data_table(self):
+    def _create_form_data_table(self, table_name: str):
         """Defines the schema for the `skjemadata` table (field-level data).
 
         Notes:
@@ -198,7 +197,6 @@ class ParqueditStorageConnector(MetaStorageConnector):
             to be a typo. In a future implementation, ensure the table name
             matches ``skjemadata``.
         """
-        table_name = "skjemadata"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
                 iso_period   VARCHAR NOT NULL,
@@ -316,7 +314,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         self._get_session().execute(create_stmt)
 
     def _create_optionslist_table(self):
-        table_name = "optionslist"
+        table_name = "optionslists"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
                     iso_period   VARCHAR NOT NULL,
@@ -359,6 +357,27 @@ class ParqueditStorageConnector(MetaStorageConnector):
             columnar file and update an index/manifest.
         """
         table_name = "skjemadata"
+        models = []
+        for node in form_data:
+            node_data = node.model_dump()
+            models.append(node_data)
+        sess = self._get_session()
+        sess.execute(
+            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
+            {"tbl": models},
+        )
+
+    def insert_form_data_unedited(self, form_data: list[FormData]) -> None:
+        """Stages a batch of form data records for insertion (WIP).
+
+        Args:
+            form_data (list[FormData]): Field-level form data entries to persist.
+
+        Notes:
+            In a complete implementation, this would batch-append rows to a
+            columnar file and update an index/manifest.
+        """
+        table_name = "skjemadata_unedited"
         models = []
         for node in form_data:
             node_data = node.model_dump()

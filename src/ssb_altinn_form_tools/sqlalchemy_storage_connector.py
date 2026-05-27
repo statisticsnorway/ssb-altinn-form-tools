@@ -13,6 +13,7 @@ from .models import OptionNodes
 from .models import Unit
 from .models import UnitInfo
 from .schema import Base
+from .schema import SkjemadataUnedited
 from .schema import enheter
 from .schema import enhetsinfo
 from .schema import kontaktinfo
@@ -173,6 +174,25 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         models = []
         for node in form_data:
             node_data = skjemadata(
+                iso_period=node.iso_period,
+                skjema=node.skjema,
+                ident=node.ident,
+                refnr=node.refnr,
+                feltsti=node.feltsti,
+                feltnavn=node.feltnavn,
+                verdi=node.verdi,
+                dybde=node.dybde,
+                indeks=node.indeks,
+                alias=node.alias,
+            )
+            models.append(node_data)
+        self._get_session().add_all(models)
+
+    def insert_form_data_unedited(self, form_data: list[FormData]) -> None:
+        """Same as skjemadata, but should not be edited."""
+        models = []
+        for node in form_data:
+            node_data = SkjemadataUnedited(
                 iso_period=node.iso_period,
                 skjema=node.skjema,
                 ident=node.ident,

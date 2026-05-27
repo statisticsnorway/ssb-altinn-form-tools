@@ -195,25 +195,8 @@ class DefaultFormProcessor(MetaFormProcessor):
             # raise ValueError("he")
             if self._alias_mapping:
                 self._map_alias(self._alias_mapping, extracted_form)
+            return extracted_form
 
-            self._connector.begin_transaction()
-            try:
-                self._connector.insert_contact_info([extracted_form.contact_info])
-                self._connector.insert_form_data(extracted_form.form_data)
-                self._connector.insert_form_reception([extracted_form.reception])
-                self._connector.insert_unit([extracted_form.unit])
-                self._connector.insert_unit_info(extracted_form.unit_info)
-
-            except Exception as e:
-                self._connector.rollback()
-                logger.error(e)
-                logger.error("Due to the previous error the insert was rolled back")
-            else:
-                self._connector.commit()
-                logger.info(
-                    f"Form {json_data.altinn_reference} was inserted into the database"
-                )
-                logger.debug(f"Data: {extracted_form}")
         else:
             logger.info(
                 f"Skipped inserting form with refernce {json_data.altinn_reference} since it already exists"
@@ -234,13 +217,60 @@ class DefaultFormProcessor(MetaFormProcessor):
             FileNotFoundError: If the derived JSON metadata file does not exist.
             pydantic.ValidationError: If `FormJsonData` validation fails.
         """
+        new_forms: list[ExtractedForm] = []
         for form in forms:
             file_path = Path(form)
 
             json_name = file_path.name.replace("xml", "json").replace("form", "meta")
             json_path = file_path.with_name(json_name)
             json_data = FormJsonData.model_validate_json(json_path.read_text())
-            self._process_form(file_path, json_data)
+            extracted_form = self._process_form(file_path, json_data)
+            if extracted_form:
+                new_forms.append(extracted_form)
+
+        self._connector.begin_transaction()
+        try:
+            self._connector.insert_contact_info(
+                [form.contact_info for form in new_forms]
+            )
+            form_data = []
+            unit_info = []
+            periods = []
+            for form in new_forms:
+                form_data.extend(form.form_data)
+                unit_info.extend(form.unit_info)
+                periods.append(form.reception.iso_period)
+            self._connector.insert_form_data(form_data)
+            self._connector.insert_form_data_unedited(form_data)
+            self._connector.insert_form_reception(
+                [form.reception for form in new_forms]
+            )
+            self._connector.insert_unit([form.unit for form in new_forms])
+            self._connector.insert_unit_info(unit_info)
+
+            for period in set(periods):
+                options_exists = self._connector.validate_options_exists(
+                    self._form_name, period
+                )
+                if options_exists is False:
+                    options_list = self._metadata_helper.extract_options_list(
+                        self._form_name, period
+                    )
+                    option_nodes = self._metadata_helper.extract_options_nodes(
+                        self._form_name, period
+                    )
+                    self._connector.insert_option_node(option_nodes)
+                    self._connector.insert_option_list(options_list)
+
+        except Exception as e:
+            self._connector.rollback()
+            logger.error(e)
+            logger.error("Due to the previous error the insert was rolled back")
+        else:
+            self._connector.commit()
+            inserted_form_ids = [form.reception.refnr for form in new_forms]
+            logger.info(f"Form {inserted_form_ids} was inserted into the database")
+            # logger.debug(f"Data: {extracted_form}")
 
     def process_new_forms(self) -> None:
         """Finds and processes all new forms discovered under the base path.
@@ -263,19 +293,12 @@ class DefaultFormProcessor(MetaFormProcessor):
         forms = self._find_forms()
         if not forms:
             logger.warning("No forms found")
-        self._connector.create_tables_if_not_exists()
-
-        options_exists = self._connector.validate_options_exists(self._form_name, None)
-        if options_exists is False:
-            options_list = self._metadata_helper.extract_options_list(
-                self._form_name, "None"
-            )
-            option_nodes = self._metadata_helper.extract_options_nodes(
-                self._form_name, "None"
-            )
-            self._connector.begin_transaction()
-            self._connector.insert_option_node(option_nodes)
-            self._connector.insert_option_list(options_list)
-            self._connector.commit()
-
+        self._connector.begin_transaction()
+        try:
+            self._connector.create_tables_if_not_exists()
+        except Exception as e:
+            self._connector.rollback()
+            logger.error("Create table was rolled back due to an error")
+            raise e
+        self._connector.commit()
         self._process_forms(forms)

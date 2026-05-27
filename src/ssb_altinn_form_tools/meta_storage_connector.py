@@ -81,6 +81,16 @@ class MetaStorageConnector(ABC):
         ...
 
     @abstractmethod
+    def insert_form_data_unedited(self, form_data: list[FormData]) -> None:
+        """Inserts form field data entries.
+
+        Args:
+            form_data (list[FormData]): A list of structured form data objects
+                representing the form's individual variables and values.
+        """
+        ...
+
+    @abstractmethod
     def insert_form_reception(self, form_reciept: list[FormReception]) -> None:
         """Inserts metadata about the form reception.
 

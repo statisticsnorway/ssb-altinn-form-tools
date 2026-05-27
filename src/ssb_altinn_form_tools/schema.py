@@ -199,6 +199,12 @@ class skjemadata(Base):
     indeks = Column(Integer)
 
 
+class SkjemadataUnedited(skjemadata):
+    """Same table as skjemadata, but should not be edited."""
+
+    __tablename__ = "skjemadata_editert"
+
+
 class optionnodes(Base):
     """Represents a single extracted data field from a submitted form.
 
