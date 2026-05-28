@@ -12,12 +12,37 @@ def form_info_fixture(request) -> str:
     return request.param
 
 
-def test_metadata_api(form_info_fixture: FormInfo):
-    api = FormMetadata(form_name=form_info_fixture.form_name)
+def test_metadata_api():
+    api = FormMetadata(form_name="RA0485")
+    res = api.extract_options_list("RA0485", "2025")
+    assert len(res) == 32
+    assert any(item.options_id == "DagerIDrift" for item in res)
+
+    res = api.extract_options_nodes("RA0485", "2025")
+    assert any(item.option_id == "DagerIDrift" for item in res)
+    assert len(res) == 13
+
+    api = FormMetadata(form_name="RA0187")
+    res = api.extract_options_list("RA0187", "2025")
+    assert len(res) == 0
+
+    res = api.extract_options_nodes("RA0187", "2025")
+    assert len(res) == 0
 
 
-def test_jsonschema_api(form_info_fixture: FormInfo):
-    api = FormMetadata(form_name=form_info_fixture.form_name)
+def test_jsonschema_api():
+    api = FormMetadata(form_name="RA0485")
+    res = api.get_array_fields()
+    assert res is not None
+    assert len(res) == 5
+    assert "Turer" in res
+    assert "TurVarer" in res
+
+    api = FormMetadata(form_name="RA0187")
+    res = api.get_array_fields()
+    assert res is not None
+    assert len(res) == 3
+
     # api.extract_options_list(form_info_fixture.form_name, "2025")
 
 
