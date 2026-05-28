@@ -2,16 +2,13 @@
 <NestedList>
     <SkjemaData>
         <NyEngHusdyrGjodsGroup>
-            <NyEngHusdyrGjodsID>070</NyEngHusdyrGjodsID>
             <NyEngHusdyrGjodsNavn>Gris, fastgjødsel</NyEngHusdyrGjodsNavn>
             <NyEngHusdyrAntallGjods>2</NyEngHusdyrAntallGjods>
             <NyEngHusdyrGjodslinger>
                 <NyEngHGjodslingAarstid>0</NyEngHGjodslingAarstid>
-                <NyEngHGjodslingAreal>33</NyEngHGjodslingAreal>
                 <NyEngHGjodslingMengde>3333</NyEngHGjodslingMengde>
             </NyEngHusdyrGjodslinger>
             <NyEngHusdyrGjodslinger>
-                <NyEngHGjodslingAarstid>0</NyEngHGjodslingAarstid>
                 <NyEngHGjodslingAreal>32</NyEngHGjodslingAreal>
                 <NyEngHGjodslingMengde>32</NyEngHGjodslingMengde>
             </NyEngHusdyrGjodslinger>
@@ -19,11 +16,9 @@
         <NyEngHusdyrGjodsGroup>
             <NyEngHusdyrGjodsID>080</NyEngHusdyrGjodsID>
             <NyEngHusdyrGjodsNavn>Gris, talle</NyEngHusdyrGjodsNavn>
-            <NyEngHusdyrAntallGjods>1</NyEngHusdyrAntallGjods>
             <NyEngHusdyrGjodslinger>
                 <NyEngHGjodslingAarstid>1</NyEngHGjodslingAarstid>
                 <NyEngHGjodslingAreal>32</NyEngHGjodslingAreal>
-                <NyEngHGjodslingMengde>32</NyEngHGjodslingMengde>
             </NyEngHusdyrGjodslinger>
         </NyEngHusdyrGjodsGroup>
     </SkjemaData>

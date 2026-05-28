@@ -5,58 +5,14 @@
         <RepGruppe>
             <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
             <ubruktKodeBasPrisPrefill>391.48</ubruktKodeBasPrisPrefill>
-            <ubruktKodeVaregrPrefill>01</ubruktKodeVaregrPrefill>
-            <ubruktKodeVaGrTLangPrefill>Trelast</ubruktKodeVaGrTLangPrefill>
-            <ubruktVareNrSsbPrefill>35504</ubruktVareNrSsbPrefill>
-            <vareNrLoepende>1</vareNrLoepende>
-            <ssbVareTypePrefillNB>Justert bygningsmateriale 48x198 mm</ssbVareTypePrefillNB>
-            <ssbVareTypePrefillNN />
-            <bedriftBeskrivelsePrefill>GRAN K-VIRKEpris eks mva per stk </bedriftBeskrivelsePrefill>
-            <produktPrisPrefill />
-            <mengdeEnhetPrefill>stk.</mengdeEnhetPrefill>
-            <haddeVarenJaNei>1</haddeVarenJaNei>
-            <komplEndringJaNei>0</komplEndringJaNei>
-            <komplPrisDennePerioden>150</komplPrisDennePerioden>
-            <komplTilbudSalgJaNei>0</komplTilbudSalgJaNei>
         </RepGruppe>
         <RepGruppe>
             <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
-            <ubruktKodeBasPrisPrefill>211.93</ubruktKodeBasPrisPrefill>
-            <ubruktKodeVaregrPrefill>04</ubruktKodeVaregrPrefill>
-            <ubruktKodeVaGrTLangPrefill>Listverk</ubruktKodeVaGrTLangPrefill>
-            <ubruktVareNrSsbPrefill>35508</ubruktVareNrSsbPrefill>
-            <vareNrLoepende>2</vareNrLoepende>
-            <ssbVareTypePrefillNB>Fotlist</ssbVareTypePrefillNB>
-            <ssbVareTypePrefillNN />
-            <bedriftBeskrivelsePrefill>FURU GULV pris eks mva per stk </bedriftBeskrivelsePrefill>
-            <produktPrisPrefill />
-            <mengdeEnhetPrefill>stk</mengdeEnhetPrefill>
-            <haddeVarenJaNei>0</haddeVarenJaNei>
-            <komplNeiAnnenVareJaNei>1</komplNeiAnnenVareJaNei>
-            <komplNeiBeskrivAnnenVare>kvinnelist</komplNeiBeskrivAnnenVare>
-            <listeMengdeEnhet>09.03</listeMengdeEnhet>
-            <listeMengdeEnhetLabel>meter</listeMengdeEnhetLabel>
-            <prisDennePeriNyVaInnrull>400</prisDennePeriNyVaInnrull>
-            <tilbudSalgJaNei>1</tilbudSalgJaNei>
             <komplNeiSolgtForrPerJaNei>0</komplNeiSolgtForrPerJaNei>
         </RepGruppe>
         <RepGruppe>
             <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
             <ubruktKodeBasPrisPrefill>293.7</ubruktKodeBasPrisPrefill>
-            <ubruktKodeVaregrPrefill>01</ubruktKodeVaregrPrefill>
-            <ubruktKodeVaGrTLangPrefill>Trelast</ubruktKodeVaGrTLangPrefill>
-            <ubruktVareNrSsbPrefill>35509</ubruktVareNrSsbPrefill>
-            <vareNrLoepende>3</vareNrLoepende>
-            <ssbVareTypePrefillNB>Justert bygningsmateriale 48x148 mm</ssbVareTypePrefillNB>
-            <ssbVareTypePrefillNN />
-            <bedriftBeskrivelsePrefill>GRAN2 K-VIRKE pris eks mva per stk </bedriftBeskrivelsePrefill>
-            <produktPrisPrefill />
-            <mengdeEnhetPrefill>stk.</mengdeEnhetPrefill>
-            <haddeVarenJaNei>1</haddeVarenJaNei>
-            <komplEndringJaNei>1</komplEndringJaNei>
-            <komplBeskrivEndret>høvlet</komplBeskrivEndret>
-            <komplPrisDennePerioden>149</komplPrisDennePerioden>
-            <komplTilbudSalgJaNei>0</komplTilbudSalgJaNei>
         </RepGruppe>
     </SkjemaData>
 </List>
