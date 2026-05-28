@@ -3,12 +3,15 @@ from sqlalchemy import TIMESTAMP
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import declarative_mixin
+from sqlalchemy.orm import mapped_column
 
 Base = declarative_base()
 
 
-class kontaktinfo(Base):
+class KontaktInfo(Base):
     """Represents contact information associated with a submitted form.
 
     This table stores details about the person responsible for submitting or
@@ -43,7 +46,7 @@ class kontaktinfo(Base):
     kommentar_krevende = Column(String)
 
 
-class enheter(Base):
+class Enheter(Base):
     """Represents a reporting unit submitting a form.
 
     Attributes:
@@ -60,7 +63,7 @@ class enheter(Base):
     skjema = Column(String)
 
 
-class skjemamottak(Base):
+class SkjemaMottak(Base):
     """Represents the reception metadata for a submitted form.
 
     Stores information about when the form was received, whether it is active,
@@ -92,7 +95,7 @@ class skjemamottak(Base):
     aktiv = Column(BOOLEAN)
 
 
-class enhetsinfo(Base):
+class EnhetsInfo(Base):
     """Represents additional metadata associated with a reporting unit.
 
     Stores key-value attributes describing properties of the unit.
@@ -113,7 +116,7 @@ class enhetsinfo(Base):
     verdi = Column(String)
 
 
-class kontroller(Base):
+class Kontroller(Base):
     """Represents a control rule applied to a form.
 
     Each record defines a validation or consistency check that may be applied
@@ -141,7 +144,7 @@ class kontroller(Base):
     sorting_order = Column(String)
 
 
-class kontrollutslag(Base):
+class KontrollUtslag(Base):
     """Represents the result of a control rule evaluation for a specific form.
 
     Attributes:
@@ -166,7 +169,8 @@ class kontrollutslag(Base):
     verdi = Column(Integer)
 
 
-class skjemadata(Base):
+@declarative_mixin
+class SkjemadataBase(Base):
     """Represents a single extracted data field from a submitted form.
 
     Each row corresponds to an XML node in the parsed form.
@@ -185,27 +189,33 @@ class skjemadata(Base):
         indeks (int): Index for repeated structures (arrays/lists).
     """
 
+    __abstract__ = True  # <- important
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    iso_period: Mapped[str] = mapped_column(String)
+    skjema: Mapped[str] = mapped_column(String)
+    ident: Mapped[str] = mapped_column(String)
+    refnr: Mapped[str] = mapped_column(String)
+    feltsti: Mapped[str] = mapped_column(String, nullable=True)
+    feltnavn: Mapped[str] = mapped_column(String)
+    verdi: Mapped[str] = mapped_column(String, nullable=True)
+    alias: Mapped[str] = mapped_column(String, nullable=True)
+    dybde: Mapped[int] = mapped_column(Integer, nullable=True)
+    indeks: Mapped[int] = mapped_column(Integer, nullable=True)
+
+
+class Skjemadata(SkjemadataBase):
+    """Table for skjema data."""
+
     __tablename__ = "skjemadata"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period = Column(String)
-    skjema = Column(String)
-    ident = Column(String)
-    refnr = Column(String)
-    feltsti = Column(String)
-    feltnavn = Column(String)
-    verdi = Column(String)
-    alias = Column(String)
-    dybde = Column(Integer)
-    indeks = Column(Integer)
 
 
-class SkjemadataUnedited(skjemadata):
+class SkjemadataUnedited(SkjemadataBase):
     """Same table as skjemadata, but should not be edited."""
 
     __tablename__ = "skjemadata_editert"
 
 
-class optionnodes(Base):
+class OptionNodes(Base):
     """Represents a single extracted data field from a submitted form.
 
     Each row corresponds to an XML node in the parsed form.
@@ -226,7 +236,7 @@ class optionnodes(Base):
     options_id = Column(String)
 
 
-class optionslists(Base):
+class OptionsLists(Base):
     """Represents a single extracted data field from a submitted form.
 
     Each row corresponds to an XML node in the parsed form.

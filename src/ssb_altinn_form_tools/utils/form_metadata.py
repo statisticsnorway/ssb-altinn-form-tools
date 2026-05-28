@@ -94,7 +94,7 @@ class FormMetadata:
         version_str = f"{version:02d}"  # "01"
 
         self._jsonschema_url = f"https://ssb.apps.altinn.no/ssb/{ra_id}-{version_str}/api/jsonschema/A3_{ra_base}_M"
-        self._metadata_url = f"https://ssb.apps.tt02.altinn.no/ssb/{ra_id}-{version_str}/api/getappmetadata"
+        self._metadata_url = f"https://ssb.apps.tt02.altinn.no/ssb/{ra_id}-{version_str}/api/getskjemakonfig"
 
     def _get_metadata(self) -> list[dict]:
         if hasattr(self, "_filtered_data") is False:

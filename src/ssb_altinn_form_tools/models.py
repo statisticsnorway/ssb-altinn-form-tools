@@ -217,7 +217,12 @@ class FormReception(BaseModel):
                 {"number": e},
             ) from e
         try:
-            period_number = int(data.get("periodeNummer"))
+            _period = data.get("periodeNummer")
+            if _period is None:
+                period_number = 1
+            else:
+                period_number = int(_period)
+
         except Exception as e:
             raise PydanticCustomError(
                 "",
@@ -240,12 +245,12 @@ class FormReception(BaseModel):
             end = start.end_of("month")
             iso_format = start.format("YYYY-MM")
 
-        if period_type == "AAR":
+        elif period_type == "AAR":
             start = pendulum.datetime(period_year, month=1, day=1)
             end = start.end_of("year")
             iso_format = start.format("YYYY")
 
-        if period_type == "UKE":
+        elif period_type == "UKE":
             d = datetime.date.fromisocalendar(period_year, period_number, day=1)
             start = pendulum.datetime(d.year, d.month, d.day)
             end = start.end_of("week")
@@ -260,6 +265,7 @@ class FormReception(BaseModel):
         data["start_date"] = start
         data["end_date"] = end
         data["iso_period"] = iso_format
+        print(data)
         return data
 
     def __str__(self) -> str:

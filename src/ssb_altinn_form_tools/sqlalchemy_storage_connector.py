@@ -13,16 +13,16 @@ from .models import OptionNodes
 from .models import Unit
 from .models import UnitInfo
 from .schema import Base
-from .schema import SkjemadataUnedited
-from .schema import enheter
-from .schema import enhetsinfo
-from .schema import kontaktinfo
-from .schema import optionnodes
-from .schema import optionslists
+from .schema import Enheter
+from .schema import EnhetsInfo
+from .schema import KontaktInfo
+from .schema import OptionNodes as OrmOptionNodes
+from .schema import OptionsLists
 
 # from .schema import skjemacheckboxes
-from .schema import skjemadata
-from .schema import skjemamottak
+from .schema import Skjemadata
+from .schema import SkjemadataUnedited
+from .schema import SkjemaMottak
 
 
 class SqlAlchemyStorageConnector(MetaStorageConnector):
@@ -104,6 +104,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             Uses SQLAlchemy metadata reflection to create tables defined in
             ``.schema.Base``. This operation is idempotent.
         """
+        print(Base.metadata.tables.keys())
         Base.metadata.create_all(self._engine)
 
     def validate_form_is_new(self, form_reference: str) -> bool:
@@ -119,18 +120,17 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             Executes a ``SELECT`` against the ``skjemamottak`` table and returns
             whether any row exists with the same reference number.
         """
-        stmt = select(skjemamottak).filter(skjemamottak.refnr == form_reference)
+        stmt = select(SkjemaMottak).filter(SkjemaMottak.refnr == form_reference)
         conn = self._engine.connect()
         result = conn.execute(stmt).first()
         return result is None
 
     def validate_options_exists(self, skjema: str, iso_period: str | None) -> bool:
         """Method to check if options have already been inserted for the period."""
-        filter_mapping = [optionnodes.skjema == skjema]
+        stmt = select(OrmOptionNodes).filter(OrmOptionNodes.skjema == skjema)
         if iso_period:
-            filter_mapping.append(optionnodes.iso_period == iso_period)
+            stmt = stmt.filter(OrmOptionNodes.iso_period == iso_period)
 
-        stmt = select(optionnodes).filter(*filter_mapping)
         conn = self._engine.connect()
         result = conn.execute(stmt).first()
         return result is not None
@@ -146,7 +146,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         """
         forms = []
         for form in forms:
-            model = kontaktinfo(
+            model = KontaktInfo(
                 aar=form.aar,
                 skjema=form.skjema,
                 ident=form.ident,
@@ -173,7 +173,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         """
         models = []
         for node in form_data:
-            node_data = skjemadata(
+            node_data = Skjemadata(
                 iso_period=node.iso_period,
                 skjema=node.skjema,
                 ident=node.ident,
@@ -219,7 +219,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         """
         forms = []
         for form in form_reciept:
-            model = skjemamottak(
+            model = SkjemaMottak(
                 iso_period=form.iso_period,
                 start_date=form.start_date,
                 end_date=form.end_date,
@@ -245,7 +245,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         """
         forms = []
         for form in unit:
-            model = enheter(
+            model = Enheter(
                 iso_period=form.iso_period,
                 ident=form.ident,
                 skjema=form.skjema,
@@ -264,7 +264,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         """
         unit_info = []
         for item in units:
-            model = enhetsinfo(
+            model = EnhetsInfo(
                 iso_period=item.iso_period,
                 ident=item.ident,
                 variabel=item.variabel,
@@ -278,7 +278,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         models_to_insert = []
         for model in models:
             for option in model.options:
-                orm_model = optionslists(
+                orm_model = OptionsLists(
                     iso_period=model.iso_period,
                     skjema=model.skjema,
                     options_id=model.options_id,
@@ -299,7 +299,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         models_to_insert = []
         for model in models:
             for node in model.node_list:
-                orm_model = optionnodes(
+                orm_model = OrmOptionNodes(
                     options_id=model.option_id,
                     node_name=node,
                     iso_period=model.iso_period,
