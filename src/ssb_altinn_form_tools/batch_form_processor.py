@@ -1,41 +1,16 @@
-import glob
-import json
 import logging
 from pathlib import Path
 
 import pendulum
-import requests
 import xmltodict
 
 from ssb_altinn_form_tools.default_form_processor import DefaultFormProcessor
 from ssb_altinn_form_tools.meta_form_extractor import MetaFormExtractor
-
-# from ssb_altinn_form_tools.meta_form_processor import MetaFormProcessor
 from ssb_altinn_form_tools.meta_storage_connector import MetaStorageConnector
-
-# from ssb_altinn_form_tools.models import CheckboxConfig
-# from ssb_altinn_form_tools.models import Checkboxmodel
 from ssb_altinn_form_tools.models import ExtractedForm
 from ssb_altinn_form_tools.models import FormJsonData
 
-# from ssb_altinn_form_tools.utils.form_metadata import FormMetadata
-
 logger = logging.getLogger(__name__)
-
-
-def extract_arr_fields(json_data: dict, parent: str | None = None) -> list:
-    """Extract names of fields that are arrays.
-
-    A function that traverses a dictionary recursivly to extract the name of fields that are arrays.
-    """
-    array_items = []
-    for key, value in json_data.items():
-        if isinstance(value, dict):
-            array_items.extend(extract_arr_fields(value, key))
-        else:
-            if value == "array":
-                array_items.append(parent)
-    return array_items
 
 
 class BatchFormProcessor(DefaultFormProcessor):

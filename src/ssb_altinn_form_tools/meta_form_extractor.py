@@ -7,8 +7,6 @@ from .models import FormData
 from .models import FormJsonData
 from .models import FormReception
 from .models import KlassInfo
-from .models import OptionMetadataModel
-from .models import OptionNodes
 from .models import Unit
 from .models import UnitInfo
 

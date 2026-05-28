@@ -9,7 +9,6 @@ import pendulum
 from pydantic import BaseModel
 from pydantic import ConfigDict
 from pydantic import Field
-from pydantic import computed_field
 from pydantic import field_validator
 from pydantic import model_validator
 from pydantic_core import PydanticCustomError

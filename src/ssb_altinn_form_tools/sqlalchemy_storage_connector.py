@@ -3,8 +3,6 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from .meta_storage_connector import MetaStorageConnector
-
-# from .models import Checkboxmodel
 from .models import ContactInfo
 from .models import FormData
 from .models import FormReception
@@ -18,8 +16,6 @@ from .schema import EnhetsInfo
 from .schema import KontaktInfo
 from .schema import OptionNodes as OrmOptionNodes
 from .schema import OptionsLists
-
-# from .schema import skjemacheckboxes
 from .schema import Skjemadata
 from .schema import SkjemadataUnedited
 from .schema import SkjemaMottak
@@ -104,7 +100,6 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             Uses SQLAlchemy metadata reflection to create tables defined in
             ``.schema.Base``. This operation is idempotent.
         """
-        print(Base.metadata.tables.keys())
         Base.metadata.create_all(self._engine)
 
     def validate_form_is_new(self, form_reference: str) -> bool:
@@ -286,12 +281,6 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
                     value=option.value,
                 )
                 models_to_insert.append(orm_model)
-            """id = Column(Integer, primary_key=True, autoincrement=True)
-            iso_period = Column(String)
-            skjema = Column(String)
-            options_id = Column(String)
-            label = Column(String)
-            value = Column(String)"""
         self._get_session().add_all(models_to_insert)
 
     def insert_option_node(self, models: list[OptionNodes]) -> None:
@@ -306,27 +295,4 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
                     skjema=model.skjema,
                 )
                 models_to_insert.append(orm_model)
-            """
-            iso_period = Column(String)
-            skjema = Column(String)
-            node_name = Column(String)
-            options_id = Column(String)
-            """
         self._get_session().add_all(models_to_insert)
-
-    '''def insert_checkboxes(self, boxes: list[Checkboxmodel]) -> None:
-        """Inserts checkbox data."""
-        items = []
-        for item in boxes:
-            model = skjemacheckboxes(
-                iso_period=item.iso_period,
-                skjema=item.skjema,
-                ident=item.ident,
-                refnr=item.refnr,
-                feltsti=item.field_path,
-                feltnavn=item.field_name,
-                checkbox_option=item.option,
-                checked=item.checked,
-            )
-            items.append(model)
-        self._get_session().add_all(items)'''

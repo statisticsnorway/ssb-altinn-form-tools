@@ -10,8 +10,6 @@ except ImportError as e:
     ) from e
 
 from .meta_storage_connector import MetaStorageConnector
-
-# from .models import Checkboxmodel
 from .models import ContactInfo
 from .models import FormData
 from .models import FormReception

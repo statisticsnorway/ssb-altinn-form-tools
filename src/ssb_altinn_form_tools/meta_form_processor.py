@@ -4,9 +4,6 @@ from pathlib import Path
 
 from .meta_form_extractor import MetaFormExtractor
 from .meta_storage_connector import MetaStorageConnector
-from .models import CheckboxConfig
-
-# from .models import Checkboxmodel
 from .models import ExtractedForm
 from .models import FormJsonData
 

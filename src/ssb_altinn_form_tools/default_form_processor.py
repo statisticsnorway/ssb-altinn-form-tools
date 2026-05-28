@@ -9,8 +9,6 @@ from ssb_altinn_form_tools.meta_form_extractor import MetaFormExtractor
 from ssb_altinn_form_tools.meta_form_processor import MetaFormProcessor
 from ssb_altinn_form_tools.meta_storage_connector import MetaStorageConnector
 from ssb_altinn_form_tools.models import CheckboxConfig
-
-# from .models import Checkboxmodel
 from ssb_altinn_form_tools.models import ExtractedForm
 from ssb_altinn_form_tools.models import FormJsonData
 from ssb_altinn_form_tools.utils.form_metadata import FormMetadata
@@ -18,7 +16,7 @@ from ssb_altinn_form_tools.utils.form_metadata import FormMetadata
 logger = logging.getLogger(__name__)
 
 
-def extract_xml_to_dict(xml_path: Path, array_fields: list[str] | None = None):
+def extract_xml_to_dict(xml_path: Path, array_fields: list[str] | None = None) -> dict:
     """Function for reading an xml file and transforming it to a dictionary.
 
     Function is separated to enable testing.
