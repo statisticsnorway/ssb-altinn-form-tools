@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<A3_RA0574_M xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" dataFormatProvider="ALTINNSTUDIO" dataFormatId="A30574" dataFormatVersion="1">
+    <InternInfo>
+        <raNummer>RA-0574</raNummer>
+        <skjemaVersjon>1.0</skjemaVersjon>
+        <undersoekelsesNr>494</undersoekelsesNr>
+        <periodeFritekst>1. april 2023 - 31. mars 2024</periodeFritekst>
+        <periodeType>AAR</periodeType>
+        <periodeAAr>2024</periodeAAr>
+        <enhetsType>PERS</enhetsType>
+        <personSSN>22090101793</personSSN>
+        <reporteeSSN>22090101793</reporteeSSN>
+    </InternInfo>
+    <Kontakt>
+        <kontaktPersonNavn>NIKLAS UTHUS</kontaktPersonNavn>
+        <kontaktPersonEpost>22090101793-test@minid.norge.no</kontaktPersonEpost>
+        <kontaktPersonTelefon>+4799999999</kontaktPersonTelefon>
+        <instanseierPersonNavn>NIKLAS UTHUS</instanseierPersonNavn>
+    </Kontakt>
+    <KlassInfo>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/650/variantAt.json?variantName=Arter_lisensfelling&amp;date=2024-01-03&amp;language=nb</klassID>
+            <klassDatamodellNode>lisensFellingArtKode</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/650/variantAt.json?variantName=Arter_storviltjakt&amp;date=2024-01-03&amp;language=nb</klassID>
+            <klassDatamodellNode>jaktHjorteviltGaupe</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/74/variantAt.json?variantName=Småvilt1&amp;date=2024-01-03&amp;language=nb</klassID>
+            <klassDatamodellNode>feltArtKodeDel1</klassDatamodellNode>
+            <klassDatamodellNode>feltSmaviltArtKode</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/74/variantAt.json?variantName=Småvilt2&amp;date=2024-01-03&amp;language=nb</klassID>
+            <klassDatamodellNode>feltArtKodeDel2</klassDatamodellNode>
+            <klassDatamodellNode>feltSmaviltArtKode</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/74/variantAt.json?variantName=Småvilt3&amp;date=2024-01-03&amp;language=nb</klassID>
+            <klassDatamodellNode>feltArtKodeDel3</klassDatamodellNode>
+            <klassDatamodellNode>feltSmaviltArtKode</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>https://data.ssb.no/api/klass/v1/classifications/131/codesAt.json?date=2024-01-03&amp;language=nb&amp;selectCodes=0000-9998</klassID>
+            <klassDatamodellNode>lisensFellingKommKode</klassDatamodellNode>
+            <klassDatamodellNode>rypeJaktKommune</klassDatamodellNode>
+            <klassDatamodellNode>feltSmaviltKommKode</klassDatamodellNode>
+        </KlassApiKall>
+    </KlassInfo>
+    <SkjemaData>
+        <lisensFellingJaNei>0</lisensFellingJaNei>
+        <jaktHjorteviltGaupe>99</jaktHjorteviltGaupe>
+        <jaktSmaviltJaNei>0</jaktSmaviltJaNei>
+        <ingenSmaviltFeltBekr xsi:nil="true" />
+    </SkjemaData>
+</A3_RA0574_M>
