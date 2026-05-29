@@ -1,7 +1,9 @@
 import glob
+import json
 from pathlib import Path
 
 from pydantic import BaseModel
+from pydantic import Field
 from pydantic import computed_field
 
 
@@ -37,5 +39,36 @@ def form_paths() -> list[FormInfo]:
     return infos
 
 
+class TestField(BaseModel):
+    field_name: str
+    field_value: str = Field(coerce_numbers_to_str=True)
+
+
+class FormTestParams(BaseModel):
+    form_id: str
+    skjemadata_rows: int
+    test_fields: list[TestField]
+
+
+class Form(BaseModel):
+    form_name: str
+    forms: list[FormTestParams]
+
+    @computed_field
+    @property
+    def form_info(self) -> FormInfo:
+        return FormInfo(base_path=Path(f"tests/testdata/{self.form_name}"))
+
+
+class ExpectedData(BaseModel):
+    data: list[Form]
+
+
+def load_expected_data() -> list[Form]:
+    data = json.load(open("tests/expected_data.json"))
+    model = ExpectedData.model_validate({"data": data})
+    return model.data
+
+
 if __name__ == "__main__":
-    form_paths()
+    load_expected_data()

@@ -1,0 +1,10 @@
+<!-- Example(s) of list/array structures -->
+<List>
+    <SkjemaData>
+        <driftStatus>1</driftStatus>
+        <RepGruppe>
+            <ubruktKodeGnuPrefill>G</ubruktKodeGnuPrefill>
+            <ubruktKodeBasPrisPrefill>391.48</ubruktKodeBasPrisPrefill>
+        </RepGruppe>
+    </SkjemaData>
+</List>

@@ -17,7 +17,7 @@ from ssb_altinn_form_tools.models import UnitInfo
 from ssb_altinn_form_tools.parquedit_storage_connector import ParqueditStorageConnector
 
 
-@pytest.fixture(scope="function", name="parquedit")
+@pytest.fixture(scope="session", name="parquedit")
 def parquedit_session():
     temp_dir = tempfile.TemporaryDirectory()
 
@@ -40,7 +40,7 @@ def parquedit_session():
         temp_dir.cleanup()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def connector_with_schema(parquedit: ParquEdit) -> ParqueditStorageConnector:
     conn = ParqueditStorageConnector(parquedit)
     conn.begin_transaction()
