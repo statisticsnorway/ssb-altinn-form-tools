@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<A3_RA0574_M xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" dataFormatProvider="ALTINNSTUDIO" dataFormatId="A30574" dataFormatVersion="1">
+    <InternInfo>
+        <raNummer>RA-0574</raNummer>
+        <skjemaVersjon>1.0</skjemaVersjon>
+        <undersoekelsesNr>494</undersoekelsesNr>
+        <periodeFritekst>1. april 2022 - 31. mars 2023</periodeFritekst>
+        <periodeType>AAR</periodeType>
+        <periodeAAr>2023</periodeAAr>
+        <enhetsIdent>12345678</enhetsIdent>
+        <enhetsType>PERS</enhetsType>
+        <reporteeSSN>23090100181</reporteeSSN>
+    </InternInfo>
+    <Kontakt>
+        <kontaktPersonNavn>ARYAN GRANLY</kontaktPersonNavn>
+        <kontaktPersonEpost>Rve@ssb.no</kontaktPersonEpost>
+        <kontaktPersonTelefon>1234456778</kontaktPersonTelefon>
+        <kontaktInfoKommentar>Hallo</kontaktInfoKommentar>
+        <instanseierPersonNavn>Ronny</instanseierPersonNavn>
+    </Kontakt>
+    <SkjemaData>
+        <lisensFellingJaNei>1</lisensFellingJaNei>
+        <LisensFelling>
+            <LisensFellingKommKode>1106</LisensFellingKommKode>
+            <LisensFellingArtKode>02</LisensFellingArtKode>
+        </LisensFelling>
+        <LisensFelling>
+            <LisensFellingKommKode>1106</LisensFellingKommKode>
+            <LisensFellingArtKode>03</LisensFellingArtKode>
+        </LisensFelling>
+        <jaktHjorteviltGaupe>99</jaktHjorteviltGaupe>
+        <jaktSmaviltJaNei>1</jaktSmaviltJaNei>
+        <jaktRypeJaNei>1</jaktRypeJaNei>
+        <JaktRype>
+            <rypeJaktKommune>1106</rypeJaktKommune>
+            <rypeJaktDager>23</rypeJaktDager>
+            <lirypeFelt>25</lirypeFelt>
+            <fjellrypeFelt>12</fjellrypeFelt>
+        </JaktRype>
+        <JaktRype>
+            <rypeJaktKommune>1108</rypeJaktKommune>
+            <rypeJaktDager>23</rypeJaktDager>
+            <lirypeFelt>23</lirypeFelt>
+            <fjellrypeFelt>2</fjellrypeFelt>
+        </JaktRype>
+        <feltAnnetSmaviltJaNei>1</feltAnnetSmaviltJaNei>
+        <feltArtKodeDel1>05</feltArtKodeDel1>
+        <feltArtKodeDel2>13.5</feltArtKodeDel2>
+        <FeltSmavilt>
+            <feltSmaviltSlettet>false</feltSmaviltSlettet>
+            <feltSmaviltArtNavn>Ringdue</feltSmaviltArtNavn>
+            <feltSmaviltArtKode>05</feltSmaviltArtKode>
+            <feltSmaviltKommuner>Stavanger, Nord-Odal</feltSmaviltKommuner>
+            <feltSmaviltAntTot>256</feltSmaviltAntTot>
+            <FeltSmaviltKomm>
+                <feltSmaviltKommKode>1103</feltSmaviltKommKode>
+                <feltSmaviltKommNavn>Stavanger</feltSmaviltKommNavn>
+                <feltSmaviltArtKommAnt>23</feltSmaviltArtKommAnt>
+            </FeltSmaviltKomm>
+            <FeltSmaviltKomm>
+                <feltSmaviltKommKode>3414</feltSmaviltKommKode>
+                <feltSmaviltKommNavn>Nord-Odal</feltSmaviltKommNavn>
+                <feltSmaviltArtKommAnt>233</feltSmaviltArtKommAnt>
+            </FeltSmaviltKomm>
+        </FeltSmavilt>
+        <FeltSmavilt>
+            <feltSmaviltSlettet>false</feltSmaviltSlettet>
+            <feltSmaviltArtNavn>Toppand</feltSmaviltArtNavn>
+            <feltSmaviltArtKode>13.5</feltSmaviltArtKode>
+            <feltSmaviltKommuner>Oslo</feltSmaviltKommuner>
+            <feltSmaviltAntTot>1</feltSmaviltAntTot>
+            <FeltSmaviltKomm>
+                <feltSmaviltKommKode>0301</feltSmaviltKommKode>
+                <feltSmaviltKommNavn>Oslo</feltSmaviltKommNavn>
+                <feltSmaviltArtKommAnt>1</feltSmaviltArtKommAnt>
+            </FeltSmaviltKomm>
+        </FeltSmavilt>
+        <FeltSmavilt>
+            <feltSmaviltSlettet>true</feltSmaviltSlettet>
+            <feltSmaviltArtNavn>Ekorn</feltSmaviltArtNavn>
+            <feltSmaviltArtKode>19</feltSmaviltArtKode>
+            <feltSmaviltAntTot xsi:nil="true" />
+        </FeltSmavilt>
+        <ingenSmaviltFeltBekr xsi:nil="true" />
+    </SkjemaData>
+</A3_RA0574_M>
