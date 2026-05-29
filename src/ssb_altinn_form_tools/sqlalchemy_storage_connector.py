@@ -140,9 +140,9 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             Adds a new ``kontaktinfo`` ORM instance to the current session.
         """
         forms = []
-        for form in forms:
+        for form in contact_info:
             model = KontaktInfo(
-                aar=form.aar,
+                iso_period=form.iso_period,
                 skjema=form.skjema,
                 ident=form.ident,
                 refnr=form.refnr,
@@ -152,7 +152,6 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
                 bekreftet_kontaktinfo=form.bekreftet_kontaktinfo,
                 kommentar_kontaktinfo=form.kommentar_kontaktinfo,
                 kommentar_krevende=form.kommentar_krevende,
-                delreg=form.delreg,
             )
             forms.append(model)
         self._get_session().add_all(forms)

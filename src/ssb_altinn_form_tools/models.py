@@ -207,6 +207,10 @@ class FormReception(BaseModel):
     @model_validator(mode="before")
     @classmethod
     def validator(cls, data: Any):
+        # The validation is mostly deriving variables. Can skip that if they already exists
+        if all(var in data for var in ["start_date", "end_date", "iso_period"]):
+            return data
+
         try:
             period_type = data.get("periodeType")
         except Exception as e:
@@ -264,7 +268,7 @@ class FormReception(BaseModel):
         data["start_date"] = start
         data["end_date"] = end
         data["iso_period"] = iso_format
-        print(data)
+
         return data
 
     def __str__(self) -> str:
@@ -363,6 +367,11 @@ class OptionMetadataModel(BaseModel):
     options_id: str = Field(validation_alias="optionsId")
     options_url: str | None = Field(default=None, validation_alias="optionsUrl")
     node_name: str = Field(validation_alias="dataModelField")
+
+    model_config = ConfigDict(
+        validate_by_alias=True,
+        validate_by_name=True,
+    )
 
     @field_validator("node_name", mode="before")
     @classmethod

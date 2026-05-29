@@ -325,6 +325,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         self._get_session().execute(create_stmt)
 
+    def _insert(self, data: list[dict], table_name: str):
+        """Internal method for inserting from a list of dicts."""
+        sess = self._get_session()
+        if len(data):
+            sess.execute(
+                f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
+                {"tbl": data},
+            )
+
     def insert_contact_info(self, contact_info: list[ContactInfo]) -> None:
         """Stages a contact info record for insertion (WIP).
 
@@ -338,11 +347,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "kontaktinfo"
         model = [model.model_dump() for model in contact_info]
 
-        sess = self._get_session()
-        sess.execute(
-            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
-            {"tbl": model},
-        )
+        self._insert(model, table_name)
 
     def insert_form_data(self, form_data: list[FormData]) -> None:
         """Stages a batch of form data records for insertion (WIP).
@@ -359,11 +364,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
         for node in form_data:
             node_data = node.model_dump()
             models.append(node_data)
-        sess = self._get_session()
-        sess.execute(
-            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
-            {"tbl": models},
-        )
+
+        self._insert(models, table_name)
 
     def insert_form_data_unedited(self, form_data: list[FormData]) -> None:
         """Stages a batch of form data records for insertion (WIP).
@@ -380,11 +382,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
         for node in form_data:
             node_data = node.model_dump()
             models.append(node_data)
-        sess = self._get_session()
-        sess.execute(
-            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
-            {"tbl": models},
-        )
+
+        self._insert(models, table_name)
 
     def insert_form_reception(self, form_reciept: list[FormReception]) -> None:
         """Stages a form reception record for insertion (WIP).
@@ -394,11 +393,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         table_name = "skjemamottak"
         model = [model.model_dump() for model in form_reciept]
-        sess = self._get_session()
-        sess.execute(
-            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
-            {"tbl": model},
-        )
+        self._insert(model, table_name)
 
     def insert_unit(self, unit: list[Unit]) -> None:
         """Stages a unit record for insertion (WIP).
@@ -409,11 +404,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         table_name = "enheter"
         model = [model.model_dump() for model in unit]
-        sess = self._get_session()
-        sess.execute(
-            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
-            {"tbl": model},
-        )
+        self._insert(model, table_name)
 
     def insert_unit_info(self, units: list[UnitInfo]) -> None:
         """Stages unit attribute records for insertion (WIP).
@@ -426,11 +417,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         for item in units:
             model = item.model_dump()
             unit_info.append(model)
-        sess = self._get_session()
-        sess.execute(
-            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
-            {"tbl": unit_info},
-        )
+        self._insert(unit_info, table_name)
 
     def insert_option_list(self, models: list[OptionMetadataModel]) -> None:
         """Method for inserting options lists into the table."""
@@ -447,11 +434,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 )
                 models_to_insert.append(orm_model)
 
-        sess = self._get_session()
-        sess.execute(
-            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
-            {"tbl": models_to_insert},
-        )
+        self._insert(models_to_insert, table_name)
 
     def insert_option_node(self, models: list[OptionNodes]) -> None:
         """Method for inserting options node into the table."""
@@ -467,8 +450,4 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 )
                 models_to_insert.append(orm_model)
 
-        sess = self._get_session()
-        sess.execute(
-            f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
-            {"tbl": models_to_insert},
-        )
+        self._insert(models_to_insert, table_name)

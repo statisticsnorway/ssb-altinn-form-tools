@@ -189,7 +189,7 @@ class SkjemadataBase(Base):
         indeks (int): Index for repeated structures (arrays/lists).
     """
 
-    __abstract__ = True  # <- important
+    __abstract__ = True
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     iso_period: Mapped[str] = mapped_column(String)
     skjema: Mapped[str] = mapped_column(String)
