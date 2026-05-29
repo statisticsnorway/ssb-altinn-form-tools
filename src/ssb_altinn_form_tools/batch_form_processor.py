@@ -150,7 +150,7 @@ class BatchFormProcessor(DefaultFormProcessor):
                 json_path = file_path.with_name(json_name)
                 json_data = FormJsonData.model_validate_json(json_path.read_text())
                 if start_dt and end_dt:
-                    delivered_date = pendulum.instance(json_data.date_deliveres)
+                    delivered_date = pendulum.instance(json_data.date_delivered)
                     if start_dt < delivered_date < end_dt:
                         extracted_form = self._process_form(file_path, json_data)
                         if extracted_form:

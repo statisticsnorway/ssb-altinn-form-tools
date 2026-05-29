@@ -90,9 +90,6 @@ class DefaultFormProcessor(MetaFormProcessor):
         else:
             self._checkbox_mapping = None
 
-        self.array_fields = self._metadata_helper.get_array_fields()
-        print(self.array_fields)
-
     def _find_forms(self) -> list[str]:
         """Finds XML forms recursively under the configured base path.
 
@@ -184,13 +181,11 @@ class DefaultFormProcessor(MetaFormProcessor):
         is_new = self._connector.validate_form_is_new(json_data.altinn_reference)
 
         if is_new:
-            print(self.array_fields)
             dictionary: dict = extract_xml_to_dict(
                 xml_path, array_fields=self.array_fields
             )[self._form_data_key]
             extracted_form = self._extractor.extract_form(dictionary, json_data)
-            # print(extracted_form.klass_info)
-            # raise ValueError("he")
+
             if self._alias_mapping:
                 self._map_alias(self._alias_mapping, extracted_form)
             return extracted_form
@@ -288,6 +283,7 @@ class DefaultFormProcessor(MetaFormProcessor):
             - Warning: if no forms are found.
         """
         logger.debug(f"Begin processing {self._form_data_key} forms")
+        self.array_fields = self._metadata_helper.get_array_fields()
         forms = self._find_forms()
         if not forms:
             logger.warning("No forms found")

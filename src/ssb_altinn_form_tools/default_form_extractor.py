@@ -219,7 +219,7 @@ class DefaultFormExtractor(MetaFormExtractor):
             kommentar="",
             aktiv=True,
             refnr=json_data.altinn_reference,
-            dato_mottatt=json_data.date_deliveres,
+            dato_mottatt=json_data.date_delivered,
             **form_data,
         )
 

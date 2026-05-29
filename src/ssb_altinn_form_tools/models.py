@@ -282,12 +282,12 @@ class FormJsonData(BaseModel):
     Attributes:
         altinn_reference (str): Reference number for the form instance.
             Alias: ``altinnReferanse``.
-        date_deliveres (datetime.datetime): Submission timestamp.
+        date_delivered (datetime.datetime): Submission timestamp.
             Alias: ``altinnTidspunktLevert``.
     """
 
     altinn_reference: str = Field(validation_alias="altinnReferanse")
-    date_deliveres: datetime.datetime = Field(validation_alias="altinnTidspunktLevert")
+    date_delivered: datetime.datetime = Field(validation_alias="altinnTidspunktLevert")
 
     def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
