@@ -33,7 +33,7 @@ class FormInfo(BaseModel):
 
 
 def form_paths() -> list[FormInfo]:
-    form_paths = glob.glob("tests/testdata/*")
+    form_paths = glob.glob("tests/testdata/RA*")
     paths = [Path(path) for path in form_paths]
     infos = FormInfo.from_paths(paths)
     return infos
@@ -47,12 +47,16 @@ class TestField(BaseModel):
 class FormTestParams(BaseModel):
     form_id: str
     skjemadata_rows: int
+    kontaktinfo_rows: int
+    skjemamottak_rows: int
+
     test_fields: list[TestField]
 
 
 class Form(BaseModel):
     form_name: str
     forms: list[FormTestParams]
+    forced_array: list[str] = Field(default_factory=lambda: [])
 
     @computed_field
     @property
@@ -65,8 +69,13 @@ class ExpectedData(BaseModel):
 
 
 def load_expected_data() -> list[Form]:
-    data = json.load(open("tests/expected_data.json"))
-    model = ExpectedData.model_validate({"data": data})
+    json_data = []
+    files = glob.glob("tests/expected_data/*.json")
+    for file in files:
+        data = json.load(open(file))
+        json_data.append(data)
+    assert len(json_data) != 0
+    model = ExpectedData.model_validate({"data": json_data})
     return model.data
 
 

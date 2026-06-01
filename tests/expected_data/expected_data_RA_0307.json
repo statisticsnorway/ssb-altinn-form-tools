@@ -1,0 +1,21 @@
+{
+    "form_name": "RA0307",
+    "forms": [
+        {
+            "form_id": "7c2d95b4c18e",
+            "skjemadata_rows": 266,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/bostedsLand/61/bostedsLandID",
+                    "field_value": "0307.ZZ4.1"
+                },
+                {
+                    "field_name": "/OvernattingsmateED/1/gjennomsnittGjester",
+                    "field_value": 3.5
+                }
+            ]
+        }
+    ]
+}

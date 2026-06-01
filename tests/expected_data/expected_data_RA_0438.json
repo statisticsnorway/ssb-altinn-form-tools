@@ -1,0 +1,37 @@
+{
+    "form_name": "RA0438",
+    "forms": [
+        {
+            "form_id": "9a24117db9e2",
+            "skjemadata_rows": 49,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/torrbulkLastet",
+                    "field_value": 5
+                },
+                {
+                    "field_name": "/selvgMobilLossetTEU",
+                    "field_value": 30
+                }
+            ]
+        },
+        {
+            "form_id": "1f13c3d0c905",
+            "skjemadata_rows": 49,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/selvgMobilLLJaNei",
+                    "field_value": 0
+                },
+                {
+                    "field_name": "/uForedlFiskLossetJaNei",
+                    "field_value": 0
+                }
+            ]
+        }
+    ]
+}

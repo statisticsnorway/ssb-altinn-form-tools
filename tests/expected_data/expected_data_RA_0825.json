@@ -1,0 +1,22 @@
+{
+    "form_name": "RA0825",
+    "forced_array": [],
+    "forms": [
+        {
+            "form_id": "8dcaddf3e0e2",
+            "skjemadata_rows": 72,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/f501_Skipstype/1/f501_skipstypeKode",
+                    "field_value": 2
+                },
+                {
+                    "field_name": "/f501_KostFordeling/f501_kostLonnMannskap",
+                    "field_value": 25000000
+                }
+            ]
+        }
+    ]
+}

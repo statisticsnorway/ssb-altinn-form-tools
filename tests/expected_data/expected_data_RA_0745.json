@@ -1,0 +1,22 @@
+{
+    "form_name": "RA0745",
+    "forced_array": ["ArealTyperGroup", "HusdyrSlagGroup"],
+    "forms": [
+        {
+            "form_id": "394ee263060d",
+            "skjemadata_rows": 573,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/NyEngSpredUtsGroup/1/NyEngSpredUtsID",
+                    "field_value": "01"
+                },
+                {
+                    "field_name": "/HusdyrSlagGroup/0/AntallDyrLufteGaard",
+                    "field_value": 6
+                }
+            ]
+        }
+    ]
+}
