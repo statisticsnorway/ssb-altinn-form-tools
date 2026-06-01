@@ -1,7 +1,5 @@
 import pytest
-from pytest_mock import MockerFixture
 
-from ssb_altinn_form_tools.default_form_extractor import DefaultFormExtractor
 from ssb_altinn_form_tools.default_form_extractor import calc_depth
 from ssb_altinn_form_tools.default_form_extractor import parse_entries
 from ssb_altinn_form_tools.default_form_extractor import parse_index

@@ -3,7 +3,6 @@ import pytest
 from ssb_altinn_form_tools.utils.form_metadata import FormMetadata
 from ssb_altinn_form_tools.utils.form_metadata import extract_arr_fields
 
-from .utils import FormInfo
 from .utils import form_paths
 
 
