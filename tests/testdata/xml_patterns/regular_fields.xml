@@ -3,5 +3,6 @@
     <SkjemaData>
         <omsForrigePerPrefill>4545</omsForrigePerPrefill>
         <omsVirksomhetPerioden>6661</omsVirksomhetPerioden>
+        <ikkeEksisterende xsi:nil="true"></ikkeEksisterende>
     </SkjemaData>
 </Regular>

@@ -99,6 +99,7 @@ def test_xml_convert_to_dict_regular_field():
             "SkjemaData": {
                 "omsForrigePerPrefill": "4545",
                 "omsVirksomhetPerioden": "6661",
+                "ikkeEksisterende": None,
             }
         }
     }
