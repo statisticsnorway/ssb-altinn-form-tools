@@ -6,7 +6,6 @@ from .models import ExtractedForm
 from .models import FormData
 from .models import FormJsonData
 from .models import FormReception
-from .models import KlassInfo
 from .models import Unit
 from .models import UnitInfo
 
@@ -68,11 +67,6 @@ class MetaFormExtractor(ABC):
             list[FormData]: A list of validated form data entries.
         """
         ...
-
-    @abstractmethod
-    def extract_klass_calls(
-        self, form_dict_data: InputFormType
-    ) -> None | KlassInfo: ...
 
     @abstractmethod
     def extract_form_reception(
@@ -173,5 +167,4 @@ class MetaFormExtractor(ABC):
                 refnr=form_info.refnr,
                 iso_period=form_info.iso_period,
             ),
-            klass_info=self.extract_klass_calls(form_dict_data),
         )

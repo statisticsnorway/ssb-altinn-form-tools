@@ -310,7 +310,6 @@ class ExtractedForm(BaseModel):
     unit: Unit
     unit_info: list[UnitInfo]
     form_data: list[FormData]
-    klass_info: KlassInfo | None = Field(default=None)
 
     def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
@@ -322,30 +321,6 @@ class CheckboxConfig(BaseModel):
 
     field_name: str
     options: list[str]
-
-    def __str__(self) -> str:
-        """Returns a pretty-printed JSON representation for debugging."""
-        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
-
-
-class KlassApiCall(BaseModel):
-    klassID: str = Field(validation_alias="klassID")
-    klassDatamodellNode: list[str] = Field(validation_alias="klassDatamodellNode")
-
-    @field_validator("klassDatamodellNode", mode="before")
-    def ensure_list(cls, v: str | list) -> list:
-        """Ensure model nodes are a list."""
-        if isinstance(v, str):
-            return [v]
-        return v
-
-    def __str__(self) -> str:
-        """Returns a pretty-printed JSON representation for debugging."""
-        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
-
-
-class KlassInfo(BaseModel):
-    KlassApiKall: list[KlassApiCall] = Field(validation_alias="KlassApiKall")
 
     def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""

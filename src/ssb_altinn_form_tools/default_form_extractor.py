@@ -7,7 +7,6 @@ from .models import FormData
 from .models import FormJsonData
 from .models import FormNode
 from .models import FormReception
-from .models import KlassInfo
 from .models import UnitInfo
 
 logger = logging.getLogger(__name__)
@@ -178,14 +177,6 @@ class DefaultFormExtractor(MetaFormExtractor):
             )
             results.append(node_data)
         return results
-
-    def extract_klass_calls(self, form_dict_data: InputFormType) -> None | KlassInfo:
-        form_data = form_dict_data.get("KlassInfo")
-        if form_data is None:
-            return None
-
-        # assert isinstance(form_data, dict)
-        return KlassInfo.model_validate(form_data)
 
     def extract_form_reception(
         self, form_dict_data: InputFormType, json_data: FormJsonData
