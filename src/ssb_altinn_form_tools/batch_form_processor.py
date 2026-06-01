@@ -1,14 +1,18 @@
 import logging
 from pathlib import Path
+from typing import Any
 
 import pendulum
 import xmltodict
 
 from ssb_altinn_form_tools.default_form_processor import DefaultFormProcessor
+from ssb_altinn_form_tools.default_form_processor import ManualOptionMapping
 from ssb_altinn_form_tools.meta_form_extractor import MetaFormExtractor
 from ssb_altinn_form_tools.meta_storage_connector import MetaStorageConnector
 from ssb_altinn_form_tools.models import ExtractedForm
 from ssb_altinn_form_tools.models import FormJsonData
+from ssb_altinn_form_tools.models import OptionMetadataModel
+from ssb_altinn_form_tools.models import OptionNodes
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +33,9 @@ class BatchFormProcessor(DefaultFormProcessor):
         extractor: MetaFormExtractor,
         connector: MetaStorageConnector,
         alias_mapping: dict[str, str] | None = None,
-        checkbox_mapping: list[dict] | None = None,
+        checkbox_mapping: list[ManualOptionMapping]
+        | list[dict[str, Any]]
+        | None = None,
         ra_version: None | int = None,
         alternative_glob_path: None | str = None,
     ) -> None:
@@ -196,6 +202,26 @@ class BatchFormProcessor(DefaultFormProcessor):
                     option_nodes = self._metadata_helper.extract_options_nodes(
                         self._form_name, period
                     )
+
+                    for mapping in self._checkbox_mapping:
+                        option_nodes.append(
+                            OptionNodes(
+                                iso_period=period,
+                                skjema=self._form_name,
+                                option_id=mapping.options_id,
+                                node_list=set(mapping.node_names),
+                            )
+                        )
+                        option_list.append(
+                            OptionMetadataModel(
+                                iso_period=period,
+                                skjema=self._form_name,
+                                options_id=mapping.options_id,
+                                options=mapping.options,
+                                node_name="",
+                            )
+                        )
+
                     self._connector.insert_option_list(option_list)
                     self._connector.insert_option_node(option_nodes)
 

@@ -1,19 +1,36 @@
 import glob
-import json
 import logging
 from pathlib import Path
+from typing import Any
 
 import xmltodict
+from pydantic import BaseModel
 
 from ssb_altinn_form_tools.meta_form_extractor import MetaFormExtractor
 from ssb_altinn_form_tools.meta_form_processor import MetaFormProcessor
 from ssb_altinn_form_tools.meta_storage_connector import MetaStorageConnector
-from ssb_altinn_form_tools.models import CheckboxConfig
 from ssb_altinn_form_tools.models import ExtractedForm
 from ssb_altinn_form_tools.models import FormJsonData
+from ssb_altinn_form_tools.models import OptionMetadataModel
+from ssb_altinn_form_tools.models import OptionModel
+from ssb_altinn_form_tools.models import OptionNodes
 from ssb_altinn_form_tools.utils.form_metadata import FormMetadata
 
 logger = logging.getLogger(__name__)
+
+# {
+#    "options_id": "test_id",
+#    "options": [{"label": "label", "value": "value"}],
+#    "node_name": ["node_1", "node_2"],
+# }
+
+
+class ManualOptionMapping(BaseModel):
+    """Data model for manually register options."""
+
+    options_id: str
+    options: list[OptionModel]
+    node_names: list[str]
 
 
 def extract_xml_to_dict(xml_path: Path, array_fields: list[str] | None = None) -> dict:
@@ -44,7 +61,9 @@ class DefaultFormProcessor(MetaFormProcessor):
         extractor: MetaFormExtractor,
         connector: MetaStorageConnector,
         alias_mapping: dict[str, str] | None = None,
-        checkbox_mapping: list[dict] | None = None,
+        checkbox_mapping: list[ManualOptionMapping]
+        | list[dict[str, Any]]
+        | None = None,
         ra_version: None | int = None,
         alternative_glob_path: None | str = None,
     ) -> None:
@@ -60,8 +79,8 @@ class DefaultFormProcessor(MetaFormProcessor):
             alias_mapping (dict[str, str] | None): Optional mapping from field
                 names (``feltnavn``) to user-friendly aliases to be set on each
                 corresponding `FormData` entry.
-            checkbox_mapping (list[str] | None): Optional list of field names that
-                represent multi-select values encoded as comma-separated strings.
+            checkbox_mapping (ManualOptionMapping | dict[str, Any] | None): Optional mapping for manually adding
+                multi-select fields whose values are encoded as comma-separated strings.
                 These will be normalized to JSON arrays.
             ra_version (str | None): An optional argument denoting which data-version
                 of the form to use. This is automatically set to 1 if no argument is
@@ -85,10 +104,11 @@ class DefaultFormProcessor(MetaFormProcessor):
         self._metadata_helper = FormMetadata(form_name, ra_version)
         if checkbox_mapping:
             self._checkbox_mapping = [
-                CheckboxConfig.model_validate(x) for x in checkbox_mapping
+                ManualOptionMapping.model_validate(mapping)
+                for mapping in checkbox_mapping
             ]
         else:
-            self._checkbox_mapping = None
+            self._checkbox_mapping = []
 
     def _find_forms(self) -> list[str]:
         """Finds XML forms recursively under the configured base path.
@@ -120,32 +140,6 @@ class DefaultFormProcessor(MetaFormProcessor):
                 alias = mapping.get(key)
                 if alias:
                     extracted_form.form_data[idx].alias = alias
-
-    def _map_checkboxed(self, mapping: list[str], extracted_form: ExtractedForm):
-        """Normalizes checkbox-like fields to JSON arrays.
-
-        For each `FormData` entry where ``feltnavn`` appears in `mapping` and
-        ``verdi`` is non-empty, the comma-separated string is split into a list and
-        serialized to JSON (i.e., `["a", "b", ...]`), which replaces the original
-        `verdi`.
-
-        Args:
-            mapping (list[str]): Field names (``feltnavn``) to treat as multi-select.
-            extracted_form (ExtractedForm): The extracted form to transform.
-
-        Returns:
-            ExtractedForm: The same `extracted_form` instance, returned for chaining.
-
-        Side Effects:
-            Mutates `extracted_form.form_data[idx].verdi` for matched fields by
-            converting comma-separated strings to JSON arrays.
-        """
-        for idx, item in enumerate(extracted_form.form_data):
-            if (item.feltnavn in mapping) and (item.verdi is not None):
-                values = item.verdi.split(",")
-                extracted_form.form_data[idx].verdi = json.dumps(values)
-
-        return extracted_form
 
     def _process_form(
         self, xml_path: Path, json_data: FormJsonData
@@ -249,9 +243,29 @@ class DefaultFormProcessor(MetaFormProcessor):
                     options_list = self._metadata_helper.extract_options_list(
                         self._form_name, period
                     )
+
                     option_nodes = self._metadata_helper.extract_options_nodes(
                         self._form_name, period
                     )
+
+                    for mapping in self._checkbox_mapping:
+                        option_nodes.append(
+                            OptionNodes(
+                                iso_period=period,
+                                skjema=self._form_name,
+                                option_id=mapping.options_id,
+                                node_list=set(mapping.node_names),
+                            )
+                        )
+                        options_list.append(
+                            OptionMetadataModel(
+                                iso_period=period,
+                                skjema=self._form_name,
+                                options_id=mapping.options_id,
+                                options=mapping.options,
+                                node_name="",
+                            )
+                        )
                     self._connector.insert_option_node(option_nodes)
                     self._connector.insert_option_list(options_list)
 
