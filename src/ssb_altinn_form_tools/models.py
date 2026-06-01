@@ -206,7 +206,8 @@ class FormReception(BaseModel):
 
     @model_validator(mode="before")
     @classmethod
-    def validator(cls, data: Any):
+    def validator(cls, data: Any) -> Any:
+        """Custom validator to parse periods from xml-forms."""
         # The validation is mostly deriving variables. Can skip that if they already exists
         if all(var in data for var in ["start_date", "end_date", "iso_period"]):
             return data
@@ -316,26 +317,29 @@ class ExtractedForm(BaseModel):
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
 
-class CheckboxConfig(BaseModel):
-    """Model for representing checkbox options."""
+class OptionNodes(BaseModel):
+    """Model for represention what options_id nodes should map to."""
 
-    field_name: str
-    options: list[str]
-
-    def __str__(self) -> str:
-        """Returns a pretty-printed JSON representation for debugging."""
-        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
+    iso_period: str
+    skjema: str
+    option_id: str
+    node_list: set[str]
 
 
 class OptionModel(BaseModel):
+    """Model representing an option."""
+
     value: str
     label: str
 
     def __hash__(self) -> int:
+        """Make class hashable."""
         return self.value.__hash__()
 
 
 class OptionMetadataModel(BaseModel):
+    """Model representing options metadata collected from Altinn api."""
+
     iso_period: str
     skjema: str
     options: list[OptionModel] = Field(validation_alias="options")
@@ -350,21 +354,28 @@ class OptionMetadataModel(BaseModel):
 
     @field_validator("node_name", mode="before")
     @classmethod
-    def create_node_name(cls, val: str):
+    def create_node_name(cls, val: str) -> str:
+        """Validator for nodenames."""
         return val.split(".")[-1]
 
 
 class StringFormatModel(BaseModel):
+    """Model representing string formatting in Altinn-metadata api."""
+
     min_length: int | None = Field(default=None, validation_alias="minLength")
     max_length: int | None = Field(default=None, validation_alias="maxLength")
 
 
 class DateFormatModel(BaseModel):
+    """Model representing date formatting in Altinn-metadata api."""
+
     min_date: str | None = Field(default=None, validation_alias="minDate")
     max_date: str | None = Field(default=None, validation_alias="maxDate")
 
 
 class NumberFormatSpecifierModel(BaseModel):
+    """Model representing number formatting in Altinn-metadata api."""
+
     allow_negative: bool = Field(validation_alias="allowNegative")
     decimal_scale: int = Field(validation_alias="decimalScale")
     decimal_separator: str = Field(validation_alias="decimalSeparator")
@@ -372,16 +383,13 @@ class NumberFormatSpecifierModel(BaseModel):
 
 
 class NumberFormatModel(BaseModel):
+    """Model representing number formatting in Altinn-metadata api."""
+
     unit: str
     number: NumberFormatSpecifierModel
 
 
 class FormattingMetadataModel(BaseModel):
-    formatting: Union[NumberFormatModel, StringFormatModel, DateFormatModel]
+    """Parent model for deserializing all formatting variants."""
 
-
-class OptionNodes(BaseModel):
-    iso_period: str
-    skjema: str
-    option_id: str
-    node_list: set[str]
+    formatting: Union[NumberFormatModel, StringFormatModel, DateFormatModel]  # noqa: UP007
