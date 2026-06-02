@@ -1,7 +1,17 @@
-from typing import Literal
-import datetime
+from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict, Field
+import datetime
+from typing import Any
+from typing import Literal
+from typing import Union
+
+import pendulum
+from pydantic import BaseModel
+from pydantic import ConfigDict
+from pydantic import Field
+from pydantic import field_validator
+from pydantic import model_validator
+from pydantic_core import PydanticCustomError
 
 
 class FormNode(BaseModel):
@@ -27,7 +37,7 @@ class FormNode(BaseModel):
     indeks: int | None = Field(default=None)
     alias: str | None = Field(default=None)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
@@ -45,30 +55,36 @@ class FormData(FormNode):
         refnr (str): Reference number of the submitted form instance.
     """
 
-    aar: str
+    iso_period: str
     skjema: str
     ident: str
     refnr: str
 
     @staticmethod
-    def from_form_data(node: FormNode, year: str, form: str, ident: str, refnr: str):
+    def from_form_data(
+        node: FormNode, form: str, ident: str, refnr: str, iso_period: str
+    ) -> FormData:
         """Constructs a :class:`FormData` from a :class:`FormNode` and context.
 
         Args:
             node (FormNode): The base node carrying path/name/value metadata.
-            year (int): Reporting year to attach.
             form (str): Form code/name to attach.
             ident (str): Unit identifier to attach.
             refnr (str): Form instance reference to attach.
+            iso_period (str): Registered iso_period.
 
         Returns:
             FormData: The composed form data entry with context.
         """
         return FormData(
-            aar=year, skjema=form, ident=ident, refnr=refnr, **node.model_dump()
+            skjema=form,
+            ident=ident,
+            refnr=refnr,
+            iso_period=iso_period,
+            **node.model_dump(),
         )
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
@@ -92,7 +108,7 @@ class ContactInfo(BaseModel):
             Alias: ``kontaktKrevende``.
     """
 
-    aar: str
+    iso_period: str
     skjema: str
     ident: str
     refnr: str
@@ -109,7 +125,7 @@ class ContactInfo(BaseModel):
         default=None, validation_alias="kontaktKrevende"
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
@@ -123,17 +139,17 @@ class Unit(BaseModel):
         skjema (str): Form name or code (e.g., RA-number).
     """
 
-    aar: str
+    iso_period: str
     ident: str
     skjema: str
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
 
 class UnitInfo(BaseModel):
-    """Represents an additional key–value attribute for a unit.
+    """Represents an additional key-value attribute for a unit.
 
     Attributes:
         aar (int): Reporting year.
@@ -142,12 +158,12 @@ class UnitInfo(BaseModel):
         verdi (str | None): Value of the metadata variable.
     """
 
-    aar: str
+    iso_period: str
     ident: str
     variabel: str
     verdi: str | None = Field(default=None)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
@@ -175,7 +191,9 @@ class FormReception(BaseModel):
         enables population/validation using both the alias and the field name.
     """
 
-    aar: str = Field(validation_alias="periodeAAr")
+    start_date: datetime.datetime = Field()
+    end_date: datetime.datetime = Field()
+    iso_period: str = Field()
     skjema: str = Field(validation_alias="raNummer")
     ident: str = Field(validation_alias="enhetsIdent")
     refnr: str = Field(validation_alias="altinnReferanse")
@@ -186,7 +204,75 @@ class FormReception(BaseModel):
 
     model_config = ConfigDict(validate_by_alias=True, validate_by_name=True)
 
-    def __str__(self):
+    @model_validator(mode="before")
+    @classmethod
+    def validator(cls, data: Any) -> Any:
+        """Custom validator to parse periods from xml-forms."""
+        # The validation is mostly deriving variables. Can skip that if they already exists
+        if all(var in data for var in ["start_date", "end_date", "iso_period"]):
+            return data
+
+        try:
+            period_type = data.get("periodeType")
+        except Exception as e:
+            raise PydanticCustomError(
+                "",
+                "periodeType could not be validated. Expected str instead recieved {number}",
+                {"number": e},
+            ) from e
+        try:
+            _period = data.get("periodeNummer")
+            if _period is None:
+                period_number = 1
+            else:
+                period_number = int(_period)
+
+        except Exception as e:
+            raise PydanticCustomError(
+                "",
+                "periodeNummer could not be validated. Expected int instead recieved {number}",
+                {"number": e},
+            ) from e
+        try:
+            period_year = int(data.get("periodeAAr"))
+        except Exception as e:
+            raise PydanticCustomError(
+                "",
+                "periodeAar could not be validated. Expected int instead recieved {number}",
+                {"number": e},
+            ) from e
+
+        data["aar"] = period_year
+
+        if period_type == "MND":
+            start = pendulum.datetime(period_year, month=period_number, day=1)
+            end = start.end_of("month")
+            iso_format = start.format("YYYY-MM")
+
+        elif period_type == "AAR":
+            start = pendulum.datetime(period_year, month=1, day=1)
+            end = start.end_of("year")
+            iso_format = start.format("YYYY")
+
+        elif period_type == "UKE":
+            d = datetime.date.fromisocalendar(period_year, period_number, day=1)
+            start = pendulum.datetime(d.year, d.month, d.day)
+            end = start.end_of("week")
+            iso_format = start.strftime("%G-W%V")
+        else:
+            raise PydanticCustomError(
+                "",
+                "period_type could not be validated: {period}",
+                {"period": period_type},
+            )
+
+        data["start_date"] = start
+        data["end_date"] = end
+        data["iso_period"] = iso_format
+
+        return data
+
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
@@ -197,14 +283,14 @@ class FormJsonData(BaseModel):
     Attributes:
         altinn_reference (str): Reference number for the form instance.
             Alias: ``altinnReferanse``.
-        date_deliveres (datetime.datetime): Submission timestamp.
+        date_delivered (datetime.datetime): Submission timestamp.
             Alias: ``altinnTidspunktLevert``.
     """
 
     altinn_reference: str = Field(validation_alias="altinnReferanse")
-    date_deliveres: datetime.datetime = Field(validation_alias="altinnTidspunktLevert")
+    date_delivered: datetime.datetime = Field(validation_alias="altinnTidspunktLevert")
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
@@ -226,29 +312,84 @@ class ExtractedForm(BaseModel):
     unit_info: list[UnitInfo]
     form_data: list[FormData]
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a pretty-printed JSON representation for debugging."""
         return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
 
 
-class CheckboxConfig(BaseModel):
-    field_name: str
-    options: list[str]
+class OptionNodes(BaseModel):
+    """Model for represention what options_id nodes should map to."""
 
-    def __str__(self):
-        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
-
-
-class Checkboxmodel(BaseModel):
-    aar: str
+    iso_period: str
     skjema: str
-    ident: str
-    refnr: str
+    option_id: str
+    node_list: set[str]
 
-    field_name: str
-    option: str
-    checked: bool
-    field_path: str
 
-    def __str__(self):
-        return f"{self.__class__.__name__}(\n" + self.model_dump_json(indent=2) + "\n)"
+class OptionModel(BaseModel):
+    """Model representing an option."""
+
+    value: str
+    label: str
+
+    def __hash__(self) -> int:
+        """Make class hashable."""
+        return self.value.__hash__()
+
+
+class OptionMetadataModel(BaseModel):
+    """Model representing options metadata collected from Altinn api."""
+
+    iso_period: str
+    skjema: str
+    options: list[OptionModel] = Field(validation_alias="options")
+    options_id: str = Field(validation_alias="optionsId")
+    options_url: str | None = Field(default=None, validation_alias="optionsUrl")
+    node_name: str = Field(validation_alias="dataModelField")
+
+    model_config = ConfigDict(
+        validate_by_alias=True,
+        validate_by_name=True,
+    )
+
+    @field_validator("node_name", mode="before")
+    @classmethod
+    def create_node_name(cls, val: str) -> str:
+        """Validator for nodenames."""
+        return val.split(".")[-1]
+
+
+class StringFormatModel(BaseModel):
+    """Model representing string formatting in Altinn-metadata api."""
+
+    min_length: int | None = Field(default=None, validation_alias="minLength")
+    max_length: int | None = Field(default=None, validation_alias="maxLength")
+
+
+class DateFormatModel(BaseModel):
+    """Model representing date formatting in Altinn-metadata api."""
+
+    min_date: str | None = Field(default=None, validation_alias="minDate")
+    max_date: str | None = Field(default=None, validation_alias="maxDate")
+
+
+class NumberFormatSpecifierModel(BaseModel):
+    """Model representing number formatting in Altinn-metadata api."""
+
+    allow_negative: bool = Field(validation_alias="allowNegative")
+    decimal_scale: int = Field(validation_alias="decimalScale")
+    decimal_separator: str = Field(validation_alias="decimalSeparator")
+    thousand_separator: str = Field(validation_alias="thousandSeparator")
+
+
+class NumberFormatModel(BaseModel):
+    """Model representing number formatting in Altinn-metadata api."""
+
+    unit: str
+    number: NumberFormatSpecifierModel
+
+
+class FormattingMetadataModel(BaseModel):
+    """Parent model for deserializing all formatting variants."""
+
+    formatting: Union[NumberFormatModel, StringFormatModel, DateFormatModel]  # noqa: UP007

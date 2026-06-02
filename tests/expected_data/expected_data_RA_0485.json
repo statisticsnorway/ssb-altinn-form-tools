@@ -1,0 +1,278 @@
+{
+    "form_name": "RA0485",
+    "forced_array": ["Turer", "TurVarer"],
+    "forms": [
+        {
+            "form_id": "7cf50a65cb81",
+            "skjemadata_rows": 108,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/sumTotaltKjorteKm",
+                    "field_value": 400
+                },
+                {
+                    "field_name": "/Turer/1/turID",
+                    "field_value": "03dddb65-be39-4374-8dd4-b87b68e86f2a"
+                }
+            ]
+        },
+        {
+            "form_id": "a7d024002888",
+            "skjemadata_rows": 112,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/Turer/0/turVolumUtnyttelse",
+                    "field_value": 90
+                },
+                {
+                    "field_name": "/Turer/1/TurVarer/0/turVareTurID",
+                    "field_value": "5e054e26-49df-4c52-8d5a-693ca3ade7bf"
+                }
+            ]
+        },
+        {
+            "form_id": "352963145ae7",
+            "skjemadata_rows": 97,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/Turer/0/turID",
+                    "field_value": "f164a1f6-fe01-40e9-ada4-978dddded40f"
+                },
+                {
+                    "field_name": "/Turer/0/TurVarer/0/turVareVareslag",
+                    "field_value": 232
+                }
+            ]
+        },
+        {
+            "form_id": "0d3efa58050c",
+            "skjemadata_rows": 166,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/Turer/1/turID",
+                    "field_value": "8c657957-79a4-4829-bf51-540b70039c39"
+                },
+                {
+                    "field_name": "/Turer/2/TurVarer/0/turVareVareslag",
+                    "field_value": 97
+                }
+            ]
+        },
+        {
+            "form_id": "eef92ac8f08c",
+            "skjemadata_rows": 205,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/antallDagerIDrift",
+                    "field_value": 7
+                },
+                {
+                    "field_name": "/Turer/0/turStartLand",
+                    "field_value": "SE"
+                }
+            ]
+        },
+        {
+            "form_id": "03f6e50feb3b",
+            "skjemadata_rows": 73,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/Turer/0/turID",
+                    "field_value": "6d60db15-b691-443e-a62a-e98f009c90a4"
+                },
+                {
+                    "field_name": "/Turer/0/TurVarer/0/turVareLasttype",
+                    "field_value": 1
+                }
+            ]
+        },
+        {
+            "form_id": "9c67ef6667bc",
+            "skjemadata_rows": 85,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/fraktLasttype",
+                    "field_value": 0
+                },
+                {
+                    "field_name": "/Turer/1/turAntallKm",
+                    "field_value": 500
+                }
+            ]
+        },
+        {
+            "form_id": "a97ec0baf8a5",
+            "skjemadata_rows": 81,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/leieEllerEgenTransport",
+                    "field_value": 2
+                },
+                {
+                    "field_name": "/tilhengerEgenvekt",
+                    "field_value": 6730
+                }
+            ]
+        },
+        {
+            "form_id": "62ae5d3ed816",
+            "skjemadata_rows": 121,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/Turer/4/turStartLand",
+                    "field_value": "NO"
+                },
+                {
+                    "field_name": "/Turer/4/TurVarer/0/turVareVekt",
+                    "field_value": 17500
+                }
+            ]
+        },
+        {
+            "form_id": "b67c64452200",
+            "skjemadata_rows": 6,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/antallDagerIDrift",
+                    "field_value": 0
+                },
+                {
+                    "field_name": "/uteAvDriftGrunn",
+                    "field_value": 4
+                }
+            ]
+        },
+        {
+            "form_id": "ba252bbd4d7b",
+            "skjemadata_rows": 6,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/stodStilleGrunn",
+                    "field_value": 1
+                },
+                {
+                    "field_name": "/avskiltetDato",
+                    "field_value": "2025-08-18T00:00:00+02:00"
+                }
+            ]
+        },
+        {
+            "form_id": "efdddacabc92",
+            "skjemadata_rows": 139,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/kjorteKm",
+                    "field_value": 450
+                },
+                {
+                    "field_name": "/Turer/0/TurVarer/0/turVareVareslag",
+                    "field_value": 19
+                }
+            ]
+        },
+        {
+            "form_id": "1a5c0fd6cf5c",
+            "skjemadata_rows": 102,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/fraktVareslag",
+                    "field_value": 182
+                },
+                {
+                    "field_name": "/Turer/0/turID",
+                    "field_value": "c210452b-eeae-4b4c-aca8-d5c7179eeaee"
+                }
+            ]
+        },
+        {
+            "form_id": "f63384873dad",
+            "skjemadata_rows": 345,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/Turer/4/turStoppLand",
+                    "field_value": "NO"
+                },
+                {
+                    "field_name": "/Turer/4/turID",
+                    "field_value": "c243c524-2963-4f13-878f-2c06982c9562"
+                }
+            ]
+        },
+        {
+            "form_id": "57255482413f",
+            "skjemadata_rows": 6,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/antallDagerIDrift",
+                    "field_value": 0
+                },
+                {
+                    "field_name": "/stodStilleGrunn",
+                    "field_value": 1
+                }
+            ]
+        },
+        {
+            "form_id": "6bd822c72268",
+            "skjemadata_rows": 124,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/leieEllerEgenTransport",
+                    "field_value": 2
+                },
+                {
+                    "field_name": "/Turer/3/turStartSted",
+                    "field_value": "SOLLIHØGDA"
+                }
+            ]
+        },
+        {
+            "form_id": "045003a2e793",
+            "skjemadata_rows": 127,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/Turer/3/turID",
+                    "field_value": "436a3517-f416-45af-a9eb-e91885b2c274"
+                },
+                {
+                    "field_name": "/Turer/3/turStartSted",
+                    "field_value": "NOTODDEN"
+                }
+            ]
+        }
+    ]
+}

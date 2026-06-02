@@ -1,13 +1,13 @@
 import logging
-from .meta_form_extractor import MetaFormExtractor, InputFormType
-from .models import (
-    ContactInfo,
-    FormJsonData,
-    FormNode,
-    FormData,
-    FormReception,
-    UnitInfo,
-)
+
+from .meta_form_extractor import InputFormType
+from .meta_form_extractor import MetaFormExtractor
+from .models import ContactInfo
+from .models import FormData
+from .models import FormJsonData
+from .models import FormNode
+from .models import FormReception
+from .models import UnitInfo
 
 logger = logging.getLogger(__name__)
 
@@ -66,7 +66,6 @@ def parse_entries(data: dict | list, parent: None | str = None) -> list[FormNode
         iterator = data.items()
 
     for key, value in iterator:
-
         sti = f"{parent if parent else ''}/{key}"
         if isinstance(value, list) or isinstance(value, dict):
             fields.extend(parse_entries(value, parent=sti))
@@ -89,34 +88,33 @@ def parse_entries(data: dict | list, parent: None | str = None) -> list[FormNode
 
 
 class DefaultFormExtractor(MetaFormExtractor):
-    """A default extractor from XML-forms. The class is responsible for extracting data to
+    """A default extractor from XML-forms.
+
+    The class is responsible for extracting data to
     the standard table schema. See `MetaFormExtractor` for implemenation details.
 
-    Args:
-
-    Attributes:
-
-
     """
+
     def __init__(self) -> None:
+        """Initalizer for a default form extractor."""
         super().__init__()
 
     def extract_contact_info(
         self,
         form_dict_data: InputFormType,
-        year: str,
         form: str,
         ident: str,
         refnr: str,
+        iso_period: str,
     ) -> ContactInfo:
         """Function for extracting contact info from form data.
 
         Args:
             form_dict_data: XML-data in list or dict form.
-            year: Year for the form.
             form: The name of the form (RA-number).
             ident: The id of the unit.
             refnr: The id number of the form.
+            iso_period (str): Registered iso_period.
 
         Returns:
             list(ContactInfo): A pydantic model representing the contact info.
@@ -127,25 +125,23 @@ class DefaultFormExtractor(MetaFormExtractor):
         assert isinstance(form_data, dict)
 
         return ContactInfo(
-            aar=year,
             skjema=form,
             ident=ident,
             refnr=refnr,
             bekreftet_kontaktinfo=form_data.get("kontaktInfoBekreftet") == "1",
+            iso_period=iso_period,
             **form_data,
         )
 
     def extract_form_data(
         self,
         form_dict_data: InputFormType,
-        year: str,
         form: str,
         ident: str,
         refnr: str,
+        iso_period: str,
     ) -> list[FormData]:
-        
-        """
-        Extract structured form data from raw XML-derived input.
+        """Extract structured form data from raw XML-derived input.
 
         This function processes the ``SkjemaData`` section of a form represented as
         a dictionary or list (typically parsed from XML). Each entry is normalized
@@ -156,16 +152,15 @@ class DefaultFormExtractor(MetaFormExtractor):
         Args:
             form_dict_data: Raw form content in dictionary or list form, typically
                 originating from XML parsing.
-            year: The reporting year for the form.
             form: The name or code of the form (e.g., RA-number).
             ident: The identifier for the reporting unit.
             refnr: The reference number for the submitted form instance.
+            iso_period (str): Registered iso_period.
 
         Returns:
             list(FormData): A list of ``FormData`` objects, each representing a parsed and validated
             node from the form data.
         """
-
         form_data = form_dict_data["SkjemaData"]
 
         assert isinstance(form_data, dict) or isinstance(form_data, list)
@@ -175,10 +170,10 @@ class DefaultFormExtractor(MetaFormExtractor):
         for node in parsed_form_data:
             node_data = FormData.from_form_data(
                 node=node,
-                year=year,
                 form=form,
                 ident=ident,
                 refnr=refnr,
+                iso_period=iso_period,
             )
             results.append(node_data)
         return results
@@ -186,9 +181,7 @@ class DefaultFormExtractor(MetaFormExtractor):
     def extract_form_reception(
         self, form_dict_data: InputFormType, json_data: FormJsonData
     ) -> FormReception:
-        
-        """
-        Extracts reception metadata for a form from internal XML data and JSON input.
+        """Extracts reception metadata for a form from internal XML data and JSON input.
 
         This function reads the ``InternInfo`` section of the XML-derived form
         structure and combines it with metadata delivered via the ``json_data``
@@ -206,11 +199,10 @@ class DefaultFormExtractor(MetaFormExtractor):
             FormReception: A fully constructed ``FormReception`` model combining
             XML-derived and JSON-derived metadata.
         """
-
         form_data = form_dict_data["InternInfo"]
 
         assert isinstance(form_data, dict)
-        
+
         logger.debug(json_data)
 
         return FormReception(
@@ -218,16 +210,14 @@ class DefaultFormExtractor(MetaFormExtractor):
             kommentar="",
             aktiv=True,
             refnr=json_data.altinn_reference,
-            dato_mottatt=json_data.date_deliveres,
+            dato_mottatt=json_data.date_delivered,
             **form_data,
         )
 
     def extract_unit_info(
-        self, form_dict_data: InputFormType, year: str, ident: str
+        self, form_dict_data: InputFormType, ident: str, iso_period: str
     ) -> list[UnitInfo]:
-        
-        """
-        Extracts unit-related metadata from internal form information.
+        """Extracts unit-related metadata from internal form information.
 
         This function iterates over the ``InternInfo`` section of the form structure
         (parsed from XML into a dictionary) and collects key-value pairs whose keys
@@ -237,14 +227,13 @@ class DefaultFormExtractor(MetaFormExtractor):
         Args:
             form_dict_data: Raw form content containing an
                 ``InternInfo`` dictionary with internal metadata.
-            year: Reporting year associated with the unit info.
             ident: Identifier for the reporting unit.
+            iso_period (str): Registered iso_period.
 
         Returns:
             list[UnitInfo]: A list of ``UnitInfo`` objects built from keys in
             ``InternInfo`` that start with ``"enhets"``.
         """
-
         form_data = form_dict_data["InternInfo"]
 
         assert isinstance(form_data, dict)
@@ -253,6 +242,8 @@ class DefaultFormExtractor(MetaFormExtractor):
         for key, value in form_data.items():
             key: str
             if key.startswith("enhets"):
-                data = UnitInfo(aar=year, ident=ident, variabel=key, verdi=value)
+                data = UnitInfo(
+                    ident=ident, variabel=key, verdi=value, iso_period=iso_period
+                )
                 info.append(data)
         return info

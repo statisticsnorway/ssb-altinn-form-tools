@@ -1,15 +1,13 @@
 from abc import ABC
 from abc import abstractmethod
 
-from .models import (
-    ContactInfo,
-    FormJsonData,
-    Unit,
-    UnitInfo,
-    FormData,
-    FormReception,
-    ExtractedForm,
-)
+from .models import ContactInfo
+from .models import ExtractedForm
+from .models import FormData
+from .models import FormJsonData
+from .models import FormReception
+from .models import Unit
+from .models import UnitInfo
 
 InputFormType = dict[str, list | dict | str | int | None]
 
@@ -28,19 +26,19 @@ class MetaFormExtractor(ABC):
     def extract_contact_info(
         self,
         form_dict_data: InputFormType,
-        year: str,
         form: str,
         ident: str,
         refnr: str,
+        iso_period: str,
     ) -> ContactInfo:
         """Extracts contact information from parsed form data.
 
         Args:
             form_dict_data (InputFormType): Raw form content derived from XML.
-            year (int): Reporting year of the form.
             form (str): Form code or type identifier.
             ident (str): Identifier of the reporting unit.
             refnr (str): Reference number associated with the form instance.
+            iso_period (str): Registered iso_period.
 
         Returns:
             ContactInfo: Structured contact metadata extracted from the form.
@@ -51,19 +49,19 @@ class MetaFormExtractor(ABC):
     def extract_form_data(
         self,
         form_dict_data: InputFormType,
-        year: str,
         form: str,
         ident: str,
         refnr: str,
-    ) -> list[FormData]: 
+        iso_period: str,
+    ) -> list[FormData]:
         """Extracts detailed field-level form data.
 
         Args:
             form_dict_data (InputFormType): Parsed form content containing field values.
-            year (int): Reporting year of the form.
             form (str): Form name or identifier.
             ident (str): Identifier of the reporting unit.
             refnr (str): Reference number for the submitted form.
+            iso_period (str): Registered iso_period.
 
         Returns:
             list[FormData]: A list of validated form data entries.
@@ -73,7 +71,7 @@ class MetaFormExtractor(ABC):
     @abstractmethod
     def extract_form_reception(
         self, form_dict_data: InputFormType, json_data: FormJsonData
-    ) -> FormReception: 
+    ) -> FormReception:
         """Extracts reception and submission metadata for the form.
 
         Args:
@@ -85,33 +83,32 @@ class MetaFormExtractor(ABC):
         """
         ...
 
-    def extract_unit(self, year: str, form: str, ident: str) -> Unit:
+    def extract_unit(self, form: str, ident: str, iso_period: str) -> Unit:
         """Constructs a basic ``Unit`` model from form metadata.
 
         This default implementation requires no override unless additional
         fields or lookup logic are necessary.
 
         Args:
-            year (int): Reporting year of the form.
             form (str): Form name or code.
             ident (str): Identifier of the reporting unit.
+            iso_period (str): Registered iso_period.
 
         Returns:
             Unit: A ``Unit`` model representing the reporting entity.
         """
-
-        return Unit(aar=year, ident=ident, skjema=form)
+        return Unit(ident=ident, skjema=form, iso_period=iso_period)
 
     @abstractmethod
     def extract_unit_info(
-        self, form_dict_data: InputFormType, year: str, ident: str
-    ) -> list[UnitInfo]: 
+        self, form_dict_data: InputFormType, ident: str, iso_period: str
+    ) -> list[UnitInfo]:
         """Extracts additional unit-level metadata from the form.
 
         Args:
             form_dict_data (InputFormType): Parsed XML content containing internal metadata.
-            year (int): Reporting year associated with the unit.
             ident (str): Identifier of the reporting unit.
+            iso_period (str): Registered iso_period.
 
         Returns:
             list[UnitInfo]: Structured metadata entries describing unit attributes.
@@ -142,33 +139,32 @@ class MetaFormExtractor(ABC):
         Returns:
             ExtractedForm: A fully aggregated model containing all parsed form sections.
         """
-
         form_info = self.extract_form_reception(form_dict_data, json_data)
 
         return ExtractedForm(
             reception=form_info,
             contact_info=self.extract_contact_info(
                 form_dict_data,
-                year=form_info.aar,
                 form=form_info.skjema,
                 ident=form_info.ident,
                 refnr=form_info.refnr,
+                iso_period=form_info.iso_period,
             ),
             unit=self.extract_unit(
-                year=form_info.aar,
                 form=form_info.skjema,
                 ident=form_info.ident,
+                iso_period=form_info.iso_period,
             ),
             unit_info=self.extract_unit_info(
                 form_dict_data,
-                year=form_info.aar,
                 ident=form_info.ident,
+                iso_period=form_info.iso_period,
             ),
             form_data=self.extract_form_data(
                 form_dict_data,
-                year=form_info.aar,
                 form=form_info.skjema,
                 ident=form_info.ident,
                 refnr=form_info.refnr,
+                iso_period=form_info.iso_period,
             ),
         )

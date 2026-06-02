@@ -1,0 +1,21 @@
+{
+    "form_name": "RA0530",
+    "forms": [
+        {
+            "form_id": "7fe33c89f117",
+            "skjemadata_rows": 221,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/RepGruppe/1/ubruktVareNrSsbPrefill",
+                    "field_value": 35508
+                },
+                {
+                    "field_name": "/RepGruppe/2/ubruktVareNrSsbPrefill",
+                    "field_value": 35509
+                }
+            ]
+        }
+    ]
+}

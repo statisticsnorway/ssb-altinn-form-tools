@@ -1,0 +1,21 @@
+{
+    "form_name": "RA0536",
+    "forms": [
+        {
+            "form_id": "78bfa458da36",
+            "skjemadata_rows": 158,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/iKTFunksjonerHandtering/1/iKTFunksjonHandteringId",
+                    "field_value": "LikertQuestion-IKTFunksjonerHandtering.2"
+                },
+                {
+                    "field_name": "/infosekTiltak/0/infosekTiltakSvar",
+                    "field_value": 3
+                }
+            ]
+        }
+    ]
+}

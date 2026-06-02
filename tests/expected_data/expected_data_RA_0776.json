@@ -1,0 +1,86 @@
+{
+    "form_name": "RA0776",
+    "forced_array": [],
+    "forms": [
+        {
+            "form_id": "f8eefc418f37",
+            "skjemadata_rows": 187,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/ForbrukAvEnergivarer/EnergivarerBruktSomBrensel/1/brenselEnergivareNavn",
+                    "field_value": "Koks"
+                },
+                {
+                    "field_name": "/InnkjoepAvEnergivarer/EnergivarerInnkjoep/3/innkjoepAntallTonn",
+                    "field_value": 4567
+                }
+            ]
+        },
+        {
+            "form_id": "7d96b26e55c1",
+            "skjemadata_rows": 187,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/Hydrogengass/bruktHydrogenAlternativer",
+                    "field_value": 4
+                },
+                {
+                    "field_name": "/KjoepAvCOGass/coGassKostnader",
+                    "field_value": 345
+                }
+            ]
+        },
+        {
+            "form_id": "311bea8fc170",
+            "skjemadata_rows": 147,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/COGassLevertTilAndreVirksomheter/COGassLevertTilAndre/4/mengdeCOGassLevert",
+                    "field_value": 6757867
+                },
+                {
+                    "field_name": "/COGassLevertTilAndreVirksomheter/COGassLevertTilAndre/3/mengdeCOGassLevert",
+                    "field_value": 45
+                }
+            ]
+        },
+        {
+            "form_id": "670c6d1f8c51",
+            "skjemadata_rows": 127,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/KjoepAvCOGass/coGassKostnader",
+                    "field_value": 345
+                },
+                {
+                    "field_name": "/LagerOgProduksjon/EnergivarerLagerbeholdning/1/lagerEnergivareNavn",
+                    "field_value": "Koks"
+                }
+            ]
+        },
+        {
+            "form_id": "f368681c2173",
+            "skjemadata_rows": 187,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/NyttiggjoeringAvEgenprodusertCOGass/mengdeCOGassEgenBruk",
+                    "field_value": 78985
+                },
+                {
+                    "field_name": "/ProduksjonAvCOGass/EnergivarerOgCOGassProduksjon/1/metallProdEnergivareNavn",
+                    "field_value": "Trekull"
+                }
+            ]
+        }
+    ]
+}

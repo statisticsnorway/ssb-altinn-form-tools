@@ -1,7 +1,15 @@
 from abc import ABC
 from abc import abstractmethod
 
-from .models import ContactInfo, FormData, FormReception, Unit, UnitInfo, Checkboxmodel
+# from .models import Checkboxmodel
+from .models import ContactInfo
+from .models import FormData
+from .models import FormReception
+from .models import OptionMetadataModel
+from .models import OptionNodes
+from .models import Unit
+from .models import UnitInfo
+
 
 class MetaStorageConnector(ABC):
     """Abstract base class defining the interface for persistent storage operations.
@@ -17,20 +25,6 @@ class MetaStorageConnector(ABC):
     """
 
     @abstractmethod
-    def __init__(self, *args, **kwargs) -> None:
-        """Initializes the storage connector.
-
-        Args:
-            *args: Positional arguments passed to the concrete implementation.
-            **kwargs: Keyword arguments passed to the concrete implementation.
-
-        Notes:
-            Subclasses may use the constructor to establish connections,
-            configure engines or clients, or load connection metadata.
-        """
-        super().__init__(*args, **kwargs)
-
-    @abstractmethod
     def begin_transaction(self) -> None:
         """Begins a new transaction boundary.
 
@@ -40,7 +34,7 @@ class MetaStorageConnector(ABC):
             allowed or disallowed, depending on the backend.
         """
         ...
-    
+
     @abstractmethod
     def commit(self) -> None:
         """Commits the current transaction.
@@ -53,7 +47,7 @@ class MetaStorageConnector(ABC):
         ...
 
     @abstractmethod
-    def rollback(self, ref_number: str) -> None:
+    def rollback(self) -> None:
         """Rolls back the current transaction.
 
         Args:
@@ -65,9 +59,9 @@ class MetaStorageConnector(ABC):
             should ensure that no partial writes remain after rollback.
         """
         ...
-        
+
     @abstractmethod
-    def insert_contact_info(self, contact_info: ContactInfo) -> None:
+    def insert_contact_info(self, contact_info: list[ContactInfo]) -> None:
         """Inserts contact information into storage.
 
         Args:
@@ -87,7 +81,17 @@ class MetaStorageConnector(ABC):
         ...
 
     @abstractmethod
-    def insert_form_reception(self, form_reciept: FormReception) -> None:
+    def insert_form_data_unedited(self, form_data: list[FormData]) -> None:
+        """Inserts form field data entries.
+
+        Args:
+            form_data (list[FormData]): A list of structured form data objects
+                representing the form's individual variables and values.
+        """
+        ...
+
+    @abstractmethod
+    def insert_form_reception(self, form_reciept: list[FormReception]) -> None:
         """Inserts metadata about the form reception.
 
         Args:
@@ -97,7 +101,7 @@ class MetaStorageConnector(ABC):
         ...
 
     @abstractmethod
-    def insert_unit(self, unit: Unit) -> None:
+    def insert_unit(self, unit: list[Unit]) -> None:
         """Inserts unit-level metadata.
 
         Args:
@@ -106,18 +110,14 @@ class MetaStorageConnector(ABC):
         ...
 
     @abstractmethod
-    def insert_unit_info(self, unit: list[UnitInfo]) -> None:
+    def insert_unit_info(self, units: list[UnitInfo]) -> None:
         """Inserts additional unit-level attributes.
 
         Args:
-            unit (list[UnitInfo]): A list of key-value pairs describing extra
+            units (list[UnitInfo]): A list of key-value pairs describing extra
                 metadata about the reporting unit.
         """
         ...
-
-    @abstractmethod
-    def insert_checkboxes(self, unit: list[Checkboxmodel]) -> None:
-        raise NotImplementedError(f"{self} does not implement the '_postprocess_checkboxes' method and does not support custom handling of checkboxes")
 
     @abstractmethod
     def create_tables_if_not_exists(self) -> None:
@@ -128,6 +128,34 @@ class MetaStorageConnector(ABC):
             to call multiple times.
         """
         ...
+
+    @abstractmethod
+    def insert_option_list(self, models: list[OptionMetadataModel]) -> None:
+        """Method for inserting options lists into the table."""
+        ...
+
+    @abstractmethod
+    def insert_option_node(self, models: list[OptionNodes]) -> None:
+        """Method for inserting options node into the table."""
+        ...
+
+    def validate_options_exists(self, skjema: str, iso_period: str | None) -> bool:
+        """Checks whether options has already been inserted for a given period.
+
+        Args:
+            skjema (str): The form the options relate to.
+            iso_period (str): The period referenced
+
+        Returns:
+            bool: ``True`` if the options has been inserted before, otherwise ``False``.
+
+        Raises:
+            NotImplementedError: If the subclass does not implement this method.
+
+        Notes:
+            Used primarily by form processors to ensure idempotent ingestion.
+        """
+        raise NotImplementedError(f"validate_new_form is not implemented for {self}")
 
     def validate_form_is_new(self, form_reference: str) -> bool:
         """Checks whether a form has already been inserted.

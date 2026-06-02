@@ -1,8 +1,24 @@
-from sqlalchemy import Engine, select
+from sqlalchemy import Engine
+from sqlalchemy import select
 from sqlalchemy.orm import Session
+
 from .meta_storage_connector import MetaStorageConnector
-from .models import ContactInfo, Unit, UnitInfo, FormData, FormReception, Checkboxmodel
-from .schema import Base, kontaktinfo, enheter, enhetsinfo, skjemadata, skjemamottak, skjemacheckboxes
+from .models import ContactInfo
+from .models import FormData
+from .models import FormReception
+from .models import OptionMetadataModel
+from .models import OptionNodes
+from .models import Unit
+from .models import UnitInfo
+from .schema import Base
+from .schema import Enheter
+from .schema import EnhetsInfo
+from .schema import KontaktInfo
+from .schema import OptionNodes as OrmOptionNodes
+from .schema import OptionsLists
+from .schema import Skjemadata
+from .schema import SkjemadataUnedited
+from .schema import SkjemaMottak
 
 
 class SqlAlchemyStorageConnector(MetaStorageConnector):
@@ -27,7 +43,6 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             The session is created on demand when a transaction is started via
             ``begin_transaction``.
         """
-
         self._engine = engine
         self._session = None
 
@@ -57,7 +72,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             raise RuntimeError("Session is not started")
         return self._session
 
-    def rollback(self, ref_number: str) -> None:
+    def rollback(self) -> None:
         """Rolls back the current transaction.
 
         Args:
@@ -100,12 +115,22 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             Executes a ``SELECT`` against the ``skjemamottak`` table and returns
             whether any row exists with the same reference number.
         """
-        stmt = select(skjemamottak).filter(skjemamottak.refnr == form_reference)
+        stmt = select(SkjemaMottak).filter(SkjemaMottak.refnr == form_reference)
         conn = self._engine.connect()
         result = conn.execute(stmt).first()
         return result is None
 
-    def insert_contact_info(self, contact_info: ContactInfo) -> None:
+    def validate_options_exists(self, skjema: str, iso_period: str | None) -> bool:
+        """Method to check if options have already been inserted for the period."""
+        stmt = select(OrmOptionNodes).filter(OrmOptionNodes.skjema == skjema)
+        if iso_period:
+            stmt = stmt.filter(OrmOptionNodes.iso_period == iso_period)
+
+        conn = self._engine.connect()
+        result = conn.execute(stmt).first()
+        return result is not None
+
+    def insert_contact_info(self, contact_info: list[ContactInfo]) -> None:
         """Inserts contact information for a form.
 
         Args:
@@ -114,19 +139,22 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         Side Effects:
             Adds a new ``kontaktinfo`` ORM instance to the current session.
         """
-        model = kontaktinfo(
-            aar=contact_info.aar,
-            skjema=contact_info.skjema,
-            ident=contact_info.ident,
-            refnr=contact_info.refnr,
-            kontaktperson=contact_info.kontaktperson,
-            epost=contact_info.epost,
-            telefon=contact_info.telefon,
-            bekreftet_kontaktinfo=contact_info.bekreftet_kontaktinfo,
-            kommentar_kontaktinfo=contact_info.kommentar_kontaktinfo,
-            kommentar_krevende=contact_info.kommentar_krevende,
-        )
-        self._get_session().add(model)
+        forms = []
+        for form in contact_info:
+            model = KontaktInfo(
+                iso_period=form.iso_period,
+                skjema=form.skjema,
+                ident=form.ident,
+                refnr=form.refnr,
+                kontaktperson=form.kontaktperson,
+                epost=form.epost,
+                telefon=form.telefon,
+                bekreftet_kontaktinfo=form.bekreftet_kontaktinfo,
+                kommentar_kontaktinfo=form.kommentar_kontaktinfo,
+                kommentar_krevende=form.kommentar_krevende,
+            )
+            forms.append(model)
+        self._get_session().add_all(forms)
 
     def insert_form_data(self, form_data: list[FormData]) -> None:
         """Inserts all field-level form data entries.
@@ -139,8 +167,8 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         """
         models = []
         for node in form_data:
-            node_data = skjemadata(
-                aar=node.aar,
+            node_data = Skjemadata(
+                iso_period=node.iso_period,
                 skjema=node.skjema,
                 ident=node.ident,
                 refnr=node.refnr,
@@ -154,7 +182,26 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             models.append(node_data)
         self._get_session().add_all(models)
 
-    def insert_form_reception(self, form_reciept: FormReception) -> None:
+    def insert_form_data_unedited(self, form_data: list[FormData]) -> None:
+        """Same as skjemadata, but should not be edited."""
+        models = []
+        for node in form_data:
+            node_data = SkjemadataUnedited(
+                iso_period=node.iso_period,
+                skjema=node.skjema,
+                ident=node.ident,
+                refnr=node.refnr,
+                feltsti=node.feltsti,
+                feltnavn=node.feltnavn,
+                verdi=node.verdi,
+                dybde=node.dybde,
+                indeks=node.indeks,
+                alias=node.alias,
+            )
+            models.append(node_data)
+        self._get_session().add_all(models)
+
+    def insert_form_reception(self, form_reciept: list[FormReception]) -> None:
         """Inserts metadata describing the reception of a form.
 
         Args:
@@ -164,19 +211,24 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         Side Effects:
             Adds a new ``skjemamottak`` ORM instance to the current session.
         """
-        model = skjemamottak(
-            aar=form_reciept.aar,
-            skjema=form_reciept.skjema,
-            ident=form_reciept.ident,
-            refnr=form_reciept.refnr,
-            kommentar=form_reciept.kommentar,
-            dato_mottatt=form_reciept.dato_mottatt,
-            editert=form_reciept.editert,
-            aktiv=form_reciept.aktiv,
-        )
-        self._get_session().add(model)
+        forms = []
+        for form in form_reciept:
+            model = SkjemaMottak(
+                iso_period=form.iso_period,
+                start_date=form.start_date,
+                end_date=form.end_date,
+                skjema=form.skjema,
+                ident=form.ident,
+                refnr=form.refnr,
+                kommentar=form.kommentar,
+                dato_mottatt=form.dato_mottatt,
+                editert=form.editert,
+                aktiv=form.aktiv,
+            )
+            forms.append(model)
+        self._get_session().add_all(forms)
 
-    def insert_unit(self, unit: Unit) -> None:
+    def insert_unit(self, unit: list[Unit]) -> None:
         """Inserts unit-level metadata.
 
         Args:
@@ -185,11 +237,18 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         Side Effects:
             Adds a new ``enheter`` ORM instance to the current session.
         """
-        model = enheter(aar=unit.aar, ident=unit.ident, skjema=unit.skjema)
-        self._get_session().add(model)
+        forms = []
+        for form in unit:
+            model = Enheter(
+                iso_period=form.iso_period,
+                ident=form.ident,
+                skjema=form.skjema,
+            )
+            forms.append(model)
+        self._get_session().add_all(forms)
 
     def insert_unit_info(self, units: list[UnitInfo]) -> None:
-        """Inserts additional key–value attributes for a unit.
+        """Inserts additional key-value attributes for a unit.
 
         Args:
             units (list[UnitInfo]): Collection of unit info entries to persist.
@@ -199,25 +258,40 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         """
         unit_info = []
         for item in units:
-            model = enhetsinfo(
-                aar=item.aar, ident=item.ident, variabel=item.variabel, verdi=item.verdi
+            model = EnhetsInfo(
+                iso_period=item.iso_period,
+                ident=item.ident,
+                variabel=item.variabel,
+                verdi=item.verdi,
             )
             unit_info.append(model)
         self._get_session().add_all(unit_info)
 
-    def insert_checkboxes(self, boxes: list[Checkboxmodel]) -> None:
-        items = []
-        for item in boxes:
-            model = skjemacheckboxes(
-                aar = item.aar,
-                skjema = item.skjema,
-                ident = item.ident,
-                refnr = item.refnr,
-                
-                feltsti = item.field_path,
-                feltnavn = item.field_name,
-                checkbox_option = item.option,
-                checked = item.checked
-            )
-            items.append(model)
-        self._get_session().add_all(items)
+    def insert_option_list(self, models: list[OptionMetadataModel]) -> None:
+        """Method for inserting options lists into the table."""
+        models_to_insert = []
+        for model in models:
+            for option in model.options:
+                orm_model = OptionsLists(
+                    iso_period=model.iso_period,
+                    skjema=model.skjema,
+                    options_id=model.options_id,
+                    label=option.label,
+                    value=option.value,
+                )
+                models_to_insert.append(orm_model)
+        self._get_session().add_all(models_to_insert)
+
+    def insert_option_node(self, models: list[OptionNodes]) -> None:
+        """Method for inserting options node into the table."""
+        models_to_insert = []
+        for model in models:
+            for node in model.node_list:
+                orm_model = OrmOptionNodes(
+                    options_id=model.option_id,
+                    node_name=node,
+                    iso_period=model.iso_period,
+                    skjema=model.skjema,
+                )
+                models_to_insert.append(orm_model)
+        self._get_session().add_all(models_to_insert)

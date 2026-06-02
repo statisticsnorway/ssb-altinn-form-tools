@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="utf-8"?>
+<A3_RA0485_M xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" dataFormatProvider="ALTINNSTUDIO"
+    dataFormatId="A30485" dataFormatVersion="1">
+    <InternInfo>
+        <raNummer>RA-0485</raNummer>
+        <skjemaVersjon>1.8.24</skjemaVersjon>
+        <undersoekelsesNr>773</undersoekelsesNr>
+        <undersoekelsesInfoUrl>
+            https://www.ssb.no/innrapportering/godstransport-med-norske-lastebiler</undersoekelsesInfoUrl>
+        <visOppgaveByrde>1</visOppgaveByrde>
+        <visBrukeropplevelse>1</visBrukeropplevelse>
+        <delregNr>72032536</delregNr>
+        <periodeFritekst>01. september 2025 - 07. september 2025</periodeFritekst>
+        <periodeFomDato>2025-09-01</periodeFomDato>
+        <periodeTomDato>2025-09-07</periodeTomDato>
+        <periodeType>UKE</periodeType>
+        <periodeNummer>36</periodeNummer>
+        <periodeAAr>2025</periodeAAr>
+        <periodeDato> </periodeDato>
+        <enhetsIdent>ATB1289003</enhetsIdent>
+        <enhetsType>BEDR</enhetsType>
+        <enhetsOrgNr>910348906</enhetsOrgNr>
+        <enhetsNavn>KJØRSVIKBUGEN OG SØRVÅGEN REVISJON </enhetsNavn>
+        <enhetsGateadresse> </enhetsGateadresse>
+        <enhetsPostnr> </enhetsPostnr>
+        <enhetsPoststed> </enhetsPoststed>
+        <enhetsAvdeling> </enhetsAvdeling>
+        <reporteeOrgNr>910348906</reporteeOrgNr>
+    </InternInfo>
+    <Tidsbruk>
+        <samletInfo>0</samletInfo>
+        <utfyllingMin>60</utfyllingMin>
+    </Tidsbruk>
+    <Brukeropplevelse>
+        <enkeltKrevende>3</enkeltKrevende>
+        <krevendeForh>1,2,3,4,5,6,7,8,9,10,11</krevendeForh>
+        <forklarKrevendeForh>Test, 23.02.2026 gbr</forklarKrevendeForh>
+    </Brukeropplevelse>
+    <Kontakt>
+        <kontaktPersonNavn>Gudveig Ihlang</kontaktPersonNavn>
+        <kontaktInfoBekreftet>1</kontaktInfoBekreftet>
+    </Kontakt>
+    <Hjelpefelter>
+        <hjelpefelt2>701,702,703,709,711,712,713,719,721,722,723,729</hjelpefelt2>
+        <hjelpefeltdec1>7</hjelpefeltdec1>
+        <hjelpefeltdec2>7</hjelpefeltdec2>
+    </Hjelpefelter>
+    <KlassInfo>
+        <KlassApiKall>
+            <klassID>
+                Mellomlagret uttrekk fra KLASS brukes i skjema. Opprinnelig kilde:
+                https://data.ssb.no/api/klass/v1/classifications/470/codesAt.json?language=nn&amp;date=2026-02-03&amp;includeNotes=true</klassID>
+            <klassDatamodellNode>leieEllerEgenTransport</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>
+                Mellomlagret uttrekk fra KLASS brukes i skjema. Opprinnelig kilde:
+                https://data.ssb.no/api/klass/v1/classifications/467/codesAt.json?language=nn&amp;date=2026-02-03&amp;includeNotes=true</klassID>
+            <klassDatamodellNode>stodStilleGrunn</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>
+                Mellomlagret uttrekk fra KLASS brukes i skjema. Opprinnelig kilde:
+                https://data.ssb.no/api/klass/v1/classifications/100/variantAt.json?language=nn&amp;date=2026-02-03&amp;variantName=land_lastebiltransport&amp;includeNotes=true</klassID>
+            <klassDatamodellNode>turStartLand</klassDatamodellNode>
+            <klassDatamodellNode>turTransittland</klassDatamodellNode>
+            <klassDatamodellNode>turStoppLand</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>
+                Mellomlagret uttrekk fra KLASS brukes i skjema. Opprinnelig kilde:
+                https://data.ssb.no/api/klass/v1/classifications/131/codesAt.json?language=nn&amp;date=2026-02-03&amp;selectCodes=0-9998&amp;includeNotes=true</klassID>
+            <klassDatamodellNode>turStartKommune</klassDatamodellNode>
+            <klassDatamodellNode>turStoppKommune</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>
+                Mellomlagret uttrekk fra KLASS brukes i skjema. Opprinnelig kilde:
+                https://data.ssb.no/api/klass/v1/classifications/469/codesAt.json?language=nn&amp;date=2026-02-03&amp;includeNotes=true</klassID>
+            <klassDatamodellNode>uteAvDriftGrunn</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>
+                Mellomlagret uttrekk fra KLASS brukes i skjema. Opprinnelig kilde:
+                https://data.ssb.no/api/klass/v1/classifications/817/codesAt.json?language=nn&amp;date=2026-02-03&amp;includeNotes=true</klassID>
+            <klassDatamodellNode>fraktVareslag</klassDatamodellNode>
+            <klassDatamodellNode>turVareVareslag</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>
+                Mellomlagret uttrekk fra KLASS brukes i skjema. Opprinnelig kilde:
+                https://data.ssb.no/api/klass/v1/classifications/487/codesAt.json?language=nn&amp;date=2026-02-03&amp;includeNotes=true</klassID>
+            <klassDatamodellNode>bruktTilhenger</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>
+                Mellomlagret uttrekk fra KLASS brukes i skjema. Opprinnelig kilde:
+                https://data.ssb.no/api/klass/v1/classifications/486/codesAt.json?language=nn&amp;date=2026-02-03&amp;includeNotes=true</klassID>
+            <klassDatamodellNode>turDistribusjonEllerOppsamling</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>
+                Mellomlagret uttrekk fra KLASS brukes i skjema. Opprinnelig kilde:
+                https://data.ssb.no/api/klass/v1/classifications/473/codesAt.json?language=nn&amp;date=2026-02-04&amp;includeNotes=true</klassID>
+            <klassDatamodellNode>turNesteHvorGikkNeste</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>
+                Mellomlagret uttrekk fra KLASS brukes i skjema. Opprinnelig kilde:
+                https://data.ssb.no/api/klass/v1/classifications/488/codesAt.json?language=nn&amp;date=2026-02-04&amp;selectCodes=1-4&amp;includeNotes=true</klassID>
+            <klassDatamodellNode>turStartTerminalType</klassDatamodellNode>
+            <klassDatamodellNode>turStoppTerminalType</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>
+                Mellomlagret uttrekk fra KLASS brukes i skjema. Opprinnelig kilde:
+                https://data.ssb.no/api/klass/v1/classifications/111/codesAt.json?language=nn&amp;date=2026-02-04&amp;includeNotes=true</klassID>
+            <klassDatamodellNode>Brukes for å filtere henger resultat fra SVV</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>
+                Mellomlagret uttrekk fra KLASS brukes i skjema. Opprinnelig kilde:
+                https://data.ssb.no/api/klass/v1/classifications/472/codesAt.json?language=nn&amp;date=2026-02-04&amp;includeNotes=true</klassID>
+            <klassDatamodellNode>fraktLasttype</klassDatamodellNode>
+            <klassDatamodellNode>turVareLasttype</klassDatamodellNode>
+        </KlassApiKall>
+        <KlassApiKall>
+            <klassID>
+                Mellomlagret uttrekk fra KLASS brukes i skjema. Opprinnelig kilde:
+                https://data.ssb.no/api/klass/v1/classifications/707/codesAt.json?language=nn&amp;date=2026-02-04&amp;selectCodes=0485.ZZ6.1&amp;includeNotes=true</klassID>
+            <klassDatamodellNode>fraktLasttype</klassDatamodellNode>
+            <klassDatamodellNode>turVareLasttype</klassDatamodellNode>
+        </KlassApiKall>
+    </KlassInfo>
+    <MetaData>
+        <AppMetaData>
+            <id>Host</id>
+            <verdi>ssb.apps.tt02.altinn.no</verdi>
+            <kilde>HttpContext</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>User-Agent</id>
+            <verdi>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)
+                Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0</verdi>
+            <kilde>HttpContext</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AppId</id>
+            <verdi>ssb/ra0485-01</verdi>
+            <kilde>Instance</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PresentationText-regnr</id>
+            <verdi>Reg.nr: ATB1289003</verdi>
+            <kilde>Instance</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PresentationText-periodeFritekst</id>
+            <verdi>2. september - 8. september 2025</verdi>
+            <kilde>Instance</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AltinnNugetVersion</id>
+            <verdi>8.9.2.227</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AutoDeleteOnProcessEnd</id>
+            <verdi>False</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>CopyInstanceSettings</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>Logo</id>
+            <verdi>org</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>OnEntry</id>
+            <verdi>select-instance</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AutoCreateEnabled-1</id>
+            <verdi />
+            <kilde>ref-data-as-pdf</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AutoCreateEnabled-2</id>
+            <verdi>False</verdi>
+            <kilde>A3_RA-0485_M</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-Person</id>
+            <verdi>False</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-BankruptcyEstate</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-Organisation</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>PartyTypesAllowed-SubUnit</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>Title-nb</id>
+            <verdi>Godstransport med norske lastebilar (RA-0485)</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>Title-nn</id>
+            <verdi>Godstransport med norske lastebilar (RA-0485)</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>ValidFrom</id>
+            <verdi />
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>ValidTo</id>
+            <verdi />
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>VersionId</id>
+            <verdi />
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>DisallowUserInstantiation</id>
+            <verdi>True</verdi>
+            <kilde>AppMetadata</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>AppVersion</id>
+            <verdi>1.8.24</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>EnableEFormidling</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>ExpressionValidation</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>FooterFileName</id>
+            <verdi>footer.json</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>RegisterEventsWithEventsComponent</id>
+            <verdi>True</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>RemoveHiddenData</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>RequiredValidation</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>UseOpenTelemetry</id>
+            <verdi>False</verdi>
+            <kilde>AppSettings</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>USER-AuthenticationLevel</id>
+            <verdi>4</verdi>
+            <kilde>AuthenticationContext</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>USER-AuthenticationMethod</id>
+            <verdi>BankID</verdi>
+            <kilde>AuthenticationContext</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>USER-InAltinnPortal</id>
+            <verdi>True</verdi>
+            <kilde>AuthenticationContext</kilde>
+        </AppMetaData>
+        <AppMetaData>
+            <id>USER-IsSelfIdentified</id>
+            <verdi>False</verdi>
+            <kilde>AuthenticationContext</kilde>
+        </AppMetaData>
+    </MetaData>
+    <SkjemaData>
+        <Prefill>
+            <rapporteringsPeriodePre>2. september - 8. september 2025</rapporteringsPeriodePre>
+            <rapporteringsMinDatoPre>2025-09-02</rapporteringsMinDatoPre>
+        </Prefill>
+        <antallDagerIDrift>7</antallDagerIDrift>
+        <leieEllerEgenTransport>1</leieEllerEgenTransport>
+        <bruktIGodsTransJaNei>1</bruktIGodsTransJaNei>
+        <masseTransportJaNei>0</masseTransportJaNei>
+        <oppsamlingsrunderJaNei>0</oppsamlingsrunderJaNei>
+        <distribusjonsrunderJaNei>0</distribusjonsrunderJaNei>
+        <fraktSammeTypeGodsJaNei>0</fraktSammeTypeGodsJaNei>
+        <bruktTilhenger>noen</bruktTilhenger>
+        <kjorteKm>6789</kjorteKm>
+        <kjorteKmUtlandJaNei>1</kjorteKmUtlandJaNei>
+        <kjorteKmUtland>3500</kjorteKmUtland>
+        <Turer>
+            <turID>cdf7da52-c4ec-485c-a823-9168dede2dd3</turID>
+            <turStartDato>2025-09-02</turStartDato>
+            <turStartLand>SE</turStartLand>
+            <turStartSted>Stocholm</turStartSted>
+            <turStartTerminalJaNei>0</turStartTerminalJaNei>
+            <turStoppLand>DK</turStoppLand>
+            <turStoppSted>Århus</turStoppSted>
+            <turStoppTerminalJaNei>0</turStoppTerminalJaNei>
+            <turAntallKm>841</turAntallKm>
+            <turTransittland>FI</turTransittland>
+            <turMedLastJaNei>1</turMedLastJaNei>
+            <turbruktTilhengerJaNei>1</turbruktTilhengerJaNei>
+            <turtilhengerRegnr>XW7002</turtilhengerRegnr>
+            <turtilhengerAntAkslinger>4</turtilhengerAntAkslinger>
+            <turtilhengerNyttelast>46590</turtilhengerNyttelast>
+            <turtilhengerEgenvekt>13410</turtilhengerEgenvekt>
+            <turtilhengerInfoFraSok>XW 7002,4,46590,13410</turtilhengerInfoFraSok>
+            <turtilhengerInfoFunnet>
+
+                - XW 7002
+                - VANG
+                - Tilhenger med tillatt totalvekt over 10 000 kg. For påhengsvogn og semitrailer
+                skal summen av tillatte aksellaster legges til grunn for klassifiseringen.</turtilhengerInfoFunnet>
+            <turNesteHvorGikkNeste>2</turNesteHvorGikkNeste>
+            <TurVarer>
+                <turVareVareslag>74</turVareVareslag>
+                <turVareLasttype>1</turVareLasttype>
+                <turVareVekt>30000</turVareVekt>
+            </TurVarer>
+            <turVolumUtnyttelse>100</turVolumUtnyttelse>
+            <turLossetAvAltJaNei>0</turLossetAvAltJaNei>
+            <turTotaltFrakt>30000</turTotaltFrakt>
+        </Turer>
+        <Turer>
+            <turID>f3e99713-d062-4240-9f2d-3ea95ca23e6f</turID>
+            <turStartDato>2025-09-03</turStartDato>
+            <turStartLand>DK</turStartLand>
+            <turStartSted>Århus</turStartSted>
+            <turStartTerminalJaNei>0</turStartTerminalJaNei>
+            <turStoppLand>NO</turStoppLand>
+            <turStoppPostnummer>0668</turStoppPostnummer>
+            <turStoppSted>OSLO</turStoppSted>
+            <turStoppKommune>0301</turStoppKommune>
+            <turStoppTerminalJaNei>0</turStoppTerminalJaNei>
+            <turAntallKm>570</turAntallKm>
+            <turTransittland>SE</turTransittland>
+            <turMedLastJaNei>1</turMedLastJaNei>
+            <turbruktTilhengerJaNei>1</turbruktTilhengerJaNei>
+            <turtilhengerRegnr>NU2695</turtilhengerRegnr>
+            <turtilhengerAntAkslinger>4</turtilhengerAntAkslinger>
+            <turtilhengerNyttelast>27580</turtilhengerNyttelast>
+            <turtilhengerEgenvekt>8420</turtilhengerEgenvekt>
+            <turtilhengerInfoFraSok>NU 2695,4,27580,8420</turtilhengerInfoFraSok>
+            <turtilhengerInfoFunnet>
+
+                - NU 2695
+                - TRAILER-BYGG
+                - Tilhenger med tillatt totalvekt over 10 000 kg. For påhengsvogn og semitrailer
+                skal summen av tillatte aksellaster legges til grunn for klassifiseringen.</turtilhengerInfoFunnet>
+            <turNesteHvorGikkNeste>2</turNesteHvorGikkNeste>
+            <TurVarer>
+                <turVareTurID>f3e99713-d062-4240-9f2d-3ea95ca23e6f</turVareTurID>
+                <turVareVareslag>74</turVareVareslag>
+                <turVareLasttype>1</turVareLasttype>
+                <turVareVekt>20000</turVareVekt>
+            </TurVarer>
+            <turVolumUtnyttelse>75</turVolumUtnyttelse>
+            <turLossetAvAltJaNei>1</turLossetAvAltJaNei>
+            <turTotaltFrakt>20000</turTotaltFrakt>
+        </Turer>
+        <Turer>
+            <turID>4a24a8f4-acf5-4ba3-ab79-43bb222bd373</turID>
+            <turStartDato>2025-09-04</turStartDato>
+            <turStartLand>NO</turStartLand>
+            <turStartPostnummer>0668</turStartPostnummer>
+            <turStartSted>OSLO</turStartSted>
+            <turStartKommune>0301</turStartKommune>
+            <turStartTerminalJaNei>1</turStartTerminalJaNei>
+            <turStartTerminalType>2</turStartTerminalType>
+            <turStoppLand>ES</turStoppLand>
+            <turStoppSted>Barcelona</turStoppSted>
+            <turStoppTerminalJaNei>0</turStoppTerminalJaNei>
+            <turAntallKm>2623</turAntallKm>
+            <turTransittland>SE,DE,LU,FR</turTransittland>
+            <turMedLastJaNei>1</turMedLastJaNei>
+            <turbruktTilhengerJaNei>1</turbruktTilhengerJaNei>
+            <turtilhengerRegnr>NU2695</turtilhengerRegnr>
+            <turtilhengerAntAkslinger>4</turtilhengerAntAkslinger>
+            <turtilhengerNyttelast>27580</turtilhengerNyttelast>
+            <turtilhengerEgenvekt>8420</turtilhengerEgenvekt>
+            <turtilhengerInfoFraSok>NU 2695,4,27580,8420</turtilhengerInfoFraSok>
+            <turtilhengerInfoFunnet>
+
+                - NU 2695
+                - TRAILER-BYGG
+                - Tilhenger med tillatt totalvekt over 10 000 kg. For påhengsvogn og semitrailer
+                skal summen av tillatte aksellaster legges til grunn for klassifiseringen.</turtilhengerInfoFunnet>
+            <turNesteHvorGikkNeste>2</turNesteHvorGikkNeste>
+            <TurVarer>
+                <turVareVareslag>45</turVareVareslag>
+                <turVareLasttype>2</turVareLasttype>
+                <turVareVekt>60000</turVareVekt>
+            </TurVarer>
+            <TurVarer>
+                <turVareTurID>4a24a8f4-acf5-4ba3-ab79-43bb222bd373</turVareTurID>
+                <turVareVareslag>12</turVareVareslag>
+                <turVareLasttype>6</turVareLasttype>
+                <turVareVekt>5000</turVareVekt>
+            </TurVarer>
+            <TurVarer>
+                <turVareTurID>4a24a8f4-acf5-4ba3-ab79-43bb222bd373</turVareTurID>
+                <turVareVareslag>39</turVareVareslag>
+                <turVareLasttype>5</turVareLasttype>
+                <turVareVekt>70000</turVareVekt>
+            </TurVarer>
+            <TurVarer>
+                <turVareTurID>4a24a8f4-acf5-4ba3-ab79-43bb222bd373</turVareTurID>
+                <turVareVareslag>25</turVareVareslag>
+                <turVareLasttype>1</turVareLasttype>
+                <turVareVekt>2000</turVareVekt>
+            </TurVarer>
+            <turVolumUtnyttelse>100</turVolumUtnyttelse>
+            <turLossetAvAltJaNei>1</turLossetAvAltJaNei>
+            <turTotaltFrakt>137000</turTotaltFrakt>
+        </Turer>
+        <Turer>
+            <turID>8de33b57-9807-4632-b1fb-270c891f9ad2</turID>
+            <turStartDato>2025-09-05</turStartDato>
+            <turStartLand>ES</turStartLand>
+            <turStartSted>Barcelona</turStartSted>
+            <turStartTerminalJaNei>0</turStartTerminalJaNei>
+            <turStoppLand>DE</turStoppLand>
+            <turStoppSted>Bremen</turStoppSted>
+            <turStoppTerminalJaNei>0</turStoppTerminalJaNei>
+            <turAntallKm>1804</turAntallKm>
+            <turTransittland>FR</turTransittland>
+            <turMedLastJaNei>0</turMedLastJaNei>
+            <turbruktTilhengerJaNei>0</turbruktTilhengerJaNei>
+            <turNesteHvorGikkNeste>2</turNesteHvorGikkNeste>
+            <turTotaltFrakt>0</turTotaltFrakt>
+        </Turer>
+        <Turer>
+            <turID>db674253-dadf-47d1-aec4-c1c8f7184b89</turID>
+            <turStartDato>2025-09-06</turStartDato>
+            <turStartLand>DE</turStartLand>
+            <turStartSted>Bremen</turStartSted>
+            <turStartTerminalJaNei>1</turStartTerminalJaNei>
+            <turStartTerminalType>1</turStartTerminalType>
+            <turStoppLand>NO</turStoppLand>
+            <turStoppPostnummer>2211</turStoppPostnummer>
+            <turStoppSted>KONGSVINGER</turStoppSted>
+            <turStoppKommune>3401</turStoppKommune>
+            <turStoppTerminalJaNei>1</turStoppTerminalJaNei>
+            <turStoppTerminalType>3</turStoppTerminalType>
+            <turAntallKm>906</turAntallKm>
+            <turTransittland>SE</turTransittland>
+            <turMedLastJaNei>1</turMedLastJaNei>
+            <turbruktTilhengerJaNei>0</turbruktTilhengerJaNei>
+            <turNesteHvorGikkNeste>2</turNesteHvorGikkNeste>
+            <TurVarer>
+                <turVareVareslag>39</turVareVareslag>
+                <turVareLasttype>5</turVareLasttype>
+                <turVareVekt>35000</turVareVekt>
+            </TurVarer>
+            <turVolumUtnyttelse>100</turVolumUtnyttelse>
+            <turLossetAvAltJaNei>1</turLossetAvAltJaNei>
+            <turTotaltFrakt>35000</turTotaltFrakt>
+        </Turer>
+        <Turer>
+            <turID>dcabf162-bd8a-48ef-9aca-fa8b7a85ec0e</turID>
+            <turStartDato>2025-09-07</turStartDato>
+            <turStartLand>NO</turStartLand>
+            <turStartPostnummer>2211</turStartPostnummer>
+            <turStartSted>KONGSVINGER</turStartSted>
+            <turStartKommune>3401</turStartKommune>
+            <turStartTerminalJaNei>1</turStartTerminalJaNei>
+            <turStartTerminalType>3</turStartTerminalType>
+            <turStoppLand>NO</turStoppLand>
+            <turStoppSted>Biri</turStoppSted>
+            <turStoppKommune>3405</turStoppKommune>
+            <turStoppTerminalJaNei>0</turStoppTerminalJaNei>
+            <turAntallKm>156</turAntallKm>
+            <turMedLastJaNei>0</turMedLastJaNei>
+            <turbruktTilhengerJaNei>0</turbruktTilhengerJaNei>
+            <turNesteHvorGikkNeste>2</turNesteHvorGikkNeste>
+            <TurVarer />
+            <turTotaltFrakt>0</turTotaltFrakt>
+        </Turer>
+        <Turer>
+            <turID>de9d5a70-5c18-4cea-9a21-fa44c3bd2ca9</turID>
+            <turStartDato>2025-09-08</turStartDato>
+            <turStartLand>NO</turStartLand>
+            <turStartSted>Biri</turStartSted>
+            <turStartKommune>3405</turStartKommune>
+            <turStartTerminalJaNei>0</turStartTerminalJaNei>
+            <turStoppLand>NO</turStoppLand>
+            <turStoppSted>stavanger</turStoppSted>
+            <turStoppKommune>1103</turStoppKommune>
+            <turStoppTerminalJaNei>1</turStoppTerminalJaNei>
+            <turStoppTerminalType>1</turStoppTerminalType>
+            <turAntallKm>555</turAntallKm>
+            <turMedLastJaNei>1</turMedLastJaNei>
+            <turbruktTilhengerJaNei>1</turbruktTilhengerJaNei>
+            <turtilhengerRegnr>NU2695</turtilhengerRegnr>
+            <turtilhengerAntAkslinger>4</turtilhengerAntAkslinger>
+            <turtilhengerNyttelast>27580</turtilhengerNyttelast>
+            <turtilhengerEgenvekt>8420</turtilhengerEgenvekt>
+            <turtilhengerInfoFraSok>NU 2695,4,27580,8420</turtilhengerInfoFraSok>
+            <turtilhengerInfoFunnet>
+
+                - NU 2695
+                - TRAILER-BYGG
+                - Tilhenger med tillatt totalvekt over 10 000 kg. For påhengsvogn og semitrailer
+                skal summen av tillatte aksellaster legges til grunn for klassifiseringen.</turtilhengerInfoFunnet>
+            <turNesteHvorGikkNeste>3</turNesteHvorGikkNeste>
+            <TurVarer>
+                <turVareVareslag>64</turVareVareslag>
+                <turVareLasttype>3</turVareLasttype>
+                <turVareVekt>6900</turVareVekt>
+            </TurVarer>
+            <TurVarer>
+                <turVareTurID>de9d5a70-5c18-4cea-9a21-fa44c3bd2ca9</turVareTurID>
+                <turVareVareslag>236</turVareVareslag>
+                <turVareLasttype>3</turVareLasttype>
+                <turVareVekt>5000</turVareVekt>
+            </TurVarer>
+            <TurVarer>
+                <turVareTurID>de9d5a70-5c18-4cea-9a21-fa44c3bd2ca9</turVareTurID>
+                <turVareVareslag>16</turVareVareslag>
+                <turVareLasttype>4</turVareLasttype>
+                <turVareVekt>500</turVareVekt>
+            </TurVarer>
+            <TurVarer>
+                <turVareTurID>de9d5a70-5c18-4cea-9a21-fa44c3bd2ca9</turVareTurID>
+                <turVareVareslag>35</turVareVareslag>
+                <turVareLasttype>4</turVareLasttype>
+                <turVareVekt>5000</turVareVekt>
+            </TurVarer>
+            <TurVarer>
+                <turVareTurID>de9d5a70-5c18-4cea-9a21-fa44c3bd2ca9</turVareTurID>
+                <turVareVareslag>21</turVareVareslag>
+                <turVareLasttype>4</turVareLasttype>
+                <turVareVekt>4000</turVareVekt>
+            </TurVarer>
+            <turVolumUtnyttelse>100</turVolumUtnyttelse>
+            <turLossetAvAltJaNei>0</turLossetAvAltJaNei>
+            <turTotaltFrakt>21400</turTotaltFrakt>
+        </Turer>
+        <sumTotaltKjorteKm>7455</sumTotaltKjorteKm>
+    </SkjemaData>
+</A3_RA0485_M>

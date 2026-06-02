@@ -1,0 +1,22 @@
+{
+    "form_name": "RA0689",
+    "forced_array": ["fylke", "bostedsLand"],
+    "forms": [
+        {
+            "form_id": "dbe266229480",
+            "skjemadata_rows": 152,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/fylke/0/bostedsLand/1/bostedsLandNavn",
+                    "field_value": "Frankrike"
+                },
+                {
+                    "field_name": "/ufordelteGjestedognF",
+                    "field_value": 0
+                }
+            ]
+        }
+    ]
+}
