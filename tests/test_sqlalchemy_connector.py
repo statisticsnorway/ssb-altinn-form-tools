@@ -28,7 +28,7 @@ from ssb_altinn_form_tools.sqlalchemy_storage_connector import (
 )
 
 
-@pytest.fixture(scope="function", name="sqlite")
+@pytest.fixture(scope="session", name="sqlite")
 def sqlite_session():
     temp_dir = tempfile.TemporaryDirectory()
 
@@ -41,7 +41,7 @@ def sqlite_session():
         temp_dir.cleanup()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def connector_with_schema(sqlite: Engine) -> SqlAlchemyStorageConnector:
     conn = SqlAlchemyStorageConnector(sqlite)
     conn.begin_transaction()
