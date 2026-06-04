@@ -85,7 +85,14 @@ class FormMetadata:
                 provided.
         """
         self._form_data_key = f"A3_{form_name}_M"
+        self._jsonschema_url = self._create_json_schema_url(form_name, ra_version)
+        self._metadata_url = self._create_metadata_url(form_name, ra_version)
 
+    def _create_json_schema_url(
+        self,
+        form_name: str,
+        ra_version: None | int = None,
+    ) -> str:
         ra_nummer = f"{form_name[:2]}-{form_name[2:]}A3"  # Eksempel: "RA-1234A3"
         version = ra_version if ra_version else 1  # Eksempel: 1 (numerisk)
 
@@ -93,12 +100,30 @@ class FormMetadata:
         ra_id = ra_base.replace("-", "").lower()  # "ra0848"
         version_str = f"{version:02d}"  # "01"
 
-        self._jsonschema_url = f"https://ssb.apps.altinn.no/ssb/{ra_id}-{version_str}/api/jsonschema/A3_{ra_base}_M"
-        self._metadata_url = f"https://ssb.apps.tt02.altinn.no/ssb/{ra_id}-{version_str}/api/getskjemakonfig"
+        return f"https://ssb.apps.altinn.no/ssb/{ra_id}-{version_str}/api/jsonschema/A3_{ra_base}_M"
 
-    def _get_metadata(self) -> list[dict]:
+    def _create_metadata_url(
+        self,
+        form_name: str,
+        ra_version: None | int = None,
+    ) -> str:
+        self._form_name = form_name
+        ra_nummer = f"{form_name[:2]}-{form_name[2:]}A3"  # Eksempel: "RA-1234A3"
+        version = ra_version if ra_version else 1  # Eksempel: 1 (numerisk)
+
+        ra_base = ra_nummer.split("A3")[0]  # "RA-0848"
+        ra_id = ra_base.replace("-", "").lower()  # "ra0848"
+        version_str = f"{version:02d}"  # "01"
+
+        return f"https://ssb.apps.tt02.altinn.no/ssb/{ra_id}-{version_str}/api/getskjemakonfig"
+
+    def _get_metadata(self, ra_version: int | None = None) -> list[dict]:
         if hasattr(self, "_filtered_data") is False:
-            response = requests.get(self._metadata_url)
+            if ra_version:
+                url = self._create_json_schema_url(self._form_name, ra_version)
+            else:
+                url = self._metadata_url
+            response = requests.get(url)
 
             if response.status_code not in [404, 200]:
                 response.raise_for_status()
@@ -124,7 +149,7 @@ class FormMetadata:
             return self._filtered_data
 
     def extract_options_list(
-        self, skjema: str, iso_period: str
+        self, skjema: str, iso_period: str, ra_version: int | None = None
     ) -> list[OptionMetadataModel]:
         """Extract metadata related for all defined options lists and their options."""
         processed = []
@@ -137,9 +162,11 @@ class FormMetadata:
                 processed.append(data)
         return processed
 
-    def extract_options_nodes(self, skjema: str, iso_period: str) -> list[OptionNodes]:
+    def extract_options_nodes(
+        self, skjema: str, iso_period: str, ra_version: int | None = None
+    ) -> list[OptionNodes]:
         """Extract metadata related to which nodes has defined options."""
-        processed = self.extract_options_list(skjema, iso_period)
+        processed = self.extract_options_list(skjema, iso_period, ra_version)
         unique_option, nodes_options = process_options(processed)
         options = []
         for key in unique_option.keys():
@@ -165,7 +192,7 @@ class FormMetadata:
                 )
                 formatting.append(data)
 
-    def get_array_fields(self) -> list[str] | None:
+    def get_array_fields(self, ra_version: int | None = None) -> list[str] | None:
         """Method for getting array fields.
 
         Will use existings list if method already has been called.
@@ -174,7 +201,11 @@ class FormMetadata:
             return self.array_fields
 
         try:
-            prod_res = requests.get(self._jsonschema_url)
+            if ra_version:
+                url = self._create_json_schema_url(self._form_name, ra_version)
+            else:
+                url = self._jsonschema_url
+            prod_res = requests.get(url)
             if prod_res.status_code not in [404, 200]:
                 prod_res.raise_for_status()
             elif prod_res.status_code == 404:

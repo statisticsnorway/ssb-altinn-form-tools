@@ -203,10 +203,10 @@ class BatchFormProcessor(DefaultFormProcessor):
                         f"Options for period {period} does not exists. Inserting now."
                     )
                     option_list = self._metadata_helper.extract_options_list(
-                        self._form_name, period
+                        self._form_name, period, self._ra_version
                     )
                     option_nodes = self._metadata_helper.extract_options_nodes(
-                        self._form_name, period
+                        self._form_name, period, self._ra_version
                     )
 
                     for mapping in self._checkbox_mapping:
