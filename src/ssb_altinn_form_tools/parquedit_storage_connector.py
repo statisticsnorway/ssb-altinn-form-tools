@@ -232,6 +232,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                     iso_period   VARCHAR NOT NULL,
                     ident  VARCHAR NOT NULL,
                     skjema  VARCHAR NOT NULL,
+                    skjema_versjon  VARCHAR,
                     start_date TIMESTAMP NOT NULL,
                     end_date TIMESTAMP NOT NULL,
                     refnr  VARCHAR,

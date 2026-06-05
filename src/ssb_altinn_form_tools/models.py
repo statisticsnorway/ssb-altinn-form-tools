@@ -194,6 +194,7 @@ class FormReception(BaseModel):
     start_date: datetime.datetime = Field()
     end_date: datetime.datetime = Field()
     iso_period: str = Field()
+    skjema_versjon: str | None = Field(default=None, validation_alias="skjemaVersjon")
     skjema: str = Field(validation_alias="raNummer")
     ident: str = Field(validation_alias="enhetsIdent")
     refnr: str = Field(validation_alias="altinnReferanse")

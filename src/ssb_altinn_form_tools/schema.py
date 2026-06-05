@@ -87,6 +87,7 @@ class SkjemaMottak(Base):
     start_date = Column(TIMESTAMP)
     end_date = Column(TIMESTAMP)
     skjema = Column(String)
+    skjema_versjon = Column(String, nullable=True)
     ident = Column(String)
     refnr = Column(String)
     kommentar = Column(String)

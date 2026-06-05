@@ -218,6 +218,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
                 start_date=form.start_date,
                 end_date=form.end_date,
                 skjema=form.skjema,
+                skjema_versjon=form.skjema_versjon,
                 ident=form.ident,
                 refnr=form.refnr,
                 kommentar=form.kommentar,
