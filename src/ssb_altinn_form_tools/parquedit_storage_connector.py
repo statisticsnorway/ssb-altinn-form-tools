@@ -9,6 +9,8 @@ except ImportError as e:
         "This connector cannot be used if duckdb or parquedit is not installed"
     ) from e
 
+import pandas as pd
+
 from .meta_storage_connector import MetaStorageConnector
 from .models import ContactInfo
 from .models import FormData
@@ -45,6 +47,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 ready for use.
 
         """
+        self._parquedit = engine
         self._engine = engine._get_connection().raw
         self._session = None
 
@@ -172,6 +175,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "kontaktinfo"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
+                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     ident  VARCHAR NOT NULL,
                     skjema  VARCHAR NOT NULL,
@@ -197,6 +201,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
+                _id    VARCHAR NOT NULL,
                 iso_period   VARCHAR NOT NULL,
                 skjema  VARCHAR NOT NULL,
                 ident  VARCHAR NOT NULL,
@@ -223,6 +228,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "skjemamottak"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
+                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     ident  VARCHAR NOT NULL,
                     skjema  VARCHAR NOT NULL,
@@ -243,6 +249,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "enheter"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
+                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     skjema  VARCHAR NOT NULL,
                     ident  VARCHAR NOT NULL
@@ -256,6 +263,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "enhetsinfo"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
+                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     ident  VARCHAR NOT NULL,
                     variabel  VARCHAR,
@@ -270,6 +278,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "kontroller"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
+                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     kontrollid  VARCHAR NOT NULL,
                     kontrolltype  VARCHAR,
@@ -286,6 +295,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "kontrollutslag"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
+                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     skjema VARCHAR NOT NULL,
                     kontrollid  VARCHAR NOT NULL,
@@ -302,6 +312,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "optionnodes"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
+                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     skjema VARCHAR NOT NULL,
                     node_name VARCHAR NOT NULL,
@@ -315,6 +326,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         table_name = "optionslists"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
+                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     skjema VARCHAR NOT NULL,
                     options_id VARCHAR NOT NULL,
@@ -327,12 +339,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
 
     def _insert(self, data: list[dict], table_name: str):
         """Internal method for inserting from a list of dicts."""
-        sess = self._get_session()
         if len(data):
-            sess.execute(
-                f"insert into {table_name} by name(select unnest(v.unnest) from unnest($tbl) v)",
-                {"tbl": data},
-            )
+            self._parquedit.insert_data(table_name, pd.DataFrame(data))
 
     def insert_contact_info(self, contact_info: list[ContactInfo]) -> None:
         """Stages a contact info record for insertion (WIP).
