@@ -1,0 +1,22 @@
+{
+    "form_name": "RA0483",
+    "forced_array": [],
+    "forms": [
+        {
+            "form_id": "e0b346b77801",
+            "skjemadata_rows": 74,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/Husholdning/husholdKontraktType",
+                    "field_value": "1,2,3"
+                },
+                {
+                    "field_name": "/Bedrift/bedriftVolumForbrukNivaa1",
+                    "field_value": 1
+                }
+            ]
+        }
+    ]
+}
