@@ -14,7 +14,6 @@ dependencies = [
     "pydantic (>=2.12.5,<3.0.0)",
     "requests>=2.32.5",
     "pendulum>=3.2.0",
-    "ssb-parquedit>=0.0.7",
 ]
 [project.optional-dependencies]
 sqlalchemy = []
