@@ -78,7 +78,7 @@ def parse_entries(data: dict | list, parent: None | str = None) -> list[FormNode
                 FormNode(
                     feltsti=sti,
                     feltnavn=str(key),
-                    verdi=value,
+                    verdi=str(value),
                     dybde=depth,
                     indeks=index,
                 )

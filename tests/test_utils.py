@@ -10,6 +10,13 @@ def test_utils():
 def test_form_cases():
     form_cases = load_expected_data()
     paths = form_paths()
-    assert len(paths) == len(form_cases), (
-        f"Number of test cases and forms does not match. All forms must have test cases. Got {len(paths)} forms and {len(form_cases)} cases"
+
+    diff = set([form.form_name for form in form_cases]).symmetric_difference(
+        [path.form_name for path in paths]
+    )
+
+    assert len(diff) == 0, (
+        f"Number of test cases and forms does not match. \
+        All forms must have test cases. Got {len(paths)} forms \
+        and {len(form_cases)} cases.\n Missing cases for {diff}"
     )

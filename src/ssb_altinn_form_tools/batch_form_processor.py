@@ -41,6 +41,13 @@ class BatchFormProcessor(DefaultFormProcessor):
     ) -> None:
         """Initializes the default form processor.
 
+        Example checkbox_mapping:
+            >>> mapping = {
+            >>>   "options_id": "test_id",
+            >>>   "options": [{"label": "label", "value": "value"}],
+            >>>   "node_names": ["node_1", "node_2"],
+            >>> }
+
         Args:
             form_name (str): Canonical form name used to build the top-level XML key.
             form_base_path (str): Base directory where XML form files reside.
@@ -51,9 +58,8 @@ class BatchFormProcessor(DefaultFormProcessor):
             alias_mapping (dict[str, str] | None): Optional mapping from field
                 names (``feltnavn``) to user-friendly aliases to be set on each
                 corresponding `FormData` entry.
-            checkbox_mapping (list[str] | None): Optional list of field names that
+            checkbox_mapping (list[ManualOptionMapping] | list[dict[str, Any]] | None): Optional list of field names that
                 represent multi-select values encoded as comma-separated strings.
-                These will be normalized to JSON arrays.
             ra_version (str | None): An optional argument denoting which data-version
                 of the form to use. This is automatically set to 1 if no argument is
                 provided.
@@ -197,10 +203,10 @@ class BatchFormProcessor(DefaultFormProcessor):
                         f"Options for period {period} does not exists. Inserting now."
                     )
                     option_list = self._metadata_helper.extract_options_list(
-                        self._form_name, period
+                        self._form_name, period, self._ra_version
                     )
                     option_nodes = self._metadata_helper.extract_options_nodes(
-                        self._form_name, period
+                        self._form_name, period, self._ra_version
                     )
 
                     for mapping in self._checkbox_mapping:

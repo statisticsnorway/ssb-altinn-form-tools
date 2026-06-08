@@ -194,6 +194,7 @@ class FormReception(BaseModel):
     start_date: datetime.datetime = Field()
     end_date: datetime.datetime = Field()
     iso_period: str = Field()
+    skjema_versjon: str | None = Field(default=None, validation_alias="skjemaVersjon")
     skjema: str = Field(validation_alias="raNummer")
     ident: str = Field(validation_alias="enhetsIdent")
     refnr: str = Field(validation_alias="altinnReferanse")
@@ -259,6 +260,12 @@ class FormReception(BaseModel):
             start = pendulum.datetime(d.year, d.month, d.day)
             end = start.end_of("week")
             iso_format = start.strftime("%G-W%V")
+
+        elif period_type == "KVRT":
+            start = pendulum.datetime(period_year, month=period_number * 3, day=1)
+            end = start.end_of("month")
+            iso_format = start.format("YYYY-MM")
+
         else:
             raise PydanticCustomError(
                 "",

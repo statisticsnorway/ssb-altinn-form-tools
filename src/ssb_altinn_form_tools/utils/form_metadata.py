@@ -1,5 +1,7 @@
 import logging
+import time
 from collections import defaultdict
+from itertools import cycle
 
 import requests
 
@@ -9,7 +11,67 @@ from ..models import OptionModel
 from ..models import OptionNodes
 
 
-def process_options(options: list[OptionMetadataModel]):
+def _fetch_with_retry(
+    urls: list[str],
+    form_key: str,
+    resource: str,
+    max_retries: int = 3,
+    delay: int = 2,
+    timeout: int = 5,
+):
+    """Attempt to fetch data from a list of URLs with retries.
+
+    Args:
+        urls (list): List of URL strings to try in sequence (rotates on retries).
+        form_key (str): The form to fetch for. Used in logging.
+        resource (str): Jsonschema or optionsmetadata. Used in logging.
+        max_retries (int): Maximum number of retry attempts.
+        delay (int/float): Delay between retries in seconds.
+        timeout (int/float): Timeout for each request in seconds.
+
+    Returns:
+        dict | Any: Successful json response object.
+
+    Raises:
+        Exception: If all retries fail.
+    """
+    if not urls or not isinstance(urls, list):
+        raise ValueError("urls must be a non-empty list of URL strings.")
+
+    url_cycle = cycle(urls)  # Rotate through URLs
+
+    for attempt in range(1, (max_retries + 1) * len(urls)):
+        current_url = next(url_cycle)
+        response = requests.get(current_url, timeout=timeout)
+        if response.status_code not in [404, 200, 418]:
+            response.raise_for_status()
+            continue
+        elif response.status_code == 418:
+            if attempt < max_retries:
+                logger.warning(
+                    f"{resource} for schema {form_key} could not be found. Retrying next version"
+                )
+                continue
+        elif response.status_code == 404:
+            logger.warning(f"{resource} for schema {form_key} could not be found.")
+            continue
+        elif not response.text.strip():
+            # Json response might be empty, checking for that
+            logger.warning(f"{resource} response for schema {form_key} was empty.")
+            continue
+        else:
+            return response.json()
+
+        logger.warning(
+            f"No urls for {resource} worked. Retrying in {delay} seconds. Attempt {attempt // (max_retries + 1)} of {max_retries + 1}"
+        )
+        time.sleep(delay)
+    # If we reach here, all retries failed
+    logger.warning(f"All {max_retries + 1} attempts failed to fetch {resource} failed.")
+    return {}
+
+
+def _process_options(options: list[OptionMetadataModel]):
     unique_option: dict[str, set[OptionModel]] = defaultdict(set)
     nodes_options: dict[str, set[str]] = defaultdict(set)
     for option in options:
@@ -19,7 +81,7 @@ def process_options(options: list[OptionMetadataModel]):
     return unique_option, nodes_options
 
 
-def node_filter(data: dict, contained_key: str) -> list[dict]:
+def _node_filter(data: dict, contained_key: str) -> list[dict]:
     results = []
     if isinstance(data, str):
         return results
@@ -32,12 +94,12 @@ def node_filter(data: dict, contained_key: str) -> list[dict]:
                 if contained_key in v:
                     results.append(v)
                 else:
-                    res = node_filter(v, contained_key=contained_key)
+                    res = _node_filter(v, contained_key=contained_key)
                     if res:
                         results.extend(res)
     if isinstance(data, list):
         for v in data:
-            res = node_filter(v, contained_key=contained_key)
+            res = _node_filter(v, contained_key=contained_key)
             if res:
                 results.extend(res)
 
@@ -75,6 +137,7 @@ class FormMetadata:
         self,
         form_name: str,
         ra_version: None | int = None,
+        max_retries: int = 3,
     ) -> None:
         """Initializes the default form processor.
 
@@ -83,9 +146,18 @@ class FormMetadata:
             ra_version (str | None): An optional argument denoting which data-version
                 of the form to use. This is automatically set to 1 if no argument is
                 provided.
+            max_retries (int): Number of retries if a metadata request fails.
         """
         self._form_data_key = f"A3_{form_name}_M"
+        self._max_retries = max_retries
+        self._jsonschema_url = self._create_json_schema_url(form_name, ra_version)
+        self._metadata_url = self._create_metadata_url(form_name, ra_version)
 
+    def _create_json_schema_url(
+        self,
+        form_name: str,
+        ra_version: None | int = None,
+    ) -> str:
         ra_nummer = f"{form_name[:2]}-{form_name[2:]}A3"  # Eksempel: "RA-1234A3"
         version = ra_version if ra_version else 1  # Eksempel: 1 (numerisk)
 
@@ -93,38 +165,56 @@ class FormMetadata:
         ra_id = ra_base.replace("-", "").lower()  # "ra0848"
         version_str = f"{version:02d}"  # "01"
 
-        self._jsonschema_url = f"https://ssb.apps.altinn.no/ssb/{ra_id}-{version_str}/api/jsonschema/A3_{ra_base}_M"
-        self._metadata_url = f"https://ssb.apps.tt02.altinn.no/ssb/{ra_id}-{version_str}/api/getskjemakonfig"
+        return f"https://ssb.apps.altinn.no/ssb/{ra_id}-{version_str}/api/jsonschema/A3_{ra_base}_M"
 
-    def _get_metadata(self) -> list[dict]:
+    def _create_metadata_url(
+        self,
+        form_name: str,
+        ra_version: None | int = None,
+    ) -> str:
+        self._form_name = form_name
+        ra_nummer = f"{form_name[:2]}-{form_name[2:]}A3"  # Eksempel: "RA-1234A3"
+        version = ra_version if ra_version else 1  # Eksempel: 1 (numerisk)
+
+        ra_base = ra_nummer.split("A3")[0]  # "RA-0848"
+        ra_id = ra_base.replace("-", "").lower()  # "ra0848"
+        version_str = f"{version:02d}"  # "01"
+
+        return f"https://ssb.apps.tt02.altinn.no/ssb/{ra_id}-{version_str}/api/getskjemakonfig"
+
+    def _get_metadata(self, ra_version: int | None = None) -> list[dict]:
         if hasattr(self, "_filtered_data") is False:
-            response = requests.get(self._metadata_url)
-
-            if response.status_code not in [404, 200]:
-                response.raise_for_status()
-                return []
-            elif response.status_code == 404:
-                logger.warning(
-                    f"Metadata for schema {self._form_data_key} could not be found."
-                )
-                return []
-            elif not response.text.strip():
-                # Json response might be empty, checking for that
-                logger.warning(
-                    f"Metadata response for schema {self._form_data_key} was empty."
-                )
-                return []
+            if ra_version:
+                url = self._create_metadata_url(self._form_name, ra_version)
+                urls = []
+                for i in range(ra_version, 5):
+                    url = self._create_json_schema_url(self._form_name, ra_version + i)
+                    urls.append(url)
             else:
-                _response_json = response.json()
-                self._filtered_data = node_filter(
-                    _response_json, contained_key="options"
+                url = self._jsonschema_url
+                urls = []
+                for i in range(1, 5):
+                    url = self._create_metadata_url(self._form_name, i)
+                    urls.append(url)
+
+            response_json = _fetch_with_retry(
+                urls, self._form_data_key, "Metadata", max_retries=self._max_retries
+            )
+
+            if response_json and len(response_json.keys()):
+                self._filtered_data = _node_filter(
+                    response_json, contained_key="options"
                 )
                 return self._filtered_data
+            else:
+                self._filtered_data = []
+            return self._filtered_data
+
         else:
             return self._filtered_data
 
     def extract_options_list(
-        self, skjema: str, iso_period: str
+        self, skjema: str, iso_period: str, ra_version: int | None = None
     ) -> list[OptionMetadataModel]:
         """Extract metadata related for all defined options lists and their options."""
         processed = []
@@ -137,10 +227,12 @@ class FormMetadata:
                 processed.append(data)
         return processed
 
-    def extract_options_nodes(self, skjema: str, iso_period: str) -> list[OptionNodes]:
+    def extract_options_nodes(
+        self, skjema: str, iso_period: str, ra_version: int | None = None
+    ) -> list[OptionNodes]:
         """Extract metadata related to which nodes has defined options."""
-        processed = self.extract_options_list(skjema, iso_period)
-        unique_option, nodes_options = process_options(processed)
+        processed = self.extract_options_list(skjema, iso_period, ra_version)
+        unique_option, nodes_options = _process_options(processed)
         options = []
         for key in unique_option.keys():
             res = nodes_options.get(key, set())
@@ -165,7 +257,7 @@ class FormMetadata:
                 )
                 formatting.append(data)
 
-    def get_array_fields(self) -> list[str] | None:
+    def get_array_fields(self, ra_version: int | None = None) -> list[str] | None:
         """Method for getting array fields.
 
         Will use existings list if method already has been called.
@@ -174,25 +266,29 @@ class FormMetadata:
             return self.array_fields
 
         try:
-            prod_res = requests.get(self._jsonschema_url)
-            if prod_res.status_code not in [404, 200]:
-                prod_res.raise_for_status()
-            elif prod_res.status_code == 404:
-                logger.warning(
-                    f"Jsonschema for schema {self._form_data_key} could not be found."
-                )
-                self.array_fields = None
-            elif not prod_res.text.strip():
-                # Json response might be empty, checking for that
-                logger.warning(
-                    f"Json response for schema {self._form_data_key} was empty."
-                )
-                self.array_fields = None
+            if ra_version:
+                url = self._create_json_schema_url(self._form_name, ra_version)
+                urls = []
+                for i in range(ra_version, 5):
+                    url = self._create_json_schema_url(self._form_name, ra_version + i)
+                    urls.append(url)
             else:
-                self.form_json = prod_res.json()
-                self.array_fields = extract_arr_fields(self.form_json)
+                url = self._jsonschema_url
+                urls = []
+                for i in range(1, 5):
+                    url = self._create_json_schema_url(self._form_name, i)
+                    urls.append(url)
 
+            response_json = _fetch_with_retry(
+                urls, self._form_data_key, "Jsonschema", max_retries=self._max_retries
+            )
+
+            if response_json and len(response_json.keys()):
+                self.array_fields = extract_arr_fields(response_json)
+            else:
+                self.array_fields = []
             return self.array_fields
+
         except Exception as e:
             logger.warning(
                 f"Fetching metadata for the form resulted in the following error. Possibly because metadata does not exist. Error: \n{e}"
