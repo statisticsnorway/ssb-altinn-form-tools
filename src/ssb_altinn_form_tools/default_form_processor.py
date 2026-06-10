@@ -217,6 +217,8 @@ class DefaultFormProcessor(MetaFormProcessor):
 
             json_name = file_path.name.replace("xml", "json").replace("form", "meta")
             json_path = file_path.with_name(json_name)
+            if json_path.exists() is False:
+                continue
             json_data = FormJsonData.model_validate_json(json_path.read_text())
             extracted_form = self._process_form(file_path, json_data)
             if extracted_form:
@@ -307,7 +309,7 @@ class DefaultFormProcessor(MetaFormProcessor):
         self.array_fields = self._metadata_helper.get_array_fields()
         forms = self._find_forms()
         if not forms:
-            logger.warning("No forms found")
+            logger.warning(f"No forms found for glob path: {self._glob_path}")
         self._connector.begin_transaction()
         try:
             self._connector.create_tables_if_not_exists()
