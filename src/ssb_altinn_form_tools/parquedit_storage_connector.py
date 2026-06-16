@@ -207,14 +207,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
             },
             "required": ["iso_period", "skjema", "refnr"],
         }
-        self._parquedit.create_table(
-            "kontaktinfo",
-            schema,
-            "kontaktinfo",
-            user_defined_id=["iso_period", "skjema", "ident", "refnr"],
-            part_columns=["iso_period"],
-            fill=False,
-        )
+        if self._parquedit.exists("kontaktinfo") is False:
+            self._parquedit.create_table(
+                "kontaktinfo",
+                schema,
+                "kontaktinfo",
+                user_defined_id=["iso_period", "skjema", "ident", "refnr"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_form_data_table(self, table_name: str):
         """Defines the schema for the `skjemadata` table (field-level data).
@@ -256,14 +257,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
             },
             "required": ["iso_period", "skjema", "refnr", "ident", "feltnavn"],
         }
-        self._parquedit.create_table(
-            table_name,
-            schema,
-            table_name,
-            user_defined_id=["iso_period", "skjema", "ident", "refnr", "feltnavn"],
-            part_columns=["iso_period"],
-            fill=False,
-        )
+        if self._parquedit.exists(table_name) is False:
+            self._parquedit.create_table(
+                table_name,
+                schema,
+                table_name,
+                user_defined_id=["iso_period", "skjema", "ident", "refnr", "feltnavn"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_form_reciept_table(self):
         """Defines the schema for the `skjemamottak` table (form reception).
@@ -315,14 +317,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "end_date",
             ],
         }
-        self._parquedit.create_table(
-            "skjemamottak",
-            schema,
-            "skjemamottak",
-            user_defined_id=["iso_period", "skjema", "ident", "refnr"],
-            part_columns=["iso_period"],
-            fill=False,
-        )
+        if self._parquedit.exists("skjemamottak") is False:
+            self._parquedit.create_table(
+                "skjemamottak",
+                schema,
+                "skjemamottak",
+                user_defined_id=["iso_period", "skjema", "ident", "refnr"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_unit_table(self):
         """Defines the schema for the `enheter` table (units)."""
@@ -345,14 +348,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
             },
             "required": ["iso_period", "skjema", "ident"],
         }
-        self._parquedit.create_table(
-            "enheter",
-            schema,
-            "enheter",
-            user_defined_id=["iso_period", "skjema", "ident"],
-            part_columns=["iso_period"],
-            fill=False,
-        )
+        if self._parquedit.exists("enheter") is False:
+            self._parquedit.create_table(
+                "enheter",
+                schema,
+                "enheter",
+                user_defined_id=["iso_period", "skjema", "ident"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_unit_info_table(self):
         """Defines the schema for the `enhetsinfo` table (unit attributes)."""
@@ -377,14 +381,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
             },
             "required": ["iso_period", "ident"],
         }
-        self._parquedit.create_table(
-            "enhetsinfo",
-            schema,
-            "enhetsinfo",
-            user_defined_id=["iso_period", "ident", "variabel"],
-            part_columns=["iso_period"],
-            fill=False,
-        )
+        if self._parquedit.exists("enhetsinfo") is False:
+            self._parquedit.create_table(
+                "enhetsinfo",
+                schema,
+                "enhetsinfo",
+                user_defined_id=["iso_period", "ident", "variabel"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_controls_table(self):
         """Defines the schema for the `kontroller` table (control definitions)."""
@@ -413,14 +418,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
             },
             "required": ["iso_period", "kontrollid"],
         }
-        self._parquedit.create_table(
-            "kontroller",
-            schema,
-            "kontroller",
-            user_defined_id=["iso_period", "kontrollid"],
-            part_columns=["iso_period"],
-            fill=False,
-        )
+        if self._parquedit.exists("kontroller") is False:
+            self._parquedit.create_table(
+                "kontroller",
+                schema,
+                "kontroller",
+                user_defined_id=["iso_period", "kontrollid"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_control_result_table(self):
         """Defines the schema for the `kontrollutslag` table (control results)."""
@@ -451,14 +457,21 @@ class ParqueditStorageConnector(MetaStorageConnector):
             },
             "required": ["iso_period", "skjema", "kontrollid", "ident", "refnr"],
         }
-        self._parquedit.create_table(
-            "kontrollutslag",
-            schema,
-            "kontrollutslag",
-            user_defined_id=["iso_period", "skjema", "kontrollid", "ident", "refnr"],
-            part_columns=["iso_period"],
-            fill=False,
-        )
+        if self._parquedit.exists("kontrollutslag") is False:
+            self._parquedit.create_table(
+                "kontrollutslag",
+                schema,
+                "kontrollutslag",
+                user_defined_id=[
+                    "iso_period",
+                    "skjema",
+                    "kontrollid",
+                    "ident",
+                    "refnr",
+                ],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_optionnodes_table(self):
         '''table_name = "optionnodes"
@@ -482,14 +495,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
             },
             "required": ["iso_period", "skjema", "options_id", "node_name"],
         }
-        self._parquedit.create_table(
-            "optionnodes",
-            schema,
-            "optionnodes",
-            user_defined_id=["iso_period", "skjema", "node_name", "options_id"],
-            part_columns=["iso_period"],
-            fill=False,
-        )
+        if self._parquedit.exists("optionnodes") is False:
+            self._parquedit.create_table(
+                "optionnodes",
+                schema,
+                "optionnodes",
+                user_defined_id=["iso_period", "skjema", "node_name", "options_id"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_optionslist_table(self):
         '''table_name = "optionslists"
@@ -514,14 +528,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
             },
             "required": ["iso_period", "skjema", "options_id", "label", "value"],
         }
-        self._parquedit.create_table(
-            "optionslists",
-            schema,
-            "optionslists",
-            user_defined_id=["iso_period", "skjema", "options_id"],
-            part_columns=["iso_period"],
-            fill=False,
-        )
+        if self._parquedit.exists("optionslists") is False:
+            self._parquedit.create_table(
+                "optionslists",
+                schema,
+                "optionslists",
+                user_defined_id=["iso_period", "skjema", "options_id"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _insert(self, data: list[dict], table_name: str):
         """Internal method for inserting from a list of dicts."""
