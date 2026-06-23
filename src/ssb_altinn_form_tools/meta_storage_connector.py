@@ -155,7 +155,9 @@ class MetaStorageConnector(ABC):
         Notes:
             Used primarily by form processors to ensure idempotent ingestion.
         """
-        raise NotImplementedError(f"validate_new_form is not implemented for {self}")
+        raise NotImplementedError(
+            f"validate_options_exists is not implemented for {self}"
+        )
 
     def validate_form_is_new(self, form_reference: str) -> bool:
         """Checks whether a form has already been inserted.
@@ -172,4 +174,4 @@ class MetaStorageConnector(ABC):
         Notes:
             Used primarily by form processors to ensure idempotent ingestion.
         """
-        raise NotImplementedError(f"validate_new_form is not implemented for {self}")
+        raise NotImplementedError(f"validate_form_is_new is not implemented for {self}")
