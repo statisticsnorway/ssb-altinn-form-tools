@@ -33,6 +33,10 @@ class CustomExtractor(DefaultFormExtractor):
         refnr: str,
         iso_period: str,
     ) -> list[FormData]:
+        """Customized for extraction for parquet files.
+
+        Normally SkjemaData and InternInfo is processed to different tables. Here we want it in the same file.
+        """
         assert isinstance(form_dict_data, dict)
         form_data = {**form_dict_data["SkjemaData"], **form_dict_data["InternInfo"]}
 
