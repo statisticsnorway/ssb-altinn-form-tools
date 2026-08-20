@@ -2161,6 +2161,15 @@ wheels = [
 ]
 
 [[package]]
+name = "pytz"
+version = "2026.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ff/46/dd499ec9038423421951e4fad73051febaa13d2df82b4064f87af8b8c0c3/pytz-2026.2.tar.gz", hash = "sha256:0e60b47b29f21574376f218fe21abc009894a2321ea16c6754f3cad6eb7cdd6a", size = 320861, upload-time = "2026-05-04T01:35:29.667Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ec/dd/96da98f892250475bdf2328112d7468abdd4acc7b902b6af23f4ed958ea0/pytz-2026.2-py2.py3-none-any.whl", hash = "sha256:04156e608bee23d3792fd45c94ae47fae1036688e75032eea2e3bf0323d1f126", size = 510141, upload-time = "2026-05-04T01:35:27.408Z" },
+]
+
+[[package]]
 name = "pyyaml"
 version = "6.0.3"
 source = { registry = "https://pypi.org/simple" }
@@ -2501,11 +2510,12 @@ wheels = [
 
 [[package]]
 name = "ssb-altinn-form-tools"
-version = "0.0.4"
+version = "0.0.8"
 source = { editable = "." }
 dependencies = [
     { name = "pendulum" },
     { name = "pydantic" },
+    { name = "pytz" },
     { name = "requests" },
     { name = "sqlalchemy" },
     { name = "ssb-parquedit" },
@@ -2559,10 +2569,11 @@ lint = [
 requires-dist = [
     { name = "pendulum", specifier = ">=3.2.0" },
     { name = "pydantic", specifier = ">=2.12.5,<3.0.0" },
+    { name = "pytz", specifier = ">=2026.2" },
     { name = "requests", specifier = ">=2.32.5" },
     { name = "sqlalchemy", specifier = ">=2.0.46" },
-    { name = "ssb-parquedit", specifier = ">=0.0.7" },
-    { name = "ssb-parquedit", marker = "extra == 'parquedit'", specifier = ">=0.0.7" },
+    { name = "ssb-parquedit", specifier = "==0.0.11" },
+    { name = "ssb-parquedit", marker = "extra == 'parquedit'", specifier = ">=0.0.11" },
     { name = "xmltodict", specifier = ">=1.0.3,<2.0.0" },
 ]
 provides-extras = ["sqlalchemy", "parquedit"]
@@ -2607,7 +2618,7 @@ lint = [
 
 [[package]]
 name = "ssb-parquedit"
-version = "0.0.7"
+version = "0.0.11"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -2616,10 +2627,11 @@ dependencies = [
     { name = "pandas" },
     { name = "polars" },
     { name = "pyarrow" },
+    { name = "tenacity" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/3d/e4/28efdc796f82fbae910f2e9e41031b69e7f0eba1478b1106b0bdee7b09c1/ssb_parquedit-0.0.7.tar.gz", hash = "sha256:87238bf9b1211a3f2129701cd771f16047144962b21fc8aec6be5057070e679a", size = 23961, upload-time = "2026-04-24T07:42:16.182Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b0/dc/eed5a2f8a2822968e104f13ba83d67e5d45a1ffdbc62e9dceccc50e68207/ssb_parquedit-0.0.11.tar.gz", hash = "sha256:80fd26af8a1e042823c81aeaa8fc64f80e73c514d9d366041611292d9a46ca1b", size = 27683, upload-time = "2026-08-18T08:53:09.214Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/74/6a/e62817d3f535f5ab7ccaf4fa9023c90a1409bb8e39971a3e5567f22ef11b/ssb_parquedit-0.0.7-py3-none-any.whl", hash = "sha256:746c81871e1e09acc91078144ea7c7fda820ec98f8bf8638b782be70017b9eda", size = 25541, upload-time = "2026-04-24T07:42:14.515Z" },
+    { url = "https://files.pythonhosted.org/packages/19/21/653f94461c9f4e6359aa4fbd54e7504128fbeb26289375826a3c5001e482/ssb_parquedit-0.0.11-py3-none-any.whl", hash = "sha256:aae2b7fd5afb3183eb00ddfa8cf1ad5e185a64ad89eb70c01caaa1aa23092c5a", size = 28831, upload-time = "2026-08-18T08:53:07.31Z" },
 ]
 
 [[package]]
@@ -2647,6 +2659,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/81/69/17425771797c36cded50b7fe44e850315d039f28b15901ab44839e70b593/starlette-1.0.0.tar.gz", hash = "sha256:6a4beaf1f81bb472fd19ea9b918b50dc3a77a6f2e190a12954b25e6ed5eea149", size = 2655289, upload-time = "2026-03-22T18:29:46.779Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/0b/c9/584bc9651441b4ba60cc4d557d8a547b5aff901af35bda3a4ee30c819b82/starlette-1.0.0-py3-none-any.whl", hash = "sha256:d3ec55e0bb321692d275455ddfd3df75fff145d009685eb40dc91fc66b03d38b", size = 72651, upload-time = "2026-03-22T18:29:45.111Z" },
+]
+
+[[package]]
+name = "tenacity"
+version = "9.1.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/47/c6/ee486fd809e357697ee8a44d3d69222b344920433d3b6666ccd9b374630c/tenacity-9.1.4.tar.gz", hash = "sha256:adb31d4c263f2bd041081ab33b498309a57c77f9acf2db65aadf0898179cf93a", size = 49413, upload-time = "2026-02-07T10:45:33.841Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d7/c1/eb8f9debc45d3b7918a32ab756658a0904732f75e555402972246b0b8e71/tenacity-9.1.4-py3-none-any.whl", hash = "sha256:6095a360c919085f28c6527de529e76a06ad89b23659fa881ae0649b867a9d55", size = 28926, upload-time = "2026-02-07T10:45:32.24Z" },
 ]
 
 [[package]]

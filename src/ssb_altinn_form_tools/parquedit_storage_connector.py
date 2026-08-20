@@ -542,7 +542,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Internal method for inserting from a list of dicts."""
         if len(data):
             df = pd.DataFrame(data)
-            df["_id"] = [str(uuid.uuid4()) for _ in range(len(df))]
+            #df["_id"] = [str(uuid.uuid4()) for _ in range(len(df))]
+            print(df.dtypes)
             self._parquedit.insert_data(table_name, df)
 
     def insert_contact_info(self, contact_info: list[ContactInfo]) -> None:
@@ -604,6 +605,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         table_name = "skjemamottak"
         model = [model.model_dump() for model in form_reciept]
+        print(model)
         self._insert(model, table_name)
 
     def insert_unit(self, unit: list[Unit]) -> None:
