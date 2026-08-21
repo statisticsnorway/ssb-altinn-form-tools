@@ -9,6 +9,8 @@ except ImportError as e:
         "This connector cannot be used if duckdb or parquedit is not installed"
     ) from e
 
+import uuid
+
 import pandas as pd
 
 from .meta_storage_connector import MetaStorageConnector
@@ -172,10 +174,9 @@ class ParqueditStorageConnector(MetaStorageConnector):
             Intended to represent a schema descriptor for Parquet/Delta creation.
             Currently unused beyond in-code documentation.
         """
-        table_name = "kontaktinfo"
+        '''table_name = "kontaktinfo"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     ident  VARCHAR NOT NULL,
                     skjema  VARCHAR NOT NULL,
@@ -189,7 +190,32 @@ class ParqueditStorageConnector(MetaStorageConnector):
         );
         ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
-        self._get_session().execute(create_stmt)
+        self._get_session().execute(create_stmt)'''
+
+        schema = {
+            "properties": {
+                "iso_period": {"type": "string"},
+                "skjema": {"type": "string"},
+                "ident": {"type": "string"},
+                "refnr": {"type": "string"},
+                "kontaktperson": {"type": "string"},
+                "epost": {"type": "string"},
+                "telefon": {"type": "string"},
+                "bekreftet_kontaktinfo": {"type": "string"},
+                "kommentar_kontaktinfo": {"type": "string"},
+                "kommentar_krevende": {"type": "stromg"},
+            },
+            "required": ["iso_period", "skjema", "refnr"],
+        }
+        if self._parquedit.exists("kontaktinfo") is False:
+            self._parquedit.create_table(
+                "kontaktinfo",
+                schema,
+                "kontaktinfo",
+                user_defined_id=["iso_period", "skjema", "ident", "refnr"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_form_data_table(self, table_name: str):
         """Defines the schema for the `skjemadata` table (field-level data).
@@ -199,9 +225,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
             to be a typo. In a future implementation, ensure the table name
             matches ``skjemadata``.
         """
-        create_stmt = f"""
+        '''create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                _id    VARCHAR NOT NULL,
                 iso_period   VARCHAR NOT NULL,
                 skjema  VARCHAR NOT NULL,
                 ident  VARCHAR NOT NULL,
@@ -215,7 +240,32 @@ class ParqueditStorageConnector(MetaStorageConnector):
         );
         ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
-        self._get_session().execute(create_stmt)
+        self._get_session().execute(create_stmt)'''
+
+        schema = {
+            "properties": {
+                "iso_period": {"type": "string"},
+                "skjema": {"type": "string"},
+                "ident": {"type": "string"},
+                "refnr": {"type": "string"},
+                "feltsti": {"type": "string"},
+                "feltnavn": {"type": "string"},
+                "verdi": {"type": "string"},
+                "alias": {"type": "string"},
+                "dybde": {"type": "integer"},
+                "indeks": {"type": "integer"},
+            },
+            "required": ["iso_period", "skjema", "refnr", "ident", "feltnavn"],
+        }
+        if self._parquedit.exists(table_name) is False:
+            self._parquedit.create_table(
+                table_name,
+                schema,
+                table_name,
+                user_defined_id=["iso_period", "skjema", "ident", "refnr", "feltnavn"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_form_reciept_table(self):
         """Defines the schema for the `skjemamottak` table (form reception).
@@ -225,17 +275,16 @@ class ParqueditStorageConnector(MetaStorageConnector):
             A Parquet/Delta implementation would likely map this to a TIMESTAMP
             logical type.
         """
-        table_name = "skjemamottak"
+        '''table_name = "skjemamottak"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     ident  VARCHAR NOT NULL,
                     skjema  VARCHAR NOT NULL,
                     skjema_versjon  VARCHAR,
                     start_date TIMESTAMP NOT NULL,
                     end_date TIMESTAMP NOT NULL,
-                    refnr  VARCHAR,
+                    refnr  VARCHAR NOT NULL,
                     editert VARCHAR,
                     aktiv BOOLEAN,
                     kommentar VARCHAR,
@@ -243,28 +292,77 @@ class ParqueditStorageConnector(MetaStorageConnector):
         );
         ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
-        self._get_session().execute(create_stmt)
+        self._get_session().execute(create_stmt)'''
+
+        schema = {
+            "properties": {
+                "iso_period": {"type": "string"},
+                "skjema": {"type": "string"},
+                "ident": {"type": "string"},
+                "skjema_versjon": {"type": "string"},
+                "start_date": {"type": "date-time"},
+                "end_date": {"type": "date-time"},
+                "refnr": {"type": "string"},
+                "editert": {"type": "string"},
+                "aktiv": {"type": "boolean"},
+                "kommentar": {"type": "string"},
+                "dato_mottatt": {"type": "date-time"},
+            },
+            "required": [
+                "iso_period",
+                "skjema",
+                "refnr",
+                "ident",
+                "start_date",
+                "end_date",
+            ],
+        }
+        if self._parquedit.exists("skjemamottak") is False:
+            self._parquedit.create_table(
+                "skjemamottak",
+                schema,
+                "skjemamottak",
+                user_defined_id=["iso_period", "skjema", "ident", "refnr"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_unit_table(self):
         """Defines the schema for the `enheter` table (units)."""
-        table_name = "enheter"
+        '''table_name = "enheter"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     skjema  VARCHAR NOT NULL,
                     ident  VARCHAR NOT NULL
         );
         ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
-        self._get_session().execute(create_stmt)
+        self._get_session().execute(create_stmt)'''
+
+        schema = {
+            "properties": {
+                "iso_period": {"type": "string"},
+                "skjema": {"type": "string"},
+                "ident": {"type": "string"},
+            },
+            "required": ["iso_period", "skjema", "ident"],
+        }
+        if self._parquedit.exists("enheter") is False:
+            self._parquedit.create_table(
+                "enheter",
+                schema,
+                "enheter",
+                user_defined_id=["iso_period", "skjema", "ident"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_unit_info_table(self):
         """Defines the schema for the `enhetsinfo` table (unit attributes)."""
-        table_name = "enhetsinfo"
+        '''table_name = "enhetsinfo"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     ident  VARCHAR NOT NULL,
                     variabel  VARCHAR,
@@ -272,14 +370,32 @@ class ParqueditStorageConnector(MetaStorageConnector):
         );
         ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
-        self._get_session().execute(create_stmt)
+        self._get_session().execute(create_stmt)'''
+
+        schema = {
+            "properties": {
+                "iso_period": {"type": "string"},
+                "ident": {"type": "string"},
+                "variabel": {"type": "string"},
+                "verdi": {"type": "string"},
+            },
+            "required": ["iso_period", "ident"],
+        }
+        if self._parquedit.exists("enhetsinfo") is False:
+            self._parquedit.create_table(
+                "enhetsinfo",
+                schema,
+                "enhetsinfo",
+                user_defined_id=["iso_period", "ident", "variabel"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_controls_table(self):
         """Defines the schema for the `kontroller` table (control definitions)."""
-        table_name = "kontroller"
+        '''table_name = "kontroller"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     kontrollid  VARCHAR NOT NULL,
                     kontrolltype  VARCHAR,
@@ -289,14 +405,34 @@ class ParqueditStorageConnector(MetaStorageConnector):
         );
         ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
-        self._get_session().execute(create_stmt)
+        self._get_session().execute(create_stmt)'''
+
+        schema = {
+            "properties": {
+                "iso_period": {"type": "string"},
+                "kontrollid": {"type": "string"},
+                "kontrolltype": {"type": "string"},
+                "beskrivelse": {"type": "string"},
+                "sorting_var": {"type": "boolean"},
+                "sorting_order": {"type": "string"},
+            },
+            "required": ["iso_period", "kontrollid"],
+        }
+        if self._parquedit.exists("kontroller") is False:
+            self._parquedit.create_table(
+                "kontroller",
+                schema,
+                "kontroller",
+                user_defined_id=["iso_period", "kontrollid"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_control_result_table(self):
         """Defines the schema for the `kontrollutslag` table (control results)."""
-        table_name = "kontrollutslag"
+        '''table_name = "kontrollutslag"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     skjema VARCHAR NOT NULL,
                     kontrollid  VARCHAR NOT NULL,
@@ -307,13 +443,40 @@ class ParqueditStorageConnector(MetaStorageConnector):
         );
         ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
-        self._get_session().execute(create_stmt)
+        self._get_session().execute(create_stmt)'''
+
+        schema = {
+            "properties": {
+                "iso_period": {"type": "string"},
+                "skjema": {"type": "string"},
+                "kontrollid": {"type": "string"},
+                "ident": {"type": "string"},
+                "refnr": {"type": "string"},
+                "utslag": {"type": "boolean"},
+                "verdi": {"type": "string"},
+            },
+            "required": ["iso_period", "skjema", "kontrollid", "ident", "refnr"],
+        }
+        if self._parquedit.exists("kontrollutslag") is False:
+            self._parquedit.create_table(
+                "kontrollutslag",
+                schema,
+                "kontrollutslag",
+                user_defined_id=[
+                    "iso_period",
+                    "skjema",
+                    "kontrollid",
+                    "ident",
+                    "refnr",
+                ],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_optionnodes_table(self):
-        table_name = "optionnodes"
+        '''table_name = "optionnodes"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     skjema VARCHAR NOT NULL,
                     node_name VARCHAR NOT NULL,
@@ -321,13 +484,31 @@ class ParqueditStorageConnector(MetaStorageConnector):
         );
         ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
-        self._get_session().execute(create_stmt)
+        self._get_session().execute(create_stmt)'''
+
+        schema = {
+            "properties": {
+                "iso_period": {"type": "string"},
+                "skjema": {"type": "string"},
+                "node_name": {"type": "string"},
+                "options_id": {"type": "string"},
+            },
+            "required": ["iso_period", "skjema", "options_id", "node_name"],
+        }
+        if self._parquedit.exists("optionnodes") is False:
+            self._parquedit.create_table(
+                "optionnodes",
+                schema,
+                "optionnodes",
+                user_defined_id=["iso_period", "skjema", "node_name", "options_id"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _create_optionslist_table(self):
-        table_name = "optionslists"
+        '''table_name = "optionslists"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
-                    _id    VARCHAR NOT NULL,
                     iso_period   VARCHAR NOT NULL,
                     skjema VARCHAR NOT NULL,
                     options_id VARCHAR NOT NULL,
@@ -336,12 +517,34 @@ class ParqueditStorageConnector(MetaStorageConnector):
         );
         ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
-        self._get_session().execute(create_stmt)
+        self._get_session().execute(create_stmt)'''
+        schema = {
+            "properties": {
+                "iso_period": {"type": "string"},
+                "skjema": {"type": "string"},
+                "options_id": {"type": "string"},
+                "label": {"type": "string"},
+                "value": {"type": "string"},
+            },
+            "required": ["iso_period", "skjema", "options_id", "label", "value"],
+        }
+        if self._parquedit.exists("optionslists") is False:
+            self._parquedit.create_table(
+                "optionslists",
+                schema,
+                "optionslists",
+                user_defined_id=["iso_period", "skjema", "options_id"],
+                part_columns=["iso_period"],
+                fill=False,
+            )
 
     def _insert(self, data: list[dict], table_name: str):
         """Internal method for inserting from a list of dicts."""
         if len(data):
-            self._parquedit.insert_data(table_name, pd.DataFrame(data))
+            df = pd.DataFrame(data)
+            #df["_id"] = [str(uuid.uuid4()) for _ in range(len(df))]
+            print(df.dtypes)
+            self._parquedit.insert_data(table_name, df)
 
     def insert_contact_info(self, contact_info: list[ContactInfo]) -> None:
         """Stages a contact info record for insertion (WIP).
@@ -402,6 +605,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         table_name = "skjemamottak"
         model = [model.model_dump() for model in form_reciept]
+        print(model)
         self._insert(model, table_name)
 
     def insert_unit(self, unit: list[Unit]) -> None:

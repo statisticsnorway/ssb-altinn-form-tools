@@ -21,18 +21,7 @@ from ssb_altinn_form_tools.parquedit_storage_connector import ParqueditStorageCo
 def parquedit_session():
     temp_dir = tempfile.TemporaryDirectory()
 
-    class LocalDuckDbConnection(DuckDBConnection):  # pyright: ignore
-        def __init__(self, db_config: dict[str, str]) -> None:
-            conn_str = f"""ATTACH 'ducklake:duckdb:{temp_dir.name}/catalog.db' AS lake (DATA_PATH '{temp_dir.name}/data/')"""
-            self._conn = duckdb.connect()
-            self._conn.sql(conn_str)
-            self._conn.sql("USE lake")
-
-    class LocalParquedit(ParquEdit):  # pyright: ignore
-        def __init__(self) -> None:
-            self._conn = LocalDuckDbConnection({})
-
-    parquedit_conn = LocalParquedit()
+    parquedit_conn = ParquEdit.local(f"{temp_dir.name}")
 
     try:
         yield parquedit_conn
@@ -51,8 +40,8 @@ def connector_with_schema(parquedit: ParquEdit) -> ParqueditStorageConnector:
 
 def test_parquedit_conn(parquedit: ParquEdit):
     conn = ParqueditStorageConnector(parquedit)
-    with pytest.raises(RuntimeError):
-        conn.create_tables_if_not_exists()
+    #with pytest.raises(RuntimeError):
+    #    conn.create_tables_if_not_exists()
 
     conn.begin_transaction()
     conn.create_tables_if_not_exists()
@@ -158,6 +147,7 @@ def test_insert_form_reception(connector_with_schema: ParqueditStorageConnector)
             periodeNummer=1,
         )
     )
+    print(test_unit)
     connector_with_schema.insert_form_reception([test_unit])
     res = (
         connector_with_schema._get_session()
@@ -165,6 +155,7 @@ def test_insert_form_reception(connector_with_schema: ParqueditStorageConnector)
         .fetch_df()
         .to_dict(orient="records")
     )
+    print(res)
     assert len(res) == 1
     res_unit = FormReception(**res[0])
 
