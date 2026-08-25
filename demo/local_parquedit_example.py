@@ -1,8 +1,6 @@
 import logging
 
-import duckdb
 from ssb_parquedit import ParquEdit
-from ssb_parquedit.connection import DuckDBConnection
 
 logging.basicConfig(
     level=logging.DEBUG,  # Set minimum log level
@@ -16,21 +14,7 @@ from ssb_altinn_form_tools.parquedit_storage_connector import ParqueditStorageCo
 
 extractor = DefaultFormExtractor()
 
-
-class LocalDuckDbConnection(DuckDBConnection):  # pyright: ignore
-    def __init__(self, db_config: dict[str, str]) -> None:  # pyright: ignore
-        conn_str = """ATTACH 'ducklake:duckdb:catalog.db' AS lake (DATA_PATH 'data/')"""
-        self._conn = duckdb.connect()
-        self._conn.sql(conn_str)
-        self._conn.sql("USE lake")
-
-
-class LocalParquedit(ParquEdit):  # pyright: ignore
-    def __init__(self) -> None:  # pyright: ignore
-        self._conn = LocalDuckDbConnection({})
-
-
-parquedit_conn = LocalParquedit()
+parquedit_conn = ParquEdit.local("data")
 
 
 def get_duckdb_connection():
@@ -39,13 +23,7 @@ def get_duckdb_connection():
 
 
 connector = ParqueditStorageConnector(parquedit_conn)
-for form_number in ["RA0536"]:
-    if form_number == "RA0689":
-        mapping = [
-            {"field_name": "hjelpefeltLand", "options": [str(i) for i in range(1000)]},
-        ]
-    else:
-        mapping = []
+for form_number in ["RA0485"]:
 
     processor = DefaultFormProcessor(
         form_name=form_number,
@@ -53,7 +31,7 @@ for form_number in ["RA0536"]:
         extractor=extractor,
         connector=connector,
         alias_mapping={"omsVirksomhetPerioden": "omsetning"},
-        checkbox_mapping=mapping,
+        checkbox_mapping=[],
     )
     processor.process_new_forms()
 
