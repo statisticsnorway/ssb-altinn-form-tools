@@ -68,8 +68,8 @@ class DefaultFormProcessor(MetaFormProcessor):
         checkbox_mapping: (
             list[ManualOptionMapping] | list[dict[str, Any]] | None
         ) = None,
-        ra_version: None | int = None,
-        alternative_glob_path: None | str = None,
+        ra_version: int | None = None,
+        alternative_glob_path: str | None = None,
     ) -> None:
         """Initializes the default form processor.
 

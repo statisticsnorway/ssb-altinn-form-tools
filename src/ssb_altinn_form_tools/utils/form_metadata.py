@@ -141,7 +141,7 @@ class FormMetadata:
     def __init__(
         self,
         form_name: str,
-        ra_version: None | int = None,
+        ra_version: int | None = None,
         max_retries: int = 3,
     ) -> None:
         """Initializes the default form processor.
@@ -161,7 +161,7 @@ class FormMetadata:
     def _create_json_schema_url(
         self,
         form_name: str,
-        ra_version: None | int = None,
+        ra_version: int | None = None,
     ) -> str:
         ra_nummer = f"{form_name[:2]}-{form_name[2:]}A3"  # Eksempel: "RA-1234A3"
         version = ra_version if ra_version else 1  # Eksempel: 1 (numerisk)
@@ -175,7 +175,7 @@ class FormMetadata:
     def _create_metadata_url(
         self,
         form_name: str,
-        ra_version: None | int = None,
+        ra_version: int | None = None,
     ) -> str:
         self._form_name = form_name
         ra_nummer = f"{form_name[:2]}-{form_name[2:]}A3"  # Eksempel: "RA-1234A3"

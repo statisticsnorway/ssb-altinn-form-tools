@@ -18,6 +18,8 @@ nested_dict = {
 
 
 class CustomExtractor:
+    """Demo of how to create a custom extractor class."""
+
     def extract_form_data(
         self,
         form_dict_data: InputFormType,
@@ -26,6 +28,7 @@ class CustomExtractor:
         refnr: str,
         iso_period: str,
     ) -> list[FormData]:
+        """Custom extraction code."""
         entries = parse_entries(form_dict_data)
         data = []
         for entry in entries:
@@ -37,13 +40,17 @@ class CustomExtractor:
 
 
 class CustomProcessor:
+    """Demo of how to create a custom processor class."""
+
     def __init__(
         self, extractor: CustomExtractor, connector: SqlAlchemyStorageConnector
     ) -> None:
+        """Initializes the class."""
         self.extractor = extractor
         self.connector = connector
 
     def process_new_forms(self) -> None:
+        """Custom method to process new forms."""
         forms = [
             {"id": "id1", "form": "api1", "period": "2025-Q1", "data": nested_dict}
         ]

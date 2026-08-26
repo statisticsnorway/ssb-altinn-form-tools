@@ -10,6 +10,8 @@ from sqlalchemy.orm import mapped_column
 
 
 class Base(DeclarativeBase):
+    """SQLAlchemy ORM base class."""
+
     pass
 
 

@@ -50,7 +50,7 @@ def parse_index(path: str | None) -> int | None:
 
 
 def parse_entries(
-    data: dict[str, Any] | list[Any], parent: None | str = None
+    data: dict[str, Any] | list[Any], parent: str | None = None
 ) -> list[FormNode]:
     """Recursive function for flattening XML-like structures.
 
