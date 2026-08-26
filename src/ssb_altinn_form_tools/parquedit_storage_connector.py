@@ -1,5 +1,7 @@
 import logging
 
+from _duckdb import DuckDBPyConnection
+
 try:
     from _duckdb import CatalogException
     from duckdb import DuckDBPyConnection
@@ -9,7 +11,6 @@ except ImportError as e:
         "This connector cannot be used if duckdb or parquedit is not installed"
     ) from e
 
-import uuid
 
 import pandas as pd
 
@@ -51,7 +52,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         self._parquedit = engine
         self._engine = engine._get_connection().raw
-        self._session = None
+        self._session: DuckDBPyConnection | None = None
 
     def begin_transaction(self) -> None:
         """Starts a new transactional session (placeholder).
@@ -167,7 +168,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
             logger.warning("Was not able verify that if options exists or not")
             return False
 
-    def _create_contact_info_table(self):
+    def _create_contact_info_table(self) -> None:
         """Defines the schema for the `kontaktinfo` table (contact info).
 
         Notes:
@@ -217,7 +218,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_form_data_table(self, table_name: str):
+    def _create_form_data_table(self, table_name: str) -> None:
         """Defines the schema for the `skjemadata` table (field-level data).
 
         Notes:
@@ -267,7 +268,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_form_reciept_table(self):
+    def _create_form_reciept_table(self) -> None:
         """Defines the schema for the `skjemamottak` table (form reception).
 
         Notes:
@@ -327,7 +328,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_unit_table(self):
+    def _create_unit_table(self) -> None:
         """Defines the schema for the `enheter` table (units)."""
         '''table_name = "enheter"
         create_stmt = f"""
@@ -358,7 +359,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_unit_info_table(self):
+    def _create_unit_info_table(self) -> None:
         """Defines the schema for the `enhetsinfo` table (unit attributes)."""
         '''table_name = "enhetsinfo"
         create_stmt = f"""
@@ -391,7 +392,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_controls_table(self):
+    def _create_controls_table(self) -> None:
         """Defines the schema for the `kontroller` table (control definitions)."""
         '''table_name = "kontroller"
         create_stmt = f"""
@@ -428,7 +429,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_control_result_table(self):
+    def _create_control_result_table(self) -> None:
         """Defines the schema for the `kontrollutslag` table (control results)."""
         '''table_name = "kontrollutslag"
         create_stmt = f"""
@@ -473,7 +474,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_optionnodes_table(self):
+    def _create_optionnodes_table(self) -> None:
         '''table_name = "optionnodes"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
@@ -484,8 +485,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
         );
         ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
-        self._get_session().execute(create_stmt)'''
-
+        self._get_session().execute(create_stmt)
+        '''
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -505,7 +506,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_optionslist_table(self):
+    def _create_optionslist_table(self) -> None:
         '''table_name = "optionslists"
         create_stmt = f"""
         CREATE TABLE IF NOT EXISTS {table_name}(
@@ -517,7 +518,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
         );
         ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
         """
-        self._get_session().execute(create_stmt)'''
+        self._get_session().execute(create_stmt)
+        '''
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -538,11 +540,11 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _insert(self, data: list[dict], table_name: str):
+    def _insert(self, data: list[dict], table_name: str) -> None:
         """Internal method for inserting from a list of dicts."""
         if len(data):
             df = pd.DataFrame(data)
-            #df["_id"] = [str(uuid.uuid4()) for _ in range(len(df))]
+            # df["_id"] = [str(uuid.uuid4()) for _ in range(len(df))]
             print(df.dtypes)
             self._parquedit.insert_data(table_name, df)
 

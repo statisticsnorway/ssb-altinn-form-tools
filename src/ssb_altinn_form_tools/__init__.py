@@ -1,2 +1,1 @@
 """SSB Altinn Form Tools."""
-

@@ -1,10 +1,8 @@
 import datetime
 import tempfile
 
-import duckdb
 import pytest
 from ssb_parquedit import ParquEdit
-from ssb_parquedit.connection import DuckDBConnection
 
 from ssb_altinn_form_tools.models import ContactInfo
 from ssb_altinn_form_tools.models import FormData
@@ -40,7 +38,7 @@ def connector_with_schema(parquedit: ParquEdit) -> ParqueditStorageConnector:
 
 def test_parquedit_conn(parquedit: ParquEdit):
     conn = ParqueditStorageConnector(parquedit)
-    #with pytest.raises(RuntimeError):
+    # with pytest.raises(RuntimeError):
     #    conn.create_tables_if_not_exists()
 
     conn.begin_transaction()

@@ -3,7 +3,6 @@ from __future__ import annotations
 import datetime
 from typing import Any
 from typing import Literal
-from typing import Union
 
 import pendulum
 from pydantic import BaseModel
@@ -399,4 +398,4 @@ class NumberFormatModel(BaseModel):
 class FormattingMetadataModel(BaseModel):
     """Parent model for deserializing all formatting variants."""
 
-    formatting: Union[NumberFormatModel, StringFormatModel, DateFormatModel]  # noqa: UP007
+    formatting: NumberFormatModel | StringFormatModel | DateFormatModel

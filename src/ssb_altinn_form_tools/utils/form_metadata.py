@@ -2,6 +2,7 @@ import logging
 import time
 from collections import defaultdict
 from itertools import cycle
+from typing import Any
 
 import requests
 
@@ -18,7 +19,7 @@ def _fetch_with_retry(
     max_retries: int = 3,
     delay: int = 2,
     timeout: int = 5,
-):
+) -> Any | dict[Any, Any]:
     """Attempt to fetch data from a list of URLs with retries.
 
     Args:
@@ -81,7 +82,9 @@ def _process_options(options: list[OptionMetadataModel]):
     return unique_option, nodes_options
 
 
-def _node_filter(data: dict, contained_key: str) -> list[dict]:
+def _node_filter(
+    data: str | dict[str, Any] | list[str | dict[str, Any]], contained_key: str
+) -> list[Any]:
     results = []
     if isinstance(data, str):
         return results
@@ -109,7 +112,9 @@ def _node_filter(data: dict, contained_key: str) -> list[dict]:
 logger = logging.getLogger(__name__)
 
 
-def extract_arr_fields(json_data: dict, parent: str | None = None) -> list:
+def extract_arr_fields(
+    json_data: dict[str, dict[str, Any] | Any], parent: str | None = None
+) -> list[str]:
     """Extract names of fields that are arrays.
 
     A function that traverses a dictionary recursivly to extract the name of fields that are arrays.
@@ -221,8 +226,8 @@ class FormMetadata:
         data = self._get_metadata()
         for res in data:
             if res.get("options"):
-                data = OptionMetadataModel.model_validate(
-                    {"skjema": skjema, "iso_period": iso_period, **res}
+                data = OptionMetadataModel(
+                    **{"skjema": skjema, "iso_period": iso_period, **res}
                 )
                 processed.append(data)
         return processed
@@ -246,7 +251,7 @@ class FormMetadata:
         return options
 
     def _extract_formatting(
-        self, form_metadata: list[dict], skjema: str, iso_period: str
+        self, form_metadata: list[dict[str, Any]], skjema: str, iso_period: str
     ):
         pass
         formatting = []
@@ -262,6 +267,7 @@ class FormMetadata:
 
         Will use existings list if method already has been called.
         """
+        self.array_fields: list[str] | None
         if hasattr(self, "array_fields"):
             return self.array_fields
 
@@ -294,5 +300,4 @@ class FormMetadata:
                 f"Fetching metadata for the form resulted in the following error. Possibly because metadata does not exist. Error: \n{e}"
             )
             # Some forms does not have metadata in Altinn
-            self.array_fields = None
-            return self.array_fields
+            return None

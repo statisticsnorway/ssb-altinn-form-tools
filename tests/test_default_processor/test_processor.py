@@ -41,7 +41,7 @@ def test_processor_parquedit(
     mocker,
     connector_with_schema: ParqueditStorageConnector,  # noqa: F811
     data: Form,
-):
+) -> None:
 
     extractor = DefaultFormExtractor()
 
@@ -71,9 +71,9 @@ def test_processor_parquedit(
                 .fetchall()
             )
 
-            assert len(res) == form.skjemadata_rows, (
-                f"Expected skjemadata to have {form.skjemadata_rows}, but got {len(res)}"
-            )
+            assert (
+                len(res) == form.skjemadata_rows
+            ), f"Expected skjemadata to have {form.skjemadata_rows}, but got {len(res)}"
 
             res = (
                 connector_with_schema._get_session()
@@ -81,9 +81,9 @@ def test_processor_parquedit(
                 .fetchall()
             )
 
-            assert len(res) == form.kontaktinfo_rows, (
-                f"Expected kontaktinfo to have {form.skjemadata_rows} rows, but got {len(res)}"
-            )
+            assert (
+                len(res) == form.kontaktinfo_rows
+            ), f"Expected kontaktinfo to have {form.skjemadata_rows} rows, but got {len(res)}"
 
             res = (
                 connector_with_schema._get_session()
@@ -91,9 +91,9 @@ def test_processor_parquedit(
                 .fetchall()
             )
 
-            assert len(res) == form.skjemamottak_rows, (
-                f"Expected skjemamottak to have {form.skjemamottak_rows} rows, but got {len(res)}"
-            )
+            assert (
+                len(res) == form.skjemamottak_rows
+            ), f"Expected skjemamottak to have {form.skjemamottak_rows} rows, but got {len(res)}"
 
             for field in form.test_fields:
                 field_df = (
@@ -105,14 +105,14 @@ def test_processor_parquedit(
                     .fetch_df()
                 )
 
-                assert len(field_df) != 0, (
-                    f"Fetched formdata was empty - refnr={form.form_id} AND feltsti={field.field_name}:\n{field_df}"
-                )
+                assert (
+                    len(field_df) != 0
+                ), f"Fetched formdata was empty - refnr={form.form_id} AND feltsti={field.field_name}:\n{field_df}"
                 field_val = field_df["verdi"][0]
 
-                assert str(field_val) == field.field_value, (
-                    f"Expected form field {form.form_id} - {field.field_name} to have value {field.field_value} rows, but got {field_val}"
-                )
+                assert (
+                    str(field_val) == field.field_value
+                ), f"Expected form field {form.form_id} - {field.field_name} to have value {field.field_value} rows, but got {field_val}"
 
 
 @pytest.mark.parametrize("data", load_expected_data())
@@ -121,7 +121,7 @@ def test_processor_sqlalchemy(
     mocker,
     sqlalchemy_connector: SqlAlchemyStorageConnector,  # noqa: F811
     data: Form,
-):
+) -> None:
 
     extractor = DefaultFormExtractor()
 
@@ -151,9 +151,9 @@ def test_processor_sqlalchemy(
                 .fetchall()
             )
 
-            assert len(res) == form.skjemadata_rows, (
-                f"Expected skjemadata to have {form.skjemadata_rows}, but got {len(res)}"
-            )
+            assert (
+                len(res) == form.skjemadata_rows
+            ), f"Expected skjemadata to have {form.skjemadata_rows}, but got {len(res)}"
 
             res = (
                 sqlalchemy_connector._get_session()
@@ -161,9 +161,9 @@ def test_processor_sqlalchemy(
                 .fetchall()
             )
 
-            assert len(res) == form.kontaktinfo_rows, (
-                f"Expected kontaktinfo to have {form.skjemadata_rows} rows, but got {len(res)}"
-            )
+            assert (
+                len(res) == form.kontaktinfo_rows
+            ), f"Expected kontaktinfo to have {form.skjemadata_rows} rows, but got {len(res)}"
 
             res = (
                 sqlalchemy_connector._get_session()
@@ -173,9 +173,9 @@ def test_processor_sqlalchemy(
                 .fetchall()
             )
 
-            assert len(res) == form.skjemamottak_rows, (
-                f"Expected skjemamottak to have {form.skjemamottak_rows} rows, but got {len(res)}"
-            )
+            assert (
+                len(res) == form.skjemamottak_rows
+            ), f"Expected skjemamottak to have {form.skjemamottak_rows} rows, but got {len(res)}"
 
             for field in form.test_fields:
                 field_df = (
@@ -189,20 +189,20 @@ def test_processor_sqlalchemy(
                     .fetchall()
                 )
 
-                assert len(field_df) != 0, (
-                    f"Fetched formdata was empty - refnr={form.form_id} AND feltsti={field.field_name}:\n{field_df}"
-                )
+                assert (
+                    len(field_df) != 0
+                ), f"Fetched formdata was empty - refnr={form.form_id} AND feltsti={field.field_name}:\n{field_df}"
                 field_val = field_df[0][0]
 
-                assert str(field_val) == field.field_value, (
-                    f"Expected form field {form.form_id} - {field.field_name} to have value {field.field_value} rows, but got {field_val}"
-                )
+                assert (
+                    str(field_val) == field.field_value
+                ), f"Expected form field {form.form_id} - {field.field_name} to have value {field.field_value} rows, but got {field_val}"
 
 
 def test_custom_mapping(
     mocker,
     connector_with_schema: ParqueditStorageConnector,  # noqa: F811
-):
+) -> None:
 
     extractor = DefaultFormExtractor()
 

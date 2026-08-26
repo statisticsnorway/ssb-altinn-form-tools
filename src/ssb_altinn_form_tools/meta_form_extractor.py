@@ -1,5 +1,6 @@
 from abc import ABC
 from abc import abstractmethod
+from typing import Any
 
 from .models import ContactInfo
 from .models import ExtractedForm
@@ -9,7 +10,7 @@ from .models import FormReception
 from .models import Unit
 from .models import UnitInfo
 
-InputFormType = dict[str, list | dict | str | int | None]
+InputFormType = dict[str, list[Any] | dict[str, Any] | str | int | None]
 
 
 class MetaFormExtractor(ABC):

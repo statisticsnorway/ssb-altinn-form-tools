@@ -33,15 +33,19 @@ class ManualOptionMapping(BaseModel):
     node_names: list[str]
 
 
-def extract_xml_to_dict(xml_path: Path, array_fields: list[str] | None = None) -> dict:
+def extract_xml_to_dict(
+    xml_path: Path, array_fields: list[str] | None = None
+) -> dict[str, Any]:
     """Function for reading an xml file and transforming it to a dictionary.
 
     Function is separated to enable testing.
     """
     xml_string = xml_path.read_text()
-    dictionary: dict = xmltodict.parse(
+    dictionary: dict[str, Any] = xmltodict.parse(
         xml_string, force_list=array_fields, xml_attribs=False
     )
+    if not all(isinstance(key, str) for key in dictionary):
+        raise TypeError("Not all keys are of type 'str'.")
     return dictionary
 
 
@@ -61,9 +65,9 @@ class DefaultFormProcessor(MetaFormProcessor):
         extractor: MetaFormExtractor,
         connector: MetaStorageConnector,
         alias_mapping: dict[str, str] | None = None,
-        checkbox_mapping: list[ManualOptionMapping]
-        | list[dict[str, Any]]
-        | None = None,
+        checkbox_mapping: (
+            list[ManualOptionMapping] | list[dict[str, Any]] | None
+        ) = None,
         ra_version: None | int = None,
         alternative_glob_path: None | str = None,
     ) -> None:
@@ -126,7 +130,9 @@ class DefaultFormProcessor(MetaFormProcessor):
         """
         return glob.glob(self._glob_path)
 
-    def _map_alias(self, mapping: dict[str, str], extracted_form: ExtractedForm):
+    def _map_alias(
+        self, mapping: dict[str, str], extracted_form: ExtractedForm
+    ) -> None:
         """Applies alias mapping to `ExtractedForm.form_data` in place.
 
         Each `FormData` entry whose ``feltnavn`` matches a key in `mapping` will
@@ -182,9 +188,9 @@ class DefaultFormProcessor(MetaFormProcessor):
         is_new = self._connector.validate_form_is_new(json_data.altinn_reference)
 
         if is_new:
-            dictionary: dict = extract_xml_to_dict(
-                xml_path, array_fields=self.array_fields
-            )[self._form_data_key]
+            dictionary = extract_xml_to_dict(xml_path, array_fields=self.array_fields)[
+                self._form_data_key
+            ]
             extracted_form = self._extractor.extract_form(dictionary, json_data)
 
             if self._alias_mapping:
@@ -232,16 +238,18 @@ class DefaultFormProcessor(MetaFormProcessor):
             form_data = []
             unit_info = []
             periods = []
-            for form in new_forms:
-                form_data.extend(form.form_data)
-                unit_info.extend(form.unit_info)
-                periods.append(form.reception.iso_period)
+            for form_to_insert in new_forms:
+                form_data.extend(form_to_insert.form_data)
+                unit_info.extend(form_to_insert.unit_info)
+                periods.append(form_to_insert.reception.iso_period)
             self._connector.insert_form_data(form_data)
             self._connector.insert_form_data_unedited(form_data)
             self._connector.insert_form_reception(
-                [form.reception for form in new_forms]
+                [form_to_insert.reception for form_to_insert in new_forms]
             )
-            self._connector.insert_unit([form.unit for form in new_forms])
+            self._connector.insert_unit(
+                [form_to_insert.unit for form_to_insert in new_forms]
+            )
             self._connector.insert_unit_info(unit_info)
 
             for period in set(periods):
@@ -284,9 +292,10 @@ class DefaultFormProcessor(MetaFormProcessor):
             logger.error("Due to the previous error the insert was rolled back")
         else:
             self._connector.commit()
-            inserted_form_ids = [form.reception.refnr for form in new_forms]
+            inserted_form_ids = [
+                form_to_insert.reception.refnr for form_to_insert in new_forms
+            ]
             logger.info(f"Form {inserted_form_ids} was inserted into the database")
-            # logger.debug(f"Data: {extracted_form}")
 
     def process_new_forms(self) -> None:
         """Finds and processes all new forms discovered under the base path.

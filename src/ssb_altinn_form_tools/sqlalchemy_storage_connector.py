@@ -44,7 +44,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             ``begin_transaction``.
         """
         self._engine = engine
-        self._session = None
+        self._session: Session | None = None
 
     def begin_transaction(self) -> None:
         """Starts a new transactional session.

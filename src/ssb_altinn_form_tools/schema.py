@@ -3,12 +3,14 @@ from sqlalchemy import TIMESTAMP
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import declarative_mixin
 from sqlalchemy.orm import mapped_column
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    pass
 
 
 class KontaktInfo(Base):

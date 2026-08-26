@@ -1,4 +1,6 @@
 import logging
+from collections.abc import Iterable
+from typing import Any
 
 from .meta_form_extractor import InputFormType
 from .meta_form_extractor import MetaFormExtractor
@@ -47,7 +49,9 @@ def parse_index(path: str | None) -> int | None:
         return None
 
 
-def parse_entries(data: dict | list, parent: None | str = None) -> list[FormNode]:
+def parse_entries(
+    data: dict[str, Any] | list[Any], parent: None | str = None
+) -> list[FormNode]:
     """Recursive function for flattening XML-like structures.
 
     Args:
@@ -59,6 +63,8 @@ def parse_entries(data: dict | list, parent: None | str = None) -> list[FormNode
 
     """
     fields = []
+
+    iterator: Iterable[tuple[int | str, Any]]
 
     if isinstance(data, list):
         iterator = enumerate(data)
@@ -236,11 +242,13 @@ class DefaultFormExtractor(MetaFormExtractor):
         """
         form_data = form_dict_data["InternInfo"]
 
-        assert isinstance(form_data, dict)
+        if not isinstance(form_data, dict):
+            raise TypeError(f"form_data must be type dict. Is type '{type(form_data)}'")
 
         info: list[UnitInfo] = []
         for key, value in form_data.items():
-            key: str
+            if not isinstance(key, str):
+                raise TypeError(f"Key must be type str. Is type '{type(key)}'")
             if key.startswith("enhets"):
                 data = UnitInfo(
                     ident=ident, variabel=key, verdi=value, iso_period=iso_period
