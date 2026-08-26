@@ -50,10 +50,6 @@ class MetaStorageConnector(ABC):
     def rollback(self) -> None:
         """Rolls back the current transaction.
 
-        Args:
-            ref_number (str): Reference number of the form being rolled back.
-                Used for logging and diagnostics.
-
         Notes:
             Called when an error occurs during form insertion. Implementations
             should ensure that no partial writes remain after rollback.
@@ -65,7 +61,7 @@ class MetaStorageConnector(ABC):
         """Inserts contact information into storage.
 
         Args:
-            contact_info (ContactInfo): Structured model containing submitter
+            contact_info: Structured model containing submitter
                 and contact metadata extracted from the form.
         """
         ...
@@ -75,7 +71,7 @@ class MetaStorageConnector(ABC):
         """Inserts form field data entries.
 
         Args:
-            form_data (list[FormData]): A list of structured form data objects
+            form_data: A list of structured form data objects
                 representing the form's individual variables and values.
         """
         ...
@@ -85,7 +81,7 @@ class MetaStorageConnector(ABC):
         """Inserts form field data entries.
 
         Args:
-            form_data (list[FormData]): A list of structured form data objects
+            form_data: A list of structured form data objects
                 representing the form's individual variables and values.
         """
         ...
@@ -95,7 +91,7 @@ class MetaStorageConnector(ABC):
         """Inserts metadata about the form reception.
 
         Args:
-            form_reciept (FormReception): Structured model describing how and
+            form_reciept: Structured model describing how and
                 when the form was received.
         """
         ...
@@ -105,7 +101,7 @@ class MetaStorageConnector(ABC):
         """Inserts unit-level metadata.
 
         Args:
-            unit (Unit): Structured model representing the reporting unit.
+            unit: Structured model representing the reporting unit.
         """
         ...
 
@@ -114,7 +110,7 @@ class MetaStorageConnector(ABC):
         """Inserts additional unit-level attributes.
 
         Args:
-            units (list[UnitInfo]): A list of key-value pairs describing extra
+            units: A list of key-value pairs describing extra
                 metadata about the reporting unit.
         """
         ...
@@ -143,8 +139,8 @@ class MetaStorageConnector(ABC):
         """Checks whether options has already been inserted for a given period.
 
         Args:
-            skjema (str): The form the options relate to.
-            iso_period (str): The period referenced
+            skjema: The form the options relate to.
+            iso_period: The period referenced
 
         Returns:
             bool: ``True`` if the options has been inserted before, otherwise ``False``.
@@ -163,7 +159,7 @@ class MetaStorageConnector(ABC):
         """Checks whether a form has already been inserted.
 
         Args:
-            form_reference (str): Reference number identifying the form instance.
+            form_reference: Reference number identifying the form instance.
 
         Returns:
             bool: ``True`` if the form has not been inserted before, otherwise ``False``.

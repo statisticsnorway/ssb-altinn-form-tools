@@ -27,17 +27,13 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
     This connector manages a SQLAlchemy engine and session to perform transactional
     inserts of form sections (contact info, unit, unit info, form data, reception)
     and to enforce idempotency by checking whether a form reference already exists.
-
-    Attributes:
-        _engine (Engine): SQLAlchemy engine used for connections and DDL.
-        _session (Session | None): Lazily initialized session used for transactions.
     """
 
     def __init__(self, engine: Engine) -> None:
         """Initializes the connector with a SQLAlchemy engine.
 
         Args:
-            engine (Engine): A configured SQLAlchemy engine instance.
+            engine: A configured SQLAlchemy engine instance.
 
         Notes:
             The session is created on demand when a transaction is started via
@@ -51,10 +47,6 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
 
         Creates a new SQLAlchemy ``Session`` bound to the configured engine and
         begins a transaction context.
-
-        Raises:
-            Exception: Propagates any SQLAlchemy errors that occur during session
-                creation or transaction start.
         """
         self._session = Session(bind=self._engine)
         self._get_session().begin()
@@ -73,24 +65,11 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         return self._session
 
     def rollback(self) -> None:
-        """Rolls back the current transaction.
-
-        Args:
-            ref_number (str): Reference number of the form being rolled back.
-                Provided for API parity/logging, though not used directly here.
-
-        Raises:
-            RuntimeError: If no active session/transaction exists.
-        """
+        """Rolls back the current transaction."""
         self._get_session().rollback()
 
     def commit(self) -> None:
-        """Commits the current transaction.
-
-        Raises:
-            RuntimeError: If no active session/transaction exists.
-            Exception: Propagates any SQLAlchemy commit errors.
-        """
+        """Commits the current transaction."""
         self._get_session().commit()
 
     def create_tables_if_not_exists(self) -> None:
@@ -106,7 +85,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         """Checks if a form reference is not already present.
 
         Args:
-            form_reference (str): The Altinn/reference number identifying the form.
+            form_reference: The Altinn/reference number identifying the form.
 
         Returns:
             bool: ``True`` if no existing row for the reference is found, else ``False``.
@@ -134,7 +113,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         """Inserts contact information for a form.
 
         Args:
-            contact_info (ContactInfo): Contact metadata extracted from the form.
+            contact_info: Contact metadata extracted from the form.
 
         Side Effects:
             Adds a new ``kontaktinfo`` ORM instance to the current session.
@@ -160,7 +139,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         """Inserts all field-level form data entries.
 
         Args:
-            form_data (list[FormData]): A list of form data items to persist.
+            form_data: A list of form data items to persist.
 
         Side Effects:
             Adds multiple ``skjemadata`` ORM instances to the current session.
@@ -205,7 +184,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         """Inserts metadata describing the reception of a form.
 
         Args:
-            form_reciept (FormReception): Reception model (date received, active flag,
+            form_reciept: Reception model (date received, active flag,
                 edit status, comments, etc.).
 
         Side Effects:
@@ -233,7 +212,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         """Inserts unit-level metadata.
 
         Args:
-            unit (Unit): Reporting unit model to persist.
+            unit: Reporting unit model to persist.
 
         Side Effects:
             Adds a new ``enheter`` ORM instance to the current session.
@@ -252,7 +231,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         """Inserts additional key-value attributes for a unit.
 
         Args:
-            units (list[UnitInfo]): Collection of unit info entries to persist.
+            units: Collection of unit info entries to persist.
 
         Side Effects:
             Adds multiple ``enhetsinfo`` ORM instances to the current session.

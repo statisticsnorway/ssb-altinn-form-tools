@@ -41,14 +41,9 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Initializes the connector with a SQLAlchemy engine (placeholder).
 
         Args:
-            engine (Engine): A SQLAlchemy engine used temporarily for validation
+            engine: A SQLAlchemy engine used temporarily for validation
                 checks and to mirror the transactional lifecycle while the class
                 is developed.
-
-        Raises:
-            NotImplementedError: Always raised to indicate the connector is not
-                ready for use.
-
         """
         self._parquedit = engine
         self._engine = engine._get_connection().raw
@@ -62,10 +57,6 @@ class ParqueditStorageConnector(MetaStorageConnector):
             In a future Parquet-backed implementation, this may manage file
             writers, staging areas, or atomic rename workflows rather than a
             database transaction.
-
-        Raises:
-            Exception: Propagates any SQLAlchemy errors during session creation
-                or transaction start.
         """
         self._session = self._engine.begin()
 
@@ -83,23 +74,11 @@ class ParqueditStorageConnector(MetaStorageConnector):
         return self._session
 
     def rollback(self) -> None:
-        """Rolls back the current transaction (placeholder).
-
-        Args:
-            ref_number (str): Reference number for diagnostic logging/context.
-
-        Raises:
-            RuntimeError: If no active session/transaction exists.
-        """
+        """Rolls back the current transaction (placeholder)."""
         self._get_session().rollback()
 
     def commit(self) -> None:
-        """Commits the current transaction (placeholder).
-
-        Raises:
-            RuntimeError: If no active session/transaction exists.
-            Exception: Propagates SQLAlchemy commit errors.
-        """
+        """Commits the current transaction (placeholder)."""
         self._get_session().commit()
 
     def create_tables_if_not_exists(self) -> None:
@@ -133,7 +112,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Checks if a form reference is not already present.
 
         Args:
-            form_reference (str): The reference number identifying the form.
+            form_reference: The reference number identifying the form.
 
         Returns:
             bool: ``True`` if no existing record for the reference is found,
@@ -552,7 +531,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Stages a contact info record for insertion (WIP).
 
         Args:
-            contact_info (ContactInfo): Contact information to persist.
+            contact_info: Contact information to persist.
 
         Notes:
             In a complete implementation, this would write to a Parquet/Delta table,
@@ -567,7 +546,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Stages a batch of form data records for insertion (WIP).
 
         Args:
-            form_data (list[FormData]): Field-level form data entries to persist.
+            form_data: Field-level form data entries to persist.
 
         Notes:
             In a complete implementation, this would batch-append rows to a
@@ -585,7 +564,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Stages a batch of form data records for insertion (WIP).
 
         Args:
-            form_data (list[FormData]): Field-level form data entries to persist.
+            form_data: Field-level form data entries to persist.
 
         Notes:
             In a complete implementation, this would batch-append rows to a
@@ -603,7 +582,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Stages a form reception record for insertion (WIP).
 
         Args:
-            form_reciept (FormReception): Reception metadata to persist.
+            form_reciept: Reception metadata to persist.
         """
         table_name = "skjemamottak"
         model = [model.model_dump() for model in form_reciept]
@@ -614,7 +593,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Stages a unit record for insertion (WIP).
 
         Args:
-            unit (Unit): Unit metadata to persist.
+            unit: Unit metadata to persist.
 
         """
         table_name = "enheter"
@@ -625,7 +604,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Stages unit attribute records for insertion (WIP).
 
         Args:
-            units (list[UnitInfo]): Unit key-value attributes to persist.
+            units: Unit key-value attributes to persist.
         """
         table_name = "enhetsinfo"
         unit_info = []

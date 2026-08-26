@@ -18,22 +18,22 @@ class Base(DeclarativeBase):
 class KontaktInfo(Base):
     """Represents contact information associated with a submitted form.
 
-    This table stores details about the person responsible for submitting or
-    verifying the form, including email, phone number, and validation status.
+    Stores details about the person responsible for submitting or verifying
+    the form, including contact details, validation status, and comments.
 
     Attributes:
-        id (int): Auto-incrementing primary key.
-        iso_period (str): Iso period of the form.
-        skjema (str): Code or identifier of the form.
-        ident (str): Identifier of the reporting unit.
-        refnr (str): Reference number of the submitted form.
-        kontaktperson (str): Name of the contact person.
-        epost (str): Email address associated with the contact.
-        telefon (str): Phone number for the contact person.
-        bekreftet_kontaktinfo (str): Flag or marker indicating whether contact
-            information has been confirmed.
-        kommentar_kontaktinfo (str): Free-text comment regarding contact info.
-        kommentar_krevende (str): Notes regarding challenging communication cases.
+        id: Auto-incrementing primary key.
+        iso_period: ISO period associated with the form.
+        skjema: Code or identifier of the form.
+        ident: Identifier of the reporting unit.
+        refnr: Reference number of the submitted form.
+        kontaktperson: Name of the contact person.
+        epost: Email address associated with the contact.
+        telefon: Phone number for the contact person.
+        bekreftet_kontaktinfo: Marker indicating whether contact information
+            has been confirmed.
+        kommentar_kontaktinfo: Free-text comment regarding contact information.
+        kommentar_krevende: Notes regarding challenging communication cases.
     """
 
     __tablename__ = "kontaktinfo"
@@ -54,10 +54,10 @@ class Enheter(Base):
     """Represents a reporting unit submitting a form.
 
     Attributes:
-        id (int): Auto-incrementing primary key.
-        iso_period (str): Iso period of the form.
-        ident (str): Unique identifier of the reporting unit.
-        skjema (str): Form code or identifier.
+        id: Auto-incrementing primary key.
+        iso_period: Iso period of the form.
+        ident: Unique identifier of the reporting unit.
+        skjema: Form code or identifier.
     """
 
     __tablename__ = "enheter"
@@ -68,21 +68,24 @@ class Enheter(Base):
 
 
 class SkjemaMottak(Base):
-    """Represents the reception metadata for a submitted form.
+    """Represents reception metadata for a submitted form.
 
-    Stores information about when the form was received, whether it is active,
-    and any associated comments.
+    Stores information about the reporting period, form, reporting unit,
+    form version, reception timestamp, status, and associated comments.
 
     Attributes:
-        id (int): Auto-incrementing primary key.
-        iso_period (str): Iso period of the form.
-        skjema (str): Form code or identifier.
-        ident (str): Identifier of the reporting unit.
-        refnr (str): Unique reference number for the form instance.
-        kommentar (str): Free-text comment associated with reception.
-        dato_mottatt (datetime): Timestamp of when the form was received.
-        editert (str): Marker indicating whether the form has been edited.
-        aktiv (bool): Indicates whether the reception entry is active.
+        id: Auto-incrementing primary key.
+        iso_period: ISO period associated with the form.
+        start_date: Start date of the reporting period.
+        end_date: End date of the reporting period.
+        skjema: Form code or identifier.
+        skjema_versjon: Version of the submitted form, if available.
+        ident: Identifier of the reporting unit.
+        refnr: Reference number for the form submission.
+        kommentar: Free-text comment associated with the reception.
+        dato_mottatt: Timestamp when the form was received.
+        editert: Marker indicating whether the form has been edited.
+        aktiv: Indicates whether the reception entry is active.
     """
 
     __tablename__ = "skjemamottak"

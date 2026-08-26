@@ -35,11 +35,11 @@ class MetaFormExtractor(ABC):
         """Extracts contact information from parsed form data.
 
         Args:
-            form_dict_data (InputFormType): Raw form content derived from XML.
-            form (str): Form code or type identifier.
-            ident (str): Identifier of the reporting unit.
-            refnr (str): Reference number associated with the form instance.
-            iso_period (str): Registered iso_period.
+            form_dict_data: Raw form content derived from XML.
+            form: Form code or type identifier.
+            ident: Identifier of the reporting unit.
+            refnr: Reference number associated with the form instance.
+            iso_period: Registered iso_period.
 
         Returns:
             ContactInfo: Structured contact metadata extracted from the form.
@@ -58,11 +58,11 @@ class MetaFormExtractor(ABC):
         """Extracts detailed field-level form data.
 
         Args:
-            form_dict_data (InputFormType): Parsed form content containing field values.
-            form (str): Form name or identifier.
-            ident (str): Identifier of the reporting unit.
-            refnr (str): Reference number for the submitted form.
-            iso_period (str): Registered iso_period.
+            form_dict_data: Parsed form content containing field values.
+            form: Form name or identifier.
+            ident: Identifier of the reporting unit.
+            refnr: Reference number for the submitted form.
+            iso_period: Registered iso_period.
 
         Returns:
             list[FormData]: A list of validated form data entries.
@@ -76,8 +76,8 @@ class MetaFormExtractor(ABC):
         """Extracts reception and submission metadata for the form.
 
         Args:
-            form_dict_data (InputFormType): XML-derived internal metadata section.
-            json_data (FormJsonData): Supplemental metadata from JSON.
+            form_dict_data: XML-derived internal metadata section.
+            json_data: Supplemental metadata from JSON.
 
         Returns:
             FormReception: Structured information about form reception.
@@ -91,9 +91,9 @@ class MetaFormExtractor(ABC):
         fields or lookup logic are necessary.
 
         Args:
-            form (str): Form name or code.
-            ident (str): Identifier of the reporting unit.
-            iso_period (str): Registered iso_period.
+            form: Form name or code.
+            ident: Identifier of the reporting unit.
+            iso_period: Registered iso_period.
 
         Returns:
             Unit: A ``Unit`` model representing the reporting entity.
@@ -107,9 +107,9 @@ class MetaFormExtractor(ABC):
         """Extracts additional unit-level metadata from the form.
 
         Args:
-            form_dict_data (InputFormType): Parsed XML content containing internal metadata.
-            ident (str): Identifier of the reporting unit.
-            iso_period (str): Registered iso_period.
+            form_dict_data: Parsed XML content containing internal metadata.
+            ident: Identifier of the reporting unit.
+            iso_period: Registered iso_period.
 
         Returns:
             list[UnitInfo]: Structured metadata entries describing unit attributes.
@@ -134,8 +134,8 @@ class MetaFormExtractor(ABC):
             3. Construct and return an ``ExtractedForm`` model containing all components.
 
         Args:
-            form_dict_data (InputFormType): XML-derived form content.
-            json_data (FormJsonData): Supplemental metadata associated with the form.
+            form_dict_data: XML-derived form content.
+            json_data: Supplemental metadata associated with the form.
 
         Returns:
             ExtractedForm: A fully aggregated model containing all parsed form sections.

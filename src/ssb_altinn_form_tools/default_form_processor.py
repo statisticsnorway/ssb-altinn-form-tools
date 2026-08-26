@@ -81,21 +81,21 @@ class DefaultFormProcessor(MetaFormProcessor):
             >>> }
 
         Args:
-            form_name (str): Canonical form name used to build the top-level XML key.
-            form_base_path (str): Base directory where XML form files reside.
-            extractor (MetaFormExtractor): Extractor that converts parsed XML
+            form_name: Canonical form name used to build the top-level XML key.
+            form_base_path: Base directory where XML form files reside.
+            extractor: Extractor that converts parsed XML
                 dictionaries to domain models.
-            connector (MetaStorageConnector): Storage connector for validating and
+            connector: Storage connector for validating and
                 inserting extracted data.
-            alias_mapping (dict[str, str] | None): Optional mapping from field
+            alias_mapping: Optional mapping from field
                 names (``feltnavn``) to user-friendly aliases to be set on each
                 corresponding `FormData` entry.
-            checkbox_mapping (ManualOptionMapping | dict[str, Any] | None): Optional mapping for manually adding
+            checkbox_mapping: Optional mapping for manually adding
                 multi-select fields whose values are encoded as comma-separated strings.
-            ra_version (str | None): An optional argument denoting which data-version
+            ra_version: An optional argument denoting which data-version
                 of the form to use. This is automatically set to 1 if no argument is
                 provided.
-            alternative_glob_path (str | None): Globbable path to all forms. Eg. '/**/*.xml'.
+            alternative_glob_path: Globbable path to all forms. Eg. '/**/*.xml'.
                 We try to automatically discover forms based on the standard directory structure
                 provided by team suv. If you another directory structure, this argument can be set.
         """
@@ -139,8 +139,8 @@ class DefaultFormProcessor(MetaFormProcessor):
         have its `alias` set to the corresponding mapped string.
 
         Args:
-            mapping (dict[str, str]): Mapping from original field names to aliases.
-            extracted_form (ExtractedForm): The extracted form whose `form_data`
+            mapping: Mapping from original field names to aliases.
+            extracted_form: The extracted form whose `form_data`
                 list will be updated.
 
         Side Effects:
@@ -168,17 +168,12 @@ class DefaultFormProcessor(MetaFormProcessor):
              unit, unit info). On failure, the transaction is rolled back.
 
         Args:
-            xml_path (Path): Path to the XML form file.
-            json_data (FormJsonData): Supplemental JSON metadata for the form.
+            xml_path: Path to the XML form file.
+            json_data: Supplemental JSON metadata for the form.
 
         Returns:
             ExtractedForm | None: The extracted form if it was processed and
             inserted; otherwise `None` when the form is not new.
-
-        Raises:
-            xmltodict.expat.ExpatError: If the XML is malformed and cannot be parsed.
-            KeyError: If the expected top-level key (e.g., `_form_data_key`) is
-                missing from the parsed XML dictionary.
 
         Logging:
             - Logs an info message when the form is inserted or skipped.
@@ -211,11 +206,7 @@ class DefaultFormProcessor(MetaFormProcessor):
         the form via `_process_form`.
 
         Args:
-            forms (list[str]): List of XML file paths to process.
-
-        Raises:
-            FileNotFoundError: If the derived JSON metadata file does not exist.
-            pydantic.ValidationError: If `FormJsonData` validation fails.
+            forms: List of XML file paths to process.
         """
         new_forms: list[ExtractedForm] = []
         for form in forms:

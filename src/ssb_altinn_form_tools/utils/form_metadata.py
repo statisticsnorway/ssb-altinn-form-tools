@@ -23,18 +23,18 @@ def _fetch_with_retry(
     """Attempt to fetch data from a list of URLs with retries.
 
     Args:
-        urls (list): List of URL strings to try in sequence (rotates on retries).
-        form_key (str): The form to fetch for. Used in logging.
-        resource (str): Jsonschema or optionsmetadata. Used in logging.
-        max_retries (int): Maximum number of retry attempts.
-        delay (int/float): Delay between retries in seconds.
-        timeout (int/float): Timeout for each request in seconds.
+        urls: List of URL strings to try in sequence (rotates on retries).
+        form_key: The form to fetch for. Used in logging.
+        resource: Jsonschema or optionsmetadata. Used in logging.
+        max_retries: Maximum number of retry attempts.
+        delay: Delay between retries in seconds.
+        timeout: Timeout for each request in seconds.
 
     Returns:
         dict | Any: Successful json response object.
 
     Raises:
-        Exception: If all retries fail.
+        ValueError: if 'urls' is empty or not a list.
     """
     if not urls or not isinstance(urls, list):
         raise ValueError("urls must be a non-empty list of URL strings.")
@@ -147,11 +147,11 @@ class FormMetadata:
         """Initializes the default form processor.
 
         Args:
-            form_name (str): Canonical form name used to build the top-level XML key.
-            ra_version (str | None): An optional argument denoting which data-version
+            form_name: Canonical form name used to build the top-level XML key.
+            ra_version: An optional argument denoting which data-version
                 of the form to use. This is automatically set to 1 if no argument is
                 provided.
-            max_retries (int): Number of retries if a metadata request fails.
+            max_retries: Number of retries if a metadata request fails.
         """
         self._form_data_key = f"A3_{form_name}_M"
         self._max_retries = max_retries

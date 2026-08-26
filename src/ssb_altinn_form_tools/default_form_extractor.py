@@ -120,7 +120,7 @@ class DefaultFormExtractor(MetaFormExtractor):
             form: The name of the form (RA-number).
             ident: The id of the unit.
             refnr: The id number of the form.
-            iso_period (str): Registered iso_period.
+            iso_period: Registered iso_period.
 
         Returns:
             list(ContactInfo): A pydantic model representing the contact info.
@@ -161,7 +161,7 @@ class DefaultFormExtractor(MetaFormExtractor):
             form: The name or code of the form (e.g., RA-number).
             ident: The identifier for the reporting unit.
             refnr: The reference number for the submitted form instance.
-            iso_period (str): Registered iso_period.
+            iso_period: Registered iso_period.
 
         Returns:
             list(FormData): A list of ``FormData`` objects, each representing a parsed and validated
@@ -234,11 +234,14 @@ class DefaultFormExtractor(MetaFormExtractor):
             form_dict_data: Raw form content containing an
                 ``InternInfo`` dictionary with internal metadata.
             ident: Identifier for the reporting unit.
-            iso_period (str): Registered iso_period.
+            iso_period: Registered iso_period.
 
         Returns:
             list[UnitInfo]: A list of ``UnitInfo`` objects built from keys in
             ``InternInfo`` that start with ``"enhets"``.
+
+        Raises:
+            TypeError: If form_dict_data["InternInfo"] is not a dict.
         """
         form_data = form_dict_data["InternInfo"]
 
