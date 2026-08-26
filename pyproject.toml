@@ -16,6 +16,8 @@ dependencies = [
     "pendulum>=3.2.0",
     "ssb-parquedit==0.0.11",
     "pytz>=2026.2",
+    "pandas-stubs (>=3.0.5.260730,<4.0.0.0)",
+    "types-xmltodict (>=1.0.1.20260518,<2.0.0.0)",
 ]
 [project.optional-dependencies]
 sqlalchemy = []
