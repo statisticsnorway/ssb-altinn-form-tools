@@ -5,8 +5,6 @@ from sqlalchemy import text
 
 from ssb_altinn_form_tools.default_form_extractor import parse_entries
 from ssb_altinn_form_tools.meta_form_extractor import InputFormType
-from ssb_altinn_form_tools.meta_form_extractor import MetaFormExtractor
-from ssb_altinn_form_tools.meta_form_processor import MetaFormProcessor
 from ssb_altinn_form_tools.models import FormData
 from ssb_altinn_form_tools.models import FormReception
 from ssb_altinn_form_tools.sqlalchemy_storage_connector import (

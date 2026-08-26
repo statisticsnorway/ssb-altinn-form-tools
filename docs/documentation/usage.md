@@ -20,8 +20,8 @@ processor.process_new_forms()
 
 ## Implement Your Own Extractor
 If your form has any diverging needs from what is covered by the default extractor, you can replace functionality by inheriting from the metaclasses and implementing your own methods.
- 
-```python 
+
+```python
 class MyExtractor(MetaFormExtractor):
     def extract_contact_info(...): ...
     def extract_form_data(...): ...
@@ -31,6 +31,6 @@ class MyExtractor(MetaFormExtractor):
 
 ## Run Processing
 Call:
-```python 
+```python
 processor.process_new_forms()
 ```
