@@ -250,18 +250,6 @@ class FormMetadata:
             options.append(model)
         return options
 
-    def _extract_formatting(
-        self, form_metadata: list[dict[str, Any]], skjema: str, iso_period: str
-    ):
-        pass
-        formatting = []
-        for res in self._filtered_data:
-            if res.get("formatting"):
-                data = FormattingMetadataModel.model_validate(
-                    {"skjema": "test", "iso_period": "test", **res}
-                )
-                formatting.append(data)
-
     def get_array_fields(self, ra_version: int | None = None) -> list[str] | None:
         """Method for getting array fields.
 
