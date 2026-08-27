@@ -1,35 +1,26 @@
-import pytest
-
 from ssb_altinn_form_tools.utils.form_metadata import FormMetadata
 from ssb_altinn_form_tools.utils.form_metadata import extract_arr_fields
 
-from .utils import form_paths
 
-
-@pytest.fixture(params=form_paths())
-def form_info_fixture(request) -> str:
-    return request.param
-
-
-def test_metadata_api():
+def test_metadata_api() -> None:
     api = FormMetadata(form_name="RA0485", max_retries=0)
-    res = api.extract_options_list("RA0485", "2025")
-    assert len(res) == 32
-    assert any(item.options_id == "DagerIDrift" for item in res)
+    res_options_list = api.extract_options_list("RA0485", "2025")
+    assert len(res_options_list) == 32
+    assert any(item.options_id == "DagerIDrift" for item in res_options_list)
 
-    res = api.extract_options_nodes("RA0485", "2025")
-    assert any(item.option_id == "DagerIDrift" for item in res)
-    assert len(res) == 13
+    res_options_nodes = api.extract_options_nodes("RA0485", "2025")
+    assert any(item.option_id == "DagerIDrift" for item in res_options_nodes)
+    assert len(res_options_nodes) == 13
 
     api = FormMetadata(form_name="RA0187", max_retries=0)
-    res = api.extract_options_list("RA0187", "2025")
-    assert len(res) == 0
+    res_options_list = api.extract_options_list("RA0187", "2025")
+    assert len(res_options_list) == 0
 
-    res = api.extract_options_nodes("RA0187", "2025")
-    assert len(res) == 0
+    res_options_nodes = api.extract_options_nodes("RA0187", "2025")
+    assert len(res_options_nodes) == 0
 
 
-def test_jsonschema_api():
+def test_jsonschema_api() -> None:
     api = FormMetadata(form_name="RA0485", max_retries=0)
     res = api.get_array_fields()
     assert res is not None
@@ -42,10 +33,8 @@ def test_jsonschema_api():
     assert res is not None
     assert len(res) == 3
 
-    # api.extract_options_list(form_info_fixture.form_name, "2025")
 
-
-def test_array_field_extraction():
+def test_array_field_extraction() -> None:
     data = {
         "SkjemaData": {
             "type": "object",

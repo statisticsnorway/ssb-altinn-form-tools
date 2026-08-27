@@ -1,6 +1,7 @@
 import datetime
 import sqlite3
 import tempfile
+from collections.abc import Iterator
 
 import pytest
 from sqlalchemy import Engine
@@ -29,7 +30,7 @@ from ssb_altinn_form_tools.sqlalchemy_storage_connector import (
 
 
 @pytest.fixture(scope="session", name="sqlite")
-def sqlite_session():
+def sqlite_session() -> Iterator[Engine]:
     temp_dir = tempfile.TemporaryDirectory()
 
     conn = sqlite3.connect(f"{temp_dir.name}/catalog.db")
@@ -50,23 +51,24 @@ def connector_with_schema(sqlite: Engine) -> SqlAlchemyStorageConnector:
     return conn
 
 
-def test_parquedit_conn(sqlite: Engine):
+def test_parquedit_conn(sqlite: Engine) -> None:
     conn = SqlAlchemyStorageConnector(sqlite)
     conn.begin_transaction()
     conn.create_tables_if_not_exists()
     conn.commit()
 
 
-def test_duckdb_conn(connector_with_schema: SqlAlchemyStorageConnector):
-    connector_with_schema._get_session().execute(select(Skjemadata)).fetchall()
+def test_duckdb_conn(connector_with_schema: SqlAlchemyStorageConnector) -> None:
+    result = connector_with_schema._get_session().execute(select(Skjemadata)).fetchall()
+    assert result is not None
 
 
-def test_insert_unit_info(connector_with_schema: SqlAlchemyStorageConnector):
+def test_insert_unit_info(connector_with_schema: SqlAlchemyStorageConnector) -> None:
     connector_with_schema.insert_unit_info([])
     res = connector_with_schema._get_session().execute(select(EnhetsInfo)).fetchall()
     assert len(res) == 0
 
-    test_unit = UnitInfo(iso_period="2026", ident="test", variabel="var", verdi="verd")
+    test_unit = UnitInfo(iso_period="2026", ident="test", variable="var", verdi="verd")
     connector_with_schema.insert_unit_info([test_unit])
     res = connector_with_schema._get_session().execute(select(EnhetsInfo)).fetchall()
     model: EnhetsInfo = res[0][0]
@@ -77,7 +79,7 @@ def test_insert_unit_info(connector_with_schema: SqlAlchemyStorageConnector):
     assert res_unit == test_unit
 
 
-def test_insert_unit(connector_with_schema: SqlAlchemyStorageConnector):
+def test_insert_unit(connector_with_schema: SqlAlchemyStorageConnector) -> None:
     connector_with_schema.insert_unit([])
     res = connector_with_schema._get_session().execute(select(Enheter)).fetchall()
     assert len(res) == 0
@@ -93,7 +95,7 @@ def test_insert_unit(connector_with_schema: SqlAlchemyStorageConnector):
     assert res_unit == test_unit
 
 
-def test_insert_contact_info(connector_with_schema: SqlAlchemyStorageConnector):
+def test_insert_contact_info(connector_with_schema: SqlAlchemyStorageConnector) -> None:
     res = connector_with_schema._get_session().execute(select(KontaktInfo)).fetchall()
 
     assert len(res) == 0
@@ -112,7 +114,9 @@ def test_insert_contact_info(connector_with_schema: SqlAlchemyStorageConnector):
     assert res_unit == test_unit
 
 
-def test_insert_form_reception(connector_with_schema: SqlAlchemyStorageConnector):
+def test_insert_form_reception(
+    connector_with_schema: SqlAlchemyStorageConnector,
+) -> None:
     connector_with_schema.insert_form_reception([])
     res = connector_with_schema._get_session().execute(select(SkjemaMottak)).fetchall()
     assert len(res) == 0
@@ -123,7 +127,7 @@ def test_insert_form_reception(connector_with_schema: SqlAlchemyStorageConnector
             ident="test",
             skjema="testskjema",
             refnr="test_ref",
-            editert="under editering",
+            status="under editering",
             kommentar="komm",
             aktiv=True,
             start_date=datetime.datetime(2026, 1, 1),
@@ -144,7 +148,7 @@ def test_insert_form_reception(connector_with_schema: SqlAlchemyStorageConnector
     assert res_unit == test_unit
 
 
-def test_insert_form_data(connector_with_schema: SqlAlchemyStorageConnector):
+def test_insert_form_data(connector_with_schema: SqlAlchemyStorageConnector) -> None:
     connector_with_schema.insert_form_data([])
     res = connector_with_schema._get_session().execute(select(Skjemadata)).fetchall()
     assert len(res) == 0
@@ -167,7 +171,9 @@ def test_insert_form_data(connector_with_schema: SqlAlchemyStorageConnector):
     assert res_unit == test_unit
 
 
-def test_insert_form_data_unedited(connector_with_schema: SqlAlchemyStorageConnector):
+def test_insert_form_data_unedited(
+    connector_with_schema: SqlAlchemyStorageConnector,
+) -> None:
     connector_with_schema.insert_form_data_unedited([])
     res = (
         connector_with_schema._get_session()
@@ -198,7 +204,7 @@ def test_insert_form_data_unedited(connector_with_schema: SqlAlchemyStorageConne
     assert res_unit == test_unit
 
 
-def test_insert_option_list(connector_with_schema: SqlAlchemyStorageConnector):
+def test_insert_option_list(connector_with_schema: SqlAlchemyStorageConnector) -> None:
     connector_with_schema.insert_option_list([])
     res = connector_with_schema._get_session().execute(select(OptionsLists)).fetchall()
     assert len(res) == 0
@@ -223,7 +229,7 @@ def test_insert_option_list(connector_with_schema: SqlAlchemyStorageConnector):
     assert model.options_id == test_unit.options_id  # pyright: ignore
 
 
-def test_insert_option_nodes(connector_with_schema: SqlAlchemyStorageConnector):
+def test_insert_option_nodes(connector_with_schema: SqlAlchemyStorageConnector) -> None:
     connector_with_schema.insert_option_node([])
     res = (
         connector_with_schema._get_session().execute(select(OrmOptionNodes)).fetchall()

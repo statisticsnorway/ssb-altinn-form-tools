@@ -2,10 +2,10 @@ import logging
 import time
 from collections import defaultdict
 from itertools import cycle
+from typing import Any
 
 import requests
 
-from ..models import FormattingMetadataModel
 from ..models import OptionMetadataModel
 from ..models import OptionModel
 from ..models import OptionNodes
@@ -18,22 +18,22 @@ def _fetch_with_retry(
     max_retries: int = 3,
     delay: int = 2,
     timeout: int = 5,
-):
+) -> Any | dict[Any, Any]:
     """Attempt to fetch data from a list of URLs with retries.
 
     Args:
-        urls (list): List of URL strings to try in sequence (rotates on retries).
-        form_key (str): The form to fetch for. Used in logging.
-        resource (str): Jsonschema or optionsmetadata. Used in logging.
-        max_retries (int): Maximum number of retry attempts.
-        delay (int/float): Delay between retries in seconds.
-        timeout (int/float): Timeout for each request in seconds.
+        urls: List of URL strings to try in sequence (rotates on retries).
+        form_key: The form to fetch for. Used in logging.
+        resource: Jsonschema or optionsmetadata. Used in logging.
+        max_retries: Maximum number of retry attempts.
+        delay: Delay between retries in seconds.
+        timeout: Timeout for each request in seconds.
 
     Returns:
         dict | Any: Successful json response object.
 
     Raises:
-        Exception: If all retries fail.
+        ValueError: if 'urls' is empty or not a list.
     """
     if not urls or not isinstance(urls, list):
         raise ValueError("urls must be a non-empty list of URL strings.")
@@ -71,7 +71,9 @@ def _fetch_with_retry(
     return {}
 
 
-def _process_options(options: list[OptionMetadataModel]):
+def _process_options(
+    options: list[OptionMetadataModel],
+) -> tuple[dict[str, set[OptionModel]], dict[str, set[str]]]:
     unique_option: dict[str, set[OptionModel]] = defaultdict(set)
     nodes_options: dict[str, set[str]] = defaultdict(set)
     for option in options:
@@ -81,8 +83,11 @@ def _process_options(options: list[OptionMetadataModel]):
     return unique_option, nodes_options
 
 
-def _node_filter(data: dict, contained_key: str) -> list[dict]:
-    results = []
+def _node_filter(
+    data: str | dict[str, Any] | list[str | dict[str, Any]], contained_key: str
+) -> list[Any]:
+    """Recursive function to extract key-value pairs from an object tree. The key to search for is provided by the "contained_key" argument."""
+    results: list[Any] = []
     if isinstance(data, str):
         return results
 
@@ -109,7 +114,9 @@ def _node_filter(data: dict, contained_key: str) -> list[dict]:
 logger = logging.getLogger(__name__)
 
 
-def extract_arr_fields(json_data: dict, parent: str | None = None) -> list:
+def extract_arr_fields(
+    json_data: dict[str, dict[str, Any] | Any], parent: str | None = None
+) -> list[str]:
     """Extract names of fields that are arrays.
 
     A function that traverses a dictionary recursivly to extract the name of fields that are arrays.
@@ -119,7 +126,7 @@ def extract_arr_fields(json_data: dict, parent: str | None = None) -> list:
         if isinstance(value, dict):
             array_items.extend(extract_arr_fields(value, key))
         else:
-            if value == "array":
+            if (value == "array") and (parent is not None):
                 array_items.append(parent)
     return array_items
 
@@ -136,27 +143,30 @@ class FormMetadata:
     def __init__(
         self,
         form_name: str,
-        ra_version: None | int = None,
+        ra_version: int | None = None,
         max_retries: int = 3,
     ) -> None:
         """Initializes the default form processor.
 
         Args:
-            form_name (str): Canonical form name used to build the top-level XML key.
-            ra_version (str | None): An optional argument denoting which data-version
+            form_name: Canonical form name used to build the top-level XML key.
+            ra_version: An optional argument denoting which data-version
                 of the form to use. This is automatically set to 1 if no argument is
                 provided.
-            max_retries (int): Number of retries if a metadata request fails.
+            max_retries: Number of retries if a metadata request fails.
         """
         self._form_data_key = f"A3_{form_name}_M"
         self._max_retries = max_retries
+        self._form_name = form_name
+        self._filtered_data: list[dict[str, Any]] | None = None
+        self.array_fields: list[str] | None = None
         self._jsonschema_url = self._create_json_schema_url(form_name, ra_version)
         self._metadata_url = self._create_metadata_url(form_name, ra_version)
 
     def _create_json_schema_url(
         self,
         form_name: str,
-        ra_version: None | int = None,
+        ra_version: int | None = None,
     ) -> str:
         ra_nummer = f"{form_name[:2]}-{form_name[2:]}A3"  # Eksempel: "RA-1234A3"
         version = ra_version if ra_version else 1  # Eksempel: 1 (numerisk)
@@ -170,7 +180,7 @@ class FormMetadata:
     def _create_metadata_url(
         self,
         form_name: str,
-        ra_version: None | int = None,
+        ra_version: int | None = None,
     ) -> str:
         self._form_name = form_name
         ra_nummer = f"{form_name[:2]}-{form_name[2:]}A3"  # Eksempel: "RA-1234A3"
@@ -182,8 +192,8 @@ class FormMetadata:
 
         return f"https://ssb.apps.tt02.altinn.no/ssb/{ra_id}-{version_str}/api/getskjemakonfig"
 
-    def _get_metadata(self, ra_version: int | None = None) -> list[dict]:
-        if hasattr(self, "_filtered_data") is False:
+    def _get_metadata(self, ra_version: int | None = None) -> list[dict[str, Any]]:
+        if self._filtered_data is None:
             if ra_version:
                 url = self._create_metadata_url(self._form_name, ra_version)
                 urls = []
@@ -206,9 +216,8 @@ class FormMetadata:
                     response_json, contained_key="options"
                 )
                 return self._filtered_data
-            else:
-                self._filtered_data = []
-            return self._filtered_data
+
+            return []
 
         else:
             return self._filtered_data
@@ -217,14 +226,14 @@ class FormMetadata:
         self, skjema: str, iso_period: str, ra_version: int | None = None
     ) -> list[OptionMetadataModel]:
         """Extract metadata related for all defined options lists and their options."""
-        processed = []
+        processed: list[OptionMetadataModel] = []
         data = self._get_metadata()
         for res in data:
             if res.get("options"):
-                data = OptionMetadataModel.model_validate(
+                model_data = OptionMetadataModel.model_validate(
                     {"skjema": skjema, "iso_period": iso_period, **res}
                 )
-                processed.append(data)
+                processed.append(model_data)
         return processed
 
     def extract_options_nodes(
@@ -245,24 +254,12 @@ class FormMetadata:
             options.append(model)
         return options
 
-    def _extract_formatting(
-        self, form_metadata: list[dict], skjema: str, iso_period: str
-    ):
-        pass
-        formatting = []
-        for res in self._filtered_data:
-            if res.get("formatting"):
-                data = FormattingMetadataModel.model_validate(
-                    {"skjema": "test", "iso_period": "test", **res}
-                )
-                formatting.append(data)
-
     def get_array_fields(self, ra_version: int | None = None) -> list[str] | None:
         """Method for getting array fields.
 
         Will use existings list if method already has been called.
         """
-        if hasattr(self, "array_fields"):
+        if self.array_fields is not None:
             return self.array_fields
 
         try:
@@ -294,5 +291,4 @@ class FormMetadata:
                 f"Fetching metadata for the form resulted in the following error. Possibly because metadata does not exist. Error: \n{e}"
             )
             # Some forms does not have metadata in Altinn
-            self.array_fields = None
-            return self.array_fields
+            return None

@@ -1,99 +1,108 @@
+from datetime import datetime
+
 from sqlalchemy import BOOLEAN
 from sqlalchemy import TIMESTAMP
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import declarative_mixin
 from sqlalchemy.orm import mapped_column
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    """SQLAlchemy ORM base class."""
+
+    pass
 
 
 class KontaktInfo(Base):
     """Represents contact information associated with a submitted form.
 
-    This table stores details about the person responsible for submitting or
-    verifying the form, including email, phone number, and validation status.
+    Stores details about the person responsible for submitting or verifying
+    the form, including contact details, validation status, and comments.
 
     Attributes:
-        id (int): Auto-incrementing primary key.
-        iso_period (str): Iso period of the form.
-        skjema (str): Code or identifier of the form.
-        ident (str): Identifier of the reporting unit.
-        refnr (str): Reference number of the submitted form.
-        kontaktperson (str): Name of the contact person.
-        epost (str): Email address associated with the contact.
-        telefon (str): Phone number for the contact person.
-        bekreftet_kontaktinfo (str): Flag or marker indicating whether contact
-            information has been confirmed.
-        kommentar_kontaktinfo (str): Free-text comment regarding contact info.
-        kommentar_krevende (str): Notes regarding challenging communication cases.
+        id: Auto-incrementing primary key.
+        iso_period: ISO period associated with the form.
+        skjema: Code or identifier of the form.
+        ident: Identifier of the reporting unit.
+        refnr: Reference number of the submitted form.
+        kontaktperson: Name of the contact person.
+        epost: Email address associated with the contact.
+        telefon: Phone number for the contact person.
+        bekreftet_kontaktinfo: Marker indicating whether contact information
+            has been confirmed.
+        kommentar_kontaktinfo: Free-text comment regarding contact information.
+        kommentar_krevende: Notes regarding challenging communication cases.
     """
 
-    __tablename__ = "kontaktinfo"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period = Column(String)
-    skjema = Column(String)
-    ident = Column(String)
-    refnr = Column(String)
-    kontaktperson = Column(String)
-    epost = Column(String)
-    telefon = Column(String)
-    bekreftet_kontaktinfo = Column(String)
-    kommentar_kontaktinfo = Column(String)
-    kommentar_krevende = Column(String)
+    __tablename__: str = "kontaktinfo"
+    id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
+    iso_period: Column[str] = Column(String)
+    skjema: Column[str] = Column(String)
+    ident: Column[str] = Column(String)
+    refnr: Column[str] = Column(String)
+    kontaktperson: Column[str] = Column(String)
+    epost: Column[str] = Column(String)
+    telefon: Column[str] = Column(String)
+    bekreftet_kontaktinfo: Column[str] = Column(String)
+    kommentar_kontaktinfo: Column[str] = Column(String)
+    kommentar_krevende: Column[str] = Column(String)
 
 
 class Enheter(Base):
     """Represents a reporting unit submitting a form.
 
     Attributes:
-        id (int): Auto-incrementing primary key.
-        iso_period (str): Iso period of the form.
-        ident (str): Unique identifier of the reporting unit.
-        skjema (str): Form code or identifier.
+        id: Auto-incrementing primary key.
+        iso_period: Iso period of the form.
+        ident: Unique identifier of the reporting unit.
+        skjema: Form code or identifier.
     """
 
-    __tablename__ = "enheter"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period = Column(String)
-    ident = Column(String)
-    skjema = Column(String)
+    __tablename__: str = "enheter"
+    id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
+    iso_period: Column[str] = Column(String)
+    ident: Column[str] = Column(String)
+    skjema: Column[str] = Column(String)
 
 
 class SkjemaMottak(Base):
-    """Represents the reception metadata for a submitted form.
+    """Represents reception metadata for a submitted form.
 
-    Stores information about when the form was received, whether it is active,
-    and any associated comments.
+    Stores information about the reporting period, form, reporting unit,
+    form version, reception timestamp, status, and associated comments.
 
     Attributes:
-        id (int): Auto-incrementing primary key.
-        iso_period (str): Iso period of the form.
-        skjema (str): Form code or identifier.
-        ident (str): Identifier of the reporting unit.
-        refnr (str): Unique reference number for the form instance.
-        kommentar (str): Free-text comment associated with reception.
-        dato_mottatt (datetime): Timestamp of when the form was received.
-        editert (str): Marker indicating whether the form has been edited.
-        aktiv (bool): Indicates whether the reception entry is active.
+        id: Auto-incrementing primary key.
+        iso_period: ISO period associated with the form.
+        start_date: Start date of the reporting period.
+        end_date: End date of the reporting period.
+        skjema: Form code or identifier.
+        skjema_versjon: Version of the submitted form, if available.
+        ident: Identifier of the reporting unit.
+        refnr: Reference number for the form submission.
+        kommentar: Free-text comment associated with the reception.
+        dato_mottatt: Timestamp when the form was received.
+        status: Marker indicating whether the form has been edited.
+        aktiv: Indicates whether the reception entry is active.
     """
 
-    __tablename__ = "skjemamottak"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period = Column(String)
-    start_date = Column(TIMESTAMP)
-    end_date = Column(TIMESTAMP)
-    skjema = Column(String)
-    skjema_versjon = Column(String, nullable=True)
-    ident = Column(String)
-    refnr = Column(String)
-    kommentar = Column(String)
-    dato_mottatt = Column(TIMESTAMP)
-    editert = Column(String)
-    aktiv = Column(BOOLEAN)
+    __tablename__: str = "skjemamottak"
+    id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
+    iso_period: Column[str] = Column(String)
+    start_date: Column[datetime] = Column(TIMESTAMP)
+    end_date: Column[datetime] = Column(TIMESTAMP)
+    skjema: Column[str] = Column(String)
+    skjema_versjon: Column[str] = Column(String, nullable=True)
+    ident: Column[str] = Column(String)
+    refnr: Column[str] = Column(String)
+    kommentar: Column[str] = Column(String)
+    dato_mottatt: Column[datetime] = Column(TIMESTAMP)
+    status: Column[str] = Column(String)
+    aktiv: Column[bool] = Column(BOOLEAN)
 
 
 class EnhetsInfo(Base):
@@ -105,16 +114,16 @@ class EnhetsInfo(Base):
         id (int): Auto-incrementing primary key.
         iso_period (str): Iso period of the form.
         ident (str): Identifier of the reporting unit.
-        variabel (str): Name of the metadata variable.
+        variable (str): Name of the metadata variable.
         verdi (str): Value of the metadata variable.
     """
 
-    __tablename__ = "enhetsinfo"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period = Column(String)
-    ident = Column(String)
-    variabel = Column(String)
-    verdi = Column(String)
+    __tablename__: str = "enhetsinfo"
+    id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
+    iso_period: Column[str] = Column(String)
+    ident: Column[str] = Column(String)
+    variable: Column[str] = Column(String)
+    verdi: Column[str] = Column(String)
 
 
 class Kontroller(Base):
@@ -134,15 +143,15 @@ class Kontroller(Base):
         sorting_order (str): Order key used for deterministic sorting.
     """
 
-    __tablename__ = "kontroller"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period = Column(String)
-    skjema = Column(String)
-    kontrollid = Column(String)
-    kontrolltype = Column(String)
-    beskrivelse = Column(String)
-    sorting_var = Column(String)
-    sorting_order = Column(String)
+    __tablename__: str = "kontroller"
+    id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
+    iso_period: Column[str] = Column(String)
+    skjema: Column[str] = Column(String)
+    kontrollid: Column[str] = Column(String)
+    kontrolltype: Column[str] = Column(String)
+    beskrivelse: Column[str] = Column(String)
+    sorting_var: Column[str] = Column(String)
+    sorting_order: Column[str] = Column(String)
 
 
 class KontrollUtslag(Base):
@@ -159,15 +168,15 @@ class KontrollUtslag(Base):
         verdi (int): Value associated with the control evaluation result.
     """
 
-    __tablename__ = "kontrollutslag"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period = Column(String)
-    skjema = Column(String)
-    kontrollid = Column(String)
-    ident = Column(String)
-    refnr = Column(String)
-    utslag = Column(BOOLEAN)
-    verdi = Column(Integer)
+    __tablename__: str = "kontrollutslag"
+    id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
+    iso_period: Column[str] = Column(String)
+    skjema: Column[str] = Column(String)
+    kontrollid: Column[str] = Column(String)
+    ident: Column[str] = Column(String)
+    refnr: Column[str] = Column(String)
+    utslag: Column[bool] = Column(BOOLEAN)
+    verdi: Column[int] = Column(Integer)
 
 
 @declarative_mixin
@@ -190,7 +199,7 @@ class SkjemadataBase(Base):
         indeks (int): Index for repeated structures (arrays/lists).
     """
 
-    __abstract__ = True
+    __abstract__: bool = True
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     iso_period: Mapped[str] = mapped_column(String)
     skjema: Mapped[str] = mapped_column(String)
@@ -207,13 +216,13 @@ class SkjemadataBase(Base):
 class Skjemadata(SkjemadataBase):
     """Table for skjema data."""
 
-    __tablename__ = "skjemadata"
+    __tablename__: str = "skjemadata"
 
 
 class SkjemadataUnedited(SkjemadataBase):
     """Same table as skjemadata, but should not be edited."""
 
-    __tablename__ = "skjemadata_editert"
+    __tablename__: str = "skjemadata_editert"
 
 
 class OptionNodes(Base):
@@ -229,12 +238,12 @@ class OptionNodes(Base):
         options_id (str): Id for the option list
     """
 
-    __tablename__ = "optionnodes"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period = Column(String)
-    skjema = Column(String)
-    node_name = Column(String)
-    options_id = Column(String)
+    __tablename__: str = "optionnodes"
+    id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
+    iso_period: Column[str] = Column(String)
+    skjema: Column[str] = Column(String)
+    node_name: Column[str] = Column(String)
+    options_id: Column[str] = Column(String)
 
 
 class OptionsLists(Base):
@@ -251,10 +260,10 @@ class OptionsLists(Base):
         value (str): Value in the form
     """
 
-    __tablename__ = "optionslists"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period = Column(String)
-    skjema = Column(String)
-    options_id = Column(String)
-    label = Column(String)
-    value = Column(String)
+    __tablename__: str = "optionslists"
+    id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
+    iso_period: Column[str] = Column(String)
+    skjema: Column[str] = Column(String)
+    options_id: Column[str] = Column(String)
+    label: Column[str] = Column(String)
+    value: Column[str] = Column(String)

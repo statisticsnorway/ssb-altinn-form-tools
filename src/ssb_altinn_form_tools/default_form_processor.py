@@ -33,15 +33,19 @@ class ManualOptionMapping(BaseModel):
     node_names: list[str]
 
 
-def extract_xml_to_dict(xml_path: Path, array_fields: list[str] | None = None) -> dict:
+def extract_xml_to_dict(
+    xml_path: Path, array_fields: list[str] | None = None
+) -> dict[str, Any]:
     """Function for reading an xml file and transforming it to a dictionary.
 
     Function is separated to enable testing.
     """
     xml_string = xml_path.read_text()
-    dictionary: dict = xmltodict.parse(
-        xml_string, force_list=array_fields, xml_attribs=False
+    dictionary: dict[str, Any] = xmltodict.parse(
+        xml_string, force_list=array_fields, xml_attribs=False, encoding="utf-8"
     )
+    if not all(isinstance(key, str) for key in dictionary):
+        raise TypeError("Not all keys are of type 'str'.")
     return dictionary
 
 
@@ -61,11 +65,11 @@ class DefaultFormProcessor(MetaFormProcessor):
         extractor: MetaFormExtractor,
         connector: MetaStorageConnector,
         alias_mapping: dict[str, str] | None = None,
-        checkbox_mapping: list[ManualOptionMapping]
-        | list[dict[str, Any]]
-        | None = None,
-        ra_version: None | int = None,
-        alternative_glob_path: None | str = None,
+        checkbox_mapping: (
+            list[ManualOptionMapping] | list[dict[str, Any]] | None
+        ) = None,
+        ra_version: int | None = None,
+        alternative_glob_path: str | None = None,
     ) -> None:
         """Initializes the default form processor.
 
@@ -77,21 +81,21 @@ class DefaultFormProcessor(MetaFormProcessor):
             >>> }
 
         Args:
-            form_name (str): Canonical form name used to build the top-level XML key.
-            form_base_path (str): Base directory where XML form files reside.
-            extractor (MetaFormExtractor): Extractor that converts parsed XML
+            form_name: Canonical form name used to build the top-level XML key.
+            form_base_path: Base directory where XML form files reside.
+            extractor: Extractor that converts parsed XML
                 dictionaries to domain models.
-            connector (MetaStorageConnector): Storage connector for validating and
+            connector: Storage connector for validating and
                 inserting extracted data.
-            alias_mapping (dict[str, str] | None): Optional mapping from field
+            alias_mapping: Optional mapping from field
                 names (``feltnavn``) to user-friendly aliases to be set on each
                 corresponding `FormData` entry.
-            checkbox_mapping (ManualOptionMapping | dict[str, Any] | None): Optional mapping for manually adding
+            checkbox_mapping: Optional mapping for manually adding
                 multi-select fields whose values are encoded as comma-separated strings.
-            ra_version (str | None): An optional argument denoting which data-version
+            ra_version: An optional argument denoting which data-version
                 of the form to use. This is automatically set to 1 if no argument is
                 provided.
-            alternative_glob_path (str | None): Globbable path to all forms. Eg. '/**/*.xml'.
+            alternative_glob_path: Globbable path to all forms. Eg. '/**/*.xml'.
                 We try to automatically discover forms based on the standard directory structure
                 provided by team suv. If you another directory structure, this argument can be set.
         """
@@ -126,15 +130,17 @@ class DefaultFormProcessor(MetaFormProcessor):
         """
         return glob.glob(self._glob_path)
 
-    def _map_alias(self, mapping: dict[str, str], extracted_form: ExtractedForm):
+    def _map_alias(
+        self, mapping: dict[str, str], extracted_form: ExtractedForm
+    ) -> None:
         """Applies alias mapping to `ExtractedForm.form_data` in place.
 
         Each `FormData` entry whose ``feltnavn`` matches a key in `mapping` will
         have its `alias` set to the corresponding mapped string.
 
         Args:
-            mapping (dict[str, str]): Mapping from original field names to aliases.
-            extracted_form (ExtractedForm): The extracted form whose `form_data`
+            mapping: Mapping from original field names to aliases.
+            extracted_form: The extracted form whose `form_data`
                 list will be updated.
 
         Side Effects:
@@ -162,17 +168,12 @@ class DefaultFormProcessor(MetaFormProcessor):
              unit, unit info). On failure, the transaction is rolled back.
 
         Args:
-            xml_path (Path): Path to the XML form file.
-            json_data (FormJsonData): Supplemental JSON metadata for the form.
+            xml_path: Path to the XML form file.
+            json_data: Supplemental JSON metadata for the form.
 
         Returns:
             ExtractedForm | None: The extracted form if it was processed and
             inserted; otherwise `None` when the form is not new.
-
-        Raises:
-            xmltodict.expat.ExpatError: If the XML is malformed and cannot be parsed.
-            KeyError: If the expected top-level key (e.g., `_form_data_key`) is
-                missing from the parsed XML dictionary.
 
         Logging:
             - Logs an info message when the form is inserted or skipped.
@@ -182,9 +183,9 @@ class DefaultFormProcessor(MetaFormProcessor):
         is_new = self._connector.validate_form_is_new(json_data.altinn_reference)
 
         if is_new:
-            dictionary: dict = extract_xml_to_dict(
-                xml_path, array_fields=self.array_fields
-            )[self._form_data_key]
+            dictionary = extract_xml_to_dict(xml_path, array_fields=self.array_fields)[
+                self._form_data_key
+            ]
             extracted_form = self._extractor.extract_form(dictionary, json_data)
 
             if self._alias_mapping:
@@ -205,11 +206,7 @@ class DefaultFormProcessor(MetaFormProcessor):
         the form via `_process_form`.
 
         Args:
-            forms (list[str]): List of XML file paths to process.
-
-        Raises:
-            FileNotFoundError: If the derived JSON metadata file does not exist.
-            pydantic.ValidationError: If `FormJsonData` validation fails.
+            forms: List of XML file paths to process.
         """
         new_forms: list[ExtractedForm] = []
         for form in forms:
@@ -232,16 +229,18 @@ class DefaultFormProcessor(MetaFormProcessor):
             form_data = []
             unit_info = []
             periods = []
-            for form in new_forms:
-                form_data.extend(form.form_data)
-                unit_info.extend(form.unit_info)
-                periods.append(form.reception.iso_period)
+            for form_to_insert in new_forms:
+                form_data.extend(form_to_insert.form_data)
+                unit_info.extend(form_to_insert.unit_info)
+                periods.append(form_to_insert.reception.iso_period)
             self._connector.insert_form_data(form_data)
             self._connector.insert_form_data_unedited(form_data)
             self._connector.insert_form_reception(
-                [form.reception for form in new_forms]
+                [form_to_insert.reception for form_to_insert in new_forms]
             )
-            self._connector.insert_unit([form.unit for form in new_forms])
+            self._connector.insert_unit(
+                [form_to_insert.unit for form_to_insert in new_forms]
+            )
             self._connector.insert_unit_info(unit_info)
 
             for period in set(periods):
@@ -284,9 +283,10 @@ class DefaultFormProcessor(MetaFormProcessor):
             logger.error("Due to the previous error the insert was rolled back")
         else:
             self._connector.commit()
-            inserted_form_ids = [form.reception.refnr for form in new_forms]
+            inserted_form_ids = [
+                form_to_insert.reception.refnr for form_to_insert in new_forms
+            ]
             logger.info(f"Form {inserted_form_ids} was inserted into the database")
-            # logger.debug(f"Data: {extracted_form}")
 
     def process_new_forms(self) -> None:
         """Finds and processes all new forms discovered under the base path.

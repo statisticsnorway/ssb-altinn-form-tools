@@ -33,10 +33,10 @@ class MetaFormProcessor(ABC):
         """Initializes the processor with extractor and storage connector.
 
         Args:
-            extractor (MetaFormExtractor): Component responsible for turning parsed
+            extractor: Component responsible for turning parsed
                 form dictionaries into domain models (e.g., contact info, unit info,
                 reception, form data).
-            connector (MetaStorageConnector): Storage backend used to validate
+            connector: Storage backend used to validate
                 uniqueness and persist extracted models.
 
         Notes:
@@ -75,8 +75,11 @@ class MetaFormProcessor(ABC):
           - Handle idempotency (e.g., skip if already inserted).
 
         Args:
-            xml_path (Path): Filesystem path to the XML form.
-            json_data (FormJsonData): Supplemental metadata for the form.
+            xml_path: Filesystem path to the XML form.
+            json_data: Supplemental metadata for the form.
+
+        Returns:
+            (ExtractedForm | None): An ExtractedForm model or None.
 
         Raises:
             Exception: Implementations may raise IO, parsing, validation, or
@@ -89,7 +92,7 @@ class MetaFormProcessor(ABC):
         """Processes a batch of discovered forms.
 
         Args:
-            forms (list[str]): A list of form identifiers or file paths (commonly
+            forms: A list of form identifiers or file paths (commonly
                 XML paths) returned by ``_find_forms``.
 
         Notes:

@@ -1,6 +1,6 @@
 # Walkthrough
 
-This walkthrough is designed to help you understand how the package works and how to adapt it to your own needs. 
+This walkthrough is designed to help you understand how the package works and how to adapt it to your own needs.
 
 - [Design](#design)
 - [Form extractor](#extractor)
@@ -22,7 +22,7 @@ The package tries to mimic that process. This is done by providing three "meta c
 
 These meta classes are ``MetaFormProcessor``, ``MetaFormExtractor`` and ``MetaStorageConnector``. ``MetaStorageConnector`` is responsible for defining an interface to connect to a storage solution. ``MetaFormExtractor`` defines required methods and types for extracting form data. ``MetaFormProcessor`` defines an interfacing for binding these two together.
 
-We have provided default implementation of the ``MetaFormProcessor``and the ``MetaFormExtractor`` classes. We have also provided two ``MetaStorageConnector``, one for sqlalchemy, which works for all databases that sqlalchemy can connect to, e.g. Postgresql and SQLite. One connector for Parquedit is also provided. NOTE: The connector for parquedit is a WIP and is not currently working. 
+We have provided default implementation of the ``MetaFormProcessor``and the ``MetaFormExtractor`` classes. We have also provided two ``MetaStorageConnector``, one for sqlalchemy, which works for all databases that sqlalchemy can connect to, e.g. Postgresql and SQLite. One connector for Parquedit is also provided. NOTE: The connector for parquedit is a WIP and is not currently working.
 
 ## Extractor
 
@@ -37,7 +37,7 @@ extractor = DefaultFormExtractor()
 
 ### ADVANCED: Overwrite part of the extractor
 ```python
-from ssb_altinn_form_tools.default_form_extractor import DefaultFormExtractor 
+from ssb_altinn_form_tools.default_form_extractor import DefaultFormExtractor
 from ssb_altinn_form_tools.meta_form_extractor import InputFormType
 from ssb_altinn_form_tools.models import ContactInfo
 
@@ -58,7 +58,7 @@ extractor = CustomExtractor()
 ### ADVANCED: Custom extractor
 ```python
 from ssb_altinn_form_tools.meta_form_extractor import (
-        MetaFormExtractor, 
+        MetaFormExtractor,
         InputFormType
     )
 from ssb_altinn_form_tools.models import *
@@ -81,12 +81,12 @@ class CustomExtractor(MetaFormExtractor):
         form: str,
         ident: str,
         refnr: str,
-    ) -> list[FormData]: 
+    ) -> list[FormData]:
         # Your own implementation
 
     def extract_form_reception(
         self, form_dict_data: InputFormType, json_data: FormJsonData
-    ) -> FormReception: 
+    ) -> FormReception:
         # Your own implementation
 
     def extract_unit(self, year: int, form: str, ident: str) -> Unit:
@@ -94,7 +94,7 @@ class CustomExtractor(MetaFormExtractor):
 
     def extract_unit_info(
         self, form_dict_data: InputFormType, year: int, ident: str
-    ) -> list[UnitInfo]: 
+    ) -> list[UnitInfo]:
         # Your own implementation
 
 extractor = CustomExtractor()
@@ -119,8 +119,8 @@ connector = SqlAlchemyStorageConnector(engine)
 Note: If you want to do this, contact the package maintainers as it is likely the custom connector should be added to the package.
 
 ```python
-from ssb_altinn_form_tools.meta_storage_connector import MetaStorageConnector, 
-        
+from ssb_altinn_form_tools.meta_storage_connector import MetaStorageConnector,
+
 from ssb_altinn_form_tools.models import *
 
 class CustomConnector(MetaStorageConnector):
@@ -129,13 +129,13 @@ class CustomConnector(MetaStorageConnector):
 
     def begin_transaction(self) -> None:
         # Your implementation
-    
+
     def commit(self) -> None:
         # Your implementation
 
     def rollback(self, ref_number: str) -> None:
         # Your implementation
-        
+
     def insert_contact_info(self, contact_info: ContactInfo) -> None:
         # Your implementation
 
@@ -165,7 +165,7 @@ connector = CustomConnector()
 <a id="processor"></a>
 
 ## Form processor
-NOTE: The processor automatically tries to derive the schema of the form by using metadata provided by an Altinn-api. Some forms does not contain metadata, and this should be added. 
+NOTE: The processor automatically tries to derive the schema of the form by using metadata provided by an Altinn-api. Some forms does not contain metadata, and this should be added.
 
 The chosen connector and extractor is expected as init arguments.
 

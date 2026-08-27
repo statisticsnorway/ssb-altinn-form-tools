@@ -1,13 +1,14 @@
+from typing import Any
+
 import pytest
 
 from ssb_altinn_form_tools.utils.form_metadata import FormMetadata
 
-from .utils import FormInfo
 from .utils import form_paths
 
 
 @pytest.fixture(params=form_paths())
-def form_info_fixture(request) -> FormInfo:
+def form_info_fixture(request: pytest.FixtureRequest) -> Any:
     return request.param
 
 

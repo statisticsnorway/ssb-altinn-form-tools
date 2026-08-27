@@ -2,9 +2,12 @@ version = 1
 revision = 3
 requires-python = ">=3.12"
 resolution-markers = [
-    "python_full_version >= '3.14' and sys_platform == 'win32'",
-    "python_full_version >= '3.14' and sys_platform == 'emscripten'",
-    "python_full_version >= '3.14' and sys_platform != 'emscripten' and sys_platform != 'win32'",
+    "python_full_version >= '3.15' and sys_platform == 'win32'",
+    "python_full_version == '3.14.*' and sys_platform == 'win32'",
+    "python_full_version >= '3.15' and sys_platform == 'emscripten'",
+    "python_full_version == '3.14.*' and sys_platform == 'emscripten'",
+    "python_full_version >= '3.15' and sys_platform != 'emscripten' and sys_platform != 'win32'",
+    "python_full_version == '3.14.*' and sys_platform != 'emscripten' and sys_platform != 'win32'",
     "python_full_version == '3.13.*' and sys_platform == 'win32'",
     "python_full_version < '3.13' and sys_platform == 'win32'",
     "python_full_version == '3.13.*' and sys_platform == 'emscripten'",
@@ -1610,6 +1613,18 @@ wheels = [
 ]
 
 [[package]]
+name = "pandas-stubs"
+version = "3.0.5.260730"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c2/d2/dea4a3a56b7b5f69c5fbca9f14625fcf28e1a39a657e9833d4a10bcac593/pandas_stubs-3.0.5.260730.tar.gz", hash = "sha256:f70a232c57d93a5a2c81f8a53953e10891a5374bc92652277deb325e2e4d0ff3", size = 114631, upload-time = "2026-07-30T14:31:42.271Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/60/c2/959caec5c46f484b5f8bb6def4b0cf7a45ba6acda26f12b75142d98cc5ae/pandas_stubs-3.0.5.260730-py3-none-any.whl", hash = "sha256:60e90e3e1eda6937e337e243cbe6217e151c11137cd7eddf832af537c7310bfd", size = 174807, upload-time = "2026-07-30T14:31:41.17Z" },
+]
+
+[[package]]
 name = "parso"
 version = "0.8.6"
 source = { registry = "https://pypi.org/simple" }
@@ -2513,12 +2528,14 @@ name = "ssb-altinn-form-tools"
 version = "0.0.9"
 source = { editable = "." }
 dependencies = [
+    { name = "pandas-stubs" },
     { name = "pendulum" },
     { name = "pydantic" },
     { name = "pytz" },
     { name = "requests" },
     { name = "sqlalchemy" },
     { name = "ssb-parquedit" },
+    { name = "types-xmltodict" },
     { name = "xmltodict" },
 ]
 
@@ -2567,6 +2584,7 @@ lint = [
 
 [package.metadata]
 requires-dist = [
+    { name = "pandas-stubs", specifier = ">=3.0.5.260730,<4.0.0.0" },
     { name = "pendulum", specifier = ">=3.2.0" },
     { name = "pydantic", specifier = ">=2.12.5,<3.0.0" },
     { name = "pytz", specifier = ">=2026.2" },
@@ -2574,6 +2592,7 @@ requires-dist = [
     { name = "sqlalchemy", specifier = ">=2.0.46" },
     { name = "ssb-parquedit", specifier = "==0.0.11" },
     { name = "ssb-parquedit", marker = "extra == 'parquedit'", specifier = ">=0.0.11" },
+    { name = "types-xmltodict", specifier = ">=1.0.1.20260518,<2.0.0.0" },
     { name = "xmltodict", specifier = ">=1.0.3,<2.0.0" },
 ]
 provides-extras = ["sqlalchemy", "parquedit"]
@@ -2743,6 +2762,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/2b/e8/66e25efcc18542d58706ce4e50415710593721aae26e794ab1dec34fb66f/typeguard-4.5.1.tar.gz", hash = "sha256:f6f8ecbbc819c9bc749983cc67c02391e16a9b43b8b27f15dc70ed7c4a007274", size = 80121, upload-time = "2026-02-19T16:09:03.392Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/91/88/b55b3117287a8540b76dbdd87733808d4d01c8067a3b339408c250bb3600/typeguard-4.5.1-py3-none-any.whl", hash = "sha256:44d2bf329d49a244110a090b55f5f91aa82d9a9834ebfd30bcc73651e4a8cc40", size = 36745, upload-time = "2026-02-19T16:09:01.6Z" },
+]
+
+[[package]]
+name = "types-xmltodict"
+version = "1.0.1.20260518"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/8f/b8/5c43e147eec89125e3f56670c86bc6ba8ea4d0c4cb738a77b3f46940e50d/types_xmltodict-1.0.1.20260518.tar.gz", hash = "sha256:b9d0b364dc47508b4c9040635a94c28f5472f9ab588f6c864ae4c96823bccb33", size = 8890, upload-time = "2026-05-18T06:03:00.296Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f6/5d/e0eee00dd3c7299c1f5ae7ef596409c51dba4af93cfaf05ea7d27f4afc7d/types_xmltodict-1.0.1.20260518-py3-none-any.whl", hash = "sha256:b396dd53afbd8b034014922b95333f10d12515566a6a08282d39fdb1a3a529b9", size = 8377, upload-time = "2026-05-18T06:02:59.076Z" },
 ]
 
 [[package]]

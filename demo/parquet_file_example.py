@@ -25,6 +25,8 @@ from ssb_altinn_form_tools.models import UnitInfo
 
 
 class CustomExtractor(DefaultFormExtractor):
+    """Custom extractor that can be used to create parquet files instead of insertable data."""
+
     def extract_form_data(
         self,
         form_dict_data: InputFormType,
@@ -51,6 +53,8 @@ class CustomExtractor(DefaultFormExtractor):
 
 
 class ParquetFileConnector(MetaStorageConnector):
+    """Connector tailored to create parquet files instead of inserting into database-like solution."""
+
     def __init__(
         self,
         base_storage_path: str,
@@ -59,6 +63,7 @@ class ParquetFileConnector(MetaStorageConnector):
         per_period: bool = False,
         per_file: bool = False,
     ) -> None:
+        """Initializes the ParquetFileConnector."""
         if (per_file is False) and (per_period is False):
             raise ValueError("One of per period or per file must be true")
 
@@ -81,6 +86,7 @@ class ParquetFileConnector(MetaStorageConnector):
         }
 
     def validate_form_is_new(self, form_reference: str) -> bool:
+        """Checks that a form hasn't already been processed."""
         if hasattr(self, "_previous_forms") is False:
             files = glob.glob(f"{self._base_storage_path}/*.parquet")
             self._previous_forms = (
@@ -94,12 +100,15 @@ class ParquetFileConnector(MetaStorageConnector):
         return form_reference not in self._previous_forms
 
     def begin_transaction(self) -> None:
+        """Establishes an empty dataframe."""
         self.file = pl.DataFrame(schema=self._schema)
 
     def rollback(self) -> None:
+        """Overwrites with method that returns an empty dataframe."""
         self.file = pl.DataFrame(schema=self._schema)
 
     def commit(self) -> None:
+        """Writes concated parquet file instead of inserting into database."""
         if self._per_file:
             new_refnr = self.file.get_column("refnr").unique().to_list()
             for refnr in new_refnr:
@@ -138,36 +147,46 @@ class ParquetFileConnector(MetaStorageConnector):
                     pl.concat([existing_file, *new_entries]).write_parquet(filename)
 
     def insert_form_data(self, form_data: list[FormData]) -> None:
+        """Overwrites to method that concats data instead of inserting it."""
         new_data = pl.DataFrame(
             [model.model_dump() for model in form_data], schema=self._schema
         )
         self.file = pl.concat([self.file, new_data])
 
     def insert_contact_info(self, contact_info: list[ContactInfo]) -> None:
+        """Overwrites base method with empty placeholder as it is not used."""
         pass
 
     def insert_form_data_unedited(self, form_data: list[FormData]) -> None:
+        """Overwrites base method with empty placeholder as it is not used."""
         pass
 
     def insert_form_reception(self, form_reciept: list[FormReception]) -> None:
+        """Overwrites base method with empty placeholder as it is not used."""
         pass
 
     def insert_option_list(self, models: list[OptionMetadataModel]) -> None:
+        """Overwrites base method with empty placeholder as it is not used."""
         pass
 
     def insert_option_node(self, models: list[OptionNodes]) -> None:
+        """Overwrites base method with empty placeholder as it is not used."""
         pass
 
     def insert_unit(self, unit: list[Unit]) -> None:
+        """Overwrites base method with empty placeholder as it is not used."""
         pass
 
     def insert_unit_info(self, units: list[UnitInfo]) -> None:
+        """Overwrites base method with empty placeholder as it is not used."""
         pass
 
     def create_tables_if_not_exists(self) -> None:
+        """Overwrites base method with empty placeholder as it is not used."""
         pass
 
     def validate_options_exists(self, skjema: str, iso_period: str | None) -> bool:
+        """Overrides built in check to skip it by always returning True."""
         return True
 
 

@@ -3,7 +3,6 @@ from __future__ import annotations
 import datetime
 from typing import Any
 from typing import Literal
-from typing import Union
 
 import pendulum
 from pydantic import BaseModel
@@ -49,10 +48,10 @@ class FormData(FormNode):
     year, form code, unit identifier, and reference number.
 
     Attributes:
-        aar (int): Reporting year.
-        skjema (str): Form name or code (e.g., RA-number).
-        ident (str): Identifier of the reporting unit.
-        refnr (str): Reference number of the submitted form instance.
+        iso_period: Reporting year.
+        skjema: Form name or code (e.g., RA-number).
+        ident: Identifier of the reporting unit.
+        refnr: Reference number of the submitted form instance.
     """
 
     iso_period: str
@@ -67,11 +66,11 @@ class FormData(FormNode):
         """Constructs a :class:`FormData` from a :class:`FormNode` and context.
 
         Args:
-            node (FormNode): The base node carrying path/name/value metadata.
-            form (str): Form code/name to attach.
-            ident (str): Unit identifier to attach.
-            refnr (str): Form instance reference to attach.
-            iso_period (str): Registered iso_period.
+            node: The base node carrying path/name/value metadata.
+            form: Form code/name to attach.
+            ident: Unit identifier to attach.
+            refnr: Form instance reference to attach.
+            iso_period: Registered iso_period.
 
         Returns:
             FormData: The composed form data entry with context.
@@ -95,16 +94,16 @@ class ContactInfo(BaseModel):
     Field values are mapped from upstream aliases using Pydantic's `Field(validation_alias=...)`.
 
     Attributes:
-        aar (int): Reporting year.
-        skjema (str): Form name or code (e.g., RA-number).
-        ident (str): Identifier of the reporting unit.
-        refnr (str): Reference number for the submitted form.
-        kontaktperson (str): Name of the contact person. Alias: ``kontaktPersonNavn``.
-        epost (str | None): Email address. Alias: ``kontaktPersonEpost``.
-        telefon (str): Phone number. Alias: ``kontaktPersonTelefon``.
-        bekreftet_kontaktinfo (bool): Whether contact info is confirmed.
-        kommentar_kontaktinfo (str | None): Free-text comment. Alias: ``kontaktKommentar``.
-        kommentar_krevende (str | None): Notes about demanding/complex contact cases.
+        iso_period: Reporting year.
+        skjema: Form name or code (e.g., RA-number).
+        ident: Identifier of the reporting unit.
+        refnr: Reference number for the submitted form.
+        kontaktperson: Name of the contact person. Alias: ``kontaktPersonNavn``.
+        epost: Email address. Alias: ``kontaktPersonEpost``.
+        telefon: Phone number. Alias: ``kontaktPersonTelefon``.
+        bekreftet_kontaktinfo: Whether contact info is confirmed.
+        kommentar_kontaktinfo: Free-text comment. Alias: ``kontaktKommentar``.
+        kommentar_krevende: Notes about demanding/complex contact cases.
             Alias: ``kontaktKrevende``.
     """
 
@@ -134,9 +133,9 @@ class Unit(BaseModel):
     """Represents a reporting unit (entity submitting the form).
 
     Attributes:
-        aar (int): Reporting year.
-        ident (str): Unique identifier of the reporting unit.
-        skjema (str): Form name or code (e.g., RA-number).
+        iso_period: Reporting year.
+        ident: Unique identifier of the reporting unit.
+        skjema: Form name or code (e.g., RA-number).
     """
 
     iso_period: str
@@ -152,15 +151,15 @@ class UnitInfo(BaseModel):
     """Represents an additional key-value attribute for a unit.
 
     Attributes:
-        aar (int): Reporting year.
-        ident (str): Identifier of the reporting unit.
-        variabel (str): Name of the metadata variable.
-        verdi (str | None): Value of the metadata variable.
+        iso_period: Reporting year.
+        ident: Identifier of the reporting unit.
+        variable: Name of the metadata variable.
+        verdi: Value of the metadata variable.
     """
 
     iso_period: str
     ident: str
-    variabel: str
+    variable: str
     verdi: str | None = Field(default=None)
 
     def __str__(self) -> str:
@@ -169,26 +168,30 @@ class UnitInfo(BaseModel):
 
 
 class FormReception(BaseModel):
-    """Reception/submission metadata for a specific form instance.
+    """Reception and submission metadata for a specific form instance.
 
-    This model is configured to **validate by field aliases** to match upstream
-    keys from external sources (e.g., Altinn). See `model_config`.
+    Configured to validate input using both field names and aliases to support
+    keys from external sources such as Altinn.
 
     Attributes:
-        aar (int): Reporting year. Alias: ``periodeAAr``.
-        skjema (str): Form name/code. Alias: ``raNummer``.
-        ident (str): Reporting unit identifier. Alias: ``enhetsIdent``.
-        refnr (str): Reference number. Alias: ``altinnReferanse``.
-        dato_mottatt (datetime.datetime): Submission timestamp.
+        start_date: Start date of the reporting period.
+        end_date: End date of the reporting period.
+        iso_period: ISO period associated with the form.
+        skjema_versjon: Version of the submitted form, if available.
+        skjema: Form name or code. Alias: ``raNummer``.
+        ident: Reporting unit identifier. Alias: ``enhetsIdent``.
+        refnr: Reference number of the submitted form. Alias: ``altinnReferanse``.
+        dato_mottatt: Timestamp when the form was received.
             Alias: ``altinnTidspunktLevert``.
-        editert (Literal["ferdig editert", "under editering", "ikke editert"]):
-            Edit status of the form.
-        kommentar (str): Free-text comment associated with reception.
-        aktiv (bool): Whether the form instance is considered active.
+        status: Edit status of the form.
+        kommentar: Free-text comment associated with the reception.
+        aktiv: Indicates whether the form instance is active.
+        model_config: Pydantic model configuration for validating both field
+            names and aliases.
 
     Notes:
-        ``model_config = ConfigDict(validate_by_alias=True, validate_by_name=True)``
-        enables population/validation using both the alias and the field name.
+        ``model_config`` enables validation using both field aliases and field
+        names.
     """
 
     start_date: datetime.datetime = Field()
@@ -199,7 +202,7 @@ class FormReception(BaseModel):
     ident: str = Field(validation_alias="enhetsIdent")
     refnr: str = Field(validation_alias="altinnReferanse")
     dato_mottatt: datetime.datetime = Field(validation_alias="altinnTidspunktLevert")
-    editert: Literal["ferdig editert", "under editering", "ikke editert"]
+    status: Literal["ferdig editert", "under editering", "ikke editert"]
     kommentar: str
     aktiv: bool
 
@@ -399,4 +402,4 @@ class NumberFormatModel(BaseModel):
 class FormattingMetadataModel(BaseModel):
     """Parent model for deserializing all formatting variants."""
 
-    formatting: Union[NumberFormatModel, StringFormatModel, DateFormatModel]  # noqa: UP007
+    formatting: NumberFormatModel | StringFormatModel | DateFormatModel

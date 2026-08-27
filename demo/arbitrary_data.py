@@ -5,8 +5,6 @@ from sqlalchemy import text
 
 from ssb_altinn_form_tools.default_form_extractor import parse_entries
 from ssb_altinn_form_tools.meta_form_extractor import InputFormType
-from ssb_altinn_form_tools.meta_form_extractor import MetaFormExtractor
-from ssb_altinn_form_tools.meta_form_processor import MetaFormProcessor
 from ssb_altinn_form_tools.models import FormData
 from ssb_altinn_form_tools.models import FormReception
 from ssb_altinn_form_tools.sqlalchemy_storage_connector import (
@@ -20,6 +18,8 @@ nested_dict = {
 
 
 class CustomExtractor:
+    """Demo of how to create a custom extractor class."""
+
     def extract_form_data(
         self,
         form_dict_data: InputFormType,
@@ -28,6 +28,7 @@ class CustomExtractor:
         refnr: str,
         iso_period: str,
     ) -> list[FormData]:
+        """Custom extraction code."""
         entries = parse_entries(form_dict_data)
         data = []
         for entry in entries:
@@ -39,13 +40,17 @@ class CustomExtractor:
 
 
 class CustomProcessor:
+    """Demo of how to create a custom processor class."""
+
     def __init__(
         self, extractor: CustomExtractor, connector: SqlAlchemyStorageConnector
     ) -> None:
+        """Initializes the class."""
         self.extractor = extractor
         self.connector = connector
 
     def process_new_forms(self) -> None:
+        """Custom method to process new forms."""
         forms = [
             {"id": "id1", "form": "api1", "period": "2025-Q1", "data": nested_dict}
         ]

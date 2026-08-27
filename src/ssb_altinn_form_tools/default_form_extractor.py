@@ -1,4 +1,6 @@
 import logging
+from collections.abc import Iterable
+from typing import Any
 
 from .meta_form_extractor import InputFormType
 from .meta_form_extractor import MetaFormExtractor
@@ -47,7 +49,9 @@ def parse_index(path: str | None) -> int | None:
         return None
 
 
-def parse_entries(data: dict | list, parent: None | str = None) -> list[FormNode]:
+def parse_entries(
+    data: dict[str, Any] | list[Any], parent: str | None = None
+) -> list[FormNode]:
     """Recursive function for flattening XML-like structures.
 
     Args:
@@ -59,6 +63,8 @@ def parse_entries(data: dict | list, parent: None | str = None) -> list[FormNode
 
     """
     fields = []
+
+    iterator: Iterable[tuple[int | str, Any]]
 
     if isinstance(data, list):
         iterator = enumerate(data)
@@ -114,7 +120,7 @@ class DefaultFormExtractor(MetaFormExtractor):
             form: The name of the form (RA-number).
             ident: The id of the unit.
             refnr: The id number of the form.
-            iso_period (str): Registered iso_period.
+            iso_period: Registered iso_period.
 
         Returns:
             list(ContactInfo): A pydantic model representing the contact info.
@@ -155,7 +161,7 @@ class DefaultFormExtractor(MetaFormExtractor):
             form: The name or code of the form (e.g., RA-number).
             ident: The identifier for the reporting unit.
             refnr: The reference number for the submitted form instance.
-            iso_period (str): Registered iso_period.
+            iso_period: Registered iso_period.
 
         Returns:
             list(FormData): A list of ``FormData`` objects, each representing a parsed and validated
@@ -206,7 +212,7 @@ class DefaultFormExtractor(MetaFormExtractor):
         logger.debug(json_data)
 
         return FormReception(
-            editert="ikke editert",
+            status="ikke editert",
             kommentar="",
             aktiv=True,
             refnr=json_data.altinn_reference,
@@ -228,22 +234,27 @@ class DefaultFormExtractor(MetaFormExtractor):
             form_dict_data: Raw form content containing an
                 ``InternInfo`` dictionary with internal metadata.
             ident: Identifier for the reporting unit.
-            iso_period (str): Registered iso_period.
+            iso_period: Registered iso_period.
 
         Returns:
             list[UnitInfo]: A list of ``UnitInfo`` objects built from keys in
             ``InternInfo`` that start with ``"enhets"``.
+
+        Raises:
+            TypeError: If form_dict_data["InternInfo"] is not a dict.
         """
         form_data = form_dict_data["InternInfo"]
 
-        assert isinstance(form_data, dict)
+        if not isinstance(form_data, dict):
+            raise TypeError(f"form_data must be type dict. Is type '{type(form_data)}'")
 
         info: list[UnitInfo] = []
         for key, value in form_data.items():
-            key: str
+            if not isinstance(key, str):
+                raise TypeError(f"Key must be type str. Is type '{type(key)}'")
             if key.startswith("enhets"):
                 data = UnitInfo(
-                    ident=ident, variabel=key, verdi=value, iso_period=iso_period
+                    ident=ident, variable=key, verdi=value, iso_period=iso_period
                 )
                 info.append(data)
         return info

@@ -1,5 +1,6 @@
 import logging
 
+from _duckdb import DuckDBPyConnection
 from ssb_parquedit import ParquEdit
 
 logging.basicConfig(
@@ -17,7 +18,8 @@ extractor = DefaultFormExtractor()
 parquedit_conn = ParquEdit.local("data")
 
 
-def get_duckdb_connection():
+def get_duckdb_connection() -> DuckDBPyConnection:
+    """Retrieves the duckdb connection for the parquedit instance."""
     raw = parquedit_conn._get_connection().raw
     return raw
 

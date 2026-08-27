@@ -1,4 +1,9 @@
+# pyright: reportPrivateUsage=false
 import logging
+from typing import Any
+from typing import override
+
+from _duckdb import DuckDBPyConnection
 
 try:
     from _duckdb import CatalogException
@@ -9,7 +14,6 @@ except ImportError as e:
         "This connector cannot be used if duckdb or parquedit is not installed"
     ) from e
 
-import uuid
 
 import pandas as pd
 
@@ -40,19 +44,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Initializes the connector with a SQLAlchemy engine (placeholder).
 
         Args:
-            engine (Engine): A SQLAlchemy engine used temporarily for validation
+            engine: A SQLAlchemy engine used temporarily for validation
                 checks and to mirror the transactional lifecycle while the class
                 is developed.
-
-        Raises:
-            NotImplementedError: Always raised to indicate the connector is not
-                ready for use.
-
         """
-        self._parquedit = engine
-        self._engine = engine._get_connection().raw
-        self._session = None
+        self._parquedit: ParquEdit = engine
+        self._engine: DuckDBPyConnection = engine._get_connection().raw
+        self._session: DuckDBPyConnection | None = None
 
+    @override
     def begin_transaction(self) -> None:
         """Starts a new transactional session (placeholder).
 
@@ -61,10 +61,6 @@ class ParqueditStorageConnector(MetaStorageConnector):
             In a future Parquet-backed implementation, this may manage file
             writers, staging areas, or atomic rename workflows rather than a
             database transaction.
-
-        Raises:
-            Exception: Propagates any SQLAlchemy errors during session creation
-                or transaction start.
         """
         self._session = self._engine.begin()
 
@@ -81,26 +77,17 @@ class ParqueditStorageConnector(MetaStorageConnector):
             raise RuntimeError("Session is not started")
         return self._session
 
+    @override
     def rollback(self) -> None:
-        """Rolls back the current transaction (placeholder).
+        """Rolls back the current transaction (placeholder)."""
+        _ = self._get_session().rollback()
 
-        Args:
-            ref_number (str): Reference number for diagnostic logging/context.
-
-        Raises:
-            RuntimeError: If no active session/transaction exists.
-        """
-        self._get_session().rollback()
-
+    @override
     def commit(self) -> None:
-        """Commits the current transaction (placeholder).
+        """Commits the current transaction (placeholder)."""
+        _ = self._get_session().commit()
 
-        Raises:
-            RuntimeError: If no active session/transaction exists.
-            Exception: Propagates SQLAlchemy commit errors.
-        """
-        self._get_session().commit()
-
+    @override
     def create_tables_if_not_exists(self) -> None:
         """Creates logical tables/schemas if they do not already exist.
 
@@ -128,11 +115,12 @@ class ParqueditStorageConnector(MetaStorageConnector):
         except CatalogException:
             return []
 
+    @override
     def validate_form_is_new(self, form_reference: str) -> bool:
         """Checks if a form reference is not already present.
 
         Args:
-            form_reference (str): The reference number identifying the form.
+            form_reference: The reference number identifying the form.
 
         Returns:
             bool: ``True`` if no existing record for the reference is found,
@@ -146,52 +134,33 @@ class ParqueditStorageConnector(MetaStorageConnector):
         try:
             self.__getattribute__("forms")
         except AttributeError:
-            self.forms = self._get_ingested_forms()
+            self.forms: list[str] = self._get_ingested_forms()
 
         return form_reference not in self.forms
 
+    @override
     def validate_options_exists(self, skjema: str, iso_period: str | None) -> bool:
         """Method for validating if options have already been ingested for a period."""
         sess = self._engine
         try:
             if iso_period is not None:
                 stmt = "SELECT * FROM optionsnodes WHERE skjema = ? AND iso_period = ?"
-                params = (skjema, iso_period)
             else:
                 stmt = "SELECT * FROM optionsnodes WHERE skjema = ?"
-                params = (skjema,)
 
-            data = sess.execute(stmt, params).fetchone()
+            data = sess.execute(stmt, (skjema, iso_period)).fetchone()
             return (data is not None) and (len(data) != 0)
         except CatalogException:
             logger.warning("Was not able verify that if options exists or not")
             return False
 
-    def _create_contact_info_table(self):
+    def _create_contact_info_table(self) -> None:
         """Defines the schema for the `kontaktinfo` table (contact info).
 
         Notes:
             Intended to represent a schema descriptor for Parquet/Delta creation.
             Currently unused beyond in-code documentation.
         """
-        '''table_name = "kontaktinfo"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    ident  VARCHAR NOT NULL,
-                    skjema  VARCHAR NOT NULL,
-                    refnr  VARCHAR NOT NULL,
-                    kontaktperson  VARCHAR,
-                    epost  VARCHAR,
-                    telefon  VARCHAR,
-                    bekreftet_kontaktinfo  VARCHAR,
-                    kommentar_kontaktinfo  VARCHAR,
-                    kommentar_krevende  VARCHAR
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -217,7 +186,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_form_data_table(self, table_name: str):
+    def _create_form_data_table(self, table_name: str) -> None:
         """Defines the schema for the `skjemadata` table (field-level data).
 
         Notes:
@@ -225,23 +194,6 @@ class ParqueditStorageConnector(MetaStorageConnector):
             to be a typo. In a future implementation, ensure the table name
             matches ``skjemadata``.
         """
-        '''create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                iso_period   VARCHAR NOT NULL,
-                skjema  VARCHAR NOT NULL,
-                ident  VARCHAR NOT NULL,
-                refnr  VARCHAR NOT NULL,
-                feltsti  VARCHAR,
-                feltnavn  VARCHAR,
-                verdi  VARCHAR,
-                alias  VARCHAR,
-                dybde  INTEGER,
-                indeks  INTEGER
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -267,7 +219,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_form_reciept_table(self):
+    def _create_form_reciept_table(self) -> None:
         """Defines the schema for the `skjemamottak` table (form reception).
 
         Notes:
@@ -275,25 +227,6 @@ class ParqueditStorageConnector(MetaStorageConnector):
             A Parquet/Delta implementation would likely map this to a TIMESTAMP
             logical type.
         """
-        '''table_name = "skjemamottak"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    ident  VARCHAR NOT NULL,
-                    skjema  VARCHAR NOT NULL,
-                    skjema_versjon  VARCHAR,
-                    start_date TIMESTAMP NOT NULL,
-                    end_date TIMESTAMP NOT NULL,
-                    refnr  VARCHAR NOT NULL,
-                    editert VARCHAR,
-                    aktiv BOOLEAN,
-                    kommentar VARCHAR,
-                    dato_mottatt TIMESTAMP
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -303,7 +236,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "start_date": {"type": "date-time"},
                 "end_date": {"type": "date-time"},
                 "refnr": {"type": "string"},
-                "editert": {"type": "string"},
+                "status": {"type": "string"},
                 "aktiv": {"type": "boolean"},
                 "kommentar": {"type": "string"},
                 "dato_mottatt": {"type": "date-time"},
@@ -327,19 +260,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_unit_table(self):
+    def _create_unit_table(self) -> None:
         """Defines the schema for the `enheter` table (units)."""
-        '''table_name = "enheter"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    skjema  VARCHAR NOT NULL,
-                    ident  VARCHAR NOT NULL
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -358,25 +280,13 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_unit_info_table(self):
+    def _create_unit_info_table(self) -> None:
         """Defines the schema for the `enhetsinfo` table (unit attributes)."""
-        '''table_name = "enhetsinfo"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    ident  VARCHAR NOT NULL,
-                    variabel  VARCHAR,
-                    verdi  VARCHAR
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
                 "ident": {"type": "string"},
-                "variabel": {"type": "string"},
+                "variable": {"type": "string"},
                 "verdi": {"type": "string"},
             },
             "required": ["iso_period", "ident"],
@@ -386,27 +296,13 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "enhetsinfo",
                 schema,
                 "enhetsinfo",
-                user_defined_id=["iso_period", "ident", "variabel"],
+                user_defined_id=["iso_period", "ident", "variable"],
                 part_columns=["iso_period"],
                 fill=False,
             )
 
-    def _create_controls_table(self):
+    def _create_controls_table(self) -> None:
         """Defines the schema for the `kontroller` table (control definitions)."""
-        '''table_name = "kontroller"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    kontrollid  VARCHAR NOT NULL,
-                    kontrolltype  VARCHAR,
-                    beskrivelse  VARCHAR,
-                    sorting_var VARCHAR,
-                    sorting_order VARCHAR
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -428,23 +324,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_control_result_table(self):
+    def _create_control_result_table(self) -> None:
         """Defines the schema for the `kontrollutslag` table (control results)."""
-        '''table_name = "kontrollutslag"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    skjema VARCHAR NOT NULL,
-                    kontrollid  VARCHAR NOT NULL,
-                    ident VARCHAR NOT NULL,
-                    refnr VARCHAR NOT NULL,
-                    utslag BOOLEAN NOT NULL,
-                    verdi VARCHAR NOT NULL
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -473,19 +354,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_optionnodes_table(self):
-        '''table_name = "optionnodes"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    skjema VARCHAR NOT NULL,
-                    node_name VARCHAR NOT NULL,
-                    options_id VARCHAR NOT NULL
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
+    def _create_optionnodes_table(self) -> None:
+        """Defines the schema for the `optionsnodes` table (multi select options)."""
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -505,19 +375,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _create_optionslist_table(self):
-        '''table_name = "optionslists"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    skjema VARCHAR NOT NULL,
-                    options_id VARCHAR NOT NULL,
-                    label VARCHAR NOT NULL,
-                    value VARCHAR NOT NULL
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
+    def _create_optionslist_table(self) -> None:
+        """Defines the schema for the `optionslists` table (multi select options)."""
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -538,19 +397,18 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _insert(self, data: list[dict], table_name: str):
+    def _insert(self, data: list[dict[str, Any]], table_name: str) -> None:
         """Internal method for inserting from a list of dicts."""
         if len(data):
             df = pd.DataFrame(data)
-            #df["_id"] = [str(uuid.uuid4()) for _ in range(len(df))]
-            print(df.dtypes)
             self._parquedit.insert_data(table_name, df)
 
+    @override
     def insert_contact_info(self, contact_info: list[ContactInfo]) -> None:
         """Stages a contact info record for insertion (WIP).
 
         Args:
-            contact_info (ContactInfo): Contact information to persist.
+            contact_info: Contact information to persist.
 
         Notes:
             In a complete implementation, this would write to a Parquet/Delta table,
@@ -561,81 +419,86 @@ class ParqueditStorageConnector(MetaStorageConnector):
 
         self._insert(model, table_name)
 
+    @override
     def insert_form_data(self, form_data: list[FormData]) -> None:
         """Stages a batch of form data records for insertion (WIP).
 
         Args:
-            form_data (list[FormData]): Field-level form data entries to persist.
+            form_data: Field-level form data entries to persist.
 
         Notes:
             In a complete implementation, this would batch-append rows to a
             columnar file and update an index/manifest.
         """
         table_name = "skjemadata"
-        models = []
+        models: list[dict[str, Any]] = []
         for node in form_data:
             node_data = node.model_dump()
             models.append(node_data)
 
         self._insert(models, table_name)
 
+    @override
     def insert_form_data_unedited(self, form_data: list[FormData]) -> None:
         """Stages a batch of form data records for insertion (WIP).
 
         Args:
-            form_data (list[FormData]): Field-level form data entries to persist.
+            form_data: Field-level form data entries to persist.
 
         Notes:
             In a complete implementation, this would batch-append rows to a
             columnar file and update an index/manifest.
         """
         table_name = "skjemadata_unedited"
-        models = []
+        models: list[dict[str, Any]] = []
         for node in form_data:
             node_data = node.model_dump()
             models.append(node_data)
 
         self._insert(models, table_name)
 
+    @override
     def insert_form_reception(self, form_reciept: list[FormReception]) -> None:
         """Stages a form reception record for insertion (WIP).
 
         Args:
-            form_reciept (FormReception): Reception metadata to persist.
+            form_reciept: Reception metadata to persist.
         """
         table_name = "skjemamottak"
         model = [model.model_dump() for model in form_reciept]
-        print(model)
         self._insert(model, table_name)
 
+    @override
     def insert_unit(self, unit: list[Unit]) -> None:
         """Stages a unit record for insertion (WIP).
 
         Args:
-            unit (Unit): Unit metadata to persist.
+            unit: Unit metadata to persist.
 
         """
         table_name = "enheter"
         model = [model.model_dump() for model in unit]
         self._insert(model, table_name)
 
+    @override
     def insert_unit_info(self, units: list[UnitInfo]) -> None:
         """Stages unit attribute records for insertion (WIP).
 
         Args:
-            units (list[UnitInfo]): Unit key-value attributes to persist.
+            units: Unit key-value attributes to persist.
         """
         table_name = "enhetsinfo"
-        unit_info = []
+        unit_info: list[dict[str, Any]] = []
         for item in units:
             model = item.model_dump()
             unit_info.append(model)
         self._insert(unit_info, table_name)
 
+    @override
     def insert_option_list(self, models: list[OptionMetadataModel]) -> None:
         """Method for inserting options lists into the table."""
         table_name = "optionslists"
-        models_to_insert = []
+        models_to_insert: list[dict[str, Any]] = []
         for model in models:
             for option in model.options:
                 orm_model = dict(
@@ -649,10 +512,11 @@ class ParqueditStorageConnector(MetaStorageConnector):
 
         self._insert(models_to_insert, table_name)
 
+    @override
     def insert_option_node(self, models: list[OptionNodes]) -> None:
         """Method for inserting options node into the table."""
         table_name = "optionnodes"
-        models_to_insert = []
+        models_to_insert: list[dict[str, Any]] = []
         for model in models:
             for node in model.node_list:
                 orm_model = dict(

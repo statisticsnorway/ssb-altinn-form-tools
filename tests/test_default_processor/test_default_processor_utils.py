@@ -3,14 +3,14 @@ from pathlib import Path
 from ssb_altinn_form_tools.default_form_processor import extract_xml_to_dict
 
 
-def test_xml_convert_to_dict_checkbox():
+def test_xml_convert_to_dict_checkbox() -> None:
     checkbox_xml = Path("tests/testdata/xml_patterns/checkbox.xml")
     res = extract_xml_to_dict(checkbox_xml)
 
     assert res == {"Checkbox": {"hvilkeFylker": "56,03,15,50,31"}}
 
 
-def test_xml_convert_to_dict_list():
+def test_xml_convert_to_dict_list() -> None:
     list_xml = Path("tests/testdata/xml_patterns/list.xml")
     res = extract_xml_to_dict(list_xml)
 
@@ -28,7 +28,7 @@ def test_xml_convert_to_dict_list():
     }
 
 
-def test_xml_convert_to_dict_single_list():
+def test_xml_convert_to_dict_single_list() -> None:
     single_list_xml = Path("tests/testdata/xml_patterns/list_single.xml")
     res = extract_xml_to_dict(single_list_xml, array_fields=["RepGruppe"])
     assert res == {
@@ -56,7 +56,7 @@ def test_xml_convert_to_dict_single_list():
     }
 
 
-def test_xml_convert_to_dict_nested_list():
+def test_xml_convert_to_dict_nested_list() -> None:
     nested_list_xml = Path("tests/testdata/xml_patterns/nested_list.xml")
     res = extract_xml_to_dict(nested_list_xml)
     assert res == {
@@ -91,7 +91,7 @@ def test_xml_convert_to_dict_nested_list():
     }
 
 
-def test_xml_convert_to_dict_regular_field():
+def test_xml_convert_to_dict_regular_field() -> None:
     regular_fields_xml = Path("tests/testdata/xml_patterns/regular_fields.xml")
     res = extract_xml_to_dict(regular_fields_xml)
     assert res == {
