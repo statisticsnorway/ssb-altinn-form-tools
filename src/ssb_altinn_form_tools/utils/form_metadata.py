@@ -226,15 +226,14 @@ class FormMetadata:
         self, skjema: str, iso_period: str, ra_version: int | None = None
     ) -> list[OptionMetadataModel]:
         """Extract metadata related for all defined options lists and their options."""
-        processed = []
+        processed: list[OptionMetadataModel] = []
         data = self._get_metadata()
-        print(data)
         for res in data:
             if res.get("options"):
-                data = OptionMetadataModel.model_validate(
+                model_data = OptionMetadataModel.model_validate(
                     {"skjema": skjema, "iso_period": iso_period, **res}
                 )
-                processed.append(data)
+                processed.append(model_data)
         return processed
 
     def extract_options_nodes(

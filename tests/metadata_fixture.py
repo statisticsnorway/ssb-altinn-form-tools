@@ -7,7 +7,7 @@ from .utils import form_paths
 
 
 @pytest.fixture(params=form_paths())
-def form_info_fixture(request) -> FormInfo:
+def form_info_fixture(request: pytest.FixtureRequest) -> FormInfo:
     return request.param
 
 

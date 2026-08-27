@@ -125,8 +125,8 @@ def test_processor_parquedit(
 
 @pytest.mark.parametrize("data", load_expected_data())
 def test_processor_sqlalchemy(
-    subtests,
-    mocker,
+    subtests: pytest.Subtests,
+    mocker: MockerFixture,
     sqlalchemy_connector: SqlAlchemyStorageConnector,  # noqa: F811
     data: Form,
 ) -> None:
@@ -208,7 +208,7 @@ def test_processor_sqlalchemy(
 
 
 def test_custom_mapping(
-    mocker,
+    mocker: MockerFixture,
     connector_with_schema: ParqueditStorageConnector,  # noqa: F811
 ) -> None:
 

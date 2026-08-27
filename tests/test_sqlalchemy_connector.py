@@ -1,6 +1,7 @@
 import datetime
 import sqlite3
 import tempfile
+from collections.abc import Iterator
 
 import pytest
 from sqlalchemy import Engine
@@ -29,7 +30,7 @@ from ssb_altinn_form_tools.sqlalchemy_storage_connector import (
 
 
 @pytest.fixture(scope="session", name="sqlite")
-def sqlite_session():
+def sqlite_session() -> Iterator[Engine]:
     temp_dir = tempfile.TemporaryDirectory()
 
     conn = sqlite3.connect(f"{temp_dir.name}/catalog.db")
@@ -60,6 +61,7 @@ def test_parquedit_conn(sqlite: Engine) -> None:
 def test_duckdb_conn(connector_with_schema: SqlAlchemyStorageConnector) -> None:
     result = connector_with_schema._get_session().execute(select(Skjemadata)).fetchall()
     assert result is not None
+
 
 def test_insert_unit_info(connector_with_schema: SqlAlchemyStorageConnector) -> None:
     connector_with_schema.insert_unit_info([])
@@ -112,7 +114,9 @@ def test_insert_contact_info(connector_with_schema: SqlAlchemyStorageConnector) 
     assert res_unit == test_unit
 
 
-def test_insert_form_reception(connector_with_schema: SqlAlchemyStorageConnector) -> None:
+def test_insert_form_reception(
+    connector_with_schema: SqlAlchemyStorageConnector,
+) -> None:
     connector_with_schema.insert_form_reception([])
     res = connector_with_schema._get_session().execute(select(SkjemaMottak)).fetchall()
     assert len(res) == 0
@@ -167,7 +171,9 @@ def test_insert_form_data(connector_with_schema: SqlAlchemyStorageConnector) -> 
     assert res_unit == test_unit
 
 
-def test_insert_form_data_unedited(connector_with_schema: SqlAlchemyStorageConnector) -> None:
+def test_insert_form_data_unedited(
+    connector_with_schema: SqlAlchemyStorageConnector,
+) -> None:
     connector_with_schema.insert_form_data_unedited([])
     res = (
         connector_with_schema._get_session()

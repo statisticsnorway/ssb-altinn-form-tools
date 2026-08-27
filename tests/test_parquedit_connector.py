@@ -186,14 +186,14 @@ def test_insert_form_data(connector_with_schema: ParqueditStorageConnector) -> N
     )
 
     connector_with_schema.insert_form_data([test_unit])
-    res = (
+    res_formdata = (
         connector_with_schema._get_session()
         .execute("SELECT * FROM skjemadata")
         .fetch_df()
         .to_dict(orient="records")
     )
-    assert len(res) == 1
-    res_unit = FormData.model_validate(res[0])
+    assert len(res_formdata) == 1
+    res_unit = FormData.model_validate(res_formdata[0])
 
     assert res_unit == test_unit
 
