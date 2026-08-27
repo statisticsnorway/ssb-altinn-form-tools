@@ -42,7 +42,7 @@ def extract_xml_to_dict(
     """
     xml_string = xml_path.read_text()
     dictionary: dict[str, Any] = xmltodict.parse(
-        xml_string, force_list=array_fields, xml_attribs=False
+        xml_string, force_list=array_fields, xml_attribs=False, encoding="utf-8"
     )
     if not all(isinstance(key, str) for key in dictionary):
         raise TypeError("Not all keys are of type 'str'.")
