@@ -18,16 +18,16 @@ from ssb_altinn_form_tools.parquedit_storage_connector import ParqueditStorageCo
 from ssb_altinn_form_tools.sqlalchemy_storage_connector import (
     SqlAlchemyStorageConnector,
 )
-from test_parquedit_connector import ( # pyright: ignore [reportImplicitRelativeImport]
+from test_parquedit_connector import (  # pyright: ignore [reportImplicitRelativeImport]
     connector_with_schema,  # noqa: F401 type: ignore[import-untyped]
 )
-from test_parquedit_connector import ( # pyright: ignore [reportImplicitRelativeImport]
+from test_parquedit_connector import (  # pyright: ignore [reportImplicitRelativeImport]
     parquedit_session,  # noqa: F401 type: ignore[import-untyped]
 )
 from test_sqlalchemy_connector import (  # pyright: ignore [reportImplicitRelativeImport]
     connector_with_schema as sqlalchemy_connector,  # noqa: F401 type: ignore[import-untyped]
 )
-from test_sqlalchemy_connector import ( # pyright: ignore [reportImplicitRelativeImport]
+from test_sqlalchemy_connector import (  # pyright: ignore [reportImplicitRelativeImport]
     sqlite_session,  # noqa: F401 type: ignore[import-untyped]
 )
 from utils import Form  # pyright: ignore [reportImplicitRelativeImport]

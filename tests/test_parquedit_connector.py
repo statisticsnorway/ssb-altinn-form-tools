@@ -90,14 +90,14 @@ def test_insert_unit(connector_with_schema: ParqueditStorageConnector) -> None:
 
     test_unit = Unit(iso_period="2026", ident="test", skjema="testskjema")
     connector_with_schema.insert_unit([test_unit])
-    res = (
+    res_units: list[dict[Hashable, Any]] = (
         connector_with_schema._get_session()
         .execute("SELECT * FROM enheter")
         .fetchdf()
         .to_dict(orient="records")
     )
-    assert len(res) == 1
-    res_unit = Unit.model_validate(res[0])
+    assert len(res_units) == 1
+    res_unit = Unit.model_validate(res_units[0])
 
     assert res_unit == test_unit
 
