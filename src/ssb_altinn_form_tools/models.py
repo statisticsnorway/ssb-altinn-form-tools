@@ -186,6 +186,8 @@ class FormReception(BaseModel):
         status: Edit status of the form.
         kommentar: Free-text comment associated with the reception.
         aktiv: Indicates whether the form instance is active.
+        model_config: Pydantic model configuration for validating both field
+            names and aliases.
 
     Notes:
         ``model_config`` enables validation using both field aliases and field

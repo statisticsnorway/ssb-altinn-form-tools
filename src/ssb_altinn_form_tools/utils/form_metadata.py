@@ -6,7 +6,6 @@ from typing import Any
 
 import requests
 
-from ..models import FormattingMetadataModel
 from ..models import OptionMetadataModel
 from ..models import OptionModel
 from ..models import OptionNodes

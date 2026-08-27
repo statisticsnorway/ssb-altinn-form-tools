@@ -100,12 +100,15 @@ class ParquetFileConnector(MetaStorageConnector):
         return form_reference not in self._previous_forms
 
     def begin_transaction(self) -> None:
+        """Establishes an empty dataframe."""
         self.file = pl.DataFrame(schema=self._schema)
 
     def rollback(self) -> None:
+        """Overwrites with method that returns an empty dataframe."""
         self.file = pl.DataFrame(schema=self._schema)
 
     def commit(self) -> None:
+        """Writes concated parquet file instead of inserting into database."""
         if self._per_file:
             new_refnr = self.file.get_column("refnr").unique().to_list()
             for refnr in new_refnr:
@@ -144,6 +147,7 @@ class ParquetFileConnector(MetaStorageConnector):
                     pl.concat([existing_file, *new_entries]).write_parquet(filename)
 
     def insert_form_data(self, form_data: list[FormData]) -> None:
+        """Overwrites to method that concats data instead of inserting it."""
         new_data = pl.DataFrame(
             [model.model_dump() for model in form_data], schema=self._schema
         )
@@ -182,6 +186,7 @@ class ParquetFileConnector(MetaStorageConnector):
         pass
 
     def validate_options_exists(self, skjema: str, iso_period: str | None) -> bool:
+        """Overrides built in check to skip it by always returning True."""
         return True
 
 
