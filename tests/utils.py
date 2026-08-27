@@ -72,7 +72,7 @@ def load_expected_data() -> list[Form]:
     json_data = []
     files = glob.glob("tests/expected_data/*.json")
     for file in files:
-        data = json.load(open(file))
+        data = json.load(open(file, encoding="utf-8"))
         json_data.append(data)
     assert len(json_data) != 0
     model = ExpectedData.model_validate({"data": json_data})
