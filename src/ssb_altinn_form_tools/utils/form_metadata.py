@@ -86,6 +86,7 @@ def _process_options(
 def _node_filter(
     data: str | dict[str, Any] | list[str | dict[str, Any]], contained_key: str
 ) -> list[Any]:
+    """Recursive function to extract key-value pairs from an object tree. The key to search for is provided by the "contained_key" argument."""
     results: list[Any] = []
     if isinstance(data, str):
         return results
