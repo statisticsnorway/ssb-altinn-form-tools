@@ -153,13 +153,13 @@ class UnitInfo(BaseModel):
     Attributes:
         iso_period: Reporting year.
         ident: Identifier of the reporting unit.
-        variabel: Name of the metadata variable.
+        variable: Name of the metadata variable.
         verdi: Value of the metadata variable.
     """
 
     iso_period: str
     ident: str
-    variabel: str
+    variable: str
     verdi: str | None = Field(default=None)
 
     def __str__(self) -> str:
@@ -183,7 +183,7 @@ class FormReception(BaseModel):
         refnr: Reference number of the submitted form. Alias: ``altinnReferanse``.
         dato_mottatt: Timestamp when the form was received.
             Alias: ``altinnTidspunktLevert``.
-        editert: Edit status of the form.
+        status: Edit status of the form.
         kommentar: Free-text comment associated with the reception.
         aktiv: Indicates whether the form instance is active.
 
@@ -200,7 +200,7 @@ class FormReception(BaseModel):
     ident: str = Field(validation_alias="enhetsIdent")
     refnr: str = Field(validation_alias="altinnReferanse")
     dato_mottatt: datetime.datetime = Field(validation_alias="altinnTidspunktLevert")
-    editert: Literal["ferdig editert", "under editering", "ikke editert"]
+    status: Literal["ferdig editert", "under editering", "ikke editert"]
     kommentar: str
     aktiv: bool
 

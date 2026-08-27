@@ -66,7 +66,7 @@ def test_insert_unit_info(connector_with_schema: SqlAlchemyStorageConnector) -> 
     res = connector_with_schema._get_session().execute(select(EnhetsInfo)).fetchall()
     assert len(res) == 0
 
-    test_unit = UnitInfo(iso_period="2026", ident="test", variabel="var", verdi="verd")
+    test_unit = UnitInfo(iso_period="2026", ident="test", variable="var", verdi="verd")
     connector_with_schema.insert_unit_info([test_unit])
     res = connector_with_schema._get_session().execute(select(EnhetsInfo)).fetchall()
     model: EnhetsInfo = res[0][0]
@@ -123,7 +123,7 @@ def test_insert_form_reception(connector_with_schema: SqlAlchemyStorageConnector
             ident="test",
             skjema="testskjema",
             refnr="test_ref",
-            editert="under editering",
+            status="under editering",
             kommentar="komm",
             aktiv=True,
             start_date=datetime.datetime(2026, 1, 1),

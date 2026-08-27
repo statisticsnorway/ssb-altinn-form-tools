@@ -212,7 +212,7 @@ class DefaultFormExtractor(MetaFormExtractor):
         logger.debug(json_data)
 
         return FormReception(
-            editert="ikke editert",
+            status="ikke editert",
             kommentar="",
             aktiv=True,
             refnr=json_data.altinn_reference,
@@ -254,7 +254,7 @@ class DefaultFormExtractor(MetaFormExtractor):
                 raise TypeError(f"Key must be type str. Is type '{type(key)}'")
             if key.startswith("enhets"):
                 data = UnitInfo(
-                    ident=ident, variabel=key, verdi=value, iso_period=iso_period
+                    ident=ident, variable=key, verdi=value, iso_period=iso_period
                 )
                 info.append(data)
         return info

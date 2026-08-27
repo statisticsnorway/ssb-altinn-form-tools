@@ -1,5 +1,7 @@
 import datetime
 import tempfile
+from collections.abc import Hashable
+from collections.abc import Iterator
 from typing import Any
 
 import pytest
@@ -17,7 +19,7 @@ from ssb_altinn_form_tools.parquedit_storage_connector import ParqueditStorageCo
 
 
 @pytest.fixture(scope="session", name="parquedit")
-def parquedit_session():
+def parquedit_session() -> Iterator[ParquEdit]:
     temp_dir = tempfile.TemporaryDirectory()
 
     parquedit_conn = ParquEdit.local(f"{temp_dir.name}")
@@ -48,8 +50,13 @@ def test_parquedit_conn(parquedit: ParquEdit) -> None:
 
 
 def test_duckdb_conn(connector_with_schema: ParqueditStorageConnector) -> None:
-    result = connector_with_schema._get_session().execute("SELECT * FROM skjemadata").fetchall()
+    result = (
+        connector_with_schema._get_session()
+        .execute("SELECT * FROM skjemadata")
+        .fetchall()
+    )
     assert result is not None
+
 
 def test_insert_unit_info(connector_with_schema: ParqueditStorageConnector) -> None:
     connector_with_schema.insert_unit_info([])
@@ -60,16 +67,16 @@ def test_insert_unit_info(connector_with_schema: ParqueditStorageConnector) -> N
     )
     assert len(res) == 0
 
-    test_unit = UnitInfo(iso_period="2026", ident="test", variabel="var", verdi="verd")
+    test_unit = UnitInfo(iso_period="2026", ident="test", variable="var", verdi="verd")
     connector_with_schema.insert_unit_info([test_unit])
-    res = (
+    res_enhet: list[dict[Hashable, Any]] = (
         connector_with_schema._get_session()
         .execute("SELECT * FROM enhetsinfo")
         .fetchdf()
         .to_dict(orient="records")
     )
-    assert len(res) == 1
-    res_unit = UnitInfo(**res[0])
+    assert len(res_enhet) == 1
+    res_unit = UnitInfo.model_validate(res_enhet[0])
 
     assert res_unit == test_unit
 
@@ -90,7 +97,7 @@ def test_insert_unit(connector_with_schema: ParqueditStorageConnector) -> None:
         .to_dict(orient="records")
     )
     assert len(res) == 1
-    res_unit = Unit(**res[0])
+    res_unit = Unit.model_validate(res[0])
 
     assert res_unit == test_unit
 
@@ -108,19 +115,21 @@ def test_insert_contact_info(connector_with_schema: ParqueditStorageConnector) -
         iso_period="2026", ident="test", skjema="testskjema", refnr="test_ref"
     )
     connector_with_schema.insert_contact_info([test_unit])
-    res = (
+    res_contact: list[dict[Hashable, Any]] = (
         connector_with_schema._get_session()
         .execute("SELECT * FROM kontaktinfo")
         .fetchdf()
         .to_dict(orient="records")
     )
-    assert len(res) == 1
-    res_unit = ContactInfo(**res[0])
+    assert len(res_contact) == 1
+    res_unit = ContactInfo.model_validate(res_contact[0])
 
     assert res_unit == test_unit
 
 
-def test_insert_form_reception(connector_with_schema: ParqueditStorageConnector) -> None:
+def test_insert_form_reception(
+    connector_with_schema: ParqueditStorageConnector,
+) -> None:
     connector_with_schema.insert_form_reception([])
     res = (
         connector_with_schema._get_session()
@@ -135,7 +144,7 @@ def test_insert_form_reception(connector_with_schema: ParqueditStorageConnector)
             ident="test",
             skjema="testskjema",
             refnr="test_ref",
-            editert="under editering",
+            status="under editering",
             kommentar="komm",
             aktiv=True,
             start_date=datetime.datetime(2026, 1, 1),
@@ -146,17 +155,15 @@ def test_insert_form_reception(connector_with_schema: ParqueditStorageConnector)
             periodeNummer=1,
         )
     )
-    print(test_unit)
     connector_with_schema.insert_form_reception([test_unit])
-    res = (
+    res_reception: list[dict[Hashable, Any]] = (
         connector_with_schema._get_session()
         .execute("SELECT * FROM skjemamottak")
         .fetch_df()
         .to_dict(orient="records")
     )
-    print(res)
-    assert len(res) == 1
-    res_unit = FormReception(**res[0])
+    assert len(res_reception) == 1
+    res_unit = FormReception.model_validate(res_reception[0])
 
     assert res_unit == test_unit
 
@@ -186,12 +193,14 @@ def test_insert_form_data(connector_with_schema: ParqueditStorageConnector) -> N
         .to_dict(orient="records")
     )
     assert len(res) == 1
-    res_unit = FormData(**res[0])
+    res_unit = FormData.model_validate(res[0])
 
     assert res_unit == test_unit
 
 
-def test_insert_form_data_unedited(connector_with_schema: ParqueditStorageConnector) -> None:
+def test_insert_form_data_unedited(
+    connector_with_schema: ParqueditStorageConnector,
+) -> None:
     connector_with_schema.insert_form_data_unedited([])
     res = (
         connector_with_schema._get_session()
@@ -209,14 +218,14 @@ def test_insert_form_data_unedited(connector_with_schema: ParqueditStorageConnec
     )
 
     connector_with_schema.insert_form_data_unedited([test_unit])
-    res: list[dict[str, Any]] = (
+    res_unedited: list[dict[Hashable, Any]] = (
         connector_with_schema._get_session()
         .execute("SELECT * FROM skjemadata_unedited")
         .fetch_df()
         .to_dict(orient="records")
     )
-    assert len(res) == 1
-    res_unit = FormData(**res[0])
+    assert len(res_unedited) == 1
+    res_unit = FormData.model_validate(res_unedited[0])
 
     assert res_unit == test_unit
 
@@ -239,19 +248,19 @@ def test_insert_option_list(connector_with_schema: ParqueditStorageConnector) ->
     )
 
     connector_with_schema.insert_option_list([test_unit])
-    res = (
+    res_options = (
         connector_with_schema._get_session()
         .execute("SELECT * FROM optionslists")
         .fetch_df()
         .to_dict(orient="records")
     )
 
-    assert len(res) == 1
-    assert res[0]["iso_period"] == test_unit.iso_period
-    assert res[0]["skjema"] == test_unit.skjema
-    assert res[0]["label"] == next(iter(test_unit.options)).label
-    assert res[0]["value"] == next(iter(test_unit.options)).value
-    assert res[0]["options_id"] == test_unit.options_id
+    assert len(res_options) == 1
+    assert res_options[0].get("iso_period") == test_unit.iso_period
+    assert res_options[0].get("skjema") == test_unit.skjema
+    assert res_options[0].get("label") == next(iter(test_unit.options)).label
+    assert res_options[0].get("value") == next(iter(test_unit.options)).value
+    assert res_options[0].get("options_id") == test_unit.options_id
 
 
 def test_insert_option_nodes(connector_with_schema: ParqueditStorageConnector) -> None:
@@ -270,15 +279,15 @@ def test_insert_option_nodes(connector_with_schema: ParqueditStorageConnector) -
     )
 
     connector_with_schema.insert_option_node([test_unit])
-    res = (
+    res_nodes = (
         connector_with_schema._get_session()
         .execute("SELECT * FROM optionnodes")
         .fetch_df()
         .to_dict(orient="records")
     )
 
-    assert len(res) == 1
-    assert res[0]["iso_period"] == test_unit.iso_period
-    assert res[0]["skjema"] == test_unit.skjema
-    assert res[0]["node_name"] == next(iter(test_unit.node_list))
-    assert res[0]["options_id"] == test_unit.option_id
+    assert len(res_nodes) == 1
+    assert res_nodes[0].get("iso_period") == test_unit.iso_period
+    assert res_nodes[0].get("skjema") == test_unit.skjema
+    assert res_nodes[0].get("node_name") == next(iter(test_unit.node_list))
+    assert res_nodes[0].get("options_id") == test_unit.option_id

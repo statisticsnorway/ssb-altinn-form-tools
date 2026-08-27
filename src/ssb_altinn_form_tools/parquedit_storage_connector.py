@@ -1,4 +1,7 @@
+# pyright: reportPrivateUsage=false
 import logging
+from typing import Any
+from typing import override
 
 from _duckdb import DuckDBPyConnection
 
@@ -45,10 +48,11 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 checks and to mirror the transactional lifecycle while the class
                 is developed.
         """
-        self._parquedit = engine
-        self._engine = engine._get_connection().raw
+        self._parquedit: ParquEdit = engine
+        self._engine: DuckDBPyConnection = engine._get_connection().raw
         self._session: DuckDBPyConnection | None = None
 
+    @override
     def begin_transaction(self) -> None:
         """Starts a new transactional session (placeholder).
 
@@ -73,14 +77,17 @@ class ParqueditStorageConnector(MetaStorageConnector):
             raise RuntimeError("Session is not started")
         return self._session
 
+    @override
     def rollback(self) -> None:
         """Rolls back the current transaction (placeholder)."""
-        self._get_session().rollback()
+        _ = self._get_session().rollback()
 
+    @override
     def commit(self) -> None:
         """Commits the current transaction (placeholder)."""
-        self._get_session().commit()
+        _ = self._get_session().commit()
 
+    @override
     def create_tables_if_not_exists(self) -> None:
         """Creates logical tables/schemas if they do not already exist.
 
@@ -108,6 +115,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         except CatalogException:
             return []
 
+    @override
     def validate_form_is_new(self, form_reference: str) -> bool:
         """Checks if a form reference is not already present.
 
@@ -126,10 +134,11 @@ class ParqueditStorageConnector(MetaStorageConnector):
         try:
             self.__getattribute__("forms")
         except AttributeError:
-            self.forms = self._get_ingested_forms()
+            self.forms: list[str] = self._get_ingested_forms()
 
         return form_reference not in self.forms
 
+    @override
     def validate_options_exists(self, skjema: str, iso_period: str | None) -> bool:
         """Method for validating if options have already been ingested for a period."""
         sess = self._engine
@@ -154,24 +163,6 @@ class ParqueditStorageConnector(MetaStorageConnector):
             Intended to represent a schema descriptor for Parquet/Delta creation.
             Currently unused beyond in-code documentation.
         """
-        '''table_name = "kontaktinfo"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    ident  VARCHAR NOT NULL,
-                    skjema  VARCHAR NOT NULL,
-                    refnr  VARCHAR NOT NULL,
-                    kontaktperson  VARCHAR,
-                    epost  VARCHAR,
-                    telefon  VARCHAR,
-                    bekreftet_kontaktinfo  VARCHAR,
-                    kommentar_kontaktinfo  VARCHAR,
-                    kommentar_krevende  VARCHAR
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -205,23 +196,6 @@ class ParqueditStorageConnector(MetaStorageConnector):
             to be a typo. In a future implementation, ensure the table name
             matches ``skjemadata``.
         """
-        '''create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                iso_period   VARCHAR NOT NULL,
-                skjema  VARCHAR NOT NULL,
-                ident  VARCHAR NOT NULL,
-                refnr  VARCHAR NOT NULL,
-                feltsti  VARCHAR,
-                feltnavn  VARCHAR,
-                verdi  VARCHAR,
-                alias  VARCHAR,
-                dybde  INTEGER,
-                indeks  INTEGER
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -255,25 +229,6 @@ class ParqueditStorageConnector(MetaStorageConnector):
             A Parquet/Delta implementation would likely map this to a TIMESTAMP
             logical type.
         """
-        '''table_name = "skjemamottak"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    ident  VARCHAR NOT NULL,
-                    skjema  VARCHAR NOT NULL,
-                    skjema_versjon  VARCHAR,
-                    start_date TIMESTAMP NOT NULL,
-                    end_date TIMESTAMP NOT NULL,
-                    refnr  VARCHAR NOT NULL,
-                    editert VARCHAR,
-                    aktiv BOOLEAN,
-                    kommentar VARCHAR,
-                    dato_mottatt TIMESTAMP
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -283,7 +238,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "start_date": {"type": "date-time"},
                 "end_date": {"type": "date-time"},
                 "refnr": {"type": "string"},
-                "editert": {"type": "string"},
+                "status": {"type": "string"},
                 "aktiv": {"type": "boolean"},
                 "kommentar": {"type": "string"},
                 "dato_mottatt": {"type": "date-time"},
@@ -309,17 +264,6 @@ class ParqueditStorageConnector(MetaStorageConnector):
 
     def _create_unit_table(self) -> None:
         """Defines the schema for the `enheter` table (units)."""
-        '''table_name = "enheter"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    skjema  VARCHAR NOT NULL,
-                    ident  VARCHAR NOT NULL
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -340,23 +284,11 @@ class ParqueditStorageConnector(MetaStorageConnector):
 
     def _create_unit_info_table(self) -> None:
         """Defines the schema for the `enhetsinfo` table (unit attributes)."""
-        '''table_name = "enhetsinfo"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    ident  VARCHAR NOT NULL,
-                    variabel  VARCHAR,
-                    verdi  VARCHAR
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
                 "ident": {"type": "string"},
-                "variabel": {"type": "string"},
+                "variable": {"type": "string"},
                 "verdi": {"type": "string"},
             },
             "required": ["iso_period", "ident"],
@@ -366,27 +298,13 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "enhetsinfo",
                 schema,
                 "enhetsinfo",
-                user_defined_id=["iso_period", "ident", "variabel"],
+                user_defined_id=["iso_period", "ident", "variable"],
                 part_columns=["iso_period"],
                 fill=False,
             )
 
     def _create_controls_table(self) -> None:
         """Defines the schema for the `kontroller` table (control definitions)."""
-        '''table_name = "kontroller"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    kontrollid  VARCHAR NOT NULL,
-                    kontrolltype  VARCHAR,
-                    beskrivelse  VARCHAR,
-                    sorting_var VARCHAR,
-                    sorting_order VARCHAR
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -410,21 +328,6 @@ class ParqueditStorageConnector(MetaStorageConnector):
 
     def _create_control_result_table(self) -> None:
         """Defines the schema for the `kontrollutslag` table (control results)."""
-        '''table_name = "kontrollutslag"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    skjema VARCHAR NOT NULL,
-                    kontrollid  VARCHAR NOT NULL,
-                    ident VARCHAR NOT NULL,
-                    refnr VARCHAR NOT NULL,
-                    utslag BOOLEAN NOT NULL,
-                    verdi VARCHAR NOT NULL
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)'''
-
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -454,18 +357,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
             )
 
     def _create_optionnodes_table(self) -> None:
-        '''table_name = "optionnodes"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    skjema VARCHAR NOT NULL,
-                    node_name VARCHAR NOT NULL,
-                    options_id VARCHAR NOT NULL
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)
-        '''
+        """Defines the schema for the `optionsnodes` table (multi select options)."""
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -486,19 +378,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
             )
 
     def _create_optionslist_table(self) -> None:
-        '''table_name = "optionslists"
-        create_stmt = f"""
-        CREATE TABLE IF NOT EXISTS {table_name}(
-                    iso_period   VARCHAR NOT NULL,
-                    skjema VARCHAR NOT NULL,
-                    options_id VARCHAR NOT NULL,
-                    label VARCHAR NOT NULL,
-                    value VARCHAR NOT NULL
-        );
-        ALTER TABLE {table_name} SET PARTITIONED BY (iso_period);
-        """
-        self._get_session().execute(create_stmt)
-        '''
+        """Defines the schema for the `optionslists` table (multi select options)."""
         schema = {
             "properties": {
                 "iso_period": {"type": "string"},
@@ -519,14 +399,13 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 fill=False,
             )
 
-    def _insert(self, data: list[dict], table_name: str) -> None:
+    def _insert(self, data: list[dict[str, Any]], table_name: str) -> None:
         """Internal method for inserting from a list of dicts."""
         if len(data):
             df = pd.DataFrame(data)
-            # df["_id"] = [str(uuid.uuid4()) for _ in range(len(df))]
-            print(df.dtypes)
             self._parquedit.insert_data(table_name, df)
 
+    @override
     def insert_contact_info(self, contact_info: list[ContactInfo]) -> None:
         """Stages a contact info record for insertion (WIP).
 
@@ -542,6 +421,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
 
         self._insert(model, table_name)
 
+    @override
     def insert_form_data(self, form_data: list[FormData]) -> None:
         """Stages a batch of form data records for insertion (WIP).
 
@@ -553,13 +433,14 @@ class ParqueditStorageConnector(MetaStorageConnector):
             columnar file and update an index/manifest.
         """
         table_name = "skjemadata"
-        models = []
+        models: list[dict[str, Any]] = []
         for node in form_data:
             node_data = node.model_dump()
             models.append(node_data)
 
         self._insert(models, table_name)
 
+    @override
     def insert_form_data_unedited(self, form_data: list[FormData]) -> None:
         """Stages a batch of form data records for insertion (WIP).
 
@@ -571,13 +452,14 @@ class ParqueditStorageConnector(MetaStorageConnector):
             columnar file and update an index/manifest.
         """
         table_name = "skjemadata_unedited"
-        models = []
+        models: list[dict[str, Any]] = []
         for node in form_data:
             node_data = node.model_dump()
             models.append(node_data)
 
         self._insert(models, table_name)
 
+    @override
     def insert_form_reception(self, form_reciept: list[FormReception]) -> None:
         """Stages a form reception record for insertion (WIP).
 
@@ -586,9 +468,9 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         table_name = "skjemamottak"
         model = [model.model_dump() for model in form_reciept]
-        print(model)
         self._insert(model, table_name)
 
+    @override
     def insert_unit(self, unit: list[Unit]) -> None:
         """Stages a unit record for insertion (WIP).
 
@@ -600,6 +482,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         model = [model.model_dump() for model in unit]
         self._insert(model, table_name)
 
+    @override
     def insert_unit_info(self, units: list[UnitInfo]) -> None:
         """Stages unit attribute records for insertion (WIP).
 
@@ -607,16 +490,17 @@ class ParqueditStorageConnector(MetaStorageConnector):
             units: Unit key-value attributes to persist.
         """
         table_name = "enhetsinfo"
-        unit_info = []
+        unit_info: list[dict[str, Any]] = []
         for item in units:
             model = item.model_dump()
             unit_info.append(model)
         self._insert(unit_info, table_name)
 
+    @override
     def insert_option_list(self, models: list[OptionMetadataModel]) -> None:
         """Method for inserting options lists into the table."""
         table_name = "optionslists"
-        models_to_insert = []
+        models_to_insert: list[dict[str, Any]] = []
         for model in models:
             for option in model.options:
                 orm_model = dict(
@@ -630,10 +514,11 @@ class ParqueditStorageConnector(MetaStorageConnector):
 
         self._insert(models_to_insert, table_name)
 
+    @override
     def insert_option_node(self, models: list[OptionNodes]) -> None:
         """Method for inserting options node into the table."""
         table_name = "optionnodes"
-        models_to_insert = []
+        models_to_insert: list[dict[str, Any]] = []
         for model in models:
             for node in model.node_list:
                 orm_model = dict(
