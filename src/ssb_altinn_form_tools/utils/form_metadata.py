@@ -72,7 +72,9 @@ def _fetch_with_retry(
     return {}
 
 
-def _process_options(options: list[OptionMetadataModel]):
+def _process_options(
+    options: list[OptionMetadataModel],
+) -> tuple[dict[str, set[OptionModel]], dict[str, set[str]]]:
     unique_option: dict[str, set[OptionModel]] = defaultdict(set)
     nodes_options: dict[str, set[str]] = defaultdict(set)
     for option in options:
@@ -85,7 +87,7 @@ def _process_options(options: list[OptionMetadataModel]):
 def _node_filter(
     data: str | dict[str, Any] | list[str | dict[str, Any]], contained_key: str
 ) -> list[Any]:
-    results = []
+    results: list[Any] = []
     if isinstance(data, str):
         return results
 
@@ -124,7 +126,7 @@ def extract_arr_fields(
         if isinstance(value, dict):
             array_items.extend(extract_arr_fields(value, key))
         else:
-            if value == "array":
+            if (value == "array") and (parent is not None):
                 array_items.append(parent)
     return array_items
 
@@ -155,6 +157,9 @@ class FormMetadata:
         """
         self._form_data_key = f"A3_{form_name}_M"
         self._max_retries = max_retries
+        self._form_name = form_name
+        self._filtered_data: list[dict[str, Any]] | None = None
+        self.array_fields: list[str] | None = None
         self._jsonschema_url = self._create_json_schema_url(form_name, ra_version)
         self._metadata_url = self._create_metadata_url(form_name, ra_version)
 
@@ -187,8 +192,8 @@ class FormMetadata:
 
         return f"https://ssb.apps.tt02.altinn.no/ssb/{ra_id}-{version_str}/api/getskjemakonfig"
 
-    def _get_metadata(self, ra_version: int | None = None) -> list[dict]:
-        if hasattr(self, "_filtered_data") is False:
+    def _get_metadata(self, ra_version: int | None = None) -> list[dict[str, Any]]:
+        if self._filtered_data is None:
             if ra_version:
                 url = self._create_metadata_url(self._form_name, ra_version)
                 urls = []
@@ -211,9 +216,8 @@ class FormMetadata:
                     response_json, contained_key="options"
                 )
                 return self._filtered_data
-            else:
-                self._filtered_data = []
-            return self._filtered_data
+
+            return []
 
         else:
             return self._filtered_data
@@ -224,10 +228,11 @@ class FormMetadata:
         """Extract metadata related for all defined options lists and their options."""
         processed = []
         data = self._get_metadata()
+        print(data)
         for res in data:
             if res.get("options"):
-                data = OptionMetadataModel(
-                    **{"skjema": skjema, "iso_period": iso_period, **res}
+                data = OptionMetadataModel.model_validate(
+                    {"skjema": skjema, "iso_period": iso_period, **res}
                 )
                 processed.append(data)
         return processed
@@ -255,8 +260,7 @@ class FormMetadata:
 
         Will use existings list if method already has been called.
         """
-        self.array_fields: list[str] | None
-        if hasattr(self, "array_fields"):
+        if self.array_fields is not None:
             return self.array_fields
 
         try:

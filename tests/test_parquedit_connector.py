@@ -1,5 +1,6 @@
 import datetime
 import tempfile
+from typing import Any
 
 import pytest
 from ssb_parquedit import ParquEdit
@@ -36,7 +37,7 @@ def connector_with_schema(parquedit: ParquEdit) -> ParqueditStorageConnector:
     return conn
 
 
-def test_parquedit_conn(parquedit: ParquEdit):
+def test_parquedit_conn(parquedit: ParquEdit) -> None:
     conn = ParqueditStorageConnector(parquedit)
     # with pytest.raises(RuntimeError):
     #    conn.create_tables_if_not_exists()
@@ -46,11 +47,11 @@ def test_parquedit_conn(parquedit: ParquEdit):
     conn.commit()
 
 
-def test_duckdb_conn(connector_with_schema: ParqueditStorageConnector):
-    connector_with_schema._get_session().execute("SELECT * FROM skjemadata").fetchall()
+def test_duckdb_conn(connector_with_schema: ParqueditStorageConnector) -> None:
+    result = connector_with_schema._get_session().execute("SELECT * FROM skjemadata").fetchall()
+    assert result is not None
 
-
-def test_insert_unit_info(connector_with_schema: ParqueditStorageConnector):
+def test_insert_unit_info(connector_with_schema: ParqueditStorageConnector) -> None:
     connector_with_schema.insert_unit_info([])
     res = (
         connector_with_schema._get_session()
@@ -73,7 +74,7 @@ def test_insert_unit_info(connector_with_schema: ParqueditStorageConnector):
     assert res_unit == test_unit
 
 
-def test_insert_unit(connector_with_schema: ParqueditStorageConnector):
+def test_insert_unit(connector_with_schema: ParqueditStorageConnector) -> None:
     connector_with_schema.insert_unit([])
     res = (
         connector_with_schema._get_session().execute("SELECT * FROM enheter").fetchall()
@@ -94,7 +95,7 @@ def test_insert_unit(connector_with_schema: ParqueditStorageConnector):
     assert res_unit == test_unit
 
 
-def test_insert_contact_info(connector_with_schema: ParqueditStorageConnector):
+def test_insert_contact_info(connector_with_schema: ParqueditStorageConnector) -> None:
     connector_with_schema.insert_contact_info([])
     res = (
         connector_with_schema._get_session()
@@ -119,7 +120,7 @@ def test_insert_contact_info(connector_with_schema: ParqueditStorageConnector):
     assert res_unit == test_unit
 
 
-def test_insert_form_reception(connector_with_schema: ParqueditStorageConnector):
+def test_insert_form_reception(connector_with_schema: ParqueditStorageConnector) -> None:
     connector_with_schema.insert_form_reception([])
     res = (
         connector_with_schema._get_session()
@@ -160,7 +161,7 @@ def test_insert_form_reception(connector_with_schema: ParqueditStorageConnector)
     assert res_unit == test_unit
 
 
-def test_insert_form_data(connector_with_schema: ParqueditStorageConnector):
+def test_insert_form_data(connector_with_schema: ParqueditStorageConnector) -> None:
     connector_with_schema.insert_form_data([])
     res = (
         connector_with_schema._get_session()
@@ -190,7 +191,7 @@ def test_insert_form_data(connector_with_schema: ParqueditStorageConnector):
     assert res_unit == test_unit
 
 
-def test_insert_form_data_unedited(connector_with_schema: ParqueditStorageConnector):
+def test_insert_form_data_unedited(connector_with_schema: ParqueditStorageConnector) -> None:
     connector_with_schema.insert_form_data_unedited([])
     res = (
         connector_with_schema._get_session()
@@ -208,7 +209,7 @@ def test_insert_form_data_unedited(connector_with_schema: ParqueditStorageConnec
     )
 
     connector_with_schema.insert_form_data_unedited([test_unit])
-    res = (
+    res: list[dict[str, Any]] = (
         connector_with_schema._get_session()
         .execute("SELECT * FROM skjemadata_unedited")
         .fetch_df()
@@ -220,7 +221,7 @@ def test_insert_form_data_unedited(connector_with_schema: ParqueditStorageConnec
     assert res_unit == test_unit
 
 
-def test_insert_option_list(connector_with_schema: ParqueditStorageConnector):
+def test_insert_option_list(connector_with_schema: ParqueditStorageConnector) -> None:
     connector_with_schema.insert_option_list([])
     res = (
         connector_with_schema._get_session()
@@ -253,7 +254,7 @@ def test_insert_option_list(connector_with_schema: ParqueditStorageConnector):
     assert res[0]["options_id"] == test_unit.options_id
 
 
-def test_insert_option_nodes(connector_with_schema: ParqueditStorageConnector):
+def test_insert_option_nodes(connector_with_schema: ParqueditStorageConnector) -> None:
     connector_with_schema.insert_option_node([])
     res = (
         connector_with_schema._get_session()

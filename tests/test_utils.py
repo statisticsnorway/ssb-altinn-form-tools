@@ -2,12 +2,12 @@ from .utils import form_paths
 from .utils import load_expected_data
 
 
-def test_utils():
+def test_utils() -> None:
     paths = form_paths()
     assert len(paths) != 0
 
 
-def test_form_cases():
+def test_form_cases() -> None:
     form_cases = load_expected_data()
     paths = form_paths()
 

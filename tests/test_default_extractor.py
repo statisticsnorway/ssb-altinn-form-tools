@@ -6,7 +6,7 @@ from ssb_altinn_form_tools.default_form_extractor import parse_index
 from ssb_altinn_form_tools.models import FormNode
 
 
-def test_index_calculations():
+def test_index_calculations() -> None:
     index = parse_index("parent/1/child")
     assert index == 1
 
@@ -24,7 +24,7 @@ def test_index_calculations():
     assert index is None
 
 
-def test_depth_calulations():
+def test_depth_calulations() -> None:
     depth = calc_depth("parent/child")
     assert depth == 2
 
@@ -38,7 +38,7 @@ def test_depth_calulations():
     assert depth == 3
 
 
-def test_entry_parsing_checkbox():
+def test_entry_parsing_checkbox() -> None:
     data = {"Checkbox": {"hvilkeFylker": "56,03,15,50,31"}}
     result = parse_entries(data)
     assert result == [
@@ -53,7 +53,7 @@ def test_entry_parsing_checkbox():
     ]
 
 
-def test_entry_parsing_list():
+def test_entry_parsing_list() -> None:
     data = {
         "List": {
             "SkjemaData": {
@@ -127,7 +127,7 @@ def test_entry_parsing_list():
     ]
 
 
-def test_entry_parsing_nested_list():
+def test_entry_parsing_nested_list() -> None:
     data = {
         "NestedList": {
             "SkjemaData": {
@@ -243,7 +243,7 @@ def test_entry_parsing_nested_list():
     ]
 
 
-def test_entry_parsing_regular_field():
+def test_entry_parsing_regular_field() -> None:
     data = {
         "Regular": {
             "SkjemaData": {

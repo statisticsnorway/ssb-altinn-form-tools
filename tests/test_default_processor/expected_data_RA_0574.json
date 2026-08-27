@@ -1,0 +1,38 @@
+{
+    "form_name": "RA0574",
+    "forced_array": ["FeltRadyrKomm", "LisensFelling"],
+    "forms": [
+        {
+            "form_id": "8d2adafd32a3",
+            "skjemadata_rows": 72,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/FeltRadyrKomm/0/feltRadyrKommKode",
+                    "field_value": "3429"
+                },
+                {
+                    "field_name": "/jaktSmaviltJaNei",
+                    "field_value": 0
+                }
+            ]
+        },
+        {
+            "form_id": "7c60874e44de",
+            "skjemadata_rows": 72,
+            "kontaktinfo_rows": 1,
+            "skjemamottak_rows": 1,
+            "test_fields": [
+                {
+                    "field_name": "/LisensFelling/0/lisensFellingKommKode",
+                    "field_value": "0301"
+                },
+                {
+                    "field_name": "/FeltRadyrKomm/0/feltRadyrKommKode",
+                    "field_value": "0301"
+                }
+            ]
+        }
+    ]
+}

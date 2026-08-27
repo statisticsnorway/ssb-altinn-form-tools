@@ -11,7 +11,7 @@ def form_info_fixture(request) -> str:
     return request.param
 
 
-def test_metadata_api():
+def test_metadata_api() -> None:
     api = FormMetadata(form_name="RA0485", max_retries=0)
     res = api.extract_options_list("RA0485", "2025")
     assert len(res) == 32
@@ -29,7 +29,7 @@ def test_metadata_api():
     assert len(res) == 0
 
 
-def test_jsonschema_api():
+def test_jsonschema_api() -> None:
     api = FormMetadata(form_name="RA0485", max_retries=0)
     res = api.get_array_fields()
     assert res is not None
@@ -45,7 +45,7 @@ def test_jsonschema_api():
     # api.extract_options_list(form_info_fixture.form_name, "2025")
 
 
-def test_array_field_extraction():
+def test_array_field_extraction() -> None:
     data = {
         "SkjemaData": {
             "type": "object",

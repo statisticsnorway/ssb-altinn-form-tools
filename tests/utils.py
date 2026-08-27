@@ -11,18 +11,18 @@ class FormInfo(BaseModel):
     base_path: Path
 
     @computed_field
-    @property
+    @property # type: ignore[misc]
     def xml_paths(self) -> list[Path]:
         return list(self.base_path.rglob("**/*.xml"))
 
     @computed_field
-    @property
+    @property # type: ignore[misc]
     def form_name(self) -> str:
         """Eg.: RA0485."""
         return self.base_path.name
 
     @computed_field
-    @property
+    @property # type: ignore[misc]
     def form_name_a3_format(self) -> str:
         """Eg.: A3_RA0485_M."""
         return f"A3_{self.base_path.name}_M"
@@ -59,7 +59,7 @@ class Form(BaseModel):
     forced_array: list[str] = Field(default_factory=lambda: [])
 
     @computed_field
-    @property
+    @property # type: ignore[misc]
     def form_info(self) -> FormInfo:
         return FormInfo(base_path=Path(f"tests/testdata/{self.form_name}"))
 
