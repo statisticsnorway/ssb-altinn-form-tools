@@ -6,7 +6,14 @@ authors = [{ name = "Contact Person", email = "dor@ssb.no" }]
 license = "MIT"
 readme = "README.md"
 requires-python = ">=3.12"
-dynamic = ["classifiers"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+
 dependencies = [
     #"click>=8.0.1",
     "sqlalchemy>=2.0.46",
@@ -62,13 +69,6 @@ dev = [
     "pytest-mock>=3.15.1",
 ]
 
-[tool.poetry]
-classifiers = ["Development Status :: 3 - Alpha"]
-requires-poetry = ">=2.3"
-
-[tool.poetry.requires-plugins]
-poetry-plugin-export = ">=1.9"
-
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 
@@ -86,7 +86,7 @@ show_missing = true
 fail_under = 50
 
 [tool.deptry.per_rule_ignores]
-DEP001 = ["nox", "nox_poetry"]  # packages available by default
+DEP001 = ["nox"]  # packages available by default
 
 [tool.mypy]
 strict = true
@@ -180,6 +180,9 @@ classmethod-decorators = ["classmethod", "validator", "root_validator", "pydanti
     "S101",    # asserts are encouraged in pytest
 ]
 
+[tool.uv]
+exclude-newer = "7 days"
+
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.11.0,<0.12.0"]
+build-backend = "uv_build"
