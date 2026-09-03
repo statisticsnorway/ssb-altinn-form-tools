@@ -1,6 +1,5 @@
 import datetime
 import sqlite3
-import tempfile
 from collections.abc import Iterator
 
 import pytest
