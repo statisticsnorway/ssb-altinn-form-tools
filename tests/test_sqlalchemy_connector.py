@@ -30,16 +30,12 @@ from ssb_altinn_form_tools.sqlalchemy_storage_connector import (
 
 
 @pytest.fixture(scope="session", name="sqlite")
-def sqlite_session() -> Iterator[Engine]:
-    temp_dir = tempfile.TemporaryDirectory()
-
-    conn = sqlite3.connect(f"{temp_dir.name}/catalog.db")
-
+def sqlite_session(tmp_path_factory: pytest.TempPathFactory) -> Iterator[Engine]:
+    dir_path = tmp_path_factory.mktemp("data")
+    conn = sqlite3.connect(f"{dir_path.resolve()}/catalog.db")
     engine = create_engine("sqlite://", creator=lambda: conn)
-    try:
-        yield engine
-    finally:
-        temp_dir.cleanup()
+    yield engine
+
 
 
 @pytest.fixture(scope="session")
