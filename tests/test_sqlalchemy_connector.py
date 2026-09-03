@@ -36,7 +36,6 @@ def sqlite_session(tmp_path_factory: pytest.TempPathFactory) -> Iterator[Engine]
     yield engine
 
 
-
 @pytest.fixture(scope="session")
 def connector_with_schema(sqlite: Engine) -> SqlAlchemyStorageConnector:
     conn = SqlAlchemyStorageConnector(sqlite)
