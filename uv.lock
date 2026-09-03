@@ -2814,7 +2814,7 @@ wheels = [
 
 [[package]]
 name = "ssb-altinn-form-tools"
-version = "0.0.9"
+version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "pandas-stubs" },
