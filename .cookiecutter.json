@@ -13,7 +13,7 @@
   "copyright_owner": "Statistics Norway",
   "copyright_year": "2026",
   "department_number": "",
-  "dependency_manager_tool": "poetry",
+  "dependency_manager_tool": "uv",
   "development_status": "Development Status :: 3 - Alpha",
   "email": "dor@ssb.no",
   "friendly_name": "SSB Altinn Form Tools",
