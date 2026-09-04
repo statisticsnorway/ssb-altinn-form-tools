@@ -385,7 +385,7 @@ def test_form_reception_validation_errors() -> None:
 
     # Raise exception in `.get` for periodeType (Line 221-222)
     class BadDict(dict):
-        def get(self, key: str) -> Any:
+        def get(self, key: Any) -> Any | None:
             if key == "periodeType":
                 raise ValueError("Bad get")
             return None
