@@ -40,7 +40,7 @@ def extract_xml_to_dict(
 
     Function is separated to enable testing.
     """
-    xml_string = xml_path.read_text()
+    xml_string = xml_path.read_text(encoding="utf-8")
     dictionary: dict[str, Any] = xmltodict.parse(
         xml_string, force_list=array_fields, xml_attribs=False, encoding="utf-8"
     )
