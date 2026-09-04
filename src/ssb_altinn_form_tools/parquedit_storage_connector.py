@@ -145,10 +145,12 @@ class ParqueditStorageConnector(MetaStorageConnector):
         try:
             if iso_period is not None:
                 stmt = "SELECT * FROM optionsnodes WHERE skjema = ? AND iso_period = ?"
+                params: tuple[Any, ...] = (skjema, iso_period)
             else:
                 stmt = "SELECT * FROM optionsnodes WHERE skjema = ?"
+                params = (skjema,)
 
-            data = sess.execute(stmt, (skjema, iso_period)).fetchone()
+            data = sess.execute(stmt, params).fetchone()
             return (data is not None) and (len(data) != 0)
         except CatalogException:
             logger.warning("Was not able verify that if options exists or not")

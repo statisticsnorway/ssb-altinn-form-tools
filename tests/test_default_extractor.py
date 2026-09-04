@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 
 from ssb_altinn_form_tools.default_form_extractor import calc_depth
@@ -271,3 +273,170 @@ def test_entry_parsing_regular_field() -> None:
             alias=None,
         ),
     ]
+
+
+def test_parse_entries_invalid_type() -> None:
+    with pytest.raises(UnboundLocalError):
+        parse_entries(123)  # type: ignore[arg-type]
+
+
+def test_default_extractor_extract_unit_info_invalid_types() -> None:
+    from ssb_altinn_form_tools.default_form_extractor import DefaultFormExtractor
+
+    extractor = DefaultFormExtractor()
+
+    with pytest.raises(TypeError, match="form_data must be type dict"):
+        extractor.extract_unit_info({"InternInfo": "not-a-dict"}, ident="123", iso_period="2026")  # type: ignore[arg-type]
+
+    with pytest.raises(TypeError, match="Key must be type str"):
+        extractor.extract_unit_info({"InternInfo": {123: "value"}}, ident="123", iso_period="2026")  # type: ignore[arg-type]
+
+
+def test_models_str_methods() -> None:
+    import datetime
+
+    from ssb_altinn_form_tools.models import ContactInfo
+    from ssb_altinn_form_tools.models import ExtractedForm
+    from ssb_altinn_form_tools.models import FormData
+    from ssb_altinn_form_tools.models import FormJsonData
+    from ssb_altinn_form_tools.models import FormNode
+    from ssb_altinn_form_tools.models import FormReception
+    from ssb_altinn_form_tools.models import Unit
+    from ssb_altinn_form_tools.models import UnitInfo
+
+    # 1. FormNode
+    node = FormNode(feltsti="/path", feltnavn="name", verdi="val", dybde=2)
+    assert "FormNode" in str(node)
+
+    # 2. FormData
+    form_data = FormData(
+        feltsti="/path",
+        feltnavn="name",
+        verdi="val",
+        dybde=2,
+        iso_period="2026-01",
+        skjema="RA0187",
+        ident="123",
+        refnr="ref123",
+    )
+    assert "FormData" in str(form_data)
+
+    # 3. ContactInfo
+    contact = ContactInfo(
+        iso_period="2026-01", skjema="RA0187", ident="123", refnr="ref123"
+    )
+    assert "ContactInfo" in str(contact)
+
+    # 4. Unit
+    unit = Unit(iso_period="2026-01", ident="123", skjema="RA0187")
+    assert "Unit" in str(unit)
+
+    # 5. UnitInfo
+    unit_info = UnitInfo(iso_period="2026-01", ident="123", variable="var", verdi="val")
+    assert "UnitInfo" in str(unit_info)
+
+    # 6. FormReception
+    reception = FormReception.model_validate(
+        {
+            "start_date": datetime.datetime(2026, 1, 1),
+            "end_date": datetime.datetime(2026, 1, 31),
+            "iso_period": "2026-01",
+            "skjema": "RA0187",
+            "ident": "123",
+            "refnr": "ref123",
+            "dato_mottatt": datetime.datetime(2026, 2, 1),
+            "status": "ikke editert",
+            "kommentar": "",
+            "aktiv": True,
+            "periodeType": "MND",
+            "periodeNummer": "1",
+            "periodeAAr": "2026",
+        }
+    )
+    assert "FormReception" in str(reception)
+
+    # 7. FormJsonData
+    json_data = FormJsonData.model_validate(
+        {
+            "altinnReferanse": "ref123",
+            "altinnTidspunktLevert": datetime.datetime(2026, 2, 1),
+        }
+    )
+    assert "FormJsonData" in str(json_data)
+
+    # 8. ExtractedForm
+    extracted = ExtractedForm(
+        reception=reception,
+        contact_info=contact,
+        unit=unit,
+        unit_info=[unit_info],
+        form_data=[form_data],
+    )
+    assert "ExtractedForm" in str(extracted)
+
+
+def test_form_reception_validation_errors() -> None:
+    import datetime
+
+    import pytest
+    from pydantic import ValidationError
+
+    from ssb_altinn_form_tools.models import FormReception
+
+    # Raise exception in `.get` for periodeType (Line 221-222)
+    class BadDict(dict):
+        def get(self, key: str) -> Any:
+            if key == "periodeType":
+                raise ValueError("Bad get")
+            return None
+
+    with pytest.raises(ValidationError, match="periodeType could not be validated"):
+        FormReception.model_validate(BadDict())
+
+    # Raise exception in periodeNummer (Line 234-235)
+    bad_nummer_data = {
+        "periodeType": "MND",
+        "periodeNummer": "not-an-int",
+        "periodeAAr": "2026",
+        "raNummer": "RA0187",
+        "enhetsIdent": "123",
+        "altinnReferanse": "ref123",
+        "altinnTidspunktLevert": datetime.datetime(2026, 2, 1),
+        "status": "ikke editert",
+        "kommentar": "",
+        "aktiv": True,
+    }
+    with pytest.raises(ValidationError, match="periodeNummer could not be validated"):
+        FormReception.model_validate(bad_nummer_data)
+
+    # Raise exception in periodeAAr (Line 242-243)
+    bad_year_data = {
+        "periodeType": "MND",
+        "periodeNummer": "1",
+        "periodeAAr": "not-an-int",
+        "raNummer": "RA0187",
+        "enhetsIdent": "123",
+        "altinnReferanse": "ref123",
+        "altinnTidspunktLevert": datetime.datetime(2026, 2, 1),
+        "status": "ikke editert",
+        "kommentar": "",
+        "aktiv": True,
+    }
+    with pytest.raises(ValidationError, match="periodeAar could not be validated"):
+        FormReception.model_validate(bad_year_data)
+
+    # Raise exception in period_type (Line 273)
+    bad_type_data = {
+        "periodeType": "INVALID",
+        "periodeNummer": "1",
+        "periodeAAr": "2026",
+        "raNummer": "RA0187",
+        "enhetsIdent": "123",
+        "altinnReferanse": "ref123",
+        "altinnTidspunktLevert": datetime.datetime(2026, 2, 1),
+        "status": "ikke editert",
+        "kommentar": "",
+        "aktiv": True,
+    }
+    with pytest.raises(ValidationError, match="period_type could not be validated"):
+        FormReception.model_validate(bad_type_data)

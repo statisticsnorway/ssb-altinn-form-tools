@@ -248,3 +248,21 @@ def test_insert_option_nodes(connector_with_schema: SqlAlchemyStorageConnector) 
     assert model.skjema == test_unit.skjema  # pyright: ignore
     assert model.node_name == next(iter(test_unit.node_list))  # pyright: ignore
     assert model.options_id == test_unit.option_id  # pyright: ignore
+
+
+def test_sqlalchemy_connector_missing_coverage(sqlite: Engine) -> None:
+    import pytest
+
+    from ssb_altinn_form_tools.sqlalchemy_storage_connector import (
+        SqlAlchemyStorageConnector,
+    )
+
+    conn = SqlAlchemyStorageConnector(sqlite)
+
+    with pytest.raises(RuntimeError, match="Session is not started"):
+        conn._get_session()
+
+    conn.begin_transaction()
+    conn.rollback()
+
+    assert conn.validate_options_exists("test_skjema", None) is False

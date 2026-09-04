@@ -16,7 +16,7 @@ def _fetch_with_retry(
     form_key: str,
     resource: str,
     max_retries: int = 3,
-    delay: int = 2,
+    delay: int | float = 2,
     timeout: int = 5,
 ) -> Any | dict[Any, Any]:
     """Attempt to fetch data from a list of URLs with retries.

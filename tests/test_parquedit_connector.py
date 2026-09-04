@@ -5,6 +5,7 @@ from collections.abc import Iterator
 from typing import Any
 
 import pytest
+from pytest_mock import MockerFixture
 from ssb_parquedit import ParquEdit
 
 from ssb_altinn_form_tools.models import ContactInfo
@@ -291,3 +292,54 @@ def test_insert_option_nodes(connector_with_schema: ParqueditStorageConnector) -
     assert res_nodes[0].get("skjema") == test_unit.skjema
     assert res_nodes[0].get("node_name") == next(iter(test_unit.node_list))
     assert res_nodes[0].get("options_id") == test_unit.option_id
+
+
+def test_parquedit_connector_missing_coverage(
+    parquedit: ParquEdit, mocker: MockerFixture
+) -> None:
+    import sys
+    from unittest.mock import MagicMock
+    from unittest.mock import patch
+
+    import pytest
+    from _duckdb import CatalogException
+
+    from ssb_altinn_form_tools.parquedit_storage_connector import (
+        ParqueditStorageConnector,
+    )
+
+    with patch.dict(sys.modules, {"ssb_parquedit": None, "duckdb": None}):
+        with pytest.raises(
+            ImportError,
+            match="This connector cannot be used if duckdb or parquedit is not installed",
+        ):
+            import importlib
+
+            import ssb_altinn_form_tools.parquedit_storage_connector
+
+            importlib.reload(ssb_altinn_form_tools.parquedit_storage_connector)
+
+    import importlib
+
+    import ssb_altinn_form_tools.parquedit_storage_connector
+
+    importlib.reload(ssb_altinn_form_tools.parquedit_storage_connector)
+
+    conn = ParqueditStorageConnector(parquedit)
+    with pytest.raises(RuntimeError, match="Session is not started"):
+        conn._get_session()
+
+    conn.begin_transaction()
+    conn.rollback()
+
+    mock_engine = MagicMock()
+    mock_engine.execute.side_effect = CatalogException("Table not found")
+    mocker.patch.object(conn, "_engine", mock_engine)
+    assert conn._get_ingested_forms() == []
+
+    # Restore the engine
+    conn._engine = parquedit._get_connection().raw
+    conn.begin_transaction()
+    conn.create_tables_if_not_exists()
+    conn.commit()
+    assert conn.validate_options_exists("test_skjema", None) is False
