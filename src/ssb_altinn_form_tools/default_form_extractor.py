@@ -212,7 +212,7 @@ class DefaultFormExtractor(MetaFormExtractor):
         logger.debug(json_data)
 
         return FormReception(
-            status="ikke editert",
+            status="Under arbeid",
             kommentar="",
             aktiv=True,
             refnr=json_data.altinn_reference,
