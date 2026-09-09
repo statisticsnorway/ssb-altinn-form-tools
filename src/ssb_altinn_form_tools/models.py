@@ -202,7 +202,9 @@ class FormReception(BaseModel):
     ident: str = Field(validation_alias="enhetsIdent")
     refnr: str = Field(validation_alias="altinnReferanse")
     dato_mottatt: datetime.datetime = Field(validation_alias="altinnTidspunktLevert")
-    status: Literal["Ferdig", "Under arbeid", "Ubehandlet"] = Field(default="Under arbeid")
+    status: Literal["Ferdig", "Under arbeid", "Ubehandlet"] = Field(
+        default="Under arbeid"
+    )
     kommentar: str
     aktiv: bool
 
