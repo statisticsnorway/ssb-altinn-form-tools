@@ -144,7 +144,7 @@ def test_insert_form_reception(
             ident="test",
             skjema="testskjema",
             refnr="test_ref",
-            status="under editering",
+            status="Under arbeid",
             kommentar="komm",
             aktiv=True,
             start_date=datetime.datetime(2026, 1, 1),

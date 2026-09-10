@@ -1,6 +1,5 @@
 import logging
 
-from _duckdb import DuckDBPyConnection
 from ssb_parquedit import ParquEdit
 
 logging.basicConfig(
@@ -16,13 +15,6 @@ from ssb_altinn_form_tools.parquedit_storage_connector import ParqueditStorageCo
 extractor = DefaultFormExtractor()
 
 parquedit_conn = ParquEdit.local("data")
-
-
-def get_duckdb_connection() -> DuckDBPyConnection:
-    """Retrieves the duckdb connection for the parquedit instance."""
-    raw = parquedit_conn._get_connection().raw
-    return raw
-
 
 connector = ParqueditStorageConnector(parquedit_conn)
 for form_number in ["RA0485"]:
