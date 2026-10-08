@@ -114,15 +114,15 @@ class EnhetsInfo(Base):
         id (int): Auto-incrementing primary key.
         iso_periode (str): Iso period of the form.
         ident (str): Identifier of the reporting unit.
-        variable (str): Name of the metadata variable.
-        verdi (str): Value of the metadata variable.
+        variabel (str): Name of the metadata variabel.
+        verdi (str): Value of the metadata variabel.
     """
 
     __tablename__: str = "enhetsinfo"
     id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
     iso_periode: Column[str] = Column(String)
     ident: Column[str] = Column(String)
-    variable: Column[str] = Column(String)
+    variabel: Column[str] = Column(String)
     verdi: Column[str] = Column(String)
 
 
@@ -139,7 +139,7 @@ class Kontroller(Base):
         kontrollid (str): Unique identifier for the control rule.
         kontrolltype (str): Type or category of the control.
         beskrivelse (str): Description of the control logic.
-        sorting_var (str): Variable used for sorting control rules.
+        sorting_var (str): variable used for sorting control rules.
         sorting_order (str): Order key used for deterministic sorting.
     """
 

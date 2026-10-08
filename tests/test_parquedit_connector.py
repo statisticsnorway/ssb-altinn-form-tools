@@ -67,7 +67,7 @@ def test_insert_unit_info(connector_with_schema: ParqueditStorageConnector) -> N
     )
     assert len(res) == 0
 
-    test_unit = UnitInfo(iso_periode="2026", ident="test", variable="var", verdi="verd")
+    test_unit = UnitInfo(iso_periode="2026", ident="test", variabel="var", verdi="verd")
     connector_with_schema.insert_unit_info([test_unit])
     res_enhet: list[dict[Hashable, Any]] = (
         connector_with_schema._get_session()

@@ -153,13 +153,13 @@ class UnitInfo(BaseModel):
     Attributes:
         iso_periode: Reporting year.
         ident: Identifier of the reporting unit.
-        variable: Name of the metadata variable.
+        variabel: Name of the metadata variable.
         verdi: Value of the metadata variable.
     """
 
     iso_periode: str
     ident: str
-    variable: str
+    variabel: str
     verdi: str | None = Field(default=None)
 
     def __str__(self) -> str:

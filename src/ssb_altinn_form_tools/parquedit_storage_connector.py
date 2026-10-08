@@ -286,7 +286,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
             "properties": {
                 "iso_periode": {"type": "string"},
                 "ident": {"type": "string"},
-                "variable": {"type": "string"},
+                "variabel": {"type": "string"},
                 "verdi": {"type": "string"},
             },
             "required": ["iso_periode", "ident"],
@@ -296,7 +296,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "enhetsinfo",
                 schema,
                 "enhetsinfo",
-                user_defined_id=["iso_periode", "ident", "variable"],
+                user_defined_id=["iso_periode", "ident", "variabel"],
                 part_columns=["iso_periode"],
                 fill=False,
             )

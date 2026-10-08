@@ -255,7 +255,7 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             model = EnhetsInfo(
                 iso_periode=item.iso_periode,
                 ident=item.ident,
-                variable=item.variable,
+                variabel=item.variabel,
                 verdi=item.verdi,
             )
             unit_info.append(model)

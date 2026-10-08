@@ -254,7 +254,7 @@ class DefaultFormExtractor(MetaFormExtractor):
                 raise TypeError(f"Key must be type str. Is type '{type(key)}'")
             if key.startswith("enhets"):
                 data = UnitInfo(
-                    ident=ident, variable=key, verdi=value, iso_periode=iso_periode
+                    ident=ident, variabel=key, verdi=value, iso_periode=iso_periode
                 )
                 info.append(data)
         return info
