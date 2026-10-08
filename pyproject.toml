@@ -36,7 +36,7 @@ repository = "https://github.com/statisticsnorway/ssb-altinn-form-tools"
 
 [project.optional-dependencies]
 parquedit = [
-  "ssb-parquedit>=0.0.11",
+  "ssb-parquedit==0.1.1",
 ]
 sqlalchemy = []
 
@@ -188,3 +188,4 @@ classmethod-decorators = ["classmethod", "validator", "root_validator", "pydanti
 
 [tool.uv]
 exclude-newer = "7 days"
+exclude-newer-package = { ssb-parquedit = false }
