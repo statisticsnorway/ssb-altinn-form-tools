@@ -67,7 +67,7 @@ def test_insert_unit_info(connector_with_schema: ParqueditStorageConnector) -> N
     )
     assert len(res) == 0
 
-    test_unit = UnitInfo(iso_period="2026", ident="test", variable="var", verdi="verd")
+    test_unit = UnitInfo(iso_periode="2026", ident="test", variabel="var", verdi="verd")
     connector_with_schema.insert_unit_info([test_unit])
     res_enhet: list[dict[Hashable, Any]] = (
         connector_with_schema._get_session()
@@ -88,7 +88,7 @@ def test_insert_unit(connector_with_schema: ParqueditStorageConnector) -> None:
     )
     assert len(res) == 0
 
-    test_unit = Unit(iso_period="2026", ident="test", skjema="testskjema")
+    test_unit = Unit(iso_periode="2026", ident="test", skjema="testskjema")
     connector_with_schema.insert_unit([test_unit])
     res_units: list[dict[Hashable, Any]] = (
         connector_with_schema._get_session()
@@ -112,7 +112,7 @@ def test_insert_contact_info(connector_with_schema: ParqueditStorageConnector) -
     assert len(res) == 0
 
     test_unit = ContactInfo(
-        iso_period="2026", ident="test", skjema="testskjema", refnr="test_ref"
+        iso_periode="2026", ident="test", skjema="testskjema", refnr="test_ref"
     )
     connector_with_schema.insert_contact_info([test_unit])
     res_contact: list[dict[Hashable, Any]] = (
@@ -140,15 +140,15 @@ def test_insert_form_reception(
 
     test_unit = FormReception.model_validate(
         dict(
-            iso_period="2026",
+            iso_periode="2026",
             ident="test",
             skjema="testskjema",
             refnr="test_ref",
             status="Under arbeid",
             kommentar="komm",
             aktiv=True,
-            start_date=datetime.datetime(2026, 1, 1),
-            end_date=datetime.datetime(2026, 12, 31),
+            start_dato=datetime.datetime(2026, 1, 1),
+            slutt_dato=datetime.datetime(2026, 12, 31),
             dato_mottatt=datetime.datetime(2026, 5, 1),
             periodeAAr=2026,
             periodeType="AAR",
@@ -177,7 +177,7 @@ def test_insert_form_data(connector_with_schema: ParqueditStorageConnector) -> N
     )
     assert len(res) == 0
     test_unit = FormData(
-        iso_period="2026",
+        iso_periode="2026",
         ident="test",
         skjema="testskjema",
         refnr="test_ref",
@@ -209,7 +209,7 @@ def test_insert_form_data_unedited(
     )
     assert len(res) == 0
     test_unit = FormData(
-        iso_period="2026",
+        iso_periode="2026",
         ident="test",
         skjema="testskjema",
         refnr="test_ref",
@@ -239,7 +239,7 @@ def test_insert_option_list(connector_with_schema: ParqueditStorageConnector) ->
     )
     assert len(res) == 0
     test_unit = OptionMetadataModel(
-        iso_period="2026",
+        iso_periode="2026",
         skjema="testskjema",
         options=[OptionModel(value="test_val", label="test_label")],
         options_id="opsjons_id",
@@ -256,7 +256,7 @@ def test_insert_option_list(connector_with_schema: ParqueditStorageConnector) ->
     )
 
     assert len(res_options) == 1
-    assert res_options[0].get("iso_period") == test_unit.iso_period
+    assert res_options[0].get("iso_periode") == test_unit.iso_periode
     assert res_options[0].get("skjema") == test_unit.skjema
     assert res_options[0].get("label") == next(iter(test_unit.options)).label
     assert res_options[0].get("value") == next(iter(test_unit.options)).value
@@ -272,7 +272,7 @@ def test_insert_option_nodes(connector_with_schema: ParqueditStorageConnector) -
     )
     assert len(res) == 0
     test_unit = OptionNodes(
-        iso_period="2026",
+        iso_periode="2026",
         skjema="testskjema",
         node_list=set(["node_1"]),
         option_id="opsjons_id",
@@ -287,7 +287,7 @@ def test_insert_option_nodes(connector_with_schema: ParqueditStorageConnector) -
     )
 
     assert len(res_nodes) == 1
-    assert res_nodes[0].get("iso_period") == test_unit.iso_period
+    assert res_nodes[0].get("iso_periode") == test_unit.iso_periode
     assert res_nodes[0].get("skjema") == test_unit.skjema
     assert res_nodes[0].get("node_name") == next(iter(test_unit.node_list))
     assert res_nodes[0].get("options_id") == test_unit.option_id

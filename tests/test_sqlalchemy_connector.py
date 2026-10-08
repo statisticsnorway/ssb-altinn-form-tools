@@ -62,7 +62,7 @@ def test_insert_unit_info(connector_with_schema: SqlAlchemyStorageConnector) -> 
     res = connector_with_schema._get_session().execute(select(EnhetsInfo)).fetchall()
     assert len(res) == 0
 
-    test_unit = UnitInfo(iso_period="2026", ident="test", variable="var", verdi="verd")
+    test_unit = UnitInfo(iso_periode="2026", ident="test", variabel="var", verdi="verd")
     connector_with_schema.insert_unit_info([test_unit])
     res = connector_with_schema._get_session().execute(select(EnhetsInfo)).fetchall()
     model: EnhetsInfo = res[0][0]
@@ -78,7 +78,7 @@ def test_insert_unit(connector_with_schema: SqlAlchemyStorageConnector) -> None:
     res = connector_with_schema._get_session().execute(select(Enheter)).fetchall()
     assert len(res) == 0
 
-    test_unit = Unit(iso_period="2026", ident="test", skjema="testskjema")
+    test_unit = Unit(iso_periode="2026", ident="test", skjema="testskjema")
     connector_with_schema.insert_unit([test_unit])
     res = connector_with_schema._get_session().execute(select(Enheter)).fetchall()
     model: Enheter = res[0][0]
@@ -95,7 +95,7 @@ def test_insert_contact_info(connector_with_schema: SqlAlchemyStorageConnector) 
     assert len(res) == 0
 
     test_unit = ContactInfo(
-        iso_period="2026", ident="test", skjema="testskjema", refnr="test_ref"
+        iso_periode="2026", ident="test", skjema="testskjema", refnr="test_ref"
     )
     connector_with_schema.insert_contact_info([test_unit])
     res = connector_with_schema._get_session().execute(select(KontaktInfo)).fetchall()
@@ -117,15 +117,15 @@ def test_insert_form_reception(
 
     test_unit = FormReception.model_validate(
         dict(
-            iso_period="2026",
+            iso_periode="2026",
             ident="test",
             skjema="testskjema",
             refnr="test_ref",
             status="Under arbeid",
             kommentar="komm",
             aktiv=True,
-            start_date=datetime.datetime(2026, 1, 1),
-            end_date=datetime.datetime(2026, 12, 31),
+            start_dato=datetime.datetime(2026, 1, 1),
+            slutt_dato=datetime.datetime(2026, 12, 31),
             dato_mottatt=datetime.datetime(2026, 5, 1),
             periodeAAr=2026,
             periodeType="AAR",
@@ -147,7 +147,7 @@ def test_insert_form_data(connector_with_schema: SqlAlchemyStorageConnector) -> 
     res = connector_with_schema._get_session().execute(select(Skjemadata)).fetchall()
     assert len(res) == 0
     test_unit = FormData(
-        iso_period="2026",
+        iso_periode="2026",
         ident="test",
         skjema="testskjema",
         refnr="test_ref",
@@ -176,7 +176,7 @@ def test_insert_form_data_unedited(
     )
     assert len(res) == 0
     test_unit = FormData(
-        iso_period="2026",
+        iso_periode="2026",
         ident="test",
         skjema="testskjema",
         refnr="test_ref",
@@ -203,7 +203,7 @@ def test_insert_option_list(connector_with_schema: SqlAlchemyStorageConnector) -
     res = connector_with_schema._get_session().execute(select(OptionsLists)).fetchall()
     assert len(res) == 0
     test_unit = OptionMetadataModel(
-        iso_period="2026",
+        iso_periode="2026",
         skjema="testskjema",
         options=[OptionModel(value="test_val", label="test_label")],
         options_id="opsjons_id",
@@ -216,7 +216,7 @@ def test_insert_option_list(connector_with_schema: SqlAlchemyStorageConnector) -
     model: OptionsLists = res[0][0]
 
     assert len(res) == 1
-    assert model.iso_period == test_unit.iso_period  # pyright: ignore
+    assert model.iso_periode == test_unit.iso_periode  # pyright: ignore
     assert model.skjema == test_unit.skjema  # pyright: ignore
     assert model.label == next(iter(test_unit.options)).label  # pyright: ignore
     assert model.value == next(iter(test_unit.options)).value  # pyright: ignore
@@ -230,7 +230,7 @@ def test_insert_option_nodes(connector_with_schema: SqlAlchemyStorageConnector) 
     )
     assert len(res) == 0
     test_unit = OptionNodes(
-        iso_period="2026",
+        iso_periode="2026",
         skjema="testskjema",
         node_list=set(["node_1"]),
         option_id="opsjons_id",
@@ -244,7 +244,7 @@ def test_insert_option_nodes(connector_with_schema: SqlAlchemyStorageConnector) 
     model: OrmOptionNodes = res[0][0]
 
     assert len(res) == 1
-    assert model.iso_period == test_unit.iso_period  # pyright: ignore
+    assert model.iso_periode == test_unit.iso_periode  # pyright: ignore
     assert model.skjema == test_unit.skjema  # pyright: ignore
     assert model.node_name == next(iter(test_unit.node_list))  # pyright: ignore
     assert model.options_id == test_unit.option_id  # pyright: ignore

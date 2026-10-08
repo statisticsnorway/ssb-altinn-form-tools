@@ -139,16 +139,16 @@ class ParqueditStorageConnector(MetaStorageConnector):
         return form_reference not in self.forms
 
     @override
-    def validate_options_exists(self, skjema: str, iso_period: str | None) -> bool:
+    def validate_options_exists(self, skjema: str, iso_periode: str | None) -> bool:
         """Method for validating if options have already been ingested for a period."""
         sess = self._engine
         try:
-            if iso_period is not None:
-                stmt = "SELECT * FROM optionsnodes WHERE skjema = ? AND iso_period = ?"
+            if iso_periode is not None:
+                stmt = "SELECT * FROM optionsnodes WHERE skjema = ? AND iso_periode = ?"
             else:
                 stmt = "SELECT * FROM optionsnodes WHERE skjema = ?"
 
-            data = sess.execute(stmt, (skjema, iso_period)).fetchone()
+            data = sess.execute(stmt, (skjema, iso_periode)).fetchone()
             return (data is not None) and (len(data) != 0)
         except CatalogException:
             logger.warning("Was not able verify that if options exists or not")
@@ -163,7 +163,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         schema = {
             "properties": {
-                "iso_period": {"type": "string"},
+                "iso_periode": {"type": "string"},
                 "skjema": {"type": "string"},
                 "ident": {"type": "string"},
                 "refnr": {"type": "string"},
@@ -174,15 +174,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "kommentar_kontaktinfo": {"type": "string"},
                 "kommentar_krevende": {"type": "stromg"},
             },
-            "required": ["iso_period", "skjema", "refnr"],
+            "required": ["iso_periode", "skjema", "refnr"],
         }
         if self._parquedit.exists("kontaktinfo") is False:
             self._parquedit.create_table(
                 "kontaktinfo",
                 schema,
                 "kontaktinfo",
-                user_defined_id=["iso_period", "skjema", "ident", "refnr"],
-                part_columns=["iso_period"],
+                user_defined_id=["iso_periode", "skjema", "ident", "refnr"],
+                part_columns=["iso_periode"],
                 fill=False,
             )
 
@@ -196,7 +196,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         schema = {
             "properties": {
-                "iso_period": {"type": "string"},
+                "iso_periode": {"type": "string"},
                 "skjema": {"type": "string"},
                 "ident": {"type": "string"},
                 "refnr": {"type": "string"},
@@ -207,15 +207,15 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "dybde": {"type": "integer"},
                 "indeks": {"type": "integer"},
             },
-            "required": ["iso_period", "skjema", "refnr", "ident", "feltnavn"],
+            "required": ["iso_periode", "skjema", "refnr", "ident", "feltnavn"],
         }
         if self._parquedit.exists(table_name) is False:
             self._parquedit.create_table(
                 table_name,
                 schema,
                 table_name,
-                user_defined_id=["iso_period", "skjema", "ident", "refnr", "feltnavn"],
-                part_columns=["iso_period"],
+                user_defined_id=["iso_periode", "skjema", "ident", "refnr", "feltnavn"],
+                part_columns=["iso_periode"],
                 fill=False,
             )
 
@@ -229,12 +229,12 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """
         schema = {
             "properties": {
-                "iso_period": {"type": "string"},
+                "iso_periode": {"type": "string"},
                 "skjema": {"type": "string"},
                 "ident": {"type": "string"},
                 "skjema_versjon": {"type": "string"},
-                "start_date": {"type": "date-time"},
-                "end_date": {"type": "date-time"},
+                "start_dato": {"type": "date-time"},
+                "slutt_dato": {"type": "date-time"},
                 "refnr": {"type": "string"},
                 "status": {"type": "string"},
                 "aktiv": {"type": "boolean"},
@@ -242,12 +242,12 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "dato_mottatt": {"type": "date-time"},
             },
             "required": [
-                "iso_period",
+                "iso_periode",
                 "skjema",
                 "refnr",
                 "ident",
-                "start_date",
-                "end_date",
+                "start_dato",
+                "slutt_dato",
             ],
         }
         if self._parquedit.exists("skjemamottak") is False:
@@ -255,8 +255,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "skjemamottak",
                 schema,
                 "skjemamottak",
-                user_defined_id=["iso_period", "skjema", "ident", "refnr"],
-                part_columns=["iso_period"],
+                user_defined_id=["iso_periode", "skjema", "ident", "refnr"],
+                part_columns=["iso_periode"],
                 fill=False,
             )
 
@@ -264,19 +264,19 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Defines the schema for the `enheter` table (units)."""
         schema = {
             "properties": {
-                "iso_period": {"type": "string"},
+                "iso_periode": {"type": "string"},
                 "skjema": {"type": "string"},
                 "ident": {"type": "string"},
             },
-            "required": ["iso_period", "skjema", "ident"],
+            "required": ["iso_periode", "skjema", "ident"],
         }
         if self._parquedit.exists("enheter") is False:
             self._parquedit.create_table(
                 "enheter",
                 schema,
                 "enheter",
-                user_defined_id=["iso_period", "skjema", "ident"],
-                part_columns=["iso_period"],
+                user_defined_id=["iso_periode", "skjema", "ident"],
+                part_columns=["iso_periode"],
                 fill=False,
             )
 
@@ -284,20 +284,20 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Defines the schema for the `enhetsinfo` table (unit attributes)."""
         schema = {
             "properties": {
-                "iso_period": {"type": "string"},
+                "iso_periode": {"type": "string"},
                 "ident": {"type": "string"},
-                "variable": {"type": "string"},
+                "variabel": {"type": "string"},
                 "verdi": {"type": "string"},
             },
-            "required": ["iso_period", "ident"],
+            "required": ["iso_periode", "ident"],
         }
         if self._parquedit.exists("enhetsinfo") is False:
             self._parquedit.create_table(
                 "enhetsinfo",
                 schema,
                 "enhetsinfo",
-                user_defined_id=["iso_period", "ident", "variable"],
-                part_columns=["iso_period"],
+                user_defined_id=["iso_periode", "ident", "variabel"],
+                part_columns=["iso_periode"],
                 fill=False,
             )
 
@@ -305,22 +305,22 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Defines the schema for the `kontroller` table (control definitions)."""
         schema = {
             "properties": {
-                "iso_period": {"type": "string"},
+                "iso_periode": {"type": "string"},
                 "kontrollid": {"type": "string"},
                 "kontrolltype": {"type": "string"},
                 "beskrivelse": {"type": "string"},
                 "sorting_var": {"type": "boolean"},
                 "sorting_order": {"type": "string"},
             },
-            "required": ["iso_period", "kontrollid"],
+            "required": ["iso_periode", "kontrollid"],
         }
         if self._parquedit.exists("kontroller") is False:
             self._parquedit.create_table(
                 "kontroller",
                 schema,
                 "kontroller",
-                user_defined_id=["iso_period", "kontrollid"],
-                part_columns=["iso_period"],
+                user_defined_id=["iso_periode", "kontrollid"],
+                part_columns=["iso_periode"],
                 fill=False,
             )
 
@@ -328,7 +328,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Defines the schema for the `kontrollutslag` table (control results)."""
         schema = {
             "properties": {
-                "iso_period": {"type": "string"},
+                "iso_periode": {"type": "string"},
                 "skjema": {"type": "string"},
                 "kontrollid": {"type": "string"},
                 "ident": {"type": "string"},
@@ -336,7 +336,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "utslag": {"type": "boolean"},
                 "verdi": {"type": "string"},
             },
-            "required": ["iso_period", "skjema", "kontrollid", "ident", "refnr"],
+            "required": ["iso_periode", "skjema", "kontrollid", "ident", "refnr"],
         }
         if self._parquedit.exists("kontrollutslag") is False:
             self._parquedit.create_table(
@@ -344,13 +344,13 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 schema,
                 "kontrollutslag",
                 user_defined_id=[
-                    "iso_period",
+                    "iso_periode",
                     "skjema",
                     "kontrollid",
                     "ident",
                     "refnr",
                 ],
-                part_columns=["iso_period"],
+                part_columns=["iso_periode"],
                 fill=False,
             )
 
@@ -358,20 +358,20 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Defines the schema for the `optionsnodes` table (multi select options)."""
         schema = {
             "properties": {
-                "iso_period": {"type": "string"},
+                "iso_periode": {"type": "string"},
                 "skjema": {"type": "string"},
                 "node_name": {"type": "string"},
                 "options_id": {"type": "string"},
             },
-            "required": ["iso_period", "skjema", "options_id", "node_name"],
+            "required": ["iso_periode", "skjema", "options_id", "node_name"],
         }
         if self._parquedit.exists("optionnodes") is False:
             self._parquedit.create_table(
                 "optionnodes",
                 schema,
                 "optionnodes",
-                user_defined_id=["iso_period", "skjema", "node_name", "options_id"],
-                part_columns=["iso_period"],
+                user_defined_id=["iso_periode", "skjema", "node_name", "options_id"],
+                part_columns=["iso_periode"],
                 fill=False,
             )
 
@@ -379,21 +379,21 @@ class ParqueditStorageConnector(MetaStorageConnector):
         """Defines the schema for the `optionslists` table (multi select options)."""
         schema = {
             "properties": {
-                "iso_period": {"type": "string"},
+                "iso_periode": {"type": "string"},
                 "skjema": {"type": "string"},
                 "options_id": {"type": "string"},
                 "label": {"type": "string"},
                 "value": {"type": "string"},
             },
-            "required": ["iso_period", "skjema", "options_id", "label", "value"],
+            "required": ["iso_periode", "skjema", "options_id", "label", "value"],
         }
         if self._parquedit.exists("optionslists") is False:
             self._parquedit.create_table(
                 "optionslists",
                 schema,
                 "optionslists",
-                user_defined_id=["iso_period", "skjema", "options_id"],
-                part_columns=["iso_period"],
+                user_defined_id=["iso_periode", "skjema", "options_id"],
+                part_columns=["iso_periode"],
                 fill=False,
             )
 
@@ -502,7 +502,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
         for model in models:
             for option in model.options:
                 orm_model = dict(
-                    iso_period=model.iso_period,
+                    iso_periode=model.iso_periode,
                     skjema=model.skjema,
                     options_id=model.options_id,
                     label=option.label,
@@ -522,7 +522,7 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 orm_model = dict(
                     options_id=model.option_id,
                     node_name=node,
-                    iso_period=model.iso_period,
+                    iso_periode=model.iso_periode,
                     skjema=model.skjema,
                 )
                 models_to_insert.append(orm_model)
