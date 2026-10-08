@@ -206,8 +206,8 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         for form in form_reciept:
             model = SkjemaMottak(
                 iso_periode=form.iso_periode,
-                start_date=form.start_date,
-                end_date=form.end_date,
+                start_dato=form.start_dato,
+                slutt_dato=form.slutt_dato,
                 skjema=form.skjema,
                 skjema_versjon=form.skjema_versjon,
                 ident=form.ident,

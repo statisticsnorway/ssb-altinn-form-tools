@@ -78,8 +78,8 @@ class SkjemaMottak(Base):
     Attributes:
         id: Auto-incrementing primary key.
         iso_periode: ISO period associated with the form.
-        start_date: Start date of the reporting period.
-        end_date: End date of the reporting period.
+        start_dato: Start date of the reporting period.
+        slutt_dato: End date of the reporting period.
         skjema: Form code or identifier.
         skjema_versjon: Version of the submitted form, if available.
         ident: Identifier of the reporting unit.
@@ -93,8 +93,8 @@ class SkjemaMottak(Base):
     __tablename__: str = "skjemamottak"
     id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
     iso_periode: Column[str] = Column(String)
-    start_date: Column[datetime] = Column(TIMESTAMP)
-    end_date: Column[datetime] = Column(TIMESTAMP)
+    start_dato: Column[datetime] = Column(TIMESTAMP)
+    slutt_dato: Column[datetime] = Column(TIMESTAMP)
     skjema: Column[str] = Column(String)
     skjema_versjon: Column[str] = Column(String, nullable=True)
     ident: Column[str] = Column(String)

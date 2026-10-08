@@ -233,8 +233,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "skjema": {"type": "string"},
                 "ident": {"type": "string"},
                 "skjema_versjon": {"type": "string"},
-                "start_date": {"type": "date-time"},
-                "end_date": {"type": "date-time"},
+                "start_dato": {"type": "date-time"},
+                "slutt_dato": {"type": "date-time"},
                 "refnr": {"type": "string"},
                 "status": {"type": "string"},
                 "aktiv": {"type": "boolean"},
@@ -246,8 +246,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "skjema",
                 "refnr",
                 "ident",
-                "start_date",
-                "end_date",
+                "start_dato",
+                "slutt_dato",
             ],
         }
         if self._parquedit.exists("skjemamottak") is False:

@@ -174,8 +174,8 @@ class FormReception(BaseModel):
     keys from external sources such as Altinn.
 
     Attributes:
-        start_date: Start date of the reporting period.
-        end_date: End date of the reporting period.
+        start_dato: Start date of the reporting period.
+        slutt_dato: End date of the reporting period.
         iso_periode: ISO period associated with the form.
         skjema_versjon: Version of the submitted form, if available.
         skjema: Form name or code. Alias: ``raNummer``.
@@ -194,8 +194,8 @@ class FormReception(BaseModel):
         names.
     """
 
-    start_date: datetime.datetime = Field()
-    end_date: datetime.datetime = Field()
+    start_dato: datetime.datetime = Field()
+    slutt_dato: datetime.datetime = Field()
     iso_periode: str = Field()
     skjema_versjon: str | None = Field(default=None, validation_alias="skjemaVersjon")
     skjema: str = Field(validation_alias="raNummer")
@@ -215,7 +215,7 @@ class FormReception(BaseModel):
     def validator(cls, data: Any) -> Any:
         """Custom validator to parse periods from xml-forms."""
         # The validation is mostly deriving variables. Can skip that if they already exists
-        if all(var in data for var in ["start_date", "end_date", "iso_periode"]):
+        if all(var in data for var in ["start_dato", "slutt_dato", "iso_periode"]):
             return data
 
         try:
@@ -278,8 +278,8 @@ class FormReception(BaseModel):
                 {"period": period_type},
             )
 
-        data["start_date"] = start
-        data["end_date"] = end
+        data["start_dato"] = start
+        data["slutt_dato"] = end
         data["iso_periode"] = iso_format
 
         return data
