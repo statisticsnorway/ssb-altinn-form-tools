@@ -48,20 +48,20 @@ class FormData(FormNode):
     year, form code, unit identifier, and reference number.
 
     Attributes:
-        iso_period: Reporting year.
+        iso_periode: Reporting year.
         skjema: Form name or code (e.g., RA-number).
         ident: Identifier of the reporting unit.
         refnr: Reference number of the submitted form instance.
     """
 
-    iso_period: str
+    iso_periode: str
     skjema: str
     ident: str
     refnr: str
 
     @staticmethod
     def from_form_data(
-        node: FormNode, form: str, ident: str, refnr: str, iso_period: str
+        node: FormNode, form: str, ident: str, refnr: str, iso_periode: str
     ) -> FormData:
         """Constructs a :class:`FormData` from a :class:`FormNode` and context.
 
@@ -70,7 +70,7 @@ class FormData(FormNode):
             form: Form code/name to attach.
             ident: Unit identifier to attach.
             refnr: Form instance reference to attach.
-            iso_period: Registered iso_period.
+            iso_periode: Registered iso_periode.
 
         Returns:
             FormData: The composed form data entry with context.
@@ -79,7 +79,7 @@ class FormData(FormNode):
             skjema=form,
             ident=ident,
             refnr=refnr,
-            iso_period=iso_period,
+            iso_periode=iso_periode,
             **node.model_dump(),
         )
 
@@ -94,7 +94,7 @@ class ContactInfo(BaseModel):
     Field values are mapped from upstream aliases using Pydantic's `Field(validation_alias=...)`.
 
     Attributes:
-        iso_period: Reporting year.
+        iso_periode: Reporting year.
         skjema: Form name or code (e.g., RA-number).
         ident: Identifier of the reporting unit.
         refnr: Reference number for the submitted form.
@@ -107,7 +107,7 @@ class ContactInfo(BaseModel):
             Alias: ``kontaktKrevende``.
     """
 
-    iso_period: str
+    iso_periode: str
     skjema: str
     ident: str
     refnr: str
@@ -133,12 +133,12 @@ class Unit(BaseModel):
     """Represents a reporting unit (entity submitting the form).
 
     Attributes:
-        iso_period: Reporting year.
+        iso_periode: Reporting year.
         ident: Unique identifier of the reporting unit.
         skjema: Form name or code (e.g., RA-number).
     """
 
-    iso_period: str
+    iso_periode: str
     ident: str
     skjema: str
 
@@ -151,13 +151,13 @@ class UnitInfo(BaseModel):
     """Represents an additional key-value attribute for a unit.
 
     Attributes:
-        iso_period: Reporting year.
+        iso_periode: Reporting year.
         ident: Identifier of the reporting unit.
         variable: Name of the metadata variable.
         verdi: Value of the metadata variable.
     """
 
-    iso_period: str
+    iso_periode: str
     ident: str
     variable: str
     verdi: str | None = Field(default=None)
@@ -176,7 +176,7 @@ class FormReception(BaseModel):
     Attributes:
         start_date: Start date of the reporting period.
         end_date: End date of the reporting period.
-        iso_period: ISO period associated with the form.
+        iso_periode: ISO period associated with the form.
         skjema_versjon: Version of the submitted form, if available.
         skjema: Form name or code. Alias: ``raNummer``.
         ident: Reporting unit identifier. Alias: ``enhetsIdent``.
@@ -196,7 +196,7 @@ class FormReception(BaseModel):
 
     start_date: datetime.datetime = Field()
     end_date: datetime.datetime = Field()
-    iso_period: str = Field()
+    iso_periode: str = Field()
     skjema_versjon: str | None = Field(default=None, validation_alias="skjemaVersjon")
     skjema: str = Field(validation_alias="raNummer")
     ident: str = Field(validation_alias="enhetsIdent")
@@ -215,7 +215,7 @@ class FormReception(BaseModel):
     def validator(cls, data: Any) -> Any:
         """Custom validator to parse periods from xml-forms."""
         # The validation is mostly deriving variables. Can skip that if they already exists
-        if all(var in data for var in ["start_date", "end_date", "iso_period"]):
+        if all(var in data for var in ["start_date", "end_date", "iso_periode"]):
             return data
 
         try:
@@ -280,7 +280,7 @@ class FormReception(BaseModel):
 
         data["start_date"] = start
         data["end_date"] = end
-        data["iso_period"] = iso_format
+        data["iso_periode"] = iso_format
 
         return data
 
@@ -332,7 +332,7 @@ class ExtractedForm(BaseModel):
 class OptionNodes(BaseModel):
     """Model for represention what options_id nodes should map to."""
 
-    iso_period: str
+    iso_periode: str
     skjema: str
     option_id: str
     node_list: set[str]
@@ -352,7 +352,7 @@ class OptionModel(BaseModel):
 class OptionMetadataModel(BaseModel):
     """Model representing options metadata collected from Altinn api."""
 
-    iso_period: str
+    iso_periode: str
     skjema: str
     options: list[OptionModel] = Field(validation_alias="options")
     options_id: str = Field(validation_alias="optionsId")

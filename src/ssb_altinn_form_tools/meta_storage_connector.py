@@ -135,12 +135,12 @@ class MetaStorageConnector(ABC):
         """Method for inserting options node into the table."""
         ...
 
-    def validate_options_exists(self, skjema: str, iso_period: str | None) -> bool:
+    def validate_options_exists(self, skjema: str, iso_periode: str | None) -> bool:
         """Checks whether options has already been inserted for a given period.
 
         Args:
             skjema: The form the options relate to.
-            iso_period: The period referenced
+            iso_periode: The period referenced
 
         Returns:
             bool: ``True`` if the options has been inserted before, otherwise ``False``.

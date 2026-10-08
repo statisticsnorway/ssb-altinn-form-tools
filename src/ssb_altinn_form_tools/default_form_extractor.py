@@ -111,7 +111,7 @@ class DefaultFormExtractor(MetaFormExtractor):
         form: str,
         ident: str,
         refnr: str,
-        iso_period: str,
+        iso_periode: str,
     ) -> ContactInfo:
         """Function for extracting contact info from form data.
 
@@ -120,7 +120,7 @@ class DefaultFormExtractor(MetaFormExtractor):
             form: The name of the form (RA-number).
             ident: The id of the unit.
             refnr: The id number of the form.
-            iso_period: Registered iso_period.
+            iso_periode: Registered iso_periode.
 
         Returns:
             list(ContactInfo): A pydantic model representing the contact info.
@@ -135,7 +135,7 @@ class DefaultFormExtractor(MetaFormExtractor):
             ident=ident,
             refnr=refnr,
             bekreftet_kontaktinfo=form_data.get("kontaktInfoBekreftet") == "1",
-            iso_period=iso_period,
+            iso_periode=iso_periode,
             **form_data,
         )
 
@@ -145,7 +145,7 @@ class DefaultFormExtractor(MetaFormExtractor):
         form: str,
         ident: str,
         refnr: str,
-        iso_period: str,
+        iso_periode: str,
     ) -> list[FormData]:
         """Extract structured form data from raw XML-derived input.
 
@@ -161,7 +161,7 @@ class DefaultFormExtractor(MetaFormExtractor):
             form: The name or code of the form (e.g., RA-number).
             ident: The identifier for the reporting unit.
             refnr: The reference number for the submitted form instance.
-            iso_period: Registered iso_period.
+            iso_periode: Registered iso_periode.
 
         Returns:
             list(FormData): A list of ``FormData`` objects, each representing a parsed and validated
@@ -179,7 +179,7 @@ class DefaultFormExtractor(MetaFormExtractor):
                 form=form,
                 ident=ident,
                 refnr=refnr,
-                iso_period=iso_period,
+                iso_periode=iso_periode,
             )
             results.append(node_data)
         return results
@@ -221,7 +221,7 @@ class DefaultFormExtractor(MetaFormExtractor):
         )
 
     def extract_unit_info(
-        self, form_dict_data: InputFormType, ident: str, iso_period: str
+        self, form_dict_data: InputFormType, ident: str, iso_periode: str
     ) -> list[UnitInfo]:
         """Extracts unit-related metadata from internal form information.
 
@@ -234,7 +234,7 @@ class DefaultFormExtractor(MetaFormExtractor):
             form_dict_data: Raw form content containing an
                 ``InternInfo`` dictionary with internal metadata.
             ident: Identifier for the reporting unit.
-            iso_period: Registered iso_period.
+            iso_periode: Registered iso_periode.
 
         Returns:
             list[UnitInfo]: A list of ``UnitInfo`` objects built from keys in
@@ -254,7 +254,7 @@ class DefaultFormExtractor(MetaFormExtractor):
                 raise TypeError(f"Key must be type str. Is type '{type(key)}'")
             if key.startswith("enhets"):
                 data = UnitInfo(
-                    ident=ident, variable=key, verdi=value, iso_period=iso_period
+                    ident=ident, variable=key, verdi=value, iso_periode=iso_periode
                 )
                 info.append(data)
         return info

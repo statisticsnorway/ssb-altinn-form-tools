@@ -25,7 +25,7 @@ class KontaktInfo(Base):
 
     Attributes:
         id: Auto-incrementing primary key.
-        iso_period: ISO period associated with the form.
+        iso_periode: ISO period associated with the form.
         skjema: Code or identifier of the form.
         ident: Identifier of the reporting unit.
         refnr: Reference number of the submitted form.
@@ -40,7 +40,7 @@ class KontaktInfo(Base):
 
     __tablename__: str = "kontaktinfo"
     id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period: Column[str] = Column(String)
+    iso_periode: Column[str] = Column(String)
     skjema: Column[str] = Column(String)
     ident: Column[str] = Column(String)
     refnr: Column[str] = Column(String)
@@ -57,14 +57,14 @@ class Enheter(Base):
 
     Attributes:
         id: Auto-incrementing primary key.
-        iso_period: Iso period of the form.
+        iso_periode: Iso period of the form.
         ident: Unique identifier of the reporting unit.
         skjema: Form code or identifier.
     """
 
     __tablename__: str = "enheter"
     id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period: Column[str] = Column(String)
+    iso_periode: Column[str] = Column(String)
     ident: Column[str] = Column(String)
     skjema: Column[str] = Column(String)
 
@@ -77,7 +77,7 @@ class SkjemaMottak(Base):
 
     Attributes:
         id: Auto-incrementing primary key.
-        iso_period: ISO period associated with the form.
+        iso_periode: ISO period associated with the form.
         start_date: Start date of the reporting period.
         end_date: End date of the reporting period.
         skjema: Form code or identifier.
@@ -92,7 +92,7 @@ class SkjemaMottak(Base):
 
     __tablename__: str = "skjemamottak"
     id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period: Column[str] = Column(String)
+    iso_periode: Column[str] = Column(String)
     start_date: Column[datetime] = Column(TIMESTAMP)
     end_date: Column[datetime] = Column(TIMESTAMP)
     skjema: Column[str] = Column(String)
@@ -112,7 +112,7 @@ class EnhetsInfo(Base):
 
     Attributes:
         id (int): Auto-incrementing primary key.
-        iso_period (str): Iso period of the form.
+        iso_periode (str): Iso period of the form.
         ident (str): Identifier of the reporting unit.
         variable (str): Name of the metadata variable.
         verdi (str): Value of the metadata variable.
@@ -120,7 +120,7 @@ class EnhetsInfo(Base):
 
     __tablename__: str = "enhetsinfo"
     id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period: Column[str] = Column(String)
+    iso_periode: Column[str] = Column(String)
     ident: Column[str] = Column(String)
     variable: Column[str] = Column(String)
     verdi: Column[str] = Column(String)
@@ -134,7 +134,7 @@ class Kontroller(Base):
 
     Attributes:
         id (int): Auto-incrementing primary key.
-        iso_period (str): Iso period of the form.
+        iso_periode (str): Iso period of the form.
         skjema (str): Form code or identifier.
         kontrollid (str): Unique identifier for the control rule.
         kontrolltype (str): Type or category of the control.
@@ -145,7 +145,7 @@ class Kontroller(Base):
 
     __tablename__: str = "kontroller"
     id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period: Column[str] = Column(String)
+    iso_periode: Column[str] = Column(String)
     skjema: Column[str] = Column(String)
     kontrollid: Column[str] = Column(String)
     kontrolltype: Column[str] = Column(String)
@@ -159,7 +159,7 @@ class KontrollUtslag(Base):
 
     Attributes:
         id (int): Auto-incrementing primary key.
-        iso_period (str): Iso period of the form.
+        iso_periode (str): Iso period of the form.
         skjema (str): Form code or identifier.
         kontrollid (str): Identifier of the applied control rule.
         ident (str): Identifier of the reporting unit.
@@ -170,7 +170,7 @@ class KontrollUtslag(Base):
 
     __tablename__: str = "kontrollutslag"
     id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period: Column[str] = Column(String)
+    iso_periode: Column[str] = Column(String)
     skjema: Column[str] = Column(String)
     kontrollid: Column[str] = Column(String)
     ident: Column[str] = Column(String)
@@ -187,7 +187,7 @@ class SkjemadataBase(Base):
 
     Attributes:
         id (int): Auto-incrementing primary key.
-        iso_period (str): Iso period of the form.
+        iso_periode (str): Iso period of the form.
         skjema (str): Form code or identifier.
         ident (str): Identifier of the reporting unit.
         refnr (str): Reference number of the submitted form.
@@ -201,7 +201,7 @@ class SkjemadataBase(Base):
 
     __abstract__: bool = True
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    iso_period: Mapped[str] = mapped_column(String)
+    iso_periode: Mapped[str] = mapped_column(String)
     skjema: Mapped[str] = mapped_column(String)
     ident: Mapped[str] = mapped_column(String)
     refnr: Mapped[str] = mapped_column(String)
@@ -232,7 +232,7 @@ class OptionNodes(Base):
 
     Attributes:
         id (int): Auto-incrementing primary key.
-        iso_period (str): Iso period of the form.
+        iso_periode (str): Iso period of the form.
         skjema (str): Form code or identifier.
         node_name (str): Name of the node in the form
         options_id (str): Id for the option list
@@ -240,7 +240,7 @@ class OptionNodes(Base):
 
     __tablename__: str = "optionnodes"
     id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period: Column[str] = Column(String)
+    iso_periode: Column[str] = Column(String)
     skjema: Column[str] = Column(String)
     node_name: Column[str] = Column(String)
     options_id: Column[str] = Column(String)
@@ -253,7 +253,7 @@ class OptionsLists(Base):
 
     Attributes:
         id (int): Auto-incrementing primary key.
-        iso_period (str): Iso period of the form.
+        iso_periode (str): Iso period of the form.
         skjema (str): Form code or identifier.
         options_id (str): Id for the option list
         label (str): Label in the form
@@ -262,7 +262,7 @@ class OptionsLists(Base):
 
     __tablename__: str = "optionslists"
     id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
-    iso_period: Column[str] = Column(String)
+    iso_periode: Column[str] = Column(String)
     skjema: Column[str] = Column(String)
     options_id: Column[str] = Column(String)
     label: Column[str] = Column(String)
