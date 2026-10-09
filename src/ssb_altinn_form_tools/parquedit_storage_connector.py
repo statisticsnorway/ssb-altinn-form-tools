@@ -18,6 +18,7 @@ except ImportError as e:
 import pandas as pd
 
 from .meta_storage_connector import MetaStorageConnector
+from .migrations.parquedit_migrations import _MIGRATIONS
 from .models import ContactInfo
 from .models import FormData
 from .models import FormReception
@@ -106,6 +107,25 @@ class ParqueditStorageConnector(MetaStorageConnector):
         self._create_unit_table()
         self._create_optionnodes_table()
         self._create_optionslist_table()
+
+    def _run_migrations(self):
+        sess = self._engine
+        for idx, migration in enumerate(_MIGRATIONS):
+            tx = sess.begin()
+            tx = tx.execute(migration)
+            tx = tx.execute(
+                "INSERT INTO __schema_version(schema_version, migration) VALUES(?, ?)",
+                (idx, migration),
+            )
+            try:
+                _ = tx.commit()
+                logger.debug(f"Migration {idx} was completed: {migration}")
+            except Exception as e:
+                _ = tx.rollback()
+                logger.error(
+                    f"Migration failed with error {e}. Ran migration id {idx}: {migration}"
+                )
+                raise e
 
     def _get_ingested_forms(self) -> list[str]:
         sess = self._engine

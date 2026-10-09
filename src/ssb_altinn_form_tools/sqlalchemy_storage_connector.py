@@ -1,3 +1,4 @@
+import logging
 from typing import override
 
 from sqlalchemy import Engine
@@ -21,6 +22,8 @@ from .schema import OptionsLists
 from .schema import Skjemadata
 from .schema import SkjemadataUnedited
 from .schema import SkjemaMottak
+
+logger = logging.getLogger(__name__)
 
 
 class SqlAlchemyStorageConnector(MetaStorageConnector):
@@ -86,6 +89,29 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
             ``.schema.Base``. This operation is idempotent.
         """
         Base.metadata.create_all(self._engine)
+        self._run_migrations(self._engine)
+
+    def _run_migrations(self, engine: Engine):
+        from pathlib import Path
+
+        from alembic import command
+        from alembic.config import Config
+
+        # Locate your bundled alembic.ini
+        package_dir = Path(__file__).parent
+        alembic_cfg_path = package_dir / "alembic.ini"
+        alembic_cfg = Config(str(alembic_cfg_path))
+
+        # Inject your existing SQLAlchemy engine instance into Alembic's config attributes
+        alembic_cfg.attributes["connection"] = engine
+
+        # Run the upgrade to head
+        try:
+            command.upgrade(alembic_cfg, "head")
+            logger.debug("Alembic completed migrations sucessfully")
+        except Exception as e:
+            logger.error(f"Migrations encountered an error: {e}")
+            raise e
 
     @override
     def validate_form_is_new(self, form_reference: str) -> bool:
