@@ -223,7 +223,7 @@ class FormMetadata:
             return self._filtered_data
 
     def extract_options_list(
-        self, skjema: str, iso_period: str, ra_version: int | None = None
+        self, skjema: str, iso_periode: str, ra_version: int | None = None
     ) -> list[OptionMetadataModel]:
         """Extract metadata related for all defined options lists and their options."""
         processed: list[OptionMetadataModel] = []
@@ -231,23 +231,23 @@ class FormMetadata:
         for res in data:
             if res.get("options"):
                 model_data = OptionMetadataModel.model_validate(
-                    {"skjema": skjema, "iso_period": iso_period, **res}
+                    {"skjema": skjema, "iso_periode": iso_periode, **res}
                 )
                 processed.append(model_data)
         return processed
 
     def extract_options_nodes(
-        self, skjema: str, iso_period: str, ra_version: int | None = None
+        self, skjema: str, iso_periode: str, ra_version: int | None = None
     ) -> list[OptionNodes]:
         """Extract metadata related to which nodes has defined options."""
-        processed = self.extract_options_list(skjema, iso_period, ra_version)
+        processed = self.extract_options_list(skjema, iso_periode, ra_version)
         unique_option, nodes_options = _process_options(processed)
         options = []
         for key in unique_option.keys():
             res = nodes_options.get(key, set())
             model = OptionNodes(
                 skjema=skjema,
-                iso_period=iso_period,
+                iso_periode=iso_periode,
                 option_id=key,
                 node_list=res,
             )

@@ -232,7 +232,7 @@ class DefaultFormProcessor(MetaFormProcessor):
             for form_to_insert in new_forms:
                 form_data.extend(form_to_insert.form_data)
                 unit_info.extend(form_to_insert.unit_info)
-                periods.append(form_to_insert.reception.iso_period)
+                periods.append(form_to_insert.reception.iso_periode)
             self._connector.insert_form_data(form_data)
             self._connector.insert_form_data_unedited(form_data)
             self._connector.insert_form_reception(
@@ -259,7 +259,7 @@ class DefaultFormProcessor(MetaFormProcessor):
                     for mapping in self._checkbox_mapping:
                         option_nodes.append(
                             OptionNodes(
-                                iso_period=period,
+                                iso_periode=period,
                                 skjema=self._form_name,
                                 option_id=mapping.options_id,
                                 node_list=set(mapping.node_names),
@@ -267,7 +267,7 @@ class DefaultFormProcessor(MetaFormProcessor):
                         )
                         options_list.append(
                             OptionMetadataModel(
-                                iso_period=period,
+                                iso_periode=period,
                                 skjema=self._form_name,
                                 options_id=mapping.options_id,
                                 options=mapping.options,
