@@ -218,9 +218,9 @@ def test_insert_option_list(connector_with_schema: SqlAlchemyStorageConnector) -
     assert len(res) == 1
     assert model.iso_periode == test_unit.iso_periode  # pyright: ignore
     assert model.skjema == test_unit.skjema  # pyright: ignore
-    assert model.label == next(iter(test_unit.options)).label  # pyright: ignore
-    assert model.value == next(iter(test_unit.options)).value  # pyright: ignore
-    assert model.options_id == test_unit.options_id  # pyright: ignore
+    assert model.visningsnavn == next(iter(test_unit.options)).label  # pyright: ignore
+    assert model.verdi == next(iter(test_unit.options)).value  # pyright: ignore
+    assert model.svaralternativ_id == test_unit.options_id  # pyright: ignore
 
 
 def test_insert_option_nodes(connector_with_schema: SqlAlchemyStorageConnector) -> None:
@@ -246,5 +246,5 @@ def test_insert_option_nodes(connector_with_schema: SqlAlchemyStorageConnector) 
     assert len(res) == 1
     assert model.iso_periode == test_unit.iso_periode  # pyright: ignore
     assert model.skjema == test_unit.skjema  # pyright: ignore
-    assert model.node_name == next(iter(test_unit.node_list))  # pyright: ignore
-    assert model.options_id == test_unit.option_id  # pyright: ignore
+    assert model.node_navn == next(iter(test_unit.node_list))  # pyright: ignore
+    assert model.svaralternativ_id == test_unit.option_id  # pyright: ignore

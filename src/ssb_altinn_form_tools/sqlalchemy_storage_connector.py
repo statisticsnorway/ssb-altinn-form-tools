@@ -270,9 +270,9 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
                 orm_model = OptionsLists(
                     iso_periode=model.iso_periode,
                     skjema=model.skjema,
-                    options_id=model.options_id,
-                    label=option.label,
-                    value=option.value,
+                    svaralternativ_id=model.options_id,
+                    visningsnavn=option.label,
+                    verdi=option.value,
                 )
                 models_to_insert.append(orm_model)
         self._get_session().add_all(models_to_insert)
@@ -284,8 +284,8 @@ class SqlAlchemyStorageConnector(MetaStorageConnector):
         for model in models:
             for node in model.node_list:
                 orm_model = OrmOptionNodes(
-                    options_id=model.option_id,
-                    node_name=node,
+                    svaralternativ_id=model.option_id,
+                    node_navn=node,
                     iso_periode=model.iso_periode,
                     skjema=model.skjema,
                 )

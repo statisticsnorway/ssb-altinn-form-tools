@@ -234,16 +234,16 @@ class OptionNodes(Base):
         id (int): Auto-incrementing primary key.
         iso_periode (str): Iso period of the form.
         skjema (str): Form code or identifier.
-        node_name (str): Name of the node in the form
-        options_id (str): Id for the option list
+        node_navn (str): Name of the node in the form
+        svaralternativ_id (str): Id for the option list
     """
 
     __tablename__: str = "optionnodes"
     id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
     iso_periode: Column[str] = Column(String)
     skjema: Column[str] = Column(String)
-    node_name: Column[str] = Column(String)
-    options_id: Column[str] = Column(String)
+    node_navn: Column[str] = Column(String)
+    svaralternativ_id: Column[str] = Column(String)
 
 
 class OptionsLists(Base):
@@ -255,15 +255,15 @@ class OptionsLists(Base):
         id (int): Auto-incrementing primary key.
         iso_periode (str): Iso period of the form.
         skjema (str): Form code or identifier.
-        options_id (str): Id for the option list
-        label (str): Label in the form
-        value (str): Value in the form
+        svaralternativ_id (str): Id for the option list
+        visningsnavn (str): Label in the form
+        verdi (str): Value in the form
     """
 
     __tablename__: str = "optionslists"
     id: Column[int] = Column(Integer, primary_key=True, autoincrement=True)
     iso_periode: Column[str] = Column(String)
     skjema: Column[str] = Column(String)
-    options_id: Column[str] = Column(String)
-    label: Column[str] = Column(String)
-    value: Column[str] = Column(String)
+    svaralternativ_id: Column[str] = Column(String)
+    visningsnavn: Column[str] = Column(String)
+    verdi: Column[str] = Column(String)

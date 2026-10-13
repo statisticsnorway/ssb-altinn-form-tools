@@ -360,17 +360,17 @@ class ParqueditStorageConnector(MetaStorageConnector):
             "properties": {
                 "iso_periode": {"type": "string"},
                 "skjema": {"type": "string"},
-                "node_name": {"type": "string"},
-                "options_id": {"type": "string"},
+                "node_navn": {"type": "string"},
+                "svaralternativ_id": {"type": "string"},
             },
-            "required": ["iso_periode", "skjema", "options_id", "node_name"],
+            "required": ["iso_periode", "skjema", "svaralternativ_id", "node_navn"],
         }
         if self._parquedit.exists("optionnodes") is False:
             self._parquedit.create_table(
                 "optionnodes",
                 schema,
                 "optionnodes",
-                user_defined_id=["iso_periode", "skjema", "node_name", "options_id"],
+                user_defined_id=["iso_periode", "skjema", "node_navn", "svaralternativ_id"],
                 part_columns=["iso_periode"],
                 fill=False,
             )
@@ -381,18 +381,18 @@ class ParqueditStorageConnector(MetaStorageConnector):
             "properties": {
                 "iso_periode": {"type": "string"},
                 "skjema": {"type": "string"},
-                "options_id": {"type": "string"},
-                "label": {"type": "string"},
-                "value": {"type": "string"},
+                "svaralternativ_id": {"type": "string"},
+                "visningsnavn": {"type": "string"},
+                "verdi": {"type": "string"},
             },
-            "required": ["iso_periode", "skjema", "options_id", "label", "value"],
+            "required": ["iso_periode", "skjema", "svaralternativ_id", "visningsnavn", "verdi"],
         }
         if self._parquedit.exists("optionslists") is False:
             self._parquedit.create_table(
                 "optionslists",
                 schema,
                 "optionslists",
-                user_defined_id=["iso_periode", "skjema", "options_id"],
+                user_defined_id=["iso_periode", "skjema", "svaralternativ_id"],
                 part_columns=["iso_periode"],
                 fill=False,
             )
@@ -504,9 +504,9 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 orm_model = dict(
                     iso_periode=model.iso_periode,
                     skjema=model.skjema,
-                    options_id=model.options_id,
-                    label=option.label,
-                    value=option.value,
+                    svaralternativ_id=model.options_id,
+                    visningsnavn=option.label,
+                    verdi=option.value,
                 )
                 models_to_insert.append(orm_model)
 
@@ -520,8 +520,8 @@ class ParqueditStorageConnector(MetaStorageConnector):
         for model in models:
             for node in model.node_list:
                 orm_model = dict(
-                    options_id=model.option_id,
-                    node_name=node,
+                    svaralternativ_id=model.option_id,
+                    node_navn=node,
                     iso_periode=model.iso_periode,
                     skjema=model.skjema,
                 )

@@ -258,9 +258,9 @@ def test_insert_option_list(connector_with_schema: ParqueditStorageConnector) ->
     assert len(res_options) == 1
     assert res_options[0].get("iso_periode") == test_unit.iso_periode
     assert res_options[0].get("skjema") == test_unit.skjema
-    assert res_options[0].get("label") == next(iter(test_unit.options)).label
-    assert res_options[0].get("value") == next(iter(test_unit.options)).value
-    assert res_options[0].get("options_id") == test_unit.options_id
+    assert res_options[0].get("visningsnavn") == next(iter(test_unit.options)).label
+    assert res_options[0].get("verdi") == next(iter(test_unit.options)).value
+    assert res_options[0].get("svaralternativ_id") == test_unit.options_id
 
 
 def test_insert_option_nodes(connector_with_schema: ParqueditStorageConnector) -> None:
@@ -289,5 +289,5 @@ def test_insert_option_nodes(connector_with_schema: ParqueditStorageConnector) -
     assert len(res_nodes) == 1
     assert res_nodes[0].get("iso_periode") == test_unit.iso_periode
     assert res_nodes[0].get("skjema") == test_unit.skjema
-    assert res_nodes[0].get("node_name") == next(iter(test_unit.node_list))
-    assert res_nodes[0].get("options_id") == test_unit.option_id
+    assert res_nodes[0].get("node_navn") == next(iter(test_unit.node_list))
+    assert res_nodes[0].get("svaralternativ_id") == test_unit.option_id
