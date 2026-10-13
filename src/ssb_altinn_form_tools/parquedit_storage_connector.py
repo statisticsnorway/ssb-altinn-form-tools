@@ -370,7 +370,12 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "optionnodes",
                 schema,
                 "optionnodes",
-                user_defined_id=["iso_periode", "skjema", "node_navn", "svaralternativ_id"],
+                user_defined_id=[
+                    "iso_periode",
+                    "skjema",
+                    "node_navn",
+                    "svaralternativ_id",
+                ],
                 part_columns=["iso_periode"],
                 fill=False,
             )
@@ -385,7 +390,13 @@ class ParqueditStorageConnector(MetaStorageConnector):
                 "visningsnavn": {"type": "string"},
                 "verdi": {"type": "string"},
             },
-            "required": ["iso_periode", "skjema", "svaralternativ_id", "visningsnavn", "verdi"],
+            "required": [
+                "iso_periode",
+                "skjema",
+                "svaralternativ_id",
+                "visningsnavn",
+                "verdi",
+            ],
         }
         if self._parquedit.exists("optionslists") is False:
             self._parquedit.create_table(
