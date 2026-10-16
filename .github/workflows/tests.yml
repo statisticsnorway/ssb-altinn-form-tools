@@ -83,7 +83,7 @@ jobs:
 
       - name: Run Nox
         run: |
-          uvx --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --python=${{ matrix.python }}
+          uvx --no-build --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --python=${{ matrix.python }}
 
       - name: Upload coverage data
         if: always() && matrix.session == 'tests'
@@ -132,11 +132,11 @@ jobs:
 
       - name: Combine coverage data and display human readable report
         run: |
-          uvx --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --session=coverage
+          uvx --no-build --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --session=coverage
 
       - name: Create coverage report
         run: |
-          uvx --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --session=coverage -- xml
+          uvx --no-build --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --session=coverage -- xml
 
       # Need to fix coverage source paths for SonarCloud scanning in GitHub actions.
       # Replace root path with /github/workspace (mounted in docker container).
