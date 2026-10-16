@@ -30,7 +30,7 @@ class MetaFormExtractor(ABC):
         form: str,
         ident: str,
         refnr: str,
-        iso_period: str,
+        iso_periode: str,
     ) -> ContactInfo:
         """Extracts contact information from parsed form data.
 
@@ -39,7 +39,7 @@ class MetaFormExtractor(ABC):
             form: Form code or type identifier.
             ident: Identifier of the reporting unit.
             refnr: Reference number associated with the form instance.
-            iso_period: Registered iso_period.
+            iso_periode: Registered iso_periode.
 
         Returns:
             ContactInfo: Structured contact metadata extracted from the form.
@@ -53,7 +53,7 @@ class MetaFormExtractor(ABC):
         form: str,
         ident: str,
         refnr: str,
-        iso_period: str,
+        iso_periode: str,
     ) -> list[FormData]:
         """Extracts detailed field-level form data.
 
@@ -62,7 +62,7 @@ class MetaFormExtractor(ABC):
             form: Form name or identifier.
             ident: Identifier of the reporting unit.
             refnr: Reference number for the submitted form.
-            iso_period: Registered iso_period.
+            iso_periode: Registered iso_periode.
 
         Returns:
             list[FormData]: A list of validated form data entries.
@@ -84,7 +84,7 @@ class MetaFormExtractor(ABC):
         """
         ...
 
-    def extract_unit(self, form: str, ident: str, iso_period: str) -> Unit:
+    def extract_unit(self, form: str, ident: str, iso_periode: str) -> Unit:
         """Constructs a basic ``Unit`` model from form metadata.
 
         This default implementation requires no override unless additional
@@ -93,23 +93,23 @@ class MetaFormExtractor(ABC):
         Args:
             form: Form name or code.
             ident: Identifier of the reporting unit.
-            iso_period: Registered iso_period.
+            iso_periode: Registered iso_periode.
 
         Returns:
             Unit: A ``Unit`` model representing the reporting entity.
         """
-        return Unit(ident=ident, skjema=form, iso_period=iso_period)
+        return Unit(ident=ident, skjema=form, iso_periode=iso_periode)
 
     @abstractmethod
     def extract_unit_info(
-        self, form_dict_data: InputFormType, ident: str, iso_period: str
+        self, form_dict_data: InputFormType, ident: str, iso_periode: str
     ) -> list[UnitInfo]:
         """Extracts additional unit-level metadata from the form.
 
         Args:
             form_dict_data: Parsed XML content containing internal metadata.
             ident: Identifier of the reporting unit.
-            iso_period: Registered iso_period.
+            iso_periode: Registered iso_periode.
 
         Returns:
             list[UnitInfo]: Structured metadata entries describing unit attributes.
@@ -149,23 +149,23 @@ class MetaFormExtractor(ABC):
                 form=form_info.skjema,
                 ident=form_info.ident,
                 refnr=form_info.refnr,
-                iso_period=form_info.iso_period,
+                iso_periode=form_info.iso_periode,
             ),
             unit=self.extract_unit(
                 form=form_info.skjema,
                 ident=form_info.ident,
-                iso_period=form_info.iso_period,
+                iso_periode=form_info.iso_periode,
             ),
             unit_info=self.extract_unit_info(
                 form_dict_data,
                 ident=form_info.ident,
-                iso_period=form_info.iso_period,
+                iso_periode=form_info.iso_periode,
             ),
             form_data=self.extract_form_data(
                 form_dict_data,
                 form=form_info.skjema,
                 ident=form_info.ident,
                 refnr=form_info.refnr,
-                iso_period=form_info.iso_period,
+                iso_periode=form_info.iso_periode,
             ),
         )

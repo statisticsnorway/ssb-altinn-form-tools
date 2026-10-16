@@ -7,9 +7,9 @@ logging.basicConfig(
 )
 
 from sqlalchemy import create_engine
-from ssb_altinn_form_tools.batch_form_processor import BatchFormProcessor
 
 from ssb_altinn_form_tools.default_form_extractor import DefaultFormExtractor
+from ssb_altinn_form_tools.default_form_processor import DefaultFormProcessor
 from ssb_altinn_form_tools.sqlalchemy_storage_connector import (
     SqlAlchemyStorageConnector,
 )
@@ -19,7 +19,7 @@ extractor = DefaultFormExtractor()
 engine = engine = create_engine("sqlite:///./db.db", echo=False)
 connector = SqlAlchemyStorageConnector(engine)
 for form_number in [
-    "RA0485",
+    "RA0483",
     # "RA0187",
     # "RA0297",
     # "RA0307",
@@ -39,7 +39,7 @@ for form_number in [
     else:
         mapping = []
 
-    processor = BatchFormProcessor(
+    processor = DefaultFormProcessor(
         form_name=form_number,
         form_base_path=f"/home/dbo/Github/ssb-altinn-form-tools/tests/testdata/{form_number}",
         extractor=extractor,

@@ -72,7 +72,7 @@ class CustomProcessor:
                 refnr=form["id"],
                 ident="",
                 iso_period=form["period"],
-                editert="ikke editert",
+                status="Under arbeid",
                 kommentar="",
                 aktiv=True,
                 start_date=datetime(year=2025, month=1, day=1),
