@@ -29,7 +29,7 @@ jobs:
           echo "version=$UV_VERSION" >> $env:GITHUB_OUTPUT
 
       - name: Install uv
-        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d  # v10.0.1
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884  # v10.3.0
         with:
           enable-cache: true
           version: ${{ steps.uv-version.outputs.version }}
@@ -133,7 +133,7 @@ jobs:
           repository-url: https://test.pypi.org/legacy/
 
       - name: Publish the release notes
-        uses: release-drafter/release-drafter@34d80673e067bdc0c24568d3af899c216adcfaa9  #v7.7.0
+        uses: release-drafter/release-drafter@978bb0b30c5ee8cdd332ced253758157150d43f0  #v7.10.0
         with:
           publish: ${{ steps.check-version.outputs.tag != '' }}
           tag: ${{ steps.check-version.outputs.tag }}
