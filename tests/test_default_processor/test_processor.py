@@ -18,18 +18,18 @@ from ssb_altinn_form_tools.parquedit_storage_connector import ParqueditStorageCo
 from ssb_altinn_form_tools.sqlalchemy_storage_connector import (
     SqlAlchemyStorageConnector,
 )
-from test_parquedit_connector import (  # pyright: ignore [reportImplicitRelativeImport]
-    connector_with_schema,  # noqa: F401 type: ignore[import-untyped]
-)
-from test_parquedit_connector import (  # pyright: ignore [reportImplicitRelativeImport]
-    parquedit_session,  # noqa: F401 type: ignore[import-untyped]
-)
-from test_sqlalchemy_connector import (  # pyright: ignore [reportImplicitRelativeImport]
-    connector_with_schema as sqlalchemy_connector,  # noqa: F401 type: ignore[import-untyped]
-)
-from test_sqlalchemy_connector import (  # pyright: ignore [reportImplicitRelativeImport]
-    sqlite_session,  # noqa: F401 type: ignore[import-untyped]
-)
+from test_parquedit_connector import (
+    connector_with_schema,
+)  # pyright: ignore [reportImplicitRelativeImport]  # noqa: F401 type: ignore[import-untyped]
+from test_parquedit_connector import (
+    parquedit_session,
+)  # pyright: ignore [reportImplicitRelativeImport]  # noqa: F401 type: ignore[import-untyped]
+from test_sqlalchemy_connector import (
+    connector_with_schema as sqlalchemy_connector,
+)  # pyright: ignore [reportImplicitRelativeImport]  # noqa: F401 type: ignore[import-untyped]
+from test_sqlalchemy_connector import (
+    sqlite_session,
+)  # pyright: ignore [reportImplicitRelativeImport]  # noqa: F401 type: ignore[import-untyped]
 from utils import Form  # pyright: ignore [reportImplicitRelativeImport]
 from utils import FormTestParams  # pyright: ignore [reportImplicitRelativeImport]
 from utils import load_expected_data  # pyright: ignore [reportImplicitRelativeImport]
